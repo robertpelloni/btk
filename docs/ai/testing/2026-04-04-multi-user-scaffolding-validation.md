@@ -11,6 +11,12 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 ### QtGui
 - `<QtGui/BTKInputArbitrator>`
 
+### QApplication integration
+- `QApplication::setBtkFocusTokens(...)`
+- `QApplication::btkFocusTokens()`
+- `QApplication::setBtkOwnerContext(...)`
+- `QApplication::btkWouldBlockFocusChange(...)`
+
 ## Recommended validation cases
 1. Create two `BtkInputOwner` instances representing two local users.
 2. Create multiple `BtkFocusToken` instances with different scopes and modality policies.
@@ -20,6 +26,10 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
    - owner-exclusive modality different owner
    - transfer within same owner to a different surface
 4. Verify public header generation exposes the new BTK include wrappers correctly.
+
+## Smoke examples prepared
+- `docs/ai/testing/btk-multi-user-smoke-example.cpp`
+- `docs/ai/testing/btk-focus-routing-smoke-example.cpp`
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

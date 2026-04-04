@@ -23,6 +23,15 @@
 ### QtGui include surface
 - `<QtGui/BTKInputArbitrator>`
 
+### Narrow real integration API
+Added to `QApplication`:
+- `setBtkFocusTokens(...)`
+- `btkFocusTokens()`
+- `setBtkOwnerContext(...)`
+- `btkOwnerId(...)`
+- `btkSurfaceId(...)`
+- `btkWouldBlockFocusChange(...)`
+
 ## Intent
 This work does not yet alter the existing focus engine. It establishes BTK-native concepts for:
 - user/session ownership
@@ -45,4 +54,4 @@ The current BTK/CopperSpice focus logic is tightly interwoven with widget, windo
 That file is the main future integration hotspot for owner-scoped multi-focus behavior.
 
 ## Recommended next step
-Thread `BtkFocusToken` and `BtkInputArbitrator` into a narrow, low-risk slice of GUI focus logic first—likely popup/modal arbitration or a non-invasive helper path around `QApplicationPrivate::setFocusWidget(...)`.
+Extend the new `QApplicationPrivate::setFocusWidget(...)` integration carefully into popup/modal ownership decisions so owner-exclusive modality can influence more than one focus handoff path.

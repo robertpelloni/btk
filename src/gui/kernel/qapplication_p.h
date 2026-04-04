@@ -25,6 +25,7 @@
 #define QAPPLICATION_P_H
 
 #include <qapplication.h>
+#include <btkinputarbitrator.h>
 #include <qbasictimer.h>
 #include <qevent.h>
 #include <qfont.h>
@@ -274,6 +275,7 @@ class Q_GUI_EXPORT QApplicationPrivate : public QCoreApplicationPrivate
    static QWidget *focus_widget;
    static QWidget *hidden_focus_widget;
    static QWidget *active_window;
+   static BtkInputArbitrator btk_input_arbitrator;
 
    static QWindowList window_list;
    static QWindow *focus_window;

@@ -152,6 +152,7 @@ QWidget *QApplicationPrivate::main_widget         = nullptr;   // main applicati
 QWidget *QApplicationPrivate::focus_widget        = nullptr;   // has keyboard input focus
 QWidget *QApplicationPrivate::hidden_focus_widget = nullptr;   // will get keyboard input focus after show()
 QWidget *QApplicationPrivate::active_window       = nullptr;   // toplevel with keyboard focus
+BtkInputArbitrator QApplicationPrivate::btk_input_arbitrator;
 
 QWidgetList *QApplicationPrivate::popupWidgets    = nullptr;   // has keyboard input focus
 
@@ -849,9 +850,133 @@ QWidgetList QApplication::allWidgets()
    return QWidgetList();
 }
 
+namespace {
+constexpr const char *btkOwnerPropertyName   = "_btkOwnerId";
+constexpr const char *btkSurfacePropertyName = "_btkSurfaceId";
+
+QString btkOwnerIdForWidget(const QWidget *widget)
+{
+   const QWidget *current = widget;
+
+   while (current) {
+      const QVariant ownerValue = current->property(btkOwnerPropertyName);
+      if (ownerValue.isValid()) {
+         const QString ownerId = ownerValue.toString();
+         if (! ownerId.isEmpty()) {
+            return ownerId;
+         }
+      }
+
+      if (current == current->window()) {
+         break;
+      }
+
+      current = current->parentWidget();
+   }
+
+   return QString();
+}
+
+QString btkSurfaceIdForWidget(const QWidget *widget)
+{
+   const QWidget *current = widget;
+
+   while (current) {
+      const QVariant surfaceValue = current->property(btkSurfacePropertyName);
+      if (surfaceValue.isValid()) {
+         const QString surfaceId = surfaceValue.toString();
+         if (! surfaceId.isEmpty()) {
+            return surfaceId;
+         }
+      }
+
+      if (! current->objectName().isEmpty()) {
+         return current->objectName();
+      }
+
+      if (current == current->window()) {
+         break;
+      }
+
+      current = current->parentWidget();
+   }
+
+   return QString();
+}
+
+BtkInputRouteResult btkRouteFocusRequest(QWidget *focus, Qt::FocusReason reason)
+{
+   BtkInputRouteResult result;
+
+   if (focus == nullptr) {
+      return result;
+   }
+
+   const QString ownerId = btkOwnerIdForWidget(focus);
+   if (ownerId.isEmpty()) {
+      return result;
+   }
+
+   BtkInputRouteRequest request;
+   request.ownerId = ownerId;
+   request.surfaceId = btkSurfaceIdForWidget(focus);
+   request.reason = reason;
+
+   switch (reason) {
+      case Qt::ShortcutFocusReason:
+         request.kind = BtkInputRouteRequest::Kind::Shortcut;
+         break;
+      case Qt::PopupFocusReason:
+      case Qt::MenuBarFocusReason:
+         request.kind = BtkInputRouteRequest::Kind::System;
+         break;
+      default:
+         request.kind = BtkInputRouteRequest::Kind::Keyboard;
+         break;
+   }
+
+   return QApplicationPrivate::btk_input_arbitrator.route(request);
+}
+} // namespace
+
 QWidget *QApplication::focusWidget()
 {
    return QApplicationPrivate::focus_widget;
+}
+
+void QApplication::setBtkFocusTokens(const QList<BtkFocusToken> &tokens)
+{
+   QApplicationPrivate::btk_input_arbitrator.setFocusTokens(tokens);
+}
+
+QList<BtkFocusToken> QApplication::btkFocusTokens()
+{
+   return QApplicationPrivate::btk_input_arbitrator.focusTokens();
+}
+
+void QApplication::setBtkOwnerContext(QWidget *widget, const QString &ownerId, const QString &surfaceId)
+{
+   if (widget == nullptr) {
+      return;
+   }
+
+   widget->setProperty(btkOwnerPropertyName, ownerId);
+   widget->setProperty(btkSurfacePropertyName, surfaceId);
+}
+
+QString QApplication::btkOwnerId(const QWidget *widget)
+{
+   return btkOwnerIdForWidget(widget);
+}
+
+QString QApplication::btkSurfaceId(const QWidget *widget)
+{
+   return btkSurfaceIdForWidget(widget);
+}
+
+bool QApplication::btkWouldBlockFocusChange(QWidget *widget, Qt::FocusReason reason)
+{
+   return ! btkRouteFocusRequest(widget, reason).accepted();
 }
 
 void QApplicationPrivate::setFocusWidget(QWidget *focus, Qt::FocusReason reason)
@@ -865,6 +990,11 @@ void QApplicationPrivate::setFocusWidget(QWidget *focus, Qt::FocusReason reason)
    hidden_focus_widget = nullptr;
 
    if (focus != focus_widget) {
+      const BtkInputRouteResult btkRoute = btkRouteFocusRequest(focus, reason);
+      if (! btkRoute.accepted()) {
+         return;
+      }
+
       if (focus && focus->isHidden()) {
          hidden_focus_widget = focus;
          return;

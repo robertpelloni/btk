@@ -25,9 +25,11 @@
 #define QAPPLICATION_H
 
 #include <qcoreapplication.h>
+#include <btkfocustoken.h>
 #include <qcursor.h>
 #include <qicon.h>
 #include <qinputmethod.h>
+#include <qlist.h>
 #include <qlocale.h>
 #include <qpalette.h>
 #include <qpoint.h>
@@ -44,6 +46,7 @@ class QEventLoop;
 class QPlatformNativeInterface;
 class QStyle;
 class QStyleHints;
+class QWidget;
 
 #if defined(qApp)
 #undef qApp
@@ -137,6 +140,13 @@ class Q_GUI_EXPORT QApplication : public QCoreApplication
    static QApplication *instance() {
       return (static_cast<QApplication *>(QCoreApplication::instance()));
    }
+
+   static void setBtkFocusTokens(const QList<BtkFocusToken> &tokens);
+   static QList<BtkFocusToken> btkFocusTokens();
+   static void setBtkOwnerContext(QWidget *widget, const QString &ownerId, const QString &surfaceId = QString());
+   static QString btkOwnerId(const QWidget *widget);
+   static QString btkSurfaceId(const QWidget *widget);
+   static bool btkWouldBlockFocusChange(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
 
    static QWindowList allWindows();
    static QWindowList topLevelWindows();

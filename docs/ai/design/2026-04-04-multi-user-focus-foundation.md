@@ -89,6 +89,16 @@ BobUI's strongest idea is that ownership and collaboration should be first-class
 - shortcut routing and modal suppression rules
 - accessibility focus surfaces
 
+### First real integration added
+A first narrow GUI integration now exists in `QApplicationPrivate::setFocusWidget(...)`.
+
+It currently works by:
+- storing BTK owner/surface context as widget properties (`_btkOwnerId`, `_btkSurfaceId`)
+- allowing applications to install focus tokens through `QApplication::setBtkFocusTokens(...)`
+- consulting `BtkInputArbitrator` before a focus change is finalized
+
+This is intentionally narrow and low-risk: it does not replace the full focus system, but it creates a real decision point where BTK policy can begin influencing legacy focus behavior.
+
 ## Architectural Direction
 ```mermaid
 flowchart TD

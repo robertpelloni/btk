@@ -12,6 +12,8 @@
 4. Added BTK library alias targets in the top-level build for built components.
 5. Rewrote the root README to describe the BTK direction and new reference submodules.
 6. Added AI-devkit planning/analysis/testing documents.
+7. Added BTK-branded helper wrappers for CMake resources/deploy helpers.
+8. Added an automated rename-inventory generator at `scripts/generate_btk_api_inventory.py` plus generated inventory artifacts.
 
 ## Implementation Rationale
 A full mechanical rename of every `Cs*` symbol is too risky as a first move because the repo is large and the existing exported ABI is non-trivial. This session therefore established a compatibility-first rename strategy:
@@ -29,4 +31,4 @@ BobUI is valuable mainly as an architectural provocation:
 However, it should be treated as a reference corpus rather than a drop-in donor because much of its parity story is still partial or documentation-led.
 
 ## Recommended Next Implementation Step
-Start Phase 1 with a public API/name inventory so `Btk*` aliases can be added safely without destabilizing the build.
+Use the generated public API/name inventory to choose a very small set of safe, high-value public C++ alias surfaces for the next incremental migration step.

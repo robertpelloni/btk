@@ -763,6 +763,7 @@ foreach(component ${BUILD_COMPONENTS})
    if (TARGET Cs${component})
       add_library(Btk${component} ALIAS Cs${component})
       add_library(BTK::Btk${component} ALIAS Cs${component})
+      add_library(BTK::${component} ALIAS Cs${component})
    endif()
 endforeach()
 
@@ -820,6 +821,8 @@ install(
       ${CMAKE_BINARY_DIR}/BTKConfig.cmake
       ${CMAKE_BINARY_DIR}/BTKConfigVersion.cmake
 
+      ${CMAKE_SOURCE_DIR}/cmake/BTKDeploy.cmake
+      ${CMAKE_SOURCE_DIR}/cmake/BTKMacros.cmake
       ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
       ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
       ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake

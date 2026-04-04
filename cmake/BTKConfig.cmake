@@ -16,8 +16,8 @@ get_filename_component(BTK_PREFIX ${BTK_CMAKE_DIR}/ ABSOLUTE)
 
 include("${BTK_CMAKE_DIR}/CopperSpiceLibraryTargets.cmake")
 include("${BTK_CMAKE_DIR}/CopperSpiceBinaryTargets.cmake")
-include("${BTK_CMAKE_DIR}/CopperSpiceMacros.cmake")
-include("${BTK_CMAKE_DIR}/CopperSpiceDeploy.cmake")
+include("${BTK_CMAKE_DIR}/BTKMacros.cmake")
+include("${BTK_CMAKE_DIR}/BTKDeploy.cmake")
 
 set(BTK_INCLUDES @CMAKE_INSTALL_FULL_INCLUDEDIR@)
 set(BTK_LIBRARIES)
@@ -26,8 +26,14 @@ set(BTK_COMPONENTS @BUILD_COMPONENTS@)
 foreach(component ${BTK_COMPONENTS})
    string(TOUPPER ${component} uppercomp)
 
-   if (TARGET CopperSpice::Cs${component} AND NOT TARGET BTK::Btk${component})
-      add_library(BTK::Btk${component} ALIAS CopperSpice::Cs${component})
+   if (TARGET CopperSpice::Cs${component})
+      if (NOT TARGET BTK::Btk${component})
+         add_library(BTK::Btk${component} ALIAS CopperSpice::Cs${component})
+      endif()
+
+      if (NOT TARGET BTK::${component})
+         add_library(BTK::${component} ALIAS CopperSpice::Cs${component})
+      endif()
    endif()
 
    set(BTK_INCLUDES
@@ -47,6 +53,8 @@ foreach(component ${BTK_COMPONENTS})
    set(BTK_${uppercomp}_LIBRARIES
       BTK::Btk${component}
    )
+
+   set(BTK_${uppercomp}_TARGET BTK::${component})
 endforeach()
 
 set(BTK_INSTALL_MODE     "@CS_INSTALL_MODE@")
@@ -60,3 +68,6 @@ set(BTK_VERSION_MINOR "@BUILD_MINOR@")
 set(BTK_VERSION_PATCH "@BUILD_MICRO@")
 set(BTK_VERSION       "@BUILD_MAJOR@.@BUILD_MINOR@.@BUILD_MICRO@")
 set(BTK_VERSION_API   "@BUILD_MAJOR@.@BUILD_MINOR@")
+
+set(BTK_CMAKE_MACROS_FILE "${BTK_CMAKE_DIR}/BTKMacros.cmake")
+set(BTK_CMAKE_DEPLOY_FILE "${BTK_CMAKE_DIR}/BTKDeploy.cmake")

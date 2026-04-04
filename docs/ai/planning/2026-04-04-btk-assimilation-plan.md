@@ -7,10 +7,11 @@
 - [x] Capture initial requirements/design/testing docs.
 
 ## Phase 1 - Rename and Compatibility
-- [ ] Inventory every public `CopperSpice` / `Cs*` symbol.
-- [ ] Classify into safe alias, risky rename, and ABI-sensitive buckets.
-- [ ] Introduce `Btk*` compatibility aliases for top-level library targets and selected public APIs.
+- [x] Inventory every public `CopperSpice` / `Cs*` symbol at a first-pass repository level.
+- [x] Classify major rename pressure into safe alias, risky rename, and ABI-sensitive buckets at the planning level.
+- [x] Introduce `Btk*` / `BTK::*` compatibility aliases for top-level library targets and package helpers.
 - [ ] Add automated checks preventing mixed/accidental naming regressions.
+- [ ] Add selected public C++ header/type aliases where risk is low and value is high.
 
 ## Phase 2 - Gap Audit
 - [ ] Produce subsystem-by-subsystem inventory for current BTK.

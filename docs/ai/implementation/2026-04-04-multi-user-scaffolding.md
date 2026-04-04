@@ -77,5 +77,12 @@ This session now threads BTK policy into three real paths in that file:
 - popup/modal admission checks via `tryModalHelper(...)`
 - modal blocking checks via `isWindowBlocked(...)`
 
+## Overlay groundwork added
+A first reusable diagnostics adapter now exists in QtGui:
+- `src/gui/kernel/btkfocusdiagnostics.h`
+- `src/gui/kernel/btkfocusdiagnostics.cpp`
+
+This adapter packages current BTK owner/focus state into a structured snapshot suitable for future overlays and debugging tools.
+
 ## Recommended next step
-Surface the owner-aware popup/modal state into richer tooling overlays and then continue refining popup-stack behavior for mixed-owner concurrent popup scenarios.
+Continue refining mixed-owner concurrent popup behavior and begin deciding what the first visual BTK developer overlay surface should look like.

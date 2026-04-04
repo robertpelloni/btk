@@ -43,7 +43,8 @@
 - [ ] Define BTK equivalents with improved API consistency.
 
 ## Phase 7 - Tooling and Immediate Mode
-- [ ] Add developer overlay, inspection tooling, and Dear ImGui-style debug surfaces.
+- [~] Add developer overlay groundwork and inspection tooling surfaces (initial `BTKFocusDiagnostics` adapter added).
+- [ ] Add Dear ImGui-style debug surfaces.
 
 ## Rule
 No broad parity claim is considered complete until it has build validation, test coverage, and a concrete feature checklist.

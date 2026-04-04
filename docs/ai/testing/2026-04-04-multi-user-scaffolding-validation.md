@@ -10,6 +10,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 
 ### QtGui
 - `<QtGui/BTKInputArbitrator>`
+- `<QtGui/BTKFocusDiagnostics>`
 
 ### QApplication integration
 - `QApplication::setBtkFocusTokens(...)`
@@ -43,6 +44,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `docs/ai/testing/btk-modal-owner-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-diagnostics-smoke-example.cpp`
 - `docs/ai/testing/btk-popup-restoration-smoke-example.cpp`
+- `docs/ai/testing/btk-focus-overlay-groundwork-smoke-example.cpp`
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

@@ -68,6 +68,11 @@ A first reporting surface now exists directly on `QApplication` through BTK diag
 - active popup/modal owners
 - active focus token summaries
 
+That surface is now wrapped by a dedicated QtGui-level diagnostics adapter:
+- `<QtGui/BTKFocusDiagnostics>`
+
+This is the first reusable substrate for future developer overlays.
+
 ### Phase D - Event routing
 Route pointer, keyboard, shortcut, and touch behavior through BTK arbitration.
 

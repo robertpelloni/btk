@@ -26,13 +26,19 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 
 ## Current behavior
 - transparent-to-mouse overlay widget
-- auto-refreshing text snapshot
-- optional target widget for deeper context
+- auto-refreshing overlay surface
+- summary chips for popup owner, modal owner, and refresh cadence
+- focus widget and path sections
+- token summary section with color-coded emphasis
+- optional target widget section with decision summary
 - built directly on `BtkFocusDiagnostics`
 
+## Current assessment
+The overlay has now moved beyond a plain text dump into a first structured HUD pass. It is still intentionally lightweight, but it already demonstrates the shape of a future BTK developer experience: runtime state transformed into a readable, always-on-top tool surface.
+
 ## Future directions
-- richer styling and layout
-- token tables / color coding
+- richer styling and layout refinement
+- token tables / deeper color coding
 - per-owner cursor/focus panels
 - modal/popup block reason visualization
 - integration with immediate-mode debug surfaces

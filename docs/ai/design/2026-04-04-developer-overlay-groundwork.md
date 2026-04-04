@@ -22,6 +22,10 @@ The next natural step is to make that information easier to consume from future 
 - `BtkFocusDiagnostics`
 - `BtkFocusOverlay`
 
+### Progress level
+- `BTKFocusDiagnostics` provides the reusable structured reporting substrate
+- `BTKFocusOverlay` now provides the first visual HUD pass over that substrate
+
 ## Current responsibilities
 ### `BtkFocusDiagnosticsSnapshot`
 Carries structured snapshot data for:

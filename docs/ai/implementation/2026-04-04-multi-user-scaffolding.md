@@ -89,7 +89,11 @@ A first minimal visual overlay widget now exists:
 - `src/gui/widgets/btkfocusoverlay.h`
 - `src/gui/widgets/btkfocusoverlay.cpp`
 
-This widget renders the current BTK diagnostics as an always-on-top developer-facing text surface and provides a concrete starting point for richer overlays.
+This widget now goes beyond a raw text dump and provides a first structured HUD pass with:
+- owner summary chips
+- focus widget and path sections
+- token summaries
+- optional target-widget context and decision reporting
 
 ## Recommended next step
-Refine the overlay from a text scaffold into a richer developer HUD while continuing to improve mixed-owner concurrent popup behavior.
+Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.

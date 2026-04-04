@@ -6,7 +6,8 @@
 bool BtkFocusDiagnosticsSnapshot::isEmpty() const
 {
    return activePopupOwnerId.isEmpty() && activeModalOwnerId.isEmpty()
-      && focusWidgetDescription.isEmpty() && tokenSummaries.isEmpty() && lines.isEmpty();
+      && focusWidgetDescription.isEmpty() && focusWidgetPath.isEmpty()
+      && currentStateText.isEmpty() && tokenSummaries.isEmpty() && lines.isEmpty();
 }
 
 QString BtkFocusDiagnosticsSnapshot::toString() const
@@ -21,12 +22,18 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    retval.activePopupOwnerId = QApplication::btkActivePopupOwnerId();
    retval.activeModalOwnerId = QApplication::btkActiveModalOwnerId();
    retval.focusWidgetDescription = QApplication::btkDescribeWidgetContext(QApplication::focusWidget());
+   retval.focusWidgetPath = describeWidgetTreePath(QApplication::focusWidget());
    retval.lines = QApplication::btkFocusDiagnostics();
 
    for (const QString &line : retval.lines) {
       if (line.startsWith("token=")) {
          retval.tokenSummaries.append(line);
       }
+   }
+
+   retval.currentStateText = retval.toString();
+   if (! retval.focusWidgetPath.isEmpty()) {
+      retval.currentStateText += QString("\nfocusWidgetPath=%1").arg(retval.focusWidgetPath);
    }
 
    return retval;
@@ -61,6 +68,10 @@ QString BtkFocusDiagnostics::describeWidgetTreePath(const QWidget *widget)
 QString BtkFocusDiagnostics::describeCurrentState()
 {
    BtkFocusDiagnosticsSnapshot snap = snapshot();
+
+   if (! snap.currentStateText.isEmpty()) {
+      return snap.currentStateText;
+   }
 
    QStringList lines = snap.lines;
    lines.append(QString("focusWidgetPath=%1").arg(describeWidgetTreePath(QApplication::focusWidget())));

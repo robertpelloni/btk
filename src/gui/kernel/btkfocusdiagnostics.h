@@ -21,6 +21,8 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QString activePopupOwnerId;
    QString activeModalOwnerId;
    QString focusWidgetDescription;
+   QString focusWidgetPath;
+   QString currentStateText;
    QStringList tokenSummaries;
    QStringList lines;
 

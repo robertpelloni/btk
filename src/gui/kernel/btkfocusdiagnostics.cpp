@@ -48,6 +48,7 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
 {
    return activePopupOwnerId.isEmpty() && activeModalOwnerId.isEmpty()
       && focusWidgetDescription.isEmpty() && focusWidgetPath.isEmpty()
+      && focusPopupRelationship.isEmpty()
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
       && currentStateText.isEmpty() && popupStackSummaries.isEmpty()
       && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
@@ -69,6 +70,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    retval.activeModalOwnerId = QApplication::btkActiveModalOwnerId();
    retval.focusWidgetDescription = QApplication::btkDescribeWidgetContext(focusWidget);
    retval.focusWidgetPath = describeWidgetTreePath(focusWidget);
+   retval.focusPopupRelationship = QApplication::btkDescribePopupRelationship(focusWidget);
    retval.focusOwnerId = QApplication::btkOwnerId(focusWidget);
    retval.focusSurfaceId = QApplication::btkSurfaceId(focusWidget);
    retval.popupStackSummaries = QApplication::btkPopupStackDiagnostics();
@@ -127,6 +129,9 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    retval.currentStateText = retval.toString();
    if (! retval.focusWidgetPath.isEmpty()) {
       retval.currentStateText += QString("\nfocusWidgetPath=%1").arg(retval.focusWidgetPath);
+   }
+   if (! retval.focusPopupRelationship.isEmpty()) {
+      retval.currentStateText += QString("\nfocusPopupRelationship=%1").arg(retval.focusPopupRelationship);
    }
 
    return retval;

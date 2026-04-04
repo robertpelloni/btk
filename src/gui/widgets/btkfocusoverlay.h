@@ -68,6 +68,7 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    void cyclePanelPreset();
    void setBlockedRoutesOnly(bool enabled);
    bool blockedRoutesOnly() const;
+   QString targetRelationshipSummary() const;
 
    QSize sizeHint() const override;
 

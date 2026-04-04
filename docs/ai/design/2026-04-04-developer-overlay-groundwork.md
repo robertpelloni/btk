@@ -33,6 +33,7 @@ Carries structured snapshot data for:
 - active modal owner
 - focus widget description
 - focus widget path
+- focus popup relationship
 - focus owner id
 - focus surface id
 - popup-stack summaries

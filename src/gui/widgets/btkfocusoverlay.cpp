@@ -319,7 +319,8 @@ QSize BtkFocusOverlay::sizeHint() const
    if (shouldRenderPanel(FocusPanel)) {
       height += fm.height() + 6;
       height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusWidgetDescription) + 8;
-      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 12;
+      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 8;
+      height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusPopupRelationship) + 12;
    }
 
    if (shouldRenderPanel(OwnerPanel) && (! m_snapshot.ownerSummaries.isEmpty() || ! m_snapshot.blockerSummaries.isEmpty())) {
@@ -353,10 +354,12 @@ QSize BtkFocusOverlay::sizeHint() const
       const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
       const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
       const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      const QString targetRelationship = targetRelationshipSummary();
 
       height += fm.height() + 6;
       height += btkWrappedTextHeight(fm, innerWidth, targetContext) + 8;
       height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(targetPath)) + 8;
+      height += btkWrappedTextHeight(fm, innerWidth, targetRelationship) + 8;
       height += btkWrappedTextHeight(fm, innerWidth, targetDecision) + 8;
    }
 
@@ -457,6 +460,9 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       btkDrawWrappedBlock(painter, left, y, contentWidth,
          QString("path=%1").arg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
          QColor(182, 193, 225));
+      btkDrawWrappedBlock(painter, left, y, contentWidth,
+         m_snapshot.focusPopupRelationship.isEmpty() ? QString("popupRelationship=<none>") : m_snapshot.focusPopupRelationship,
+         btkOverlayAccentForLine(m_snapshot.focusPopupRelationship));
    }
 
    if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
@@ -491,11 +497,14 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
       const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
       const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      const QString targetRelationship = targetRelationshipSummary();
 
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Target Widget"));
       btkDrawWrappedBlock(painter, left, y, contentWidth, targetContext, btkOverlayValueColor());
       btkDrawWrappedBlock(painter, left, y, contentWidth,
          QString("path=%1").arg(targetPath), QColor(182, 193, 225));
+      btkDrawWrappedBlock(painter, left, y, contentWidth,
+         targetRelationship, btkOverlayAccentForLine(targetRelationship));
       btkDrawWrappedBlock(painter, left, y, contentWidth,
          targetDecision, btkOverlayAccentForLine(targetDecision));
    }
@@ -543,6 +552,11 @@ void BtkFocusOverlay::updateTimer()
    }
 }
 
+QString BtkFocusOverlay::targetRelationshipSummary() const
+{
+   return m_targetWidget ? QApplication::btkDescribePopupRelationship(m_targetWidget) : QString();
+}
+
 QString BtkFocusOverlay::buildDisplayText() const
 {
    QStringList lines;
@@ -563,6 +577,7 @@ QString BtkFocusOverlay::buildDisplayText() const
    if (shouldRenderPanel(FocusPanel)) {
       lines.append(QString("focusWidget=%1").arg(m_snapshot.focusWidgetDescription));
       lines.append(QString("focusWidgetPath=%1").arg(m_snapshot.focusWidgetPath));
+      lines.append(QString("focusPopupRelationship=%1").arg(m_snapshot.focusPopupRelationship));
    }
 
    if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
@@ -588,6 +603,7 @@ QString BtkFocusOverlay::buildDisplayText() const
    if (shouldRenderPanel(TargetPanel) && m_targetWidget) {
       lines.append(QString("targetWidget=%1").arg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)));
       lines.append(QString("targetContext=%1").arg(QApplication::btkDescribeWidgetContext(m_targetWidget)));
+      lines.append(QString("targetPopupRelationship=%1").arg(targetRelationshipSummary()));
       lines.append(QString("targetDecision=%1").arg(QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason)));
    }
 

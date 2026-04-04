@@ -93,12 +93,13 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - owner summary chips
 - focus widget and path sections
 - focus owner / focus surface summaries
+- focus-popup relationship summaries
 - popup-stack summaries
 - owner-group summaries derived from active tokens
 - blocker-group summaries derived from blocked routes
 - token summaries
 - blocked-route summaries
-- optional target-widget context and decision reporting
+- optional target-widget context, popup-relationship, and decision reporting
 - panel-based visibility control for summary/focus/owner/popup/token/target/blocked/raw sections
 - preset-oriented modes for compact, owner-centric, analysis, and full views
 - blocked-only filtering and preset cycling support

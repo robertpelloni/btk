@@ -32,12 +32,13 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - preset cycling support and blocked-only filtering mode
 - summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, popup count, blocker count, blocked-route count, and preset/mode state
 - focus widget and path sections
+- focus-popup relationship section
 - owner-group summary section
 - blocker-group summary section
 - popup-stack section including focus-owner popup-stack context
 - token summary section with color-coded emphasis
 - blocked/exclusive route section with more precise summaries
-- optional target widget section with decision summary
+- optional target widget section with decision summary and popup-relationship summary
 - built directly on `BtkFocusDiagnostics`
 
 ## Current assessment
@@ -55,4 +56,5 @@ The surrounding runtime also continues to become less globally single-owner:
 - per-owner cursor/focus panels
 - modal/popup block reason visualization
 - owner-scoped context-menu and additional popup-sensitive event routing refinements
+- more explicit target-to-popup relationship inspection
 - integration with immediate-mode debug surfaces

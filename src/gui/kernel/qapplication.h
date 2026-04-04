@@ -150,6 +150,7 @@ class Q_GUI_EXPORT QApplication : public QCoreApplication
    static QString btkActivePopupOwnerId();
    static QString btkActiveModalOwnerId();
    static QString btkDescribeWidgetContext(const QWidget *widget);
+   static QString btkDescribePopupRelationship(const QWidget *widget);
    static QString btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
    static QStringList btkPopupStackDiagnostics(const QString &ownerId = QString());
    static QStringList btkFocusDiagnostics();

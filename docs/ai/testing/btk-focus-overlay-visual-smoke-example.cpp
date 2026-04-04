@@ -32,5 +32,6 @@ int main(int argc, char **argv)
       || overlay.panelPreset() != BtkFocusOverlay::PanelPreset::Analysis
       || ! overlay.isPanelVisible(BtkFocusOverlay::PopupPanel)
       || ! overlay.isPanelVisible(BtkFocusOverlay::BlockedPanel)
-      || ! overlay.blockedRoutesOnly() ? 1 : 0;
+      || ! overlay.blockedRoutesOnly()
+      || overlay.targetRelationshipSummary().isEmpty() ? 1 : 0;
 }

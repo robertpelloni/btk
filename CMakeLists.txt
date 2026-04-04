@@ -19,7 +19,7 @@ endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-project(copperspice)
+project(btk)
 
 set(BUILD_MAJOR "2")
 set(BUILD_MINOR "1")
@@ -74,13 +74,13 @@ set(BUILD_COMPONENTS "Core Xml")
 
 set(CS_OPTIONAL_COMPONENTS Gui Multimedia Network OpenGL Sql Svg Vulkan WebKit XmlPatterns)
 
-set(PACKAGE           "copperspice")
-set(PACKAGE_NAME      "CopperSpice")
+set(PACKAGE           "btk")
+set(PACKAGE_NAME      "BTK")
 set(PACKAGE_VERSION   "${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_MICRO}")
-set(PACKAGE_STRING    "copperspice ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_MICRO}")
-set(PACKAGE_TARNAME   "copperspice")
-set(PACKAGE_BUGREPORT "info@copperspice.com")
-set(PACKAGE_URL       "https://www.copperspice.com/")
+set(PACKAGE_STRING    "btk ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_MICRO}")
+set(PACKAGE_TARNAME   "btk")
+set(PACKAGE_BUGREPORT "https://github.com/robertpelloni/btk/issues")
+set(PACKAGE_URL       "https://github.com/robertpelloni/btk")
 
 # values used in cs_build_info.h.in
 set(HEX_VERSION "0x0${BUILD_MAJOR}0${BUILD_MINOR}0${BUILD_MICRO}")
@@ -115,8 +115,8 @@ else()
 endif()
 
 set(CPACK_PACKAGE_NAME    ${PROJECT_NAME})
-set(CPACK_PACKAGE_VENDOR  "CopperSpice")
-set(CPACK_PACKAGE_CONTACT "info@copperspice.com")
+set(CPACK_PACKAGE_VENDOR  "BTK")
+set(CPACK_PACKAGE_CONTACT "https://github.com/robertpelloni/btk/issues")
 
 set(CPACK_PACKAGE_VERSION_MAJOR ${BUILD_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${BUILD_MINOR})
@@ -238,7 +238,7 @@ endforeach()
 
 # start output messages
 message("")
-message("Configuring CMake for CopperSpice\n\n")
+message("Configuring CMake for BTK\n\n")
 message("-- Searching for required packages\n")
 
 find_package(CsLibGuarded QUIET)
@@ -759,6 +759,13 @@ if (BUILD_TESTS)
    add_subdirectory(test/network)
 endif()
 
+foreach(component ${BUILD_COMPONENTS})
+   if (TARGET Cs${component})
+      add_library(Btk${component} ALIAS Cs${component})
+      add_library(BTK::Btk${component} ALIAS Cs${component})
+   endif()
+endforeach()
+
 configure_file(
    ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceConfig.cmake
    ${CMAKE_BINARY_DIR}/CopperSpiceConfig.cmake
@@ -771,14 +778,29 @@ configure_file(
    @ONLY
 )
 
+configure_file(
+   ${CMAKE_SOURCE_DIR}/cmake/BTKConfig.cmake
+   ${CMAKE_BINARY_DIR}/BTKConfig.cmake
+   @ONLY
+)
+
+configure_file(
+   ${CMAKE_SOURCE_DIR}/cmake/BTKConfigVersion.cmake
+   ${CMAKE_BINARY_DIR}/BTKConfigVersion.cmake
+   @ONLY
+)
+
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
    set(PKG_PREFIX "CopperSpice.framework/Resources")
+   set(BTK_PKG_PREFIX "BTK.framework/Resources")
 
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
    set(PKG_PREFIX "cmake/CopperSpice")
+   set(BTK_PKG_PREFIX "cmake/BTK")
 
 else()
    set(PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
+   set(BTK_PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
 
 endif()
 
@@ -794,12 +816,30 @@ install(
 )
 
 install(
+   FILES
+      ${CMAKE_BINARY_DIR}/BTKConfig.cmake
+      ${CMAKE_BINARY_DIR}/BTKConfigVersion.cmake
+
+      ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
+      ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
+      ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake
+   DESTINATION ${BTK_PKG_PREFIX}
+)
+
+install(
    # generate cmake files containing rules about linking with CS libs
 
    EXPORT CopperSpiceLibraryTargets
    NAMESPACE CopperSpice::
    FILE CopperSpiceLibraryTargets.cmake
    DESTINATION ${PKG_PREFIX}
+)
+
+install(
+   EXPORT CopperSpiceLibraryTargets
+   NAMESPACE CopperSpice::
+   FILE CopperSpiceLibraryTargets.cmake
+   DESTINATION ${BTK_PKG_PREFIX}
 )
 
 # generate cmake files containing rules about running CS binary tools
@@ -810,8 +850,15 @@ install(
    DESTINATION ${PKG_PREFIX}
 )
 
+install(
+   EXPORT CopperSpiceBinaryTargets
+   NAMESPACE CopperSpice::
+   FILE CopperSpiceBinaryTargets.cmake
+   DESTINATION ${BTK_PKG_PREFIX}
+)
+
 message("\n")
-message("-- The following CopperSpice libraries will be built:")
+message("-- The following BTK libraries will be built:")
 message("\n * ${BUILD_COMPONENTS}\n")
 
 feature_summary(WHAT PACKAGES_FOUND PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
@@ -823,7 +870,7 @@ else()
 endif()
 
 message("")
-message("CopperSpice configured to run on:  ${CMAKE_SYSTEM_NAME} ${TARGETBITS} bit, ${CMAKE_BUILD_TYPE} Mode")
-message("CopperSpice will be built in:      ${CMAKE_BINARY_DIR}")
-message("CopperSpice will be installed in:  ${CMAKE_INSTALL_PREFIX}")
+message("BTK configured to run on:  ${CMAKE_SYSTEM_NAME} ${TARGETBITS} bit, ${CMAKE_BUILD_TYPE} Mode")
+message("BTK will be built in:      ${CMAKE_BINARY_DIR}")
+message("BTK will be installed in:  ${CMAKE_INSTALL_PREFIX}")
 message("\n")

@@ -61,6 +61,13 @@ Expand accessibility and debug tooling to report:
 - owning users/devices
 - blocked owners/surfaces
 
+#### Current progress
+A first reporting surface now exists directly on `QApplication` through BTK diagnostic helpers that describe:
+- widget owner/surface context
+- focus routing decisions
+- active popup/modal owners
+- active focus token summaries
+
 ### Phase D - Event routing
 Route pointer, keyboard, shortcut, and touch behavior through BTK arbitration.
 

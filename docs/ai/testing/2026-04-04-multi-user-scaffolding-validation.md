@@ -15,6 +15,11 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `QApplication::setBtkFocusTokens(...)`
 - `QApplication::btkFocusTokens()`
 - `QApplication::setBtkOwnerContext(...)`
+- `QApplication::btkActivePopupOwnerId()`
+- `QApplication::btkActiveModalOwnerId()`
+- `QApplication::btkDescribeWidgetContext(...)`
+- `QApplication::btkDescribeFocusDecision(...)`
+- `QApplication::btkFocusDiagnostics()`
 - `QApplication::btkWouldBlockFocusChange(...)`
 - popup/modal owner-aware gating through `tryModalHelper(...)` / `isWindowBlocked(...)`
 
@@ -34,6 +39,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `docs/ai/testing/btk-multi-user-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-routing-smoke-example.cpp`
 - `docs/ai/testing/btk-modal-owner-smoke-example.cpp`
+- `docs/ai/testing/btk-focus-diagnostics-smoke-example.cpp`
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

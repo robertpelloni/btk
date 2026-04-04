@@ -106,6 +106,16 @@ A second narrow integration now exists in popup/modal gating:
 
 This begins to shift modality from a purely global process assumption toward owner-aware behavior.
 
+### Diagnostics and reporting progress
+BTK now also exposes lightweight application-level diagnostics through `QApplication`:
+- `btkActivePopupOwnerId()`
+- `btkActiveModalOwnerId()`
+- `btkDescribeWidgetContext(...)`
+- `btkDescribeFocusDecision(...)`
+- `btkFocusDiagnostics()`
+
+This creates the first developer-facing reporting surface for inspecting owner context, active tokens, and block decisions without yet requiring a custom debugger UI.
+
 ## Architectural Direction
 ```mermaid
 flowchart TD

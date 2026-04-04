@@ -30,6 +30,11 @@ Added to `QApplication`:
 - `setBtkOwnerContext(...)`
 - `btkOwnerId(...)`
 - `btkSurfaceId(...)`
+- `btkActivePopupOwnerId()`
+- `btkActiveModalOwnerId()`
+- `btkDescribeWidgetContext(...)`
+- `btkDescribeFocusDecision(...)`
+- `btkFocusDiagnostics()`
 - `btkWouldBlockFocusChange(...)`
 
 ### Popup/modal integration progress
@@ -69,4 +74,4 @@ This session now threads BTK policy into three real paths in that file:
 - modal blocking checks via `isWindowBlocked(...)`
 
 ## Recommended next step
-Add owner-aware diagnostics and expand popup-stack behavior so `openPopup(...)` / `closePopup(...)` restoration can become explicitly owner-scoped rather than only globally focus-scoped.
+Expand popup-stack restoration so `openPopup(...)` / `closePopup(...)` can become explicitly owner-scoped rather than only globally focus-scoped, and then surface these diagnostics in richer tooling overlays.

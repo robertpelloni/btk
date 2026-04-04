@@ -36,6 +36,7 @@
 #include <qscreen.h>
 #include <qsize.h>
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qsessionmanager.h>
 #include <qwindowdefs.h>
 
@@ -146,6 +147,11 @@ class Q_GUI_EXPORT QApplication : public QCoreApplication
    static void setBtkOwnerContext(QWidget *widget, const QString &ownerId, const QString &surfaceId = QString());
    static QString btkOwnerId(const QWidget *widget);
    static QString btkSurfaceId(const QWidget *widget);
+   static QString btkActivePopupOwnerId();
+   static QString btkActiveModalOwnerId();
+   static QString btkDescribeWidgetContext(const QWidget *widget);
+   static QString btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
+   static QStringList btkFocusDiagnostics();
    static bool btkWouldBlockFocusChange(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
 
    static QWindowList allWindows();

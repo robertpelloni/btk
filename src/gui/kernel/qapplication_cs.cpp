@@ -904,6 +904,84 @@ QString btkSurfaceIdForWidget(const QWidget *widget)
    return QString();
 }
 
+QString btkFocusReasonToString(Qt::FocusReason reason)
+{
+   switch (reason) {
+      case Qt::MouseFocusReason:
+         return QString("MouseFocusReason");
+      case Qt::TabFocusReason:
+         return QString("TabFocusReason");
+      case Qt::BacktabFocusReason:
+         return QString("BacktabFocusReason");
+      case Qt::ActiveWindowFocusReason:
+         return QString("ActiveWindowFocusReason");
+      case Qt::PopupFocusReason:
+         return QString("PopupFocusReason");
+      case Qt::ShortcutFocusReason:
+         return QString("ShortcutFocusReason");
+      case Qt::MenuBarFocusReason:
+         return QString("MenuBarFocusReason");
+      case Qt::OtherFocusReason:
+         return QString("OtherFocusReason");
+      case Qt::NoFocusReason:
+         return QString("NoFocusReason");
+   }
+
+   return QString("UnknownFocusReason");
+}
+
+QString btkDecisionToString(BtkInputRouteResult::Decision decision)
+{
+   switch (decision) {
+      case BtkInputRouteResult::Decision::Reject:
+         return QString("Reject");
+      case BtkInputRouteResult::Decision::Share:
+         return QString("Share");
+      case BtkInputRouteResult::Decision::Transfer:
+         return QString("Transfer");
+      case BtkInputRouteResult::Decision::Queue:
+         return QString("Queue");
+   }
+
+   return QString("UnknownDecision");
+}
+
+QString btkScopeToString(BtkFocusToken::Scope scope)
+{
+   switch (scope) {
+      case BtkFocusToken::Scope::Widget:
+         return QString("Widget");
+      case BtkFocusToken::Scope::Window:
+         return QString("Window");
+      case BtkFocusToken::Scope::Application:
+         return QString("Application");
+      case BtkFocusToken::Scope::Workspace:
+         return QString("Workspace");
+      case BtkFocusToken::Scope::Global:
+         return QString("Global");
+   }
+
+   return QString("UnknownScope");
+}
+
+QString btkModalityPolicyToString(BtkFocusToken::ModalityPolicy policy)
+{
+   switch (policy) {
+      case BtkFocusToken::ModalityPolicy::Shared:
+         return QString("Shared");
+      case BtkFocusToken::ModalityPolicy::OwnerExclusive:
+         return QString("OwnerExclusive");
+      case BtkFocusToken::ModalityPolicy::WindowExclusive:
+         return QString("WindowExclusive");
+      case BtkFocusToken::ModalityPolicy::ApplicationExclusive:
+         return QString("ApplicationExclusive");
+      case BtkFocusToken::ModalityPolicy::SystemExclusive:
+         return QString("SystemExclusive");
+   }
+
+   return QString("UnknownModalityPolicy");
+}
+
 bool btkOwnersMatch(const QWidget *lhs, const QWidget *rhs)
 {
    if (lhs == nullptr || rhs == nullptr) {
@@ -914,6 +992,31 @@ bool btkOwnersMatch(const QWidget *lhs, const QWidget *rhs)
    const QString rhsOwnerId = btkOwnerIdForWidget(rhs);
 
    return ! lhsOwnerId.isEmpty() && lhsOwnerId == rhsOwnerId;
+}
+
+QString btkDescribeWidget(const QWidget *widget)
+{
+   if (widget == nullptr) {
+      return QString("widget=<null>");
+   }
+
+   return QString("class=%1 object=%2 owner=%3 surface=%4")
+      .arg(QString::fromLatin1(widget->metaObject()->className()))
+      .arg(widget->objectName().isEmpty() ? QString("<unnamed>") : widget->objectName())
+      .arg(btkOwnerIdForWidget(widget).isEmpty() ? QString("<none>") : btkOwnerIdForWidget(widget))
+      .arg(btkSurfaceIdForWidget(widget).isEmpty() ? QString("<none>") : btkSurfaceIdForWidget(widget));
+}
+
+QString btkDescribeToken(const BtkFocusToken &token)
+{
+   return QString("token=%1 owner=%2 surface=%3 scope=%4 policy=%5 priority=%6 active=%7")
+      .arg(token.tokenId())
+      .arg(token.ownerId())
+      .arg(token.surfaceId())
+      .arg(btkScopeToString(token.scope()))
+      .arg(btkModalityPolicyToString(token.modalityPolicy()))
+      .arg(token.priority())
+      .arg(token.isActive() ? QString("true") : QString("false"));
 }
 
 bool btkPopupAllowsWidget(const QWidget *popup, QWidget *widget)
@@ -1008,6 +1111,54 @@ QString QApplication::btkOwnerId(const QWidget *widget)
 QString QApplication::btkSurfaceId(const QWidget *widget)
 {
    return btkSurfaceIdForWidget(widget);
+}
+
+QString QApplication::btkActivePopupOwnerId()
+{
+   return btkOwnerIdForWidget(QApplication::activePopupWidget());
+}
+
+QString QApplication::btkActiveModalOwnerId()
+{
+   return btkOwnerIdForWidget(QApplication::activeModalWidget());
+}
+
+QString QApplication::btkDescribeWidgetContext(const QWidget *widget)
+{
+   return btkDescribeWidget(widget);
+}
+
+QString QApplication::btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason reason)
+{
+   const BtkInputRouteResult route = btkRouteFocusRequest(widget, reason);
+
+   return QString("reason=%1 decision=%2 resolvedOwner=%3 blockingOwner=%4 blockingSurface=%5 %6")
+      .arg(btkFocusReasonToString(reason))
+      .arg(btkDecisionToString(route.decision))
+      .arg(route.resolvedOwnerId.isEmpty() ? QString("<none>") : route.resolvedOwnerId)
+      .arg(route.blockingOwnerId.isEmpty() ? QString("<none>") : route.blockingOwnerId)
+      .arg(route.blockingSurfaceId.isEmpty() ? QString("<none>") : route.blockingSurfaceId)
+      .arg(btkDescribeWidget(widget));
+}
+
+QStringList QApplication::btkFocusDiagnostics()
+{
+   QStringList retval;
+   const QList<BtkFocusToken> tokens = QApplicationPrivate::btk_input_arbitrator.focusTokens();
+
+   retval.append(QString("activePopupOwner=%1").arg(btkActivePopupOwnerId().isEmpty() ? QString("<none>") : btkActivePopupOwnerId()));
+   retval.append(QString("activeModalOwner=%1").arg(btkActiveModalOwnerId().isEmpty() ? QString("<none>") : btkActiveModalOwnerId()));
+   retval.append(QString("focusWidget=%1").arg(btkDescribeWidget(QApplication::focusWidget())));
+
+   if (tokens.isEmpty()) {
+      retval.append(QString("focusTokens=<none>"));
+   } else {
+      for (const auto &token : tokens) {
+         retval.append(btkDescribeToken(token));
+      }
+   }
+
+   return retval;
 }
 
 bool QApplication::btkWouldBlockFocusChange(QWidget *widget, Qt::FocusReason reason)

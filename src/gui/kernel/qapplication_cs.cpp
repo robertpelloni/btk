@@ -2834,6 +2834,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::TabletPress:
          case QEvent::TabletRelease: {
             QWidget *w = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
+
             QTabletEvent *tablet = static_cast<QTabletEvent *>(e);
             QPointF relpos = tablet->posF();
             bool eventAccepted = tablet->isAccepted();
@@ -2982,6 +2989,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
             // Note: TouchUpdate and TouchEnd events are never propagated
          {
             QWidget *widget = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, widget)) {
+                  return true;
+               }
+            }
+
             QTouchEvent *touchEvent = static_cast<QTouchEvent *>(e);
             bool eventAccepted = touchEvent->isAccepted();
             bool acceptTouchEvents = widget->testAttribute(Qt::WA_AcceptTouchEvents);
@@ -3056,6 +3070,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::TouchUpdate:
          case QEvent::TouchEnd: {
             QWidget *widget = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (widget && ! btkPopupAllowsWidget(popup, widget)) {
+                  return true;
+               }
+            }
+
             // We may get here if the widget is subscribed to a gesture,
             // but has not accepted TouchBegin. Propagate touch events
             // only if TouchBegin has been accepted.

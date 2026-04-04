@@ -2874,6 +2874,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::WhatsThis:
          case QEvent::QueryWhatsThis: {
             QWidget *w = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
+
             QHelpEvent *help = static_cast<QHelpEvent *>(e);
             QPoint relpos = help->pos();
             bool eventAccepted = help->isAccepted();
@@ -2898,6 +2905,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::StatusTip:
          case QEvent::WhatsThisClicked: {
             QWidget *w = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
+
             while (w) {
                res = d->notify_helper(w, e);
                if ((res && e->isAccepted()) || w->isWindow()) {
@@ -3096,6 +3110,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::NativeGesture: {
             // only propagate the first gesture event (after the GID_BEGIN)
             QWidget *w = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
+
             while (w) {
                e->ignore();
                res = d->notify_helper(w, e);
@@ -3110,6 +3131,13 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::GestureOverride: {
             if (receiver->isWidgetType()) {
                QWidget *w = static_cast<QWidget *>(receiver);
+
+               if (const QWidget *popup = QApplication::activePopupWidget()) {
+                  if (! btkPopupAllowsWidget(popup, w)) {
+                     return true;
+                  }
+               }
+
                QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(e);
                QList<QGesture *> allGestures = gestureEvent->gestures();
 

@@ -47,9 +47,11 @@ The overlay has now moved beyond a plain text dump into a richer HUD pass with o
 The surrounding runtime also continues to become less globally single-owner:
 - popup-aware wheel-event gating now consults BTK owner-aware popup allowance rather than only comparing the active popup window directly
 - popup-aware context-menu routing now follows the same BTK popup allowance model
+- popup-aware help/tooltip routing now follows the same BTK popup allowance model
 - popup-aware drag/drop routing now follows the same BTK popup allowance model
 - popup-aware tablet routing now follows the same BTK popup allowance model
 - popup-aware touch routing now follows the same BTK popup allowance model
+- popup-aware gesture routing now follows the same BTK popup allowance model
 - popup-aware mouse enter/leave receiver tracking now avoids blindly promoting unrelated-owner widgets while a popup is active
 - popup-aware synthetic enter/leave generation now follows the same ownership discipline
 

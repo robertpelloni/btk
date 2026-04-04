@@ -109,9 +109,11 @@ The popup stack is now part of the diagnostics substrate as well, including filt
 The popup model is also now threaded further into runtime behavior:
 - popup-aware wheel-event gating consults BTK popup allowance so same-owner widgets are not automatically treated like unrelated popup outsiders
 - popup-aware context-menu routing now uses the same BTK popup allowance logic
+- popup-aware help/tooltip routing now uses the same BTK popup allowance logic
 - popup-aware drag/drop routing now uses the same BTK popup allowance logic
 - popup-aware tablet routing now uses the same BTK popup allowance logic
 - popup-aware touch routing now uses the same BTK popup allowance logic
+- popup-aware gesture routing now uses the same BTK popup allowance logic
 - popup-aware mouse enter/leave receiver updates now avoid blindly tracking unrelated-owner widgets while a popup is active
 - popup-aware synthetic enter/leave generation now avoids blindly targeting unrelated-owner widgets while a popup is active
 

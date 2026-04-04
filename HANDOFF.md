@@ -18,8 +18,10 @@
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware drag/drop routing so same-owner widgets can continue routing under BTK popup allowance rules.
+- Refined popup-aware help/tooltip routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware tablet routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware touch routing so same-owner widgets can continue routing under BTK popup allowance rules.
+- Refined popup-aware gesture routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware mouse enter/leave receiver tracking so unrelated-owner widgets are not blindly promoted while a popup is active.
 - Refined popup-aware synthetic enter/leave generation so unrelated-owner widgets are not blindly targeted while a popup is active.
 - Added a live-repository BTK vs BobUI comparison doc grounded in the current `workspace/bobui` repo, including findings about Qt-OSS vs CopperSpice lineage, OmniUI implementation gaps, Go/WebView bridge strengths, and why BTK is the better long-term framework mainline.

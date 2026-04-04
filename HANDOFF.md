@@ -12,6 +12,7 @@
 - Added owner-aware diagnostic/reporting helpers on `QApplication` for focus tokens, widget owner context, popup/modal owners, and routing decisions.
 - Extended popup stack behavior so restoration now prefers same-owner popups and avoids forcing first-popup focus-out on unrelated owners by default.
 - Added `BTKFocusDiagnostics` as a QtGui-level diagnostics adapter for future developer overlays and tooling.
+- Added `BTKFocusOverlay` as the first visual BTK focus/owner developer overlay scaffold.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.
@@ -25,7 +26,7 @@
 ## Recommended Next Steps
 1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
 2. Expand the public alias layer cautiously based on validation feedback.
-3. Decide and implement the first visual BTK developer overlay surface using the new diagnostics adapter, while continuing to refine mixed-owner popup behavior.
+3. Refine `BTKFocusOverlay` from a text scaffold into a richer developer HUD while continuing to refine mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers

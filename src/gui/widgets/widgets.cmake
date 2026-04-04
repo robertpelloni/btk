@@ -1,4 +1,5 @@
 list(APPEND GUI_PUBLIC_INCLUDES
+   BTKFocusOverlay
    QButtonGroup
    QCalendarWidget
    QCheckBox
@@ -54,6 +55,7 @@ list(APPEND GUI_PUBLIC_INCLUDES
 )
 
 list(APPEND GUI_INCLUDES
+   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/btkfocusoverlay.h
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qbuttongroup.h
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qcalendarwidget.h
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qcheckbox.h
@@ -139,6 +141,7 @@ list(APPEND GUI_PRIVATE_INCLUDES
 
 target_sources(CsGui
    PRIVATE
+   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/btkfocusoverlay.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qbuttongroup.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qcalendarwidget.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/qcheckbox.cpp

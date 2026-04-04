@@ -84,5 +84,12 @@ A first reusable diagnostics adapter now exists in QtGui:
 
 This adapter packages current BTK owner/focus state into a structured snapshot suitable for future overlays and debugging tools.
 
+## First visual overlay scaffold added
+A first minimal visual overlay widget now exists:
+- `src/gui/widgets/btkfocusoverlay.h`
+- `src/gui/widgets/btkfocusoverlay.cpp`
+
+This widget renders the current BTK diagnostics as an always-on-top developer-facing text surface and provides a concrete starting point for richer overlays.
+
 ## Recommended next step
-Continue refining mixed-owner concurrent popup behavior and begin deciding what the first visual BTK developer overlay surface should look like.
+Refine the overlay from a text scaffold into a richer developer HUD while continuing to improve mixed-owner concurrent popup behavior.

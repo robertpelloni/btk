@@ -43,7 +43,7 @@
 - [ ] Define BTK equivalents with improved API consistency.
 
 ## Phase 7 - Tooling and Immediate Mode
-- [~] Add developer overlay groundwork and inspection tooling surfaces (initial `BTKFocusDiagnostics` adapter added).
+- [~] Add developer overlay groundwork and inspection tooling surfaces (initial `BTKFocusDiagnostics` adapter and `BTKFocusOverlay` scaffold added).
 - [ ] Add Dear ImGui-style debug surfaces.
 
 ## Rule

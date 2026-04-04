@@ -15,10 +15,12 @@ The next natural step is to make that information easier to consume from future 
 ## Groundwork added
 ### Public QtGui surface
 - `<QtGui/BTKFocusDiagnostics>`
+- `<QtGui/BTKFocusOverlay>`
 
 ### Types
 - `BtkFocusDiagnosticsSnapshot`
 - `BtkFocusDiagnostics`
+- `BtkFocusOverlay`
 
 ## Current responsibilities
 ### `BtkFocusDiagnosticsSnapshot`
@@ -36,7 +38,7 @@ Provides static helpers to:
 - describe a widget tree path for debugging
 
 ## Why this is overlay groundwork rather than the final overlay
-This work does not yet draw UI. Instead, it creates a stable data/reporting surface that a future overlay can consume without embedding ad-hoc logic directly inside `QApplication` internals.
+This work now includes the first minimal visual overlay scaffold (`BtkFocusOverlay`), but the broader point still stands: BTK is separating diagnostic data collection from overlay rendering so future tooling does not need to embed ad-hoc logic directly inside `QApplication` internals.
 
 ## Intended future consumers
 - BTK debug HUD / overlay widgets

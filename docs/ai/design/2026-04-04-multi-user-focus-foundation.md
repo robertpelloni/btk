@@ -116,6 +116,14 @@ BTK now also exposes lightweight application-level diagnostics through `QApplica
 
 This creates the first developer-facing reporting surface for inspecting owner context, active tokens, and block decisions without yet requiring a custom debugger UI.
 
+### Owner-scoped popup restoration progress
+Popup stack behavior now prefers owner-local restoration:
+- `closePopup(...)` restores focus to the most recent popup belonging to the same BTK owner when available
+- fallback remains the global popup stack when no same-owner popup exists
+- `openPopup(...)` avoids forcing a `FocusOut` on an unrelated owner's focused widget when opening the first popup
+
+This is still conservative, but it is the first step toward replacing a purely global popup focus stack with owner-aware restoration semantics.
+
 ## Architectural Direction
 ```mermaid
 flowchart TD

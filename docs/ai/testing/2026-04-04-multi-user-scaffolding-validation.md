@@ -34,12 +34,15 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 4. Verify public header generation exposes the new BTK include wrappers correctly.
 5. Verify same-owner windows are not spuriously blocked by BTK-aware modal logic.
 6. Verify different-owner popup/modal requests are accepted or rejected according to installed focus tokens.
+7. Verify popup close restores same-owner popup focus before falling back to the global popup stack.
+8. Verify first-popup opening does not force focus-out on an unrelated owner by default.
 
 ## Smoke examples prepared
 - `docs/ai/testing/btk-multi-user-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-routing-smoke-example.cpp`
 - `docs/ai/testing/btk-modal-owner-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-diagnostics-smoke-example.cpp`
+- `docs/ai/testing/btk-popup-restoration-smoke-example.cpp`
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

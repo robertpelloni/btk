@@ -71,6 +71,9 @@ A first reporting surface now exists directly on `QApplication` through BTK diag
 ### Phase D - Event routing
 Route pointer, keyboard, shortcut, and touch behavior through BTK arbitration.
 
+#### Current progress
+Popup stack restoration is now partially owner-aware through `openPopup(...)` / `closePopup(...)`, reducing one more global-only focus assumption in the legacy GUI path.
+
 ## Strategic Finding
 The focus stack is too central to rewrite blindly. The safest path is:
 1. introduce BTK types

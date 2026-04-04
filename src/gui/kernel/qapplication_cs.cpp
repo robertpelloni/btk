@@ -994,6 +994,31 @@ bool btkOwnersMatch(const QWidget *lhs, const QWidget *rhs)
    return ! lhsOwnerId.isEmpty() && lhsOwnerId == rhsOwnerId;
 }
 
+bool btkOwnerMatchesId(const QWidget *widget, const QString &ownerId)
+{
+   return ! ownerId.isEmpty() && btkOwnerIdForWidget(widget) == ownerId;
+}
+
+QWidget *btkFindPopupForOwner(const QString &ownerId, const QWidget *exclude = nullptr)
+{
+   if (QApplicationPrivate::popupWidgets == nullptr || ownerId.isEmpty()) {
+      return nullptr;
+   }
+
+   for (int i = QApplicationPrivate::popupWidgets->count() - 1; i >= 0; --i) {
+      QWidget *candidate = QApplicationPrivate::popupWidgets->at(i);
+      if (candidate == nullptr || candidate == exclude) {
+         continue;
+      }
+
+      if (btkOwnerMatchesId(candidate, ownerId)) {
+         return candidate;
+      }
+   }
+
+   return nullptr;
+}
+
 QString btkDescribeWidget(const QWidget *widget)
 {
    if (widget == nullptr) {
@@ -3175,6 +3200,8 @@ void QApplicationPrivate::closePopup(QWidget *popup)
    if (!popupWidgets) {
       return;
    }
+
+   const QString popupOwnerId = btkOwnerIdForWidget(popup);
    popupWidgets->removeAll(popup);
 
    if (popup == qt_popup_down) {
@@ -3209,6 +3236,10 @@ void QApplicationPrivate::closePopup(QWidget *popup)
 
       if (active_window) {
          if (QWidget *fw = active_window->focusWidget()) {
+            if (! popupOwnerId.isEmpty() && ! btkOwnerMatchesId(fw, popupOwnerId)) {
+               return;
+            }
+
             if (fw != QApplication::focusWidget()) {
                fw->setFocus(Qt::PopupFocusReason);
 
@@ -3220,13 +3251,17 @@ void QApplicationPrivate::closePopup(QWidget *popup)
       }
 
    } else {
-      // A popup was closed, so the previous popup gets the focus.
-      QWidget *aw = QApplicationPrivate::popupWidgets->last();
-      if (QWidget *fw = aw->focusWidget()) {
+      // A popup was closed, so the previous popup for the same owner gets focus first.
+      QWidget *aw = btkFindPopupForOwner(popupOwnerId, popup);
+      if (aw == nullptr) {
+         aw = QApplicationPrivate::popupWidgets->last();
+      }
+
+      if (QWidget *fw = aw ? aw->focusWidget() : nullptr) {
          fw->setFocus(Qt::PopupFocusReason);
       }
 
-      if (QApplicationPrivate::popupWidgets->count() == 1) { // grab mouse/keyboard
+      if (QApplicationPrivate::popupWidgets->count() == 1 && aw) { // grab mouse/keyboard
          grabForPopup(aw);
       }
    }
@@ -3240,6 +3275,8 @@ void QApplicationPrivate::openPopup(QWidget *popup)
    if (!popupWidgets) { // create list
       popupWidgets = new QWidgetList;
    }
+
+   const QString popupOwnerId = btkOwnerIdForWidget(popup);
    popupWidgets->append(popup); // add to end of list
 
    if (QApplicationPrivate::popupWidgets->count() == 1) { // grab mouse/keyboard
@@ -3253,8 +3290,10 @@ void QApplicationPrivate::openPopup(QWidget *popup)
       popup->focusWidget()->setFocus(Qt::PopupFocusReason);
    } else if (popupWidgets->count() == 1) { // this was the first popup
       if (QWidget *fw = QApplication::focusWidget()) {
-         QFocusEvent e(QEvent::FocusOut, Qt::PopupFocusReason);
-         QApplication::sendEvent(fw, &e);
+         if (popupOwnerId.isEmpty() || btkOwnerMatchesId(fw, popupOwnerId)) {
+            QFocusEvent e(QEvent::FocusOut, Qt::PopupFocusReason);
+            QApplication::sendEvent(fw, &e);
+         }
       }
    }
 }

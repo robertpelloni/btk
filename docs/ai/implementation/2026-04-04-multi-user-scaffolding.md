@@ -41,10 +41,14 @@ Added to `QApplication`:
 The BTK owner model now also affects:
 - `QApplicationPrivate::tryModalHelper(...)`
 - `QApplicationPrivate::isWindowBlocked(...)`
+- `QApplicationPrivate::openPopup(...)`
+- `QApplicationPrivate::closePopup(...)`
 
 Current behavior:
 - popups can permit same-owner interactions without being treated as globally exclusive by default
 - modal widget windows do not automatically block other windows owned by the same BTK owner
+- popup restoration prefers the most recent popup belonging to the same BTK owner
+- opening a first popup no longer forces focus-out on an unrelated owner by default
 
 ## Intent
 This work does not yet alter the existing focus engine. It establishes BTK-native concepts for:
@@ -74,4 +78,4 @@ This session now threads BTK policy into three real paths in that file:
 - modal blocking checks via `isWindowBlocked(...)`
 
 ## Recommended next step
-Expand popup-stack restoration so `openPopup(...)` / `closePopup(...)` can become explicitly owner-scoped rather than only globally focus-scoped, and then surface these diagnostics in richer tooling overlays.
+Surface the owner-aware popup/modal state into richer tooling overlays and then continue refining popup-stack behavior for mixed-owner concurrent popup scenarios.

@@ -11,6 +11,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added a first narrow real integration point in `QApplicationPrivate::setFocusWidget(...)` driven by BTK focus-token arbitration.
 - Extended BTK ownership behavior into popup/modal gating paths.
 - Added owner-aware BTK diagnostic/reporting helpers on `QApplication`.
+- Extended popup stack restoration to prefer same-owner restoration semantics.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
@@ -24,5 +25,5 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 ## Immediate technical follow-up
 - Re-run validation in an environment with a usable C/C++ compiler so `find_package(BTK)` can be tested from a downstream sample.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
-- Extend popup stack restoration (`openPopup(...)` / `closePopup(...)`) so it becomes explicitly owner-scoped.
+- Surface BTK owner/focus diagnostics into richer developer tooling overlays and continue refining mixed-owner popup behavior.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.

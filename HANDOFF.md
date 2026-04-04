@@ -10,6 +10,7 @@
 - Added the first narrow real GUI integration in `QApplicationPrivate::setFocusWidget(...)` via BTK focus-token arbitration and widget owner/surface context helpers.
 - Extended BTK ownership integration into popup/modal gating through `tryModalHelper(...)` and `isWindowBlocked(...)`.
 - Added owner-aware diagnostic/reporting helpers on `QApplication` for focus tokens, widget owner context, popup/modal owners, and routing decisions.
+- Extended popup stack behavior so restoration now prefers same-owner popups and avoids forcing first-popup focus-out on unrelated owners by default.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.
@@ -23,7 +24,7 @@
 ## Recommended Next Steps
 1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
 2. Expand the public alias layer cautiously based on validation feedback.
-3. Extend popup stack restoration (`openPopup(...)` / `closePopup(...)`) so it can become explicitly owner-scoped.
+3. Surface BTK owner/focus diagnostics into richer developer tooling overlays and continue refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers

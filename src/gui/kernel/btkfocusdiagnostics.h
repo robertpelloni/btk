@@ -32,6 +32,7 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QStringList tokenSummaries;
    QStringList blockedRouteSummaries;
    QStringList blockerSummaries;
+   QStringList relationshipSummaries;
    QStringList lines;
 
    int popupCount() const {
@@ -52,6 +53,10 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
 
    int blockerCount() const {
       return blockerSummaries.size();
+   }
+
+   int relationshipCount() const {
+      return relationshipSummaries.size();
    }
 
    bool isEmpty() const;

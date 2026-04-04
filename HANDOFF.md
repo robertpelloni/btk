@@ -13,7 +13,8 @@
 - Extended popup stack behavior so restoration now prefers same-owner popups and avoids forcing first-popup focus-out on unrelated owners by default.
 - Added `BTKFocusDiagnostics` as a QtGui-level diagnostics adapter for future developer overlays and tooling.
 - Added `BTKFocusOverlay` as the first visual BTK focus/owner developer overlay scaffold.
-- Refined `BTKFocusOverlay` into a richer HUD pass with summary chips, structured sections, owner-group summaries, blocker-group summaries, popup-stack summaries, token summaries, blocked-route summaries, target-widget decision context, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
+- Refined `BTKFocusOverlay` into a richer HUD pass with summary chips, structured sections, owner-group summaries, blocker-group summaries, relationship digest summaries, popup-stack summaries, token summaries, blocked-route summaries, target-widget decision context, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
+- Refined `BTKFocusOverlay` further with a dedicated relationship panel, relationship-count summary chip, count-prioritized owner/blocker ordering, and relationship digest extraction in `BtkFocusDiagnosticsSnapshot`.
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and propagated it into BTK diagnostics/overlay tooling, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
@@ -39,7 +40,7 @@
 ## Recommended Next Steps
 1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
 2. Expand the public alias layer cautiously based on validation feedback.
-3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
+3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, relationship-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
@@ -50,4 +51,3 @@
 - Full repo-wide `Cs*` symbol migration.
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
-- Push to remote.

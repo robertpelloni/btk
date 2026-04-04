@@ -4,6 +4,8 @@
 #include <qhash.h>
 #include <qwidget.h>
 
+#include <algorithm>
+
 namespace {
 QString btkExtractField(const QString &line, const QString &fieldName)
 {
@@ -42,6 +44,35 @@ QString btkNormalizeBlockedRouteSummary(const QString &line)
       .arg(blockingOwner.isEmpty() ? QString("<none>") : blockingOwner)
       .arg(blockingSurface.isEmpty() ? QString("<none>") : blockingSurface);
 }
+
+QString btkNormalizeRelationshipSummary(const QString &label, const QString &leftName, const QString &leftValue,
+   const QString &rightName, const QString &rightValue)
+{
+   const QString normalizedLeft = leftValue.isEmpty() ? QString("<none>") : leftValue;
+   const QString normalizedRight = rightValue.isEmpty() ? QString("<none>") : rightValue;
+
+   return QString("%1 %2=%3 %4=%5 sameOwner=%6")
+      .arg(label)
+      .arg(leftName)
+      .arg(normalizedLeft)
+      .arg(rightName)
+      .arg(normalizedRight)
+      .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
+}
+
+void btkSortSummaryList(QStringList &summaries, const QString &countField)
+{
+   std::sort(summaries.begin(), summaries.end(), [&](const QString &left, const QString &right) {
+      const int leftCount = btkExtractField(left, countField).toInt();
+      const int rightCount = btkExtractField(right, countField).toInt();
+
+      if (leftCount != rightCount) {
+         return leftCount > rightCount;
+      }
+
+      return left < right;
+   });
+}
 }
 
 bool BtkFocusDiagnosticsSnapshot::isEmpty() const
@@ -53,6 +84,7 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && currentStateText.isEmpty() && popupStackSummaries.isEmpty()
       && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
       && blockedRouteSummaries.isEmpty() && blockerSummaries.isEmpty()
+      && relationshipSummaries.isEmpty()
       && lines.isEmpty();
 }
 
@@ -118,11 +150,22 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
    }
 
+   btkSortSummaryList(retval.ownerSummaries, QString("tokens"));
+   btkSortSummaryList(retval.blockerSummaries, QString("blockedRoutes"));
+
+   retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("focusVsPopup"),
+      QString("focusOwner"), retval.focusOwnerId, QString("popupOwner"), retval.activePopupOwnerId));
+   retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("popupVsModal"),
+      QString("popupOwner"), retval.activePopupOwnerId, QString("modalOwner"), retval.activeModalOwnerId));
+
    if (! retval.focusOwnerId.isEmpty()) {
       const QStringList focusOwnerPopups = QApplication::btkPopupStackDiagnostics(retval.focusOwnerId);
       if (! focusOwnerPopups.isEmpty()) {
          retval.popupStackSummaries.append(QString("focusOwnerPopupStack:"));
          retval.popupStackSummaries.append(focusOwnerPopups);
+         retval.relationshipSummaries.append(QString("focusOwnerPopupStack owner=%1 popups=%2")
+            .arg(retval.focusOwnerId)
+            .arg(focusOwnerPopups.size()));
       }
    }
 

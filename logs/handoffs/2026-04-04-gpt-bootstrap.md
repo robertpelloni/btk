@@ -14,7 +14,8 @@ This session established the first realistic groundwork for the user's very larg
 - Extended popup stack restoration to prefer same-owner restoration semantics.
 - Added `BTKFocusDiagnostics` as a reusable QtGui diagnostics adapter for future overlays.
 - Added `BTKFocusOverlay` as the first visual BTK overlay scaffold.
-- Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping, blocker grouping, popup-stack summaries, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
+- Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping, blocker grouping, relationship digest summaries, popup-stack summaries, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
+- Refined `BTKFocusOverlay` further with a dedicated relationship panel, relationship-count summary chip, count-prioritized owner/blocker ordering, and relationship digest extraction in `BtkFocusDiagnosticsSnapshot`.
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and wired it into the overlay diagnostics path, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
@@ -40,5 +41,5 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 ## Immediate technical follow-up
 - Re-run validation in an environment with a usable C/C++ compiler so `find_package(BTK)` can be tested from a downstream sample.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
-- Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
+- Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, relationship-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.

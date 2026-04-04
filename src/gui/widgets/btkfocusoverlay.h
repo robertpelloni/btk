@@ -21,13 +21,14 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    enum Panel {
       SummaryPanel = 0x0001,
       FocusPanel   = 0x0002,
-      OwnerPanel   = 0x0004,
-      PopupPanel   = 0x0008,
-      TokenPanel   = 0x0010,
-      TargetPanel  = 0x0020,
-      BlockedPanel = 0x0040,
-      RawPanel     = 0x0080,
-      AllPanels    = 0xFFFF
+      OwnerPanel        = 0x0004,
+      PopupPanel        = 0x0008,
+      TokenPanel        = 0x0010,
+      TargetPanel       = 0x0020,
+      BlockedPanel      = 0x0040,
+      RawPanel          = 0x0080,
+      RelationshipPanel = 0x0100,
+      AllPanels         = 0xFFFF
    };
 
    enum class PanelPreset {

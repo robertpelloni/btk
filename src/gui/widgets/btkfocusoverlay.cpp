@@ -49,17 +49,17 @@ QString btkPanelPresetToString(BtkFocusOverlay::PanelPreset preset)
 QColor btkOverlayAccentForLine(const QString &line)
 {
    if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))
-      || line.contains("blocker=") || line.contains("blockedRoutes=")) {
+      || line.contains("blocker=") || line.contains("blockedRoutes=") || line.contains("sameOwner=false")) {
       return QColor(255, 110, 110);
    }
 
    if (line.contains("decision=Transfer") || line.contains("OwnerExclusive") || line.contains("ApplicationExclusive")
-      || line.contains("SystemExclusive") || line.contains("WindowExclusive")) {
+      || line.contains("SystemExclusive") || line.contains("WindowExclusive") || line.contains("focusOwnerPopupStack")) {
       return QColor(255, 196, 92);
    }
 
    if (line.contains("decision=Share") || line.contains("activePopupOwner=") || line.contains("activeModalOwner=")
-      || (line.contains("owner=") && line.contains("tokens="))) {
+      || (line.contains("owner=") && line.contains("tokens=")) || line.contains("sameOwner=true")) {
       return QColor(90, 220, 160);
    }
 
@@ -222,10 +222,10 @@ void BtkFocusOverlay::setPanelPreset(PanelPreset preset)
          setVisiblePanels(SummaryPanel | FocusPanel | BlockedPanel);
          break;
       case PanelPreset::OwnerCentric:
-         setVisiblePanels(SummaryPanel | OwnerPanel | PopupPanel | TokenPanel | BlockedPanel);
+         setVisiblePanels(SummaryPanel | OwnerPanel | PopupPanel | RelationshipPanel | TokenPanel | BlockedPanel);
          break;
       case PanelPreset::Analysis:
-         setVisiblePanels(SummaryPanel | FocusPanel | OwnerPanel | PopupPanel | TokenPanel | TargetPanel | BlockedPanel);
+         setVisiblePanels(SummaryPanel | FocusPanel | OwnerPanel | PopupPanel | RelationshipPanel | TokenPanel | TargetPanel | BlockedPanel);
          break;
       case PanelPreset::Full:
          setVisiblePanels(AllPanels);
@@ -299,7 +299,7 @@ bool BtkFocusOverlay::shouldRenderPanel(Panel panel) const
       return true;
    }
 
-   return panel == SummaryPanel || panel == BlockedPanel || panel == TargetPanel;
+   return panel == SummaryPanel || panel == BlockedPanel || panel == TargetPanel || panel == RelationshipPanel;
 }
 
 QSize BtkFocusOverlay::sizeHint() const
@@ -312,6 +312,7 @@ QSize BtkFocusOverlay::sizeHint() const
    height += fm.height() + 12;
 
    if (shouldRenderPanel(SummaryPanel)) {
+      height += fm.height() + 18;
       height += fm.height() + 18;
       height += fm.height() + 18;
    }
@@ -338,6 +339,14 @@ QSize BtkFocusOverlay::sizeHint() const
       height += fm.height() + 6;
       for (const auto &popupSummary : m_snapshot.popupStackSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, popupSummary) + 8;
+      }
+      height += 4;
+   }
+
+   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+      height += fm.height() + 6;
+      for (const auto &relationship : m_snapshot.relationshipSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
       }
       height += 4;
    }
@@ -447,8 +456,12 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          btkPanelPresetToString(m_panelPreset),
          QColor(120, 150, 255, 210));
 
+      btkDrawChip(painter, left + 150, y, QString("relations"),
+         QString::number(m_snapshot.relationshipCount()),
+         m_snapshot.relationshipCount() > 0 ? QColor(162, 135, 255, 210) : QColor(90, 220, 160, 210));
+
       if (m_blockedRoutesOnly) {
-         btkDrawChip(painter, left + 150, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
+         btkDrawChip(painter, left + 290, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
       }
 
       y += painter.fontMetrics().height() + 18;
@@ -483,6 +496,13 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Popup Stack"));
       for (const auto &popupSummary : m_snapshot.popupStackSummaries) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, popupSummary, QColor(182, 193, 225));
+      }
+   }
+
+   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Relationships"));
+      for (const auto &relationship : m_snapshot.relationshipSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
       }
    }
 
@@ -570,6 +590,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("blockedCount=%1").arg(m_snapshot.blockedRouteCount()));
       lines.append(QString("popupCount=%1").arg(m_snapshot.popupCount()));
       lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
+      lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
    }
@@ -593,6 +614,11 @@ QString BtkFocusOverlay::buildDisplayText() const
    if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
       lines.append(QString("popupStack:"));
       lines.append(m_snapshot.popupStackSummaries);
+   }
+
+   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+      lines.append(QString("relationships:"));
+      lines.append(m_snapshot.relationshipSummaries);
    }
 
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {

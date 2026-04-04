@@ -1,10 +1,10 @@
 {
   "root": "C:\\Users\\hyper\\workspace\\btk",
   "brand_counts": {
-    "CopperSpice": 13471,
+    "CopperSpice": 13472,
     "copperspice": 336,
-    "BTK": 273,
-    "btk": 37
+    "BTK": 307,
+    "btk": 53
   },
   "cmake_library_targets": [
     "CsCore",

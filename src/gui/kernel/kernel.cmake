@@ -2,6 +2,7 @@ list(APPEND GUI_PUBLIC_INCLUDES
    QAction
    QActionGroup
    QApplication
+   BTKInputArbitrator
    QGuiApplication
    QClipboard
    QColorGroup
@@ -45,6 +46,7 @@ list(APPEND GUI_PUBLIC_INCLUDES
 )
 
 list(APPEND GUI_INCLUDES
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkinputarbitrator.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qaction.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qactiongroup.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qapplication.h
@@ -127,6 +129,7 @@ list(APPEND GUI_PRIVATE_INCLUDES
 
 target_sources(CsGui
    PRIVATE
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkinputarbitrator.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qaction.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qactiongroup.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qapplication.cpp

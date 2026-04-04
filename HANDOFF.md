@@ -6,9 +6,10 @@
 - Added `cmake/BTKConfig.cmake`, `cmake/BTKConfigVersion.cmake`, `cmake/BTKMacros.cmake`, and `cmake/BTKDeploy.cmake`.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
+- Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
-- Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, and a BTK package smoke example.
+- Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.
 
 ## Key Findings
 - Current BTK has a mature C++ runtime base but lacks a verified modern declarative/web runtime story.
@@ -17,9 +18,9 @@
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
 
 ## Recommended Next Steps
-1. Verify the new BTK CMake package path and first-wave public aliases with a minimal downstream build in an environment with a working compiler.
+1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
 2. Expand the public alias layer cautiously based on validation feedback.
-3. Start the multi-user focus/input ownership design in `src/core` and `src/gui`.
+3. Thread `BtkFocusToken` / `BtkInputArbitrator` into a very narrow slice of real GUI focus logic.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers

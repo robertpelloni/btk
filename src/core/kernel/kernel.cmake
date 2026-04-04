@@ -1,4 +1,6 @@
 list(APPEND CORE_PUBLIC_INCLUDES
+   BTKFocusToken
+   BTKInputOwner
    QAbstractEventDispatcher
    QAbstractItemModel
    QAbstractListModel
@@ -37,6 +39,8 @@ list(APPEND CORE_PUBLIC_INCLUDES
 )
 
 list(APPEND CORE_INCLUDES
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkfocustoken.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkinputowner.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstracteventdispatcher.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstractitemmodel.h
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstractlistmodel.h
@@ -109,6 +113,8 @@ list(APPEND CORE_PRIVATE_INCLUDES
 
 target_sources(CsCore
    PRIVATE
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkfocustoken.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/kernel/btkinputowner.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstracteventdispatcher.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstractitemmodel.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/kernel/qabstractnativeeventfilter.cpp

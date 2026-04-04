@@ -22,7 +22,8 @@
 - [ ] Add Qt 5/6/JavaFX/ImGui feature matrix.
 
 ## Phase 3 - Multiplayer Foundations
-- [ ] Introduce `InputOwner`, `FocusToken`, `SurfaceOwnershipPolicy`, and event arbitration primitives.
+- [x] Introduce first-wave `InputOwner`, `FocusToken`, and event arbitration primitives.
+- [ ] Add an explicit `SurfaceOwnershipPolicy` type and connect it to real window/widget routing.
 - [ ] Refactor modal semantics to owner-scoped modality.
 - [ ] Add tests for concurrent focus ownership.
 

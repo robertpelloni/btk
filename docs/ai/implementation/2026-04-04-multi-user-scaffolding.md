@@ -110,6 +110,7 @@ The popup model is also now threaded further into runtime behavior:
 - popup-aware wheel-event gating consults BTK popup allowance so same-owner widgets are not automatically treated like unrelated popup outsiders
 - popup-aware context-menu routing now uses the same BTK popup allowance logic
 - popup-aware mouse enter/leave receiver updates now avoid blindly tracking unrelated-owner widgets while a popup is active
+- popup-aware synthetic enter/leave generation now avoids blindly targeting unrelated-owner widgets while a popup is active
 
 ## Recommended next step
 Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool, especially around popup-stack ownership relationships and blocked-route inspection.

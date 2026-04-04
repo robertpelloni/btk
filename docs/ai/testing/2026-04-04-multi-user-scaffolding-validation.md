@@ -42,6 +42,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 9. Verify popup-aware wheel event gating allows same-owner routing while still blocking unrelated-owner routing when appropriate.
 10. Verify popup-aware context-menu routing allows same-owner routing while still blocking unrelated-owner routing when appropriate.
 11. Verify popup-aware mouse enter/leave receiver updates do not blindly promote unrelated-owner widgets while a popup is active.
+12. Verify popup-aware synthetic enter/leave generation does not blindly target unrelated-owner widgets while a popup is active.
 
 ## Smoke examples prepared
 - `docs/ai/testing/btk-multi-user-smoke-example.cpp`

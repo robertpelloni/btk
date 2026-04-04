@@ -2263,10 +2263,19 @@ void QApplicationPrivate::sendSyntheticEnterLeave(QWidget *widget)
    if (!widgetUnderCursor) {
       widgetUnderCursor = tlw;
    }
+
+   if (const QWidget *popup = QApplication::activePopupWidget()) {
+      if (! btkPopupAllowsWidget(popup, widgetUnderCursor)) {
+         widgetUnderCursor = const_cast<QWidget *>(popup);
+         windowPos = widgetUnderCursor->mapFromGlobal(globalPos);
+      }
+   }
+
    QPoint pos = widgetUnderCursor->mapFrom(tlw, windowPos);
 
-   if (widgetInShow && widgetUnderCursor != widget && !widget->isAncestorOf(widgetUnderCursor)) {
-      return;   // Mouse cursor not inside the widget or any of its children.
+   if (widgetInShow && widgetUnderCursor != widget && !widget->isAncestorOf(widgetUnderCursor)
+      && ! btkOwnersMatch(widget, widgetUnderCursor)) {
+      return;   // Mouse cursor not inside the widget, its children, or a same-owner sibling under BTK popup rules.
    }
 
    if (widget->m_widgetData->in_destructor && qt_button_down == widget) {

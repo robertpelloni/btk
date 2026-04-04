@@ -18,6 +18,7 @@
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware mouse enter/leave receiver tracking so unrelated-owner widgets are not blindly promoted while a popup is active.
+- Refined popup-aware synthetic enter/leave generation so unrelated-owner widgets are not blindly targeted while a popup is active.
 - Added focus/target popup-relationship summaries and popup-aware inspector-style HUD detail.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.

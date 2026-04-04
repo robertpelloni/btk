@@ -158,8 +158,9 @@ void BtkFocusOverlay::refreshDiagnostics()
    if (m_targetWidget) {
       const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
       if (targetDecision.contains("decision=Reject") || (targetDecision.contains("blockingOwner=") && ! targetDecision.contains("blockingOwner=<none>"))) {
-         if (! m_snapshot.blockedRouteSummaries.contains(targetDecision)) {
-            m_snapshot.blockedRouteSummaries.append(targetDecision);
+         const QString targetBlockedSummary = QString("target %1").arg(targetDecision);
+         if (! m_snapshot.blockedRouteSummaries.contains(targetBlockedSummary)) {
+            m_snapshot.blockedRouteSummaries.append(targetBlockedSummary);
          }
       }
    }
@@ -193,6 +194,31 @@ void BtkFocusOverlay::setVisiblePanels(PanelFlags panels)
 BtkFocusOverlay::PanelFlags BtkFocusOverlay::visiblePanels() const
 {
    return m_visiblePanels;
+}
+
+void BtkFocusOverlay::setPanelPreset(PanelPreset preset)
+{
+   m_panelPreset = preset;
+
+   switch (preset) {
+      case PanelPreset::Compact:
+         setVisiblePanels(SummaryPanel | FocusPanel | BlockedPanel);
+         break;
+      case PanelPreset::OwnerCentric:
+         setVisiblePanels(SummaryPanel | OwnerPanel | TokenPanel | BlockedPanel);
+         break;
+      case PanelPreset::Analysis:
+         setVisiblePanels(SummaryPanel | FocusPanel | OwnerPanel | TokenPanel | TargetPanel | BlockedPanel);
+         break;
+      case PanelPreset::Full:
+         setVisiblePanels(AllPanels);
+         break;
+   }
+}
+
+BtkFocusOverlay::PanelPreset BtkFocusOverlay::panelPreset() const
+{
+   return m_panelPreset;
 }
 
 void BtkFocusOverlay::setPanelVisible(Panel panel, bool visible)
@@ -317,6 +343,10 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          QString::number(m_refreshInterval) + QString("ms"),
          QColor(120, 150, 255, 210));
 
+      btkDrawChip(painter, left + 440, y, QString("blocked"),
+         QString::number(m_snapshot.blockedRouteCount()),
+         m_snapshot.blockedRouteCount() > 0 ? QColor(255, 110, 110, 210) : QColor(90, 220, 160, 210));
+
       y += painter.fontMetrics().height() + 18;
 
       btkDrawChip(painter, left, y, QString("focus owner"),
@@ -418,6 +448,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("activeModalOwner=%1").arg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
       lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
       lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
+      lines.append(QString("blockedCount=%1").arg(m_snapshot.blockedRouteCount()));
    }
 
    if (isPanelVisible(FocusPanel)) {

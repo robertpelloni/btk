@@ -28,11 +28,12 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - transparent-to-mouse overlay widget
 - auto-refreshing overlay surface
 - panel-based visibility control (`Summary`, `Focus`, `Owner`, `Token`, `Target`, `Blocked`, `Raw`)
-- summary chips for popup owner, modal owner, refresh cadence, focus owner, and focus surface
+- preset-oriented panel modes (`Compact`, `OwnerCentric`, `Analysis`, `Full`)
+- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, and blocked-route count
 - focus widget and path sections
 - owner-group summary section
 - token summary section with color-coded emphasis
-- blocked/exclusive route section
+- blocked/exclusive route section with more precise summaries
 - optional target widget section with decision summary
 - built directly on `BtkFocusDiagnostics`
 
@@ -41,6 +42,7 @@ The overlay has now moved beyond a plain text dump into a richer HUD pass with o
 
 ## Future directions
 - richer styling and layout refinement
+- interactive panel switching / controls
 - token tables / deeper color coding
 - per-owner cursor/focus panels
 - modal/popup block reason visualization

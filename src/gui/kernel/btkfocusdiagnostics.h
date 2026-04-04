@@ -30,6 +30,10 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QStringList blockedRouteSummaries;
    QStringList lines;
 
+   int blockedRouteCount() const {
+      return blockedRouteSummaries.size();
+   }
+
    bool isEmpty() const;
    QString toString() const;
 };

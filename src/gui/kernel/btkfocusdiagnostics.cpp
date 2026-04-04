@@ -4,6 +4,46 @@
 #include <qhash.h>
 #include <qwidget.h>
 
+namespace {
+QString btkExtractField(const QString &line, const QString &fieldName)
+{
+   const QString marker = fieldName + QString("=");
+   const int pos = line.indexOf(marker);
+
+   if (pos == -1) {
+      return QString();
+   }
+
+   const int valueStart = pos + marker.size();
+   int valueEnd = line.indexOf(' ', valueStart);
+   if (valueEnd == -1) {
+      valueEnd = line.size();
+   }
+
+   return line.mid(valueStart, valueEnd - valueStart).trimmed();
+}
+
+QString btkNormalizeBlockedRouteSummary(const QString &line)
+{
+   const QString reason = btkExtractField(line, QString("reason"));
+   const QString decision = btkExtractField(line, QString("decision"));
+   const QString resolvedOwner = btkExtractField(line, QString("resolvedOwner"));
+   const QString blockingOwner = btkExtractField(line, QString("blockingOwner"));
+   const QString blockingSurface = btkExtractField(line, QString("blockingSurface"));
+
+   if (reason.isEmpty() && decision.isEmpty() && blockingOwner.isEmpty()) {
+      return line;
+   }
+
+   return QString("reason=%1 decision=%2 targetOwner=%3 blocker=%4 blockerSurface=%5")
+      .arg(reason.isEmpty() ? QString("<none>") : reason)
+      .arg(decision.isEmpty() ? QString("<none>") : decision)
+      .arg(resolvedOwner.isEmpty() ? QString("<none>") : resolvedOwner)
+      .arg(blockingOwner.isEmpty() ? QString("<none>") : blockingOwner)
+      .arg(blockingSurface.isEmpty() ? QString("<none>") : blockingSurface);
+}
+}
+
 bool BtkFocusDiagnosticsSnapshot::isEmpty() const
 {
    return activePopupOwnerId.isEmpty() && activeModalOwnerId.isEmpty()
@@ -55,7 +95,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       }
 
       if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))) {
-         retval.blockedRouteSummaries.append(line);
+         retval.blockedRouteSummaries.append(btkNormalizeBlockedRouteSummary(line));
       }
    }
 

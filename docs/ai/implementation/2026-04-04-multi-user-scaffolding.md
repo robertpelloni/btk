@@ -98,6 +98,7 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - blocked-route summaries
 - optional target-widget context and decision reporting
 - panel-based visibility control for summary/focus/owner/token/target/blocked/raw sections
+- preset-oriented modes for compact, owner-centric, analysis, and full views
 
 ## Recommended next step
 Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.

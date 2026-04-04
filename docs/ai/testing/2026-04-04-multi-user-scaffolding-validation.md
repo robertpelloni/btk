@@ -21,6 +21,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `QApplication::btkActiveModalOwnerId()`
 - `QApplication::btkDescribeWidgetContext(...)`
 - `QApplication::btkDescribeFocusDecision(...)`
+- `QApplication::btkPopupStackDiagnostics()`
 - `QApplication::btkFocusDiagnostics()`
 - `QApplication::btkWouldBlockFocusChange(...)`
 - popup/modal owner-aware gating through `tryModalHelper(...)` / `isWindowBlocked(...)`
@@ -45,10 +46,11 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `docs/ai/testing/btk-modal-owner-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-diagnostics-smoke-example.cpp`
 - `docs/ai/testing/btk-popup-restoration-smoke-example.cpp`
+- `docs/ai/testing/btk-popup-stack-diagnostics-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-overlay-groundwork-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-overlay-visual-smoke-example.cpp`
 
-The overlay smoke path now exercises the richer HUD scaffold, including owner-group summaries, blocker-group summaries, preset-oriented panel modes, blocked-only filtering, and panel-based blocked-route visibility, rather than only a plain text rendering shell.
+The overlay smoke path now exercises the richer HUD scaffold, including popup-stack summaries, owner-group summaries, blocker-group summaries, preset-oriented panel modes, blocked-only filtering, and panel-based blocked-route visibility, rather than only a plain text rendering shell.
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

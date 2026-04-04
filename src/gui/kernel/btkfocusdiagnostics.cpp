@@ -49,9 +49,10 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
    return activePopupOwnerId.isEmpty() && activeModalOwnerId.isEmpty()
       && focusWidgetDescription.isEmpty() && focusWidgetPath.isEmpty()
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
-      && currentStateText.isEmpty() && ownerSummaries.isEmpty()
-      && tokenSummaries.isEmpty() && blockedRouteSummaries.isEmpty()
-      && blockerSummaries.isEmpty() && lines.isEmpty();
+      && currentStateText.isEmpty() && popupStackSummaries.isEmpty()
+      && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
+      && blockedRouteSummaries.isEmpty() && blockerSummaries.isEmpty()
+      && lines.isEmpty();
 }
 
 QString BtkFocusDiagnosticsSnapshot::toString() const
@@ -70,6 +71,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    retval.focusWidgetPath = describeWidgetTreePath(focusWidget);
    retval.focusOwnerId = QApplication::btkOwnerId(focusWidget);
    retval.focusSurfaceId = QApplication::btkSurfaceId(focusWidget);
+   retval.popupStackSummaries = QApplication::btkPopupStackDiagnostics();
    retval.lines = QApplication::btkFocusDiagnostics();
 
    QHash<QString, int> ownerCounts;

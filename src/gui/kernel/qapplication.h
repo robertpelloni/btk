@@ -151,6 +151,7 @@ class Q_GUI_EXPORT QApplication : public QCoreApplication
    static QString btkActiveModalOwnerId();
    static QString btkDescribeWidgetContext(const QWidget *widget);
    static QString btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
+   static QStringList btkPopupStackDiagnostics();
    static QStringList btkFocusDiagnostics();
    static bool btkWouldBlockFocusChange(QWidget *widget, Qt::FocusReason reason = Qt::OtherFocusReason);
 

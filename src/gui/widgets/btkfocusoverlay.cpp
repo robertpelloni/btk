@@ -222,10 +222,10 @@ void BtkFocusOverlay::setPanelPreset(PanelPreset preset)
          setVisiblePanels(SummaryPanel | FocusPanel | BlockedPanel);
          break;
       case PanelPreset::OwnerCentric:
-         setVisiblePanels(SummaryPanel | OwnerPanel | TokenPanel | BlockedPanel);
+         setVisiblePanels(SummaryPanel | OwnerPanel | PopupPanel | TokenPanel | BlockedPanel);
          break;
       case PanelPreset::Analysis:
-         setVisiblePanels(SummaryPanel | FocusPanel | OwnerPanel | TokenPanel | TargetPanel | BlockedPanel);
+         setVisiblePanels(SummaryPanel | FocusPanel | OwnerPanel | PopupPanel | TokenPanel | TargetPanel | BlockedPanel);
          break;
       case PanelPreset::Full:
          setVisiblePanels(AllPanels);
@@ -329,6 +329,14 @@ QSize BtkFocusOverlay::sizeHint() const
       }
       for (const auto &blockerSummary : m_snapshot.blockerSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, blockerSummary) + 8;
+      }
+      height += 4;
+   }
+
+   if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
+      height += fm.height() + 6;
+      for (const auto &popupSummary : m_snapshot.popupStackSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, popupSummary) + 8;
       }
       height += 4;
    }
@@ -455,6 +463,13 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       }
    }
 
+   if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Popup Stack"));
+      for (const auto &popupSummary : m_snapshot.popupStackSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, popupSummary, QColor(182, 193, 225));
+      }
+   }
+
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Active Focus Tokens"));
       for (const auto &token : m_snapshot.tokenSummaries) {
@@ -546,6 +561,11 @@ QString BtkFocusOverlay::buildDisplayText() const
    if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.blockerSummaries.isEmpty()) {
       lines.append(QString("blockerGroups:"));
       lines.append(m_snapshot.blockerSummaries);
+   }
+
+   if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
+      lines.append(QString("popupStack:"));
+      lines.append(m_snapshot.popupStackSummaries);
    }
 
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {

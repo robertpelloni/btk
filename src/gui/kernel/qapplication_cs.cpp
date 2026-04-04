@@ -999,6 +999,8 @@ bool btkOwnerMatchesId(const QWidget *widget, const QString &ownerId)
    return ! ownerId.isEmpty() && btkOwnerIdForWidget(widget) == ownerId;
 }
 
+QString btkDescribeWidget(const QWidget *widget);
+
 QWidget *btkFindPopupForOwner(const QString &ownerId, const QWidget *exclude = nullptr)
 {
    if (QApplicationPrivate::popupWidgets == nullptr || ownerId.isEmpty()) {
@@ -1017,6 +1019,22 @@ QWidget *btkFindPopupForOwner(const QString &ownerId, const QWidget *exclude = n
    }
 
    return nullptr;
+}
+
+QStringList btkPopupStackDescriptions()
+{
+   QStringList retval;
+
+   if (QApplicationPrivate::popupWidgets == nullptr) {
+      return retval;
+   }
+
+   for (int i = 0; i < QApplicationPrivate::popupWidgets->size(); ++i) {
+      QWidget *popup = QApplicationPrivate::popupWidgets->at(i);
+      retval.append(QString("popupIndex=%1 %2").arg(i).arg(btkDescribeWidget(popup)));
+   }
+
+   return retval;
 }
 
 QString btkDescribeWidget(const QWidget *widget)
@@ -1166,6 +1184,11 @@ QString QApplication::btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason 
       .arg(btkDescribeWidget(widget));
 }
 
+QStringList QApplication::btkPopupStackDiagnostics()
+{
+   return btkPopupStackDescriptions();
+}
+
 QStringList QApplication::btkFocusDiagnostics()
 {
    QStringList retval;
@@ -1174,6 +1197,13 @@ QStringList QApplication::btkFocusDiagnostics()
    retval.append(QString("activePopupOwner=%1").arg(btkActivePopupOwnerId().isEmpty() ? QString("<none>") : btkActivePopupOwnerId()));
    retval.append(QString("activeModalOwner=%1").arg(btkActiveModalOwnerId().isEmpty() ? QString("<none>") : btkActiveModalOwnerId()));
    retval.append(QString("focusWidget=%1").arg(btkDescribeWidget(QApplication::focusWidget())));
+
+   const QStringList popupDescriptions = btkPopupStackDescriptions();
+   if (popupDescriptions.isEmpty()) {
+      retval.append(QString("popupStack=<none>"));
+   } else {
+      retval.append(popupDescriptions);
+   }
 
    if (tokens.isEmpty()) {
       retval.append(QString("focusTokens=<none>"));
@@ -3255,6 +3285,9 @@ void QApplicationPrivate::closePopup(QWidget *popup)
       QWidget *aw = btkFindPopupForOwner(popupOwnerId, popup);
       if (aw == nullptr) {
          aw = QApplicationPrivate::popupWidgets->last();
+      } else if (QApplicationPrivate::popupWidgets->last() != aw) {
+         QApplicationPrivate::popupWidgets->removeAll(aw);
+         QApplicationPrivate::popupWidgets->append(aw);
       }
 
       if (QWidget *fw = aw ? aw->focusWidget() : nullptr) {

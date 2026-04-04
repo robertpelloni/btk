@@ -24,7 +24,7 @@ The next natural step is to make that information easier to consume from future 
 
 ### Progress level
 - `BTKFocusDiagnostics` provides the reusable structured reporting substrate
-- `BTKFocusOverlay` now provides a visual HUD pass with owner grouping, blocker grouping, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering over that substrate
+- `BTKFocusOverlay` now provides a visual HUD pass with owner grouping, blocker grouping, popup-stack summaries, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering over that substrate
 
 ## Current responsibilities
 ### `BtkFocusDiagnosticsSnapshot`
@@ -35,9 +35,14 @@ Carries structured snapshot data for:
 - focus widget path
 - focus owner id
 - focus surface id
+- popup-stack summaries
 - owner-group summaries
+- blocker-group summaries
 - token summaries
+- blocked-route summaries
 - raw diagnostic lines
+
+The popup-stack summaries now provide a clearer bridge between mixed-owner popup behavior and overlay inspection surfaces.
 
 ### `BtkFocusDiagnostics`
 Provides static helpers to:

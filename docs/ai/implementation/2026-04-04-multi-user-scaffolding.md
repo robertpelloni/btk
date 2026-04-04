@@ -93,14 +93,17 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - owner summary chips
 - focus widget and path sections
 - focus owner / focus surface summaries
+- popup-stack summaries
 - owner-group summaries derived from active tokens
 - blocker-group summaries derived from blocked routes
 - token summaries
 - blocked-route summaries
 - optional target-widget context and decision reporting
-- panel-based visibility control for summary/focus/owner/token/target/blocked/raw sections
+- panel-based visibility control for summary/focus/owner/popup/token/target/blocked/raw sections
 - preset-oriented modes for compact, owner-centric, analysis, and full views
 - blocked-only filtering and preset cycling support
+
+The popup stack is now part of the diagnostics substrate as well, which helps connect mixed-owner popup behavior to the overlay/tooling story.
 
 ## Recommended next step
 Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.

@@ -25,6 +25,8 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QString focusOwnerId;
    QString focusSurfaceId;
    QString currentStateText;
+   QString targetDecisionSummary;
+   QStringList popupStackSummaries;
    QStringList ownerSummaries;
    QStringList tokenSummaries;
    QStringList blockedRouteSummaries;

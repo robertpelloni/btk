@@ -22,10 +22,11 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
       SummaryPanel = 0x0001,
       FocusPanel   = 0x0002,
       OwnerPanel   = 0x0004,
-      TokenPanel   = 0x0008,
-      TargetPanel  = 0x0010,
-      BlockedPanel = 0x0020,
-      RawPanel     = 0x0040,
+      PopupPanel   = 0x0008,
+      TokenPanel   = 0x0010,
+      TargetPanel  = 0x0020,
+      BlockedPanel = 0x0040,
+      RawPanel     = 0x0080,
       AllPanels    = 0xFFFF
    };
 

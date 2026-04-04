@@ -10,5 +10,6 @@ int main(int argc, char **argv)
    QApplication::setBtkOwnerContext(&popup, "owner-popup", "surface-popup");
 
    const QStringList popupStack = QApplication::btkPopupStackDiagnostics();
-   return popupStack.size() < 0 ? 1 : 0;
+   const QStringList ownerPopupStack = QApplication::btkPopupStackDiagnostics("owner-popup");
+   return popupStack.size() < 0 || ownerPopupStack.size() < 0 ? 1 : 0;
 }

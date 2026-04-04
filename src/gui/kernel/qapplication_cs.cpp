@@ -1021,7 +1021,7 @@ QWidget *btkFindPopupForOwner(const QString &ownerId, const QWidget *exclude = n
    return nullptr;
 }
 
-QStringList btkPopupStackDescriptions()
+QStringList btkPopupStackDescriptions(const QString &ownerId = QString())
 {
    QStringList retval;
 
@@ -1031,6 +1031,10 @@ QStringList btkPopupStackDescriptions()
 
    for (int i = 0; i < QApplicationPrivate::popupWidgets->size(); ++i) {
       QWidget *popup = QApplicationPrivate::popupWidgets->at(i);
+      if (! ownerId.isEmpty() && ! btkOwnerMatchesId(popup, ownerId)) {
+         continue;
+      }
+
       retval.append(QString("popupIndex=%1 %2").arg(i).arg(btkDescribeWidget(popup)));
    }
 
@@ -1074,6 +1078,10 @@ bool btkPopupAllowsWidget(const QWidget *popup, QWidget *widget)
 
    const QString ownerId = btkOwnerIdForWidget(widget);
    if (ownerId.isEmpty()) {
+      return true;
+   }
+
+   if (btkFindPopupForOwner(ownerId) != nullptr) {
       return true;
    }
 
@@ -1184,9 +1192,9 @@ QString QApplication::btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason 
       .arg(btkDescribeWidget(widget));
 }
 
-QStringList QApplication::btkPopupStackDiagnostics()
+QStringList QApplication::btkPopupStackDiagnostics(const QString &ownerId)
 {
-   return btkPopupStackDescriptions();
+   return btkPopupStackDescriptions(ownerId);
 }
 
 QStringList QApplication::btkFocusDiagnostics()
@@ -1699,7 +1707,7 @@ void QApplicationPrivate::dispatchEnterLeave(QWidget *enter, QWidget *leave, con
          QApplication::sendEvent(w, &leaveEvent);
 
          if (w->testAttribute(Qt::WA_Hover) &&
-               (! QApplication::activePopupWidget() || QApplication::activePopupWidget() == w->window())) {
+               (! QApplication::activePopupWidget() || btkPopupAllowsWidget(QApplication::activePopupWidget(), w))) {
 
             Q_ASSERT(instance());
 
@@ -1726,7 +1734,7 @@ void QApplicationPrivate::dispatchEnterLeave(QWidget *enter, QWidget *leave, con
             QApplication::sendEvent(w, &enterEvent);
 
             if (w->testAttribute(Qt::WA_Hover) &&
-                  (! QApplication::activePopupWidget() || QApplication::activePopupWidget() == w->window())) {
+                  (! QApplication::activePopupWidget() || btkPopupAllowsWidget(QApplication::activePopupWidget(), w))) {
 
                QHoverEvent he(QEvent::HoverEnter, localPos, QPoint(-1, -1), QApplication::keyboardModifiers());
                qApp->d_func()->notify_helper(w, &he);
@@ -2624,7 +2632,7 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
                QPoint diff = relpos - w->mapFromGlobal(d->hoverGlobalPos);
                while (w) {
                   if (w->testAttribute(Qt::WA_Hover) &&
-                     (!QApplication::activePopupWidget() || QApplication::activePopupWidget() == w->window())) {
+                     (!QApplication::activePopupWidget() || btkPopupAllowsWidget(QApplication::activePopupWidget(), w))) {
                      QHoverEvent he(QEvent::HoverMove, relpos, relpos - diff, mouse->modifiers());
                      d->notify_helper(w, &he);
                   }
@@ -3157,7 +3165,7 @@ bool QApplicationPrivate::notify_helper(QObject *receiver, QEvent *e)
 
       // toggle HasMouse widget state on enter and leave
       if ((e->type() == QEvent::Enter || e->type() == QEvent::DragEnter) &&
-         (!QApplication::activePopupWidget() || QApplication::activePopupWidget() == widget->window())) {
+         (!QApplication::activePopupWidget() || btkPopupAllowsWidget(QApplication::activePopupWidget(), widget))) {
          widget->setAttribute(Qt::WA_UnderMouse, true);
 
       } else if (e->type() == QEvent::Leave || e->type() == QEvent::DragLeave) {

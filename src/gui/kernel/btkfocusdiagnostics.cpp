@@ -116,6 +116,14 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
    }
 
+   if (! retval.focusOwnerId.isEmpty()) {
+      const QStringList focusOwnerPopups = QApplication::btkPopupStackDiagnostics(retval.focusOwnerId);
+      if (! focusOwnerPopups.isEmpty()) {
+         retval.popupStackSummaries.append(QString("focusOwnerPopupStack:"));
+         retval.popupStackSummaries.append(focusOwnerPopups);
+      }
+   }
+
    retval.currentStateText = retval.toString();
    if (! retval.focusWidgetPath.isEmpty()) {
       retval.currentStateText += QString("\nfocusWidgetPath=%1").arg(retval.focusWidgetPath);

@@ -103,7 +103,7 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - preset-oriented modes for compact, owner-centric, analysis, and full views
 - blocked-only filtering and preset cycling support
 
-The popup stack is now part of the diagnostics substrate as well, which helps connect mixed-owner popup behavior to the overlay/tooling story.
+The popup stack is now part of the diagnostics substrate as well, including filtered focus-owner popup-stack views, which helps connect mixed-owner popup behavior to the overlay/tooling story.
 
 ## Recommended next step
 Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.

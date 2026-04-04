@@ -34,7 +34,7 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - focus widget and path sections
 - owner-group summary section
 - blocker-group summary section
-- popup-stack section
+- popup-stack section including focus-owner popup-stack context
 - token summary section with color-coded emphasis
 - blocked/exclusive route section with more precise summaries
 - optional target widget section with decision summary

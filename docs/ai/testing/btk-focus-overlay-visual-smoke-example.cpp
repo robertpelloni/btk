@@ -22,6 +22,7 @@ int main(int argc, char **argv)
    overlay.setPanelPreset(BtkFocusOverlay::PanelPreset::Analysis);
    overlay.cyclePanelPreset();
    overlay.setPanelPreset(BtkFocusOverlay::PanelPreset::Analysis);
+   overlay.setPanelVisible(BtkFocusOverlay::PopupPanel, true);
    overlay.setPanelVisible(BtkFocusOverlay::BlockedPanel, true);
    overlay.setBlockedRoutesOnly(true);
    overlay.refreshDiagnostics();
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
    return overlay.diagnosticsText().isEmpty()
       || overlay.snapshot().ownerSummaries.isEmpty()
       || overlay.panelPreset() != BtkFocusOverlay::PanelPreset::Analysis
+      || ! overlay.isPanelVisible(BtkFocusOverlay::PopupPanel)
       || ! overlay.isPanelVisible(BtkFocusOverlay::BlockedPanel)
       || ! overlay.blockedRoutesOnly() ? 1 : 0;
 }

@@ -14,7 +14,7 @@
 - Added `BTKFocusDiagnostics` as a QtGui-level diagnostics adapter for future developer overlays and tooling.
 - Added `BTKFocusOverlay` as the first visual BTK focus/owner developer overlay scaffold.
 - Refined `BTKFocusOverlay` into a richer HUD pass with summary chips, structured sections, owner-group summaries, blocker-group summaries, popup-stack summaries, token summaries, blocked-route summaries, target-widget decision context, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
-- Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and propagated it into BTK diagnostics/overlay tooling.
+- Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and propagated it into BTK diagnostics/overlay tooling, including filtered focus-owner popup-stack views.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.

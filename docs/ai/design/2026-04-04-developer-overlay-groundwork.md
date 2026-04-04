@@ -42,7 +42,7 @@ Carries structured snapshot data for:
 - blocked-route summaries
 - raw diagnostic lines
 
-The popup-stack summaries now provide a clearer bridge between mixed-owner popup behavior and overlay inspection surfaces.
+The popup-stack summaries now provide a clearer bridge between mixed-owner popup behavior and overlay inspection surfaces, including filtered focus-owner popup-stack views.
 
 ### `BtkFocusDiagnostics`
 Provides static helpers to:

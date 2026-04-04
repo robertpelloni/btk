@@ -15,7 +15,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added `BTKFocusDiagnostics` as a reusable QtGui diagnostics adapter for future overlays.
 - Added `BTKFocusOverlay` as the first visual BTK overlay scaffold.
 - Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping, blocker grouping, popup-stack summaries, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
-- Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and wired it into the overlay diagnostics path.
+- Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and wired it into the overlay diagnostics path, including filtered focus-owner popup-stack views.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.

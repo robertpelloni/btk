@@ -41,7 +41,8 @@ QColor btkOverlayAccentForLine(const QString &line)
       return QColor(255, 196, 92);
    }
 
-   if (line.contains("decision=Share") || line.contains("activePopupOwner=") || line.contains("activeModalOwner=")) {
+   if (line.contains("decision=Share") || line.contains("activePopupOwner=") || line.contains("activeModalOwner=")
+      || line.contains("owner=") && line.contains("tokens=")) {
       return QColor(90, 220, 160);
    }
 
@@ -178,10 +179,19 @@ QSize BtkFocusOverlay::sizeHint() const
    int height = 22;
    height += fm.height() + 12;
    height += fm.height() + 18;
+   height += fm.height() + 18;
 
    height += fm.height() + 6;
    height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusWidgetDescription) + 8;
    height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 12;
+
+   if (! m_snapshot.ownerSummaries.isEmpty()) {
+      height += fm.height() + 6;
+      for (const auto &ownerSummary : m_snapshot.ownerSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, ownerSummary) + 8;
+      }
+      height += 4;
+   }
 
    if (! m_snapshot.tokenSummaries.isEmpty()) {
       height += fm.height() + 6;
@@ -250,11 +260,28 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
 
    y += painter.fontMetrics().height() + 18;
 
+   btkDrawChip(painter, left, y, QString("focus owner"),
+      m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId,
+      QColor(120, 150, 255, 210));
+
+   btkDrawChip(painter, left + 260, y, QString("focus surface"),
+      m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId,
+      QColor(162, 135, 255, 210));
+
+   y += painter.fontMetrics().height() + 18;
+
    btkDrawSectionHeader(painter, left, y, contentWidth, QString("Focus Widget"));
    btkDrawWrappedBlock(painter, left, y, contentWidth, m_snapshot.focusWidgetDescription, btkOverlayValueColor());
    btkDrawWrappedBlock(painter, left, y, contentWidth,
       QString("path=%1").arg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
       QColor(182, 193, 225));
+
+   if (! m_snapshot.ownerSummaries.isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Owner Groups"));
+      for (const auto &ownerSummary : m_snapshot.ownerSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, ownerSummary, btkOverlayAccentForLine(ownerSummary));
+      }
+   }
 
    if (! m_snapshot.tokenSummaries.isEmpty()) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Active Focus Tokens"));
@@ -316,6 +343,13 @@ QString BtkFocusOverlay::buildDisplayText() const
    lines.append(QString("activeModalOwner=%1").arg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
    lines.append(QString("focusWidget=%1").arg(m_snapshot.focusWidgetDescription));
    lines.append(QString("focusWidgetPath=%1").arg(m_snapshot.focusWidgetPath));
+   lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
+   lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
+
+   if (! m_snapshot.ownerSummaries.isEmpty()) {
+      lines.append(QString("ownerGroups:"));
+      lines.append(m_snapshot.ownerSummaries);
+   }
 
    if (! m_snapshot.tokenSummaries.isEmpty()) {
       lines.append(QString("tokens:"));

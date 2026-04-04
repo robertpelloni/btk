@@ -89,9 +89,11 @@ A first minimal visual overlay widget now exists:
 - `src/gui/widgets/btkfocusoverlay.h`
 - `src/gui/widgets/btkfocusoverlay.cpp`
 
-This widget now goes beyond a raw text dump and provides a first structured HUD pass with:
+This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - owner summary chips
 - focus widget and path sections
+- focus owner / focus surface summaries
+- owner-group summaries derived from active tokens
 - token summaries
 - optional target-widget context and decision reporting
 

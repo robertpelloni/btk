@@ -22,7 +22,10 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QString activeModalOwnerId;
    QString focusWidgetDescription;
    QString focusWidgetPath;
+   QString focusOwnerId;
+   QString focusSurfaceId;
    QString currentStateText;
+   QStringList ownerSummaries;
    QStringList tokenSummaries;
    QStringList lines;
 

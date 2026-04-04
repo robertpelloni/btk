@@ -32,6 +32,10 @@ Carries structured snapshot data for:
 - active popup owner
 - active modal owner
 - focus widget description
+- focus widget path
+- focus owner id
+- focus surface id
+- owner-group summaries
 - token summaries
 - raw diagnostic lines
 

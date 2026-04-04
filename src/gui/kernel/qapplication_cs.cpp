@@ -904,6 +904,42 @@ QString btkSurfaceIdForWidget(const QWidget *widget)
    return QString();
 }
 
+bool btkOwnersMatch(const QWidget *lhs, const QWidget *rhs)
+{
+   if (lhs == nullptr || rhs == nullptr) {
+      return false;
+   }
+
+   const QString lhsOwnerId = btkOwnerIdForWidget(lhs);
+   const QString rhsOwnerId = btkOwnerIdForWidget(rhs);
+
+   return ! lhsOwnerId.isEmpty() && lhsOwnerId == rhsOwnerId;
+}
+
+bool btkPopupAllowsWidget(const QWidget *popup, QWidget *widget)
+{
+   if (popup == nullptr || widget == nullptr) {
+      return true;
+   }
+
+   if (popup == widget || popup == widget->window() || btkOwnersMatch(popup, widget)) {
+      return true;
+   }
+
+   const QString ownerId = btkOwnerIdForWidget(widget);
+   if (ownerId.isEmpty()) {
+      return true;
+   }
+
+   BtkInputRouteRequest request;
+   request.ownerId = ownerId;
+   request.surfaceId = btkSurfaceIdForWidget(widget);
+   request.kind = BtkInputRouteRequest::Kind::System;
+   request.reason = Qt::PopupFocusReason;
+
+   return QApplicationPrivate::btk_input_arbitrator.route(request).accepted();
+}
+
 BtkInputRouteResult btkRouteFocusRequest(QWidget *focus, Qt::FocusReason reason)
 {
    BtkInputRouteResult result;
@@ -1598,6 +1634,9 @@ bool QApplicationPrivate::isWindowBlocked(QWindow *window, QWindow **blockingWin
       return false;
    }
 
+   QWidgetWindow *widgetWindow = qobject_cast<QWidgetWindow *>(window);
+   QWidget *windowWidget = widgetWindow ? widgetWindow->widget() : nullptr;
+
    for (int i = 0; i < modalWindowList.count(); ++i) {
       QWindow *modalWindow = modalWindowList.at(i);
 
@@ -1632,6 +1671,11 @@ bool QApplicationPrivate::isWindowBlocked(QWindow *window, QWindow **blockingWin
 
       Qt::WindowModality windowModality = modalWindow->modality();
       QWidgetWindow *modalWidgetWindow = qobject_cast<QWidgetWindow *>(modalWindow);
+      QWidget *modalWidget = modalWidgetWindow ? modalWidgetWindow->widget() : nullptr;
+
+      if (windowWidget && modalWidget && btkOwnersMatch(windowWidget, modalWidget)) {
+         continue;
+      }
       if (windowModality == Qt::NonModal) {
          // determine the modality type if it hasn't been set on the
          // modalWindow's widget, this normally happens when waiting for a
@@ -1653,15 +1697,14 @@ bool QApplicationPrivate::isWindowBlocked(QWindow *window, QWindow **blockingWin
 
       switch (windowModality) {
          case Qt::ApplicationModal: {
-            QWidgetWindow *widgetWindow = qobject_cast<QWidgetWindow *>(window);
-            QWidget *groupLeaderForWidget = widgetWindow ? widgetWindow->widget() : nullptr;
+            QWidget *groupLeaderForWidget = windowWidget;
             while (groupLeaderForWidget && !groupLeaderForWidget->testAttribute(Qt::WA_GroupLeader)) {
                groupLeaderForWidget = groupLeaderForWidget->parentWidget();
             }
 
             if (groupLeaderForWidget) {
                // if widget has WA_GroupLeader, it can only be blocked by ApplicationModal children
-               QWidget *m = modalWidgetWindow ? modalWidgetWindow->widget() : nullptr;
+               QWidget *m = modalWidget;
 
                while (m && m != groupLeaderForWidget && ! m->testAttribute(Qt::WA_GroupLeader)) {
                   m = m->parentWidget();
@@ -1729,8 +1772,12 @@ bool QApplicationPrivate::tryModalHelper(QWidget *widget, QWidget **rettop)
       *rettop = top;
    }
 
-   // active popup widget always gets the input event
-   if (QApplication::activePopupWidget()) {
+   QWidget *popup = QApplication::activePopupWidget();
+   if (popup) {
+      return btkPopupAllowsWidget(popup, widget);
+   }
+
+   if (top && btkOwnersMatch(top, widget)) {
       return true;
    }
 

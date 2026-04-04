@@ -32,6 +32,15 @@ Added to `QApplication`:
 - `btkSurfaceId(...)`
 - `btkWouldBlockFocusChange(...)`
 
+### Popup/modal integration progress
+The BTK owner model now also affects:
+- `QApplicationPrivate::tryModalHelper(...)`
+- `QApplicationPrivate::isWindowBlocked(...)`
+
+Current behavior:
+- popups can permit same-owner interactions without being treated as globally exclusive by default
+- modal widget windows do not automatically block other windows owned by the same BTK owner
+
 ## Intent
 This work does not yet alter the existing focus engine. It establishes BTK-native concepts for:
 - user/session ownership
@@ -53,5 +62,11 @@ The current BTK/CopperSpice focus logic is tightly interwoven with widget, windo
 
 That file is the main future integration hotspot for owner-scoped multi-focus behavior.
 
+## Integration progress in hotspot
+This session now threads BTK policy into three real paths in that file:
+- direct focus changes via `setFocusWidget(...)`
+- popup/modal admission checks via `tryModalHelper(...)`
+- modal blocking checks via `isWindowBlocked(...)`
+
 ## Recommended next step
-Extend the new `QApplicationPrivate::setFocusWidget(...)` integration carefully into popup/modal ownership decisions so owner-exclusive modality can influence more than one focus handoff path.
+Add owner-aware diagnostics and expand popup-stack behavior so `openPopup(...)` / `closePopup(...)` restoration can become explicitly owner-scoped rather than only globally focus-scoped.

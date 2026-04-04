@@ -8,6 +8,7 @@
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
 - Added the first narrow real GUI integration in `QApplicationPrivate::setFocusWidget(...)` via BTK focus-token arbitration and widget owner/surface context helpers.
+- Extended BTK ownership integration into popup/modal gating through `tryModalHelper(...)` and `isWindowBlocked(...)`.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.
@@ -21,7 +22,7 @@
 ## Recommended Next Steps
 1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
 2. Expand the public alias layer cautiously based on validation feedback.
-3. Extend BTK focus-token arbitration from `setFocusWidget(...)` into popup/modal ownership paths.
+3. Add owner-aware diagnostics/debug reporting for focus tokens, popup ownership, and modal blocking.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers

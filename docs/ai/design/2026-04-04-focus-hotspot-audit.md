@@ -48,6 +48,13 @@ Teach modal and popup decisions to distinguish:
 - shared modality
 - owner-exclusive modality
 
+#### Current progress
+A first owner-aware integration now exists in two places:
+- `QApplicationPrivate::setFocusWidget(...)`
+- `QApplicationPrivate::tryModalHelper(...)` / modal blocking checks
+
+This means BTK policy now influences both direct focus changes and the first layer of popup/modal gating.
+
 ### Phase C - Focus reporting
 Expand accessibility and debug tooling to report:
 - active focus tokens

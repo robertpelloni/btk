@@ -9,6 +9,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added first-wave public C++ compatibility headers for BTK-branded aliases.
 - Added first-wave multi-user ownership/focus scaffolding in `src/core/kernel` and `src/gui/kernel`.
 - Added a first narrow real integration point in `QApplicationPrivate::setFocusWidget(...)` driven by BTK focus-token arbitration.
+- Extended BTK ownership behavior into popup/modal gating paths.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
@@ -22,5 +23,5 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 ## Immediate technical follow-up
 - Re-run validation in an environment with a usable C/C++ compiler so `find_package(BTK)` can be tested from a downstream sample.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
-- Extend BTK focus-token arbitration from `setFocusWidget(...)` into popup/modal ownership paths.
+- Add owner-aware diagnostics/debug reporting for focus tokens, popup ownership, and modal blocking.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.

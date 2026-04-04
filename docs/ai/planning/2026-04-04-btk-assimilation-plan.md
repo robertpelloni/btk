@@ -24,7 +24,7 @@
 ## Phase 3 - Multiplayer Foundations
 - [x] Introduce first-wave `InputOwner`, `FocusToken`, and event arbitration primitives.
 - [ ] Add an explicit `SurfaceOwnershipPolicy` type and connect it to real window/widget routing.
-- [ ] Refactor modal semantics to owner-scoped modality.
+- [~] Refactor modal semantics toward owner-scoped modality (initial `setFocusWidget(...)`, `tryModalHelper(...)`, and `isWindowBlocked(...)` integration added).
 - [ ] Add tests for concurrent focus ownership.
 
 ## Phase 4 - Declarative/UI Runtime

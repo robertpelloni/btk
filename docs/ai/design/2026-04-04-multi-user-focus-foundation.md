@@ -99,6 +99,13 @@ It currently works by:
 
 This is intentionally narrow and low-risk: it does not replace the full focus system, but it creates a real decision point where BTK policy can begin influencing legacy focus behavior.
 
+### Popup / modal ownership progress
+A second narrow integration now exists in popup/modal gating:
+- `QApplicationPrivate::tryModalHelper(...)` consults owner context for popup behavior
+- `QApplicationPrivate::isWindowBlocked(...)` now avoids blocking windows that belong to the same BTK owner as the modal widget
+
+This begins to shift modality from a purely global process assumption toward owner-aware behavior.
+
 ## Architectural Direction
 ```mermaid
 flowchart TD

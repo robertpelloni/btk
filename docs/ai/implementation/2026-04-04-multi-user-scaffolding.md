@@ -105,5 +105,7 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 
 The popup stack is now part of the diagnostics substrate as well, including filtered focus-owner popup-stack views, which helps connect mixed-owner popup behavior to the overlay/tooling story.
 
+The popup model is also now threaded one step further into runtime behavior: popup-aware wheel-event gating consults BTK popup allowance so same-owner widgets are not automatically treated like unrelated popup outsiders.
+
 ## Recommended next step
 Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.

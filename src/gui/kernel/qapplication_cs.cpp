@@ -2652,8 +2652,9 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
             QWidget *w = static_cast<QWidget *>(receiver);
 
             // QTBUG-40656, QTBUG-42731: ignore wheel events when a popup (QComboBox) is open.
+            // BTK refinement: allow wheel routing to continue for widgets owned by the same BTK owner.
             if (const QWidget *popup = QApplication::activePopupWidget()) {
-               if (w->window() != popup) {
+               if (! btkPopupAllowsWidget(popup, w)) {
                   return true;
                }
             }

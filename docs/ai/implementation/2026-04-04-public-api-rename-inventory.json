@@ -3,8 +3,8 @@
   "brand_counts": {
     "CopperSpice": 13472,
     "copperspice": 336,
-    "BTK": 371,
-    "btk": 295
+    "BTK": 376,
+    "btk": 296
   },
   "cmake_library_targets": [
     "CsCore",

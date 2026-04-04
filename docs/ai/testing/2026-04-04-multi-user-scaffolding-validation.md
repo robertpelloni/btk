@@ -39,6 +39,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 6. Verify different-owner popup/modal requests are accepted or rejected according to installed focus tokens.
 7. Verify popup close restores same-owner popup focus before falling back to the global popup stack.
 8. Verify first-popup opening does not force focus-out on an unrelated owner by default.
+9. Verify popup-aware wheel event gating allows same-owner routing while still blocking unrelated-owner routing when appropriate.
 
 ## Smoke examples prepared
 - `docs/ai/testing/btk-multi-user-smoke-example.cpp`

@@ -32,7 +32,7 @@ QColor btkOverlayValueColor()
 
 QColor btkOverlayAccentForLine(const QString &line)
 {
-   if (line.contains("decision=Reject") || line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>")) {
+   if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))) {
       return QColor(255, 110, 110);
    }
 
@@ -42,7 +42,7 @@ QColor btkOverlayAccentForLine(const QString &line)
    }
 
    if (line.contains("decision=Share") || line.contains("activePopupOwner=") || line.contains("activeModalOwner=")
-      || line.contains("owner=") && line.contains("tokens=")) {
+      || (line.contains("owner=") && line.contains("tokens="))) {
       return QColor(90, 220, 160);
    }
 
@@ -154,6 +154,16 @@ int BtkFocusOverlay::refreshInterval() const
 void BtkFocusOverlay::refreshDiagnostics()
 {
    m_snapshot = BtkFocusDiagnostics::snapshot();
+
+   if (m_targetWidget) {
+      const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      if (targetDecision.contains("decision=Reject") || (targetDecision.contains("blockingOwner=") && ! targetDecision.contains("blockingOwner=<none>"))) {
+         if (! m_snapshot.blockedRouteSummaries.contains(targetDecision)) {
+            m_snapshot.blockedRouteSummaries.append(targetDecision);
+         }
+      }
+   }
+
    m_diagnosticsText = buildDisplayText();
    resize(sizeHint());
    updateGeometry();
@@ -170,22 +180,60 @@ BtkFocusDiagnosticsSnapshot BtkFocusOverlay::snapshot() const
    return m_snapshot;
 }
 
+void BtkFocusOverlay::setVisiblePanels(PanelFlags panels)
+{
+   if (m_visiblePanels == panels) {
+      return;
+   }
+
+   m_visiblePanels = panels;
+   refreshDiagnostics();
+}
+
+BtkFocusOverlay::PanelFlags BtkFocusOverlay::visiblePanels() const
+{
+   return m_visiblePanels;
+}
+
+void BtkFocusOverlay::setPanelVisible(Panel panel, bool visible)
+{
+   PanelFlags panels = m_visiblePanels;
+
+   if (visible) {
+      panels |= panel;
+   } else {
+      panels &= ~PanelFlags(panel);
+   }
+
+   setVisiblePanels(panels);
+}
+
+bool BtkFocusOverlay::isPanelVisible(Panel panel) const
+{
+   return m_visiblePanels.testFlag(panel);
+}
+
 QSize BtkFocusOverlay::sizeHint() const
 {
-   const int width = 520;
+   const int width = 560;
    const int innerWidth = width - 28;
    const QFontMetrics fm(font());
 
    int height = 22;
    height += fm.height() + 12;
-   height += fm.height() + 18;
-   height += fm.height() + 18;
 
-   height += fm.height() + 6;
-   height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusWidgetDescription) + 8;
-   height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 12;
+   if (isPanelVisible(SummaryPanel)) {
+      height += fm.height() + 18;
+      height += fm.height() + 18;
+   }
 
-   if (! m_snapshot.ownerSummaries.isEmpty()) {
+   if (isPanelVisible(FocusPanel)) {
+      height += fm.height() + 6;
+      height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusWidgetDescription) + 8;
+      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 12;
+   }
+
+   if (isPanelVisible(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
       height += fm.height() + 6;
       for (const auto &ownerSummary : m_snapshot.ownerSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, ownerSummary) + 8;
@@ -193,7 +241,7 @@ QSize BtkFocusOverlay::sizeHint() const
       height += 4;
    }
 
-   if (! m_snapshot.tokenSummaries.isEmpty()) {
+   if (isPanelVisible(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
       height += fm.height() + 6;
       for (const auto &token : m_snapshot.tokenSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, token) + 8;
@@ -201,7 +249,7 @@ QSize BtkFocusOverlay::sizeHint() const
       height += 4;
    }
 
-   if (m_targetWidget) {
+   if (isPanelVisible(TargetPanel) && m_targetWidget) {
       const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
       const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
       const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
@@ -212,8 +260,18 @@ QSize BtkFocusOverlay::sizeHint() const
       height += btkWrappedTextHeight(fm, innerWidth, targetDecision) + 8;
    }
 
-   height += fm.height() + 6;
-   height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.currentStateText) + 16;
+   if (isPanelVisible(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
+      height += fm.height() + 6;
+      for (const auto &blocked : m_snapshot.blockedRouteSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, blocked) + 8;
+      }
+      height += 4;
+   }
+
+   if (isPanelVisible(RawPanel)) {
+      height += fm.height() + 6;
+      height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.currentStateText) + 16;
+   }
 
    return QSize(width, qMax(220, height));
 }
@@ -246,65 +304,80 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
    bodyFont.setBold(false);
    painter.setFont(bodyFont);
 
-   btkDrawChip(painter, left, y, QString("popup owner"),
-      m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId,
-      QColor(90, 220, 160, 210));
+   if (isPanelVisible(SummaryPanel)) {
+      btkDrawChip(painter, left, y, QString("popup owner"),
+         m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId,
+         QColor(90, 220, 160, 210));
 
-   btkDrawChip(painter, left + 170, y, QString("modal owner"),
-      m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId,
-      QColor(255, 196, 92, 210));
+      btkDrawChip(painter, left + 170, y, QString("modal owner"),
+         m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId,
+         QColor(255, 196, 92, 210));
 
-   btkDrawChip(painter, left + 340, y, QString("refresh"),
-      QString::number(m_refreshInterval) + QString("ms"),
-      QColor(120, 150, 255, 210));
+      btkDrawChip(painter, left + 340, y, QString("refresh"),
+         QString::number(m_refreshInterval) + QString("ms"),
+         QColor(120, 150, 255, 210));
 
-   y += painter.fontMetrics().height() + 18;
+      y += painter.fontMetrics().height() + 18;
 
-   btkDrawChip(painter, left, y, QString("focus owner"),
-      m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId,
-      QColor(120, 150, 255, 210));
+      btkDrawChip(painter, left, y, QString("focus owner"),
+         m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId,
+         QColor(120, 150, 255, 210));
 
-   btkDrawChip(painter, left + 260, y, QString("focus surface"),
-      m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId,
-      QColor(162, 135, 255, 210));
+      btkDrawChip(painter, left + 260, y, QString("focus surface"),
+         m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId,
+         QColor(162, 135, 255, 210));
 
-   y += painter.fontMetrics().height() + 18;
+      y += painter.fontMetrics().height() + 18;
+   }
 
-   btkDrawSectionHeader(painter, left, y, contentWidth, QString("Focus Widget"));
-   btkDrawWrappedBlock(painter, left, y, contentWidth, m_snapshot.focusWidgetDescription, btkOverlayValueColor());
-   btkDrawWrappedBlock(painter, left, y, contentWidth,
-      QString("path=%1").arg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
-      QColor(182, 193, 225));
+   if (isPanelVisible(FocusPanel)) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Focus Widget"));
+      btkDrawWrappedBlock(painter, left, y, contentWidth, m_snapshot.focusWidgetDescription, btkOverlayValueColor());
+      btkDrawWrappedBlock(painter, left, y, contentWidth,
+         QString("path=%1").arg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
+         QColor(182, 193, 225));
+   }
 
-   if (! m_snapshot.ownerSummaries.isEmpty()) {
+   if (isPanelVisible(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Owner Groups"));
       for (const auto &ownerSummary : m_snapshot.ownerSummaries) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, ownerSummary, btkOverlayAccentForLine(ownerSummary));
       }
    }
 
-   if (! m_snapshot.tokenSummaries.isEmpty()) {
+   if (isPanelVisible(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Active Focus Tokens"));
       for (const auto &token : m_snapshot.tokenSummaries) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, token, btkOverlayAccentForLine(token));
       }
    }
 
-   if (m_targetWidget) {
+   if (isPanelVisible(TargetPanel) && m_targetWidget) {
+      const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
+      const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
+      const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Target Widget"));
+      btkDrawWrappedBlock(painter, left, y, contentWidth, targetContext, btkOverlayValueColor());
       btkDrawWrappedBlock(painter, left, y, contentWidth,
-         QApplication::btkDescribeWidgetContext(m_targetWidget), btkOverlayValueColor());
+         QString("path=%1").arg(targetPath), QColor(182, 193, 225));
       btkDrawWrappedBlock(painter, left, y, contentWidth,
-         QString("path=%1").arg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)), QColor(182, 193, 225));
-      btkDrawWrappedBlock(painter, left, y, contentWidth,
-         QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason),
-         btkOverlayAccentForLine(QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason)));
+         targetDecision, btkOverlayAccentForLine(targetDecision));
    }
 
-   btkDrawSectionHeader(painter, left, y, contentWidth, QString("Current Diagnostics"));
-   btkDrawWrappedBlock(painter, left, y, contentWidth,
-      m_snapshot.currentStateText.isEmpty() ? QString("<none>") : m_snapshot.currentStateText,
-      QColor(205, 214, 235));
+   if (isPanelVisible(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Blocked / Exclusive Routes"));
+      for (const auto &blocked : m_snapshot.blockedRouteSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, blocked, btkOverlayAccentForLine(blocked));
+      }
+   }
+
+   if (isPanelVisible(RawPanel)) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Current Diagnostics"));
+      btkDrawWrappedBlock(painter, left, y, contentWidth,
+         m_snapshot.currentStateText.isEmpty() ? QString("<none>") : m_snapshot.currentStateText,
+         QColor(205, 214, 235));
+   }
 }
 
 void BtkFocusOverlay::showEvent(QShowEvent *event)
@@ -339,31 +412,44 @@ QString BtkFocusOverlay::buildDisplayText() const
 {
    QStringList lines;
    lines.append(QString("BTK Focus HUD"));
-   lines.append(QString("activePopupOwner=%1").arg(m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId));
-   lines.append(QString("activeModalOwner=%1").arg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
-   lines.append(QString("focusWidget=%1").arg(m_snapshot.focusWidgetDescription));
-   lines.append(QString("focusWidgetPath=%1").arg(m_snapshot.focusWidgetPath));
-   lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
-   lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
 
-   if (! m_snapshot.ownerSummaries.isEmpty()) {
+   if (isPanelVisible(SummaryPanel)) {
+      lines.append(QString("activePopupOwner=%1").arg(m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId));
+      lines.append(QString("activeModalOwner=%1").arg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
+      lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
+      lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
+   }
+
+   if (isPanelVisible(FocusPanel)) {
+      lines.append(QString("focusWidget=%1").arg(m_snapshot.focusWidgetDescription));
+      lines.append(QString("focusWidgetPath=%1").arg(m_snapshot.focusWidgetPath));
+   }
+
+   if (isPanelVisible(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
       lines.append(QString("ownerGroups:"));
       lines.append(m_snapshot.ownerSummaries);
    }
 
-   if (! m_snapshot.tokenSummaries.isEmpty()) {
+   if (isPanelVisible(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
       lines.append(QString("tokens:"));
       lines.append(m_snapshot.tokenSummaries);
    }
 
-   if (m_targetWidget) {
+   if (isPanelVisible(TargetPanel) && m_targetWidget) {
       lines.append(QString("targetWidget=%1").arg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)));
       lines.append(QString("targetContext=%1").arg(QApplication::btkDescribeWidgetContext(m_targetWidget)));
       lines.append(QString("targetDecision=%1").arg(QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason)));
    }
 
-   lines.append(QString("currentState:"));
-   lines.append(m_snapshot.currentStateText);
+   if (isPanelVisible(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
+      lines.append(QString("blockedRoutes:"));
+      lines.append(m_snapshot.blockedRouteSummaries);
+   }
+
+   if (isPanelVisible(RawPanel)) {
+      lines.append(QString("currentState:"));
+      lines.append(m_snapshot.currentStateText);
+   }
 
    return lines.join('\n');
 }

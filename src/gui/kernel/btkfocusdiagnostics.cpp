@@ -10,7 +10,8 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && focusWidgetDescription.isEmpty() && focusWidgetPath.isEmpty()
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
       && currentStateText.isEmpty() && ownerSummaries.isEmpty()
-      && tokenSummaries.isEmpty() && lines.isEmpty();
+      && tokenSummaries.isEmpty() && blockedRouteSummaries.isEmpty()
+      && lines.isEmpty();
 }
 
 QString BtkFocusDiagnosticsSnapshot::toString() const
@@ -51,6 +52,10 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
                ownerCounts[ownerId] += 1;
             }
          }
+      }
+
+      if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))) {
+         retval.blockedRouteSummaries.append(line);
       }
    }
 

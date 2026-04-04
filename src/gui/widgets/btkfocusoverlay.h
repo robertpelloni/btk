@@ -10,6 +10,7 @@
 #define BTK_FOCUS_OVERLAY_H
 
 #include <btkfocusdiagnostics.h>
+#include <qflags.h>
 #include <qwidget.h>
 
 class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
@@ -17,6 +18,19 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    GUI_CS_OBJECT(BtkFocusOverlay)
 
  public:
+   enum Panel {
+      SummaryPanel = 0x0001,
+      FocusPanel   = 0x0002,
+      OwnerPanel   = 0x0004,
+      TokenPanel   = 0x0008,
+      TargetPanel  = 0x0010,
+      BlockedPanel = 0x0020,
+      RawPanel     = 0x0040,
+      AllPanels    = 0xFFFF
+   };
+
+   Q_DECLARE_FLAGS(PanelFlags, Panel)
+
    explicit BtkFocusOverlay(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::ToolTip);
 
    BtkFocusOverlay(const BtkFocusOverlay &) = delete;
@@ -37,6 +51,11 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    QString diagnosticsText() const;
    BtkFocusDiagnosticsSnapshot snapshot() const;
 
+   void setVisiblePanels(PanelFlags panels);
+   PanelFlags visiblePanels() const;
+   void setPanelVisible(Panel panel, bool visible);
+   bool isPanelVisible(Panel panel) const;
+
    QSize sizeHint() const override;
 
  protected:
@@ -54,6 +73,9 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    int m_refreshInterval = 250;
    int m_timerId = 0;
    bool m_autoRefreshEnabled = true;
+   PanelFlags m_visiblePanels = AllPanels;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(BtkFocusOverlay::PanelFlags)
 
 #endif

@@ -14,7 +14,7 @@ This session established the first realistic groundwork for the user's very larg
 - Extended popup stack restoration to prefer same-owner restoration semantics.
 - Added `BTKFocusDiagnostics` as a reusable QtGui diagnostics adapter for future overlays.
 - Added `BTKFocusOverlay` as the first visual BTK overlay scaffold.
-- Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping.
+- Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping, blocked-route summaries, and panel-based visibility control.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
@@ -28,5 +28,5 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 ## Immediate technical follow-up
 - Re-run validation in an environment with a usable C/C++ compiler so `find_package(BTK)` can be tested from a downstream sample.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
-- Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer multi-panel developer tool with stronger owner grouping and blocked-route visualization, while refining mixed-owner popup behavior.
+- Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer multi-panel developer tool with deeper panel interaction, stronger owner grouping, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.

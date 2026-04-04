@@ -27,6 +27,7 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QString currentStateText;
    QStringList ownerSummaries;
    QStringList tokenSummaries;
+   QStringList blockedRouteSummaries;
    QStringList lines;
 
    bool isEmpty() const;

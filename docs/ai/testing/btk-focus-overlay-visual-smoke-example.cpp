@@ -19,7 +19,11 @@ int main(int argc, char **argv)
    BtkFocusOverlay overlay;
    overlay.setTargetWidget(&widget);
    overlay.setAutoRefreshEnabled(false);
+   overlay.setVisiblePanels(BtkFocusOverlay::SummaryPanel | BtkFocusOverlay::OwnerPanel
+      | BtkFocusOverlay::TokenPanel | BtkFocusOverlay::TargetPanel | BtkFocusOverlay::BlockedPanel);
    overlay.refreshDiagnostics();
 
-   return overlay.diagnosticsText().isEmpty() || overlay.snapshot().ownerSummaries.isEmpty() ? 1 : 0;
+   return overlay.diagnosticsText().isEmpty()
+      || overlay.snapshot().ownerSummaries.isEmpty()
+      || ! overlay.isPanelVisible(BtkFocusOverlay::BlockedPanel) ? 1 : 0;
 }

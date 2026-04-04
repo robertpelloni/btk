@@ -64,6 +64,9 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    bool isPanelVisible(Panel panel) const;
    void setPanelPreset(PanelPreset preset);
    PanelPreset panelPreset() const;
+   void cyclePanelPreset();
+   void setBlockedRoutesOnly(bool enabled);
+   bool blockedRoutesOnly() const;
 
    QSize sizeHint() const override;
 
@@ -75,6 +78,7 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
  private:
    void updateTimer();
    QString buildDisplayText() const;
+   bool shouldRenderPanel(Panel panel) const;
 
    QWidget *m_targetWidget = nullptr;
    BtkFocusDiagnosticsSnapshot m_snapshot;
@@ -82,6 +86,7 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    int m_refreshInterval = 250;
    int m_timerId = 0;
    bool m_autoRefreshEnabled = true;
+   bool m_blockedRoutesOnly = false;
    PanelFlags m_visiblePanels = AllPanels;
    PanelPreset m_panelPreset = PanelPreset::Full;
 };

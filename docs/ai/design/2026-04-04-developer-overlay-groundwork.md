@@ -24,7 +24,7 @@ The next natural step is to make that information easier to consume from future 
 
 ### Progress level
 - `BTKFocusDiagnostics` provides the reusable structured reporting substrate
-- `BTKFocusOverlay` now provides a visual HUD pass with owner grouping, blocked-route summaries, panel-based visibility control, and preset-oriented panel modes over that substrate
+- `BTKFocusOverlay` now provides a visual HUD pass with owner grouping, blocker grouping, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering over that substrate
 
 ## Current responsibilities
 ### `BtkFocusDiagnosticsSnapshot`

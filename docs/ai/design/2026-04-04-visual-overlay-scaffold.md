@@ -29,9 +29,11 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - auto-refreshing overlay surface
 - panel-based visibility control (`Summary`, `Focus`, `Owner`, `Token`, `Target`, `Blocked`, `Raw`)
 - preset-oriented panel modes (`Compact`, `OwnerCentric`, `Analysis`, `Full`)
-- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, and blocked-route count
+- preset cycling support and blocked-only filtering mode
+- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, blocked-route count, and preset/mode state
 - focus widget and path sections
 - owner-group summary section
+- blocker-group summary section
 - token summary section with color-coded emphasis
 - blocked/exclusive route section with more precise summaries
 - optional target widget section with decision summary
@@ -43,6 +45,7 @@ The overlay has now moved beyond a plain text dump into a richer HUD pass with o
 ## Future directions
 - richer styling and layout refinement
 - interactive panel switching / controls
+- click-driven or shortcut-driven panel interaction
 - token tables / deeper color coding
 - per-owner cursor/focus panels
 - modal/popup block reason visualization

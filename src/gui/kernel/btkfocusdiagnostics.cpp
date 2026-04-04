@@ -51,7 +51,7 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
       && currentStateText.isEmpty() && ownerSummaries.isEmpty()
       && tokenSummaries.isEmpty() && blockedRouteSummaries.isEmpty()
-      && lines.isEmpty();
+      && blockerSummaries.isEmpty() && lines.isEmpty();
 }
 
 QString BtkFocusDiagnosticsSnapshot::toString() const
@@ -73,6 +73,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    retval.lines = QApplication::btkFocusDiagnostics();
 
    QHash<QString, int> ownerCounts;
+   QHash<QString, int> blockerCounts;
 
    for (const QString &line : retval.lines) {
       if (line.startsWith("token=")) {
@@ -95,12 +96,22 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       }
 
       if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))) {
-         retval.blockedRouteSummaries.append(btkNormalizeBlockedRouteSummary(line));
+         const QString normalized = btkNormalizeBlockedRouteSummary(line);
+         retval.blockedRouteSummaries.append(normalized);
+
+         const QString blocker = btkExtractField(normalized, QString("blocker"));
+         if (! blocker.isEmpty() && blocker != QString("<none>")) {
+            blockerCounts[blocker] += 1;
+         }
       }
    }
 
    for (auto iter = ownerCounts.cbegin(); iter != ownerCounts.cend(); ++iter) {
       retval.ownerSummaries.append(QString("owner=%1 tokens=%2").arg(iter.key()).arg(iter.value()));
+   }
+
+   for (auto iter = blockerCounts.cbegin(); iter != blockerCounts.cend(); ++iter) {
+      retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
    }
 
    retval.currentStateText = retval.toString();

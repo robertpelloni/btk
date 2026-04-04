@@ -28,10 +28,15 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QStringList ownerSummaries;
    QStringList tokenSummaries;
    QStringList blockedRouteSummaries;
+   QStringList blockerSummaries;
    QStringList lines;
 
    int blockedRouteCount() const {
       return blockedRouteSummaries.size();
+   }
+
+   int blockerCount() const {
+      return blockerSummaries.size();
    }
 
    bool isEmpty() const;

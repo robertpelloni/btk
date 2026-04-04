@@ -2142,7 +2142,10 @@ bool QApplicationPrivate::sendMouseEvent(QWidget *receiver, QMouseEvent *event, 
       if ((alienWidget && alienWidget != lastMouseReceiver) || (isAlien(lastMouseReceiver) && !alienWidget)) {
          if (activePopupWidget) {
             if (! QWidget::mouseGrabber()) {
-               dispatchEnterLeave(alienWidget ? alienWidget : nativeWidget, lastMouseReceiver, event->screenPos());
+               QWidget *popupCandidate = alienWidget ? alienWidget : nativeWidget;
+               if (btkPopupAllowsWidget(activePopupWidget, popupCandidate)) {
+                  dispatchEnterLeave(popupCandidate, lastMouseReceiver, event->screenPos());
+               }
             }
 
          } else {
@@ -2184,6 +2187,10 @@ bool QApplicationPrivate::sendMouseEvent(QWidget *receiver, QMouseEvent *event, 
          enter = QApplication::widgetAt(event->globalPos());
       }
 
+      if (activePopupWidget && enter && ! btkPopupAllowsWidget(activePopupWidget, enter)) {
+         enter = activePopupWidget;
+      }
+
       dispatchEnterLeave(enter, leaveAfterRelease, event->screenPos());
       leaveAfterRelease = nullptr;
       lastMouseReceiver = enter;
@@ -2191,7 +2198,12 @@ bool QApplicationPrivate::sendMouseEvent(QWidget *receiver, QMouseEvent *event, 
    } else if (!wasLeaveAfterRelease) {
       if (activePopupWidget) {
          if (!QWidget::mouseGrabber()) {
-            lastMouseReceiver = alienGuard ? alienWidget : (nativeGuard ? nativeWidget : nullptr);
+            QWidget *popupCandidate = alienGuard ? alienWidget : (nativeGuard ? nativeWidget : nullptr);
+            if (popupCandidate && btkPopupAllowsWidget(activePopupWidget, popupCandidate)) {
+               lastMouseReceiver = popupCandidate;
+            } else {
+               lastMouseReceiver = activePopupWidget;
+            }
          }
       } else {
          lastMouseReceiver = receiverGuard ? receiver : QApplication::widgetAt(event->globalPos());

@@ -18,6 +18,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and wired it into the overlay diagnostics path, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
+- Refined popup-aware mouse enter/leave receiver tracking so unrelated-owner widgets are not blindly promoted while a popup is active.
 - Added focus/target popup-relationship summaries and popup-aware inspector-style HUD detail.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.

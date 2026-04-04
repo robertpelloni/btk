@@ -110,4 +110,4 @@ The popup model is also now threaded further into runtime behavior:
 - popup-aware context-menu routing now uses the same BTK popup allowance logic
 
 ## Recommended next step
-Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool.
+Continue improving mixed-owner concurrent popup behavior and deepen the overlay from a lightweight HUD into a more inspectable multi-panel developer tool, especially around popup-stack ownership relationships and blocked-route inspection.

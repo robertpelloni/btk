@@ -43,7 +43,9 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 ## Current assessment
 The overlay has now moved beyond a plain text dump into a richer HUD pass with owner grouping, blocker grouping, popup-stack inspection, blocked-route visualization, and stronger panel behavior. It is still intentionally lightweight, but it already demonstrates the shape of a future BTK developer experience: runtime state transformed into a readable, always-on-top tool surface.
 
-The surrounding runtime also continues to become less globally single-owner: popup-aware wheel-event gating now consults BTK owner-aware popup allowance rather than only comparing the active popup window directly.
+The surrounding runtime also continues to become less globally single-owner:
+- popup-aware wheel-event gating now consults BTK owner-aware popup allowance rather than only comparing the active popup window directly
+- popup-aware context-menu routing now follows the same BTK popup allowance model
 
 ## Future directions
 - richer styling and layout refinement

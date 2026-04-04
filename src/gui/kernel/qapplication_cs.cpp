@@ -2906,6 +2906,12 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::DragEnter: {
             QWidget *w = static_cast<QWidget *>(receiver);
             QDragEnterEvent *dragEvent = static_cast<QDragEnterEvent *>(e);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
 #ifndef QT_NO_GRAPHICSVIEW
             // QGraphicsProxyWidget handles its own propagation,
             // and we must not change QDragManagers currentTarget.
@@ -2935,6 +2941,12 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
          case QEvent::Drop:
          case QEvent::DragLeave: {
             QWidget *w = static_cast<QWidget *>(receiver);
+
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
 #ifndef QT_NO_GRAPHICSVIEW
             // QGraphicsProxyWidget handles its own propagation,
             // and we must not change QDragManagers currentTarget.

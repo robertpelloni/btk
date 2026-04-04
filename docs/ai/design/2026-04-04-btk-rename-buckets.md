@@ -19,6 +19,13 @@ These are public but can likely be migrated with compatibility aliases or wrappe
 - include-path convenience wrappers for BTK-branded umbrella headers
 - developer-facing examples and downstream build templates
 
+### Status
+A first wave of this bucket is now implemented through:
+- `<QtCore/BTKCore>`
+- `<QtCore/BTKString>`
+- `<QtCore/BTKPointer>`
+- `<QtCore/BTKSignal>`
+
 ### Recommended approach
 - add tiny, targeted `using` aliases or forwarding headers
 - do not mass-rename headers yet

@@ -5,6 +5,7 @@
 - Rebranded the root CMake project/package metadata to BTK.
 - Added `cmake/BTKConfig.cmake`, `cmake/BTKConfigVersion.cmake`, `cmake/BTKMacros.cmake`, and `cmake/BTKDeploy.cmake`.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
+- Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, and a BTK package smoke example.
@@ -16,8 +17,8 @@
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
 
 ## Recommended Next Steps
-1. Use the generated inventory to choose a small first wave of safe public C++ `Btk*` aliases.
-2. Verify the new BTK CMake package path with a minimal configure and downstream sample.
+1. Verify the new BTK CMake package path and first-wave public aliases with a minimal downstream build in an environment with a working compiler.
+2. Expand the public alias layer cautiously based on validation feedback.
 3. Start the multi-user focus/input ownership design in `src/core` and `src/gui`.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 

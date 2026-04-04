@@ -3,8 +3,8 @@
   "brand_counts": {
     "CopperSpice": 13471,
     "copperspice": 336,
-    "BTK": 238,
-    "btk": 25
+    "BTK": 273,
+    "btk": 37
   },
   "cmake_library_targets": [
     "CsCore",
@@ -231,23 +231,23 @@
   "top_cs_symbols": [
     {
       "symbol": "CsBasicString",
-      "references": 583,
-      "files": 5
+      "references": 584,
+      "files": 6
     },
     {
       "symbol": "CsString",
-      "references": 554,
-      "files": 21
+      "references": 569,
+      "files": 23
     },
     {
       "symbol": "CsSignal",
-      "references": 196,
-      "files": 30
+      "references": 204,
+      "files": 32
     },
     {
       "symbol": "CsBasicStringView",
-      "references": 175,
-      "files": 4
+      "references": 176,
+      "files": 5
     },
     {
       "symbol": "CsCore",
@@ -256,13 +256,13 @@
     },
     {
       "symbol": "CsString_utf16",
-      "references": 152,
-      "files": 4
+      "references": 153,
+      "files": 5
     },
     {
       "symbol": "CsChar",
-      "references": 141,
-      "files": 6
+      "references": 142,
+      "files": 7
     },
     {
       "symbol": "CsGui",
@@ -271,18 +271,18 @@
     },
     {
       "symbol": "CsPointer",
-      "references": 89,
-      "files": 15
+      "references": 99,
+      "files": 17
     },
     {
       "symbol": "CsSharedPointer",
-      "references": 83,
-      "files": 7
+      "references": 84,
+      "files": 8
     },
     {
       "symbol": "CsStringIterator",
-      "references": 67,
-      "files": 3
+      "references": 68,
+      "files": 4
     },
     {
       "symbol": "CsNetwork",
@@ -296,13 +296,13 @@
     },
     {
       "symbol": "CsWeakPointer",
-      "references": 39,
-      "files": 5
+      "references": 40,
+      "files": 6
     },
     {
       "symbol": "CsUniquePointer",
-      "references": 34,
-      "files": 5
+      "references": 35,
+      "files": 6
     },
     {
       "symbol": "CsXmlPatterns",
@@ -320,14 +320,14 @@
       "files": 7
     },
     {
+      "symbol": "CsSharedArrayPointer",
+      "references": 27,
+      "files": 5
+    },
+    {
       "symbol": "CsXml",
       "references": 26,
       "files": 11
-    },
-    {
-      "symbol": "CsSharedArrayPointer",
-      "references": 26,
-      "files": 4
     },
     {
       "symbol": "CsVulkan",
@@ -375,6 +375,11 @@
       "files": 4
     },
     {
+      "symbol": "CsUniqueArrayPointer",
+      "references": 19,
+      "files": 5
+    },
+    {
       "symbol": "CsSqlMySql",
       "references": 18,
       "files": 3
@@ -383,11 +388,6 @@
       "symbol": "CsImageFormatsSvg",
       "references": 18,
       "files": 3
-    },
-    {
-      "symbol": "CsUniqueArrayPointer",
-      "references": 18,
-      "files": 4
     },
     {
       "symbol": "CsGuiCocoa",
@@ -431,8 +431,8 @@
     }
   ],
   "cs_token_count_by_top_dir": {
-    "src": 2945,
-    "docs": 163,
+    "src": 2991,
+    "docs": 166,
     "cmake": 99,
     "test": 61,
     "CMakeLists.txt": 34,

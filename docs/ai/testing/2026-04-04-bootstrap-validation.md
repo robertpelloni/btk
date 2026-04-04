@@ -20,6 +20,7 @@ This session changed repository structure, CMake packaging metadata, and documen
 
 ## Additional Verified Checks
 - `python scripts/generate_btk_api_inventory.py` completed successfully and generated both Markdown and JSON inventory artifacts.
+- A downstream smoke example was prepared that consumes `<QtCore/BTKCore>` and uses `BtkString` plus `BtkSharedPointer` aliases.
 
 ## Required Follow-Up Tests
 - `cmake -S . -B build-min -DWITH_GUI=OFF -DWITH_MULTIMEDIA=OFF -DWITH_NETWORK=OFF -DWITH_OPENGL=OFF -DWITH_SQL=OFF -DWITH_SVG=OFF -DWITH_VULKAN=OFF -DWITH_WEBKIT=OFF -DWITH_XMLPATTERNS=OFF`

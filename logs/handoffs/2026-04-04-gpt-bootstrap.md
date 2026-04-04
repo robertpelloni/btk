@@ -6,6 +6,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added submodules for JUCE, Ultimate++, and BobUI reference.
 - Added BTK-branded CMake package wrappers and helper wrapper files.
 - Added BTK alias targets in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
+- Added first-wave public C++ compatibility headers for BTK-branded aliases.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
@@ -18,6 +19,6 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 
 ## Immediate technical follow-up
 - Re-run validation in an environment with a usable C/C++ compiler so `find_package(BTK)` can be tested from a downstream sample.
-- Use the generated rename inventory to pick a tiny first wave of safe public C++ aliases.
+- Validate the first-wave BTK public C++ aliases with a real downstream build in a compiler-ready environment.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.
 - Define the first concrete multiplayer ownership types.

@@ -25,6 +25,20 @@ These are compatibility aliases over the existing exported `CopperSpice::Cs*` ta
 - `btk_copy_library(...)` forwards to `cs_copy_library(...)`
 - `btk_copy_plugins(...)` forwards to `cs_copy_plugins(...)`
 
+### First-wave public C++ alias headers
+- `src/core/global/btkcore.h`
+- `src/core/global/btkstring.h`
+- `src/core/global/btkpointer.h`
+- `src/core/global/btksignal.h`
+
+These are exported through the QtCore include surface via:
+- `<QtCore/BTKCore>`
+- `<QtCore/BTKString>`
+- `<QtCore/BTKPointer>`
+- `<QtCore/BTKSignal>`
+
+They provide a small, compatibility-first public alias layer for selected `CsString`, `CsPointer`, and `CsSignal` types without changing ABI.
+
 ## Why this matters
 This creates a safe migration path:
 1. downstreams can begin writing BTK-branded CMake today
@@ -33,9 +47,9 @@ This creates a safe migration path:
 
 ## What this does NOT do
 - It does not rename ABI symbols.
-- It does not rename headers or source files.
+- It does not rename most headers or source files.
 - It does not remove `CopperSpice::Cs*` compatibility.
-- It does not yet add `Btk*` C++ type aliases across the public headers.
+- It only adds a small first-wave of `Btk*` C++ aliases; it does not yet cover the broader public API.
 
 ## Recommended next implementation step
 Use the generated rename inventory to introduce carefully-scoped public header aliases for the safest high-value API surfaces first.

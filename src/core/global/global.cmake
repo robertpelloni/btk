@@ -1,4 +1,8 @@
 list(APPEND CORE_PUBLIC_INCLUDES
+   BTKCore
+   BTKPointer
+   BTKSignal
+   BTKString
    Q_INT16
    Q_INT32
    Q_INT64
@@ -22,6 +26,10 @@ list(APPEND CORE_PUBLIC_INCLUDES
 )
 
 list(APPEND CORE_INCLUDES
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkcore.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkpointer.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btksignal.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkstring.h
    ${CMAKE_CURRENT_SOURCE_DIR}/global/q_int16.h
    ${CMAKE_CURRENT_SOURCE_DIR}/global/q_int32.h
    ${CMAKE_CURRENT_SOURCE_DIR}/global/q_int64.h

@@ -11,7 +11,8 @@
 - [x] Classify major rename pressure into safe alias, risky rename, and ABI-sensitive buckets at the planning level.
 - [x] Introduce `Btk*` / `BTK::*` compatibility aliases for top-level library targets and package helpers.
 - [ ] Add automated checks preventing mixed/accidental naming regressions.
-- [ ] Add selected public C++ header/type aliases where risk is low and value is high.
+- [x] Add a first wave of selected public C++ header/type aliases where risk is low and value is high.
+- [ ] Expand the public alias layer cautiously based on downstream validation.
 
 ## Phase 2 - Gap Audit
 - [ ] Produce subsystem-by-subsystem inventory for current BTK.

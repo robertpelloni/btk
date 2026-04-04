@@ -33,6 +33,18 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QStringList blockerSummaries;
    QStringList lines;
 
+   int popupCount() const {
+      return popupStackSummaries.size();
+   }
+
+   int ownerCount() const {
+      return ownerSummaries.size();
+   }
+
+   int tokenCount() const {
+      return tokenSummaries.size();
+   }
+
    int blockedRouteCount() const {
       return blockedRouteSummaries.size();
    }

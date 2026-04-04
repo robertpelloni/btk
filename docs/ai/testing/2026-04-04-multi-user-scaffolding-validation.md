@@ -40,6 +40,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 7. Verify popup close restores same-owner popup focus before falling back to the global popup stack.
 8. Verify first-popup opening does not force focus-out on an unrelated owner by default.
 9. Verify popup-aware wheel event gating allows same-owner routing while still blocking unrelated-owner routing when appropriate.
+10. Verify popup-aware context-menu routing allows same-owner routing while still blocking unrelated-owner routing when appropriate.
 
 ## Smoke examples prepared
 - `docs/ai/testing/btk-multi-user-smoke-example.cpp`

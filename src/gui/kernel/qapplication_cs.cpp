@@ -2767,6 +2767,12 @@ bool QApplication::notify(QObject *receiver, QEvent *e)
             QPoint relpos = context->pos();
             bool eventAccepted = context->isAccepted();
 
+            if (const QWidget *popup = QApplication::activePopupWidget()) {
+               if (! btkPopupAllowsWidget(popup, w)) {
+                  return true;
+               }
+            }
+
             while (w) {
                QContextMenuEvent ce(context->reason(), relpos, context->globalPos(), context->modifiers());
                ce.spont = e->spontaneous();

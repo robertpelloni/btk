@@ -430,12 +430,22 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId,
          QColor(162, 135, 255, 210));
 
-      btkDrawChip(painter, left + 390, y, QString("preset"),
+      btkDrawChip(painter, left + 360, y, QString("popups"),
+         QString::number(m_snapshot.popupCount()),
+         QColor(120, 150, 255, 210));
+
+      btkDrawChip(painter, left + 455, y, QString("blockers"),
+         QString::number(m_snapshot.blockerCount()),
+         m_snapshot.blockerCount() > 0 ? QColor(255, 196, 92, 210) : QColor(90, 220, 160, 210));
+
+      y += painter.fontMetrics().height() + 18;
+
+      btkDrawChip(painter, left, y, QString("preset"),
          btkPanelPresetToString(m_panelPreset),
          QColor(120, 150, 255, 210));
 
       if (m_blockedRoutesOnly) {
-         btkDrawChip(painter, left + 495, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
+         btkDrawChip(painter, left + 150, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
       }
 
       y += painter.fontMetrics().height() + 18;
@@ -544,6 +554,8 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
       lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
       lines.append(QString("blockedCount=%1").arg(m_snapshot.blockedRouteCount()));
+      lines.append(QString("popupCount=%1").arg(m_snapshot.popupCount()));
+      lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
    }

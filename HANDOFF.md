@@ -16,6 +16,7 @@
 - Refined `BTKFocusOverlay` into a richer HUD pass with summary chips, structured sections, owner-group summaries, blocker-group summaries, popup-stack summaries, token summaries, blocked-route summaries, target-widget decision context, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and propagated it into BTK diagnostics/overlay tooling, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
+- Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
 - Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.

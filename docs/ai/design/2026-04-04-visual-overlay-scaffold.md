@@ -30,7 +30,7 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - panel-based visibility control (`Summary`, `Focus`, `Owner`, `Popup`, `Token`, `Target`, `Blocked`, `Raw`)
 - preset-oriented panel modes (`Compact`, `OwnerCentric`, `Analysis`, `Full`)
 - preset cycling support and blocked-only filtering mode
-- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, blocked-route count, and preset/mode state
+- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, popup count, blocker count, blocked-route count, and preset/mode state
 - focus widget and path sections
 - owner-group summary section
 - blocker-group summary section
@@ -52,4 +52,5 @@ The surrounding runtime also continues to become less globally single-owner: pop
 - token tables / deeper color coding
 - per-owner cursor/focus panels
 - modal/popup block reason visualization
+- owner-scoped context-menu and additional popup-sensitive event routing refinements
 - integration with immediate-mode debug surfaces

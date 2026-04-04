@@ -17,6 +17,7 @@ This session established the first realistic groundwork for the user's very larg
 - Refined `BTKFocusOverlay` into a richer HUD-style diagnostic surface with owner grouping, blocker grouping, popup-stack summaries, blocked-route summaries, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and wired it into the overlay diagnostics path, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
+- Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.

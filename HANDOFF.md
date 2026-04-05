@@ -14,7 +14,7 @@
 - Added `BTKFocusDiagnostics` as a QtGui-level diagnostics adapter for future developer overlays and tooling.
 - Added `BTKFocusOverlay` as the first visual BTK focus/owner developer overlay scaffold.
 - Refined `BTKFocusOverlay` into a richer HUD pass with summary chips, structured sections, owner-group summaries, blocker-group summaries, relationship digest summaries, popup-stack summaries, token summaries, blocked-route summaries, target-widget decision context, panel-based visibility control, preset-oriented panel modes, and blocked-only filtering.
-- Refined `BTKFocusOverlay` further with a dedicated relationship panel, relationship-count summary chip, count-prioritized owner/blocker ordering, and relationship digest extraction in `BtkFocusDiagnosticsSnapshot`.
+- Refined `BTKFocusOverlay` further with a dedicated relationship panel, relationship-count summary chip, count-prioritized owner/blocker ordering, relationship digest extraction in `BtkFocusDiagnosticsSnapshot`, and target-aware relationship digests/decision summaries.
 - Added popup-stack diagnostics exposure through `QApplication::btkPopupStackDiagnostics()` and propagated it into BTK diagnostics/overlay tooling, including filtered focus-owner popup-stack views.
 - Refined popup-aware wheel-event gating so same-owner widgets can continue routing under BTK popup allowance rules.
 - Refined popup-aware context-menu routing so same-owner widgets can continue routing under BTK popup allowance rules.

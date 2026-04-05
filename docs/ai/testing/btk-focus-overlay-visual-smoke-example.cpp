@@ -31,6 +31,8 @@ int main(int argc, char **argv)
    return overlay.diagnosticsText().isEmpty()
       || overlay.snapshot().ownerSummaries.isEmpty()
       || overlay.snapshot().relationshipSummaries.isEmpty()
+      || overlay.targetRelationshipDigests().isEmpty()
+      || overlay.targetDecisionSummary().isEmpty()
       || overlay.panelPreset() != BtkFocusOverlay::PanelPreset::Analysis
       || ! overlay.isPanelVisible(BtkFocusOverlay::PopupPanel)
       || ! overlay.isPanelVisible(BtkFocusOverlay::RelationshipPanel)

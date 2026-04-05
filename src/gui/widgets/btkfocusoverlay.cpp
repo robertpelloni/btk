@@ -66,6 +66,21 @@ QColor btkOverlayAccentForLine(const QString &line)
    return QColor(170, 186, 220);
 }
 
+QString btkNormalizeOverlayRelationship(const QString &label, const QString &leftName, const QString &leftValue,
+   const QString &rightName, const QString &rightValue)
+{
+   const QString normalizedLeft = leftValue.isEmpty() ? QString("<none>") : leftValue;
+   const QString normalizedRight = rightValue.isEmpty() ? QString("<none>") : rightValue;
+
+   return QString("%1 %2=%3 %4=%5 sameOwner=%6")
+      .arg(label)
+      .arg(leftName)
+      .arg(normalizedLeft)
+      .arg(rightName)
+      .arg(normalizedRight)
+      .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
+}
+
 int btkWrappedTextHeight(const QFontMetrics &fm, int width, const QString &text)
 {
    if (text.isEmpty()) {
@@ -171,11 +186,13 @@ int BtkFocusOverlay::refreshInterval() const
 void BtkFocusOverlay::refreshDiagnostics()
 {
    m_snapshot = BtkFocusDiagnostics::snapshot();
+   m_snapshot.targetDecisionSummary.clear();
 
    if (m_targetWidget) {
-      const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
-      if (targetDecision.contains("decision=Reject") || (targetDecision.contains("blockingOwner=") && ! targetDecision.contains("blockingOwner=<none>"))) {
-         const QString targetBlockedSummary = QString("target %1").arg(targetDecision);
+      m_snapshot.targetDecisionSummary = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      if (m_snapshot.targetDecisionSummary.contains("decision=Reject")
+         || (m_snapshot.targetDecisionSummary.contains("blockingOwner=") && ! m_snapshot.targetDecisionSummary.contains("blockingOwner=<none>"))) {
+         const QString targetBlockedSummary = QString("target %1").arg(m_snapshot.targetDecisionSummary);
          if (! m_snapshot.blockedRouteSummaries.contains(targetBlockedSummary)) {
             m_snapshot.blockedRouteSummaries.append(targetBlockedSummary);
          }
@@ -343,9 +360,13 @@ QSize BtkFocusOverlay::sizeHint() const
       height += 4;
    }
 
-   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+   if (shouldRenderPanel(RelationshipPanel)
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
       height += fm.height() + 6;
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
+      }
+      for (const auto &relationship : targetRelationshipDigests()) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
       }
       height += 4;
@@ -362,7 +383,7 @@ QSize BtkFocusOverlay::sizeHint() const
    if (shouldRenderPanel(TargetPanel) && m_targetWidget) {
       const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
       const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
-      const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      const QString targetDecision = targetDecisionSummary();
       const QString targetRelationship = targetRelationshipSummary();
 
       height += fm.height() + 6;
@@ -499,9 +520,13 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       }
    }
 
-   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+   if (shouldRenderPanel(RelationshipPanel)
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Relationships"));
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
+      }
+      for (const auto &relationship : targetRelationshipDigests()) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
       }
    }
@@ -516,7 +541,7 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
    if (shouldRenderPanel(TargetPanel) && m_targetWidget) {
       const QString targetContext = QApplication::btkDescribeWidgetContext(m_targetWidget);
       const QString targetPath = BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget);
-      const QString targetDecision = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
+      const QString targetDecision = targetDecisionSummary();
       const QString targetRelationship = targetRelationshipSummary();
 
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Target Widget"));
@@ -577,6 +602,33 @@ QString BtkFocusOverlay::targetRelationshipSummary() const
    return m_targetWidget ? QApplication::btkDescribePopupRelationship(m_targetWidget) : QString();
 }
 
+QStringList BtkFocusOverlay::targetRelationshipDigests() const
+{
+   if (! m_targetWidget) {
+      return QStringList();
+   }
+
+   const QString targetOwner = QApplication::btkOwnerId(m_targetWidget);
+
+   return QStringList({
+      btkNormalizeOverlayRelationship(QString("focusVsTarget"), QString("focusOwner"), m_snapshot.focusOwnerId,
+         QString("targetOwner"), targetOwner),
+      btkNormalizeOverlayRelationship(QString("targetVsPopup"), QString("targetOwner"), targetOwner,
+         QString("popupOwner"), m_snapshot.activePopupOwnerId),
+      btkNormalizeOverlayRelationship(QString("targetVsModal"), QString("targetOwner"), targetOwner,
+         QString("modalOwner"), m_snapshot.activeModalOwnerId)
+   });
+}
+
+QString BtkFocusOverlay::targetDecisionSummary() const
+{
+   if (! m_snapshot.targetDecisionSummary.isEmpty()) {
+      return m_snapshot.targetDecisionSummary;
+   }
+
+   return m_targetWidget ? QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason) : QString();
+}
+
 QString BtkFocusOverlay::buildDisplayText() const
 {
    QStringList lines;
@@ -616,9 +668,11 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(m_snapshot.popupStackSummaries);
    }
 
-   if (shouldRenderPanel(RelationshipPanel) && ! m_snapshot.relationshipSummaries.isEmpty()) {
+   if (shouldRenderPanel(RelationshipPanel)
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
       lines.append(QString("relationships:"));
       lines.append(m_snapshot.relationshipSummaries);
+      lines.append(targetRelationshipDigests());
    }
 
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
@@ -630,7 +684,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("targetWidget=%1").arg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)));
       lines.append(QString("targetContext=%1").arg(QApplication::btkDescribeWidgetContext(m_targetWidget)));
       lines.append(QString("targetPopupRelationship=%1").arg(targetRelationshipSummary()));
-      lines.append(QString("targetDecision=%1").arg(QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason)));
+      lines.append(QString("targetDecision=%1").arg(targetDecisionSummary()));
    }
 
    if (shouldRenderPanel(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {

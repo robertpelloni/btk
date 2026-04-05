@@ -36,10 +36,10 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - owner-group summary section with count-prioritized ordering
 - blocker-group summary section with count-prioritized ordering
 - popup-stack section including focus-owner popup-stack context
-- relationship digest section for focus-vs-popup, popup-vs-modal, and focus-owner popup-stack summaries
+- relationship digest section for focus-vs-popup, popup-vs-modal, focus-owner popup-stack summaries, and target-vs-focus/popup/modal comparisons
 - token summary section with color-coded emphasis
 - blocked/exclusive route section with more precise summaries
-- optional target widget section with decision summary and popup-relationship summary
+- optional target widget section with decision summary and popup-relationship summary, backed by explicit target relationship digests
 - built directly on `BtkFocusDiagnostics`
 
 ## Current assessment
@@ -65,4 +65,5 @@ The surrounding runtime also continues to become less globally single-owner:
 - modal/popup block reason visualization
 - owner-scoped context-menu and additional popup-sensitive event routing refinements
 - more explicit target-to-popup relationship inspection
+- stronger target-vs-focus/target-vs-modal comparison surfacing
 - integration with immediate-mode debug surfaces

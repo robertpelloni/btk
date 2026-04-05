@@ -1,0 +1,419 @@
+{
+  "public_header_count": 32,
+  "private_header_count": 85,
+  "public_headers_with_script_coupling": 5,
+  "private_headers_with_script_coupling": 25,
+  "public_manifest": {
+    "headers": [
+      "qml/qdeclarativecomponent.h",
+      "qml/qdeclarativeengine.h",
+      "qml/qdeclarativecontext.h",
+      "qml/qdeclarativeexpression.h",
+      "qml/qtdeclarative.h"
+    ],
+    "qtscript_includes": [
+      "QtScript/QtScript",
+      "QtScript/qscriptvalue.h"
+    ],
+    "qtscript_identifiers": [
+      "QScriptContext",
+      "QScriptEngine",
+      "QScriptValue"
+    ],
+    "notable_public_headers": [
+      "qml/qdeclarativecomponent.h",
+      "qml/qdeclarativeengine.h",
+      "qml/qdeclarativecontext.h",
+      "qml/qdeclarativeexpression.h"
+    ]
+  },
+  "private_manifest": {
+    "headers": [
+      "qml/qdeclarativevmemetaobject_p.h",
+      "qml/qdeclarativebinding_p.h",
+      "qml/qdeclarativecomponent_p.h",
+      "qml/qdeclarativecompiler_p.h",
+      "qml/qdeclarativeengine_p.h",
+      "qml/qdeclarativeexpression_p.h",
+      "qml/qdeclarativecontext_p.h",
+      "qml/qdeclarativeinclude_p.h",
+      "qml/qdeclarativedata_p.h",
+      "qml/qdeclarativexmlhttprequest_p.h",
+      "qml/qdeclarativesqldatabase_p.h",
+      "qml/qdeclarativepropertycache_p.h",
+      "qml/qdeclarativeintegercache_p.h",
+      "qml/qdeclarativetypenamecache_p.h",
+      "qml/qdeclarativeobjectscriptclass_p.h",
+      "qml/qdeclarativecontextscriptclass_p.h",
+      "qml/qdeclarativeglobalscriptclass_p.h",
+      "qml/qdeclarativevaluetypescriptclass_p.h",
+      "qml/qdeclarativetypenamescriptclass_p.h",
+      "qml/qdeclarativelistscriptclass_p.h",
+      "qml/qdeclarativeworkerscript_p.h",
+      "util/qdeclarativelistmodel_p.h",
+      "util/qdeclarativelistmodel_p_p.h",
+      "util/qdeclarativelistmodelworkeragent_p.h",
+      "util/qdeclarativexmllistmodel_p.h"
+    ],
+    "qtscript_includes": [
+      "QtScript/QScriptClass",
+      "QtScript/QScriptString",
+      "QtScript/QScriptValue",
+      "QtScript/qscriptclass.h",
+      "QtScript/qscriptengine.h",
+      "QtScript/qscriptvalue.h",
+      "qscriptdeclarativeclass_p.h"
+    ],
+    "qtscript_identifiers": [
+      "QScriptClass",
+      "QScriptContext",
+      "QScriptDeclarativeClass",
+      "QScriptEngine",
+      "QScriptProgram",
+      "QScriptString",
+      "QScriptValue",
+      "QScriptValuePrivate"
+    ],
+    "private_bridge_headers": [
+      "qscriptdeclarativeclass_p.h"
+    ],
+    "headers_using_private_bridge": [
+      "qml/qdeclarativeengine_p.h",
+      "qml/qdeclarativepropertycache_p.h",
+      "qml/qdeclarativeintegercache_p.h",
+      "qml/qdeclarativetypenamecache_p.h",
+      "qml/qdeclarativeobjectscriptclass_p.h",
+      "qml/qdeclarativecontextscriptclass_p.h",
+      "qml/qdeclarativevaluetypescriptclass_p.h",
+      "qml/qdeclarativetypenamescriptclass_p.h",
+      "qml/qdeclarativelistscriptclass_p.h",
+      "util/qdeclarativelistmodel_p_p.h"
+    ]
+  },
+  "public_script_headers": [
+    {
+      "file": "qml/qdeclarativecomponent.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 3
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativeengine.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptContext": 1,
+        "QScriptEngine": 1
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativecontext.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {},
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativeexpression.h",
+      "includes": [],
+      "identifiers": {
+        "QScriptValue": 2
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qtdeclarative.h",
+      "includes": [
+        "QtScript/QtScript"
+      ],
+      "identifiers": {},
+      "uses_private_bridge": false
+    }
+  ],
+  "private_script_headers": [
+    {
+      "file": "qml/qdeclarativevmemetaobject_p.h",
+      "includes": [],
+      "identifiers": {
+        "QScriptValue": 8
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativebinding_p.h",
+      "includes": [],
+      "identifiers": {
+        "QScriptValue": 1
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativecomponent_p.h",
+      "includes": [],
+      "identifiers": {
+        "QScriptValue": 2
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativecompiler_p.h",
+      "includes": [],
+      "identifiers": {
+        "QScriptProgram": 2,
+        "QScriptValue": 1
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativeengine_p.h",
+      "includes": [
+        "QtScript/QScriptClass",
+        "QtScript/QScriptString",
+        "QtScript/QScriptValue",
+        "QtScript/qscriptengine.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 4,
+        "QScriptContext": 26,
+        "QScriptDeclarativeClass": 1,
+        "QScriptEngine": 28,
+        "QScriptString": 1,
+        "QScriptValue": 28
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativeexpression_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptEngine": 1,
+        "QScriptProgram": 1,
+        "QScriptValue": 10
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativecontext_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 1
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativeinclude_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptContext": 4,
+        "QScriptEngine": 6,
+        "QScriptValue": 11
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativedata_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 1,
+        "QScriptValuePrivate": 1
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativexmlhttprequest_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "identifiers": {
+        "QScriptEngine": 2
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativesqldatabase_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "identifiers": {
+        "QScriptEngine": 2
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativepropertycache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptDeclarativeClass": 5
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativeintegercache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptDeclarativeClass": 6
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativetypenamecache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptDeclarativeClass": 4
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativeobjectscriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h",
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 6,
+        "QScriptContext": 10,
+        "QScriptDeclarativeClass": 2,
+        "QScriptEngine": 5,
+        "QScriptValue": 15
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativecontextscriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 4,
+        "QScriptDeclarativeClass": 1,
+        "QScriptValue": 9
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativeglobalscriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptclass.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 1,
+        "QScriptEngine": 1,
+        "QScriptString": 2,
+        "QScriptValue": 6
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "qml/qdeclarativevaluetypescriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 2,
+        "QScriptDeclarativeClass": 1,
+        "QScriptValue": 4
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativetypenamescriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptclass.h",
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 2,
+        "QScriptDeclarativeClass": 1,
+        "QScriptValue": 3
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativelistscriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 2,
+        "QScriptDeclarativeClass": 1,
+        "QScriptValue": 2
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "qml/qdeclarativeworkerscript_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 2
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "util/qdeclarativelistmodel_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 5
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "util/qdeclarativelistmodel_p_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "identifiers": {
+        "QScriptClass": 2,
+        "QScriptDeclarativeClass": 2,
+        "QScriptEngine": 6,
+        "QScriptValue": 10
+      },
+      "uses_private_bridge": true
+    },
+    {
+      "file": "util/qdeclarativelistmodelworkeragent_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptEngine": 3,
+        "QScriptValue": 4
+      },
+      "uses_private_bridge": false
+    },
+    {
+      "file": "util/qdeclarativexmllistmodel_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "identifiers": {
+        "QScriptValue": 1
+      },
+      "uses_private_bridge": false
+    }
+  ]
+}

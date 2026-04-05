@@ -7,6 +7,7 @@
 - Added a first BML bootstrap layer over the legacy declarative subsystem, including BML alias headers, `BTK::Bml` alias scaffolding, and a default-off `Declarative` build gate.
 - Added a BML buildability audit and a configure-time declarative guard which warns and forces `WITH_DECLARATIVE=OFF` if the legacy declarative runtime is requested without its missing QtScript/CsScript-era dependencies.
 - Added a generated QtScript dependency inventory for BML revival (`scripts/generate_bml_qtscript_dependency_audit.py`) plus generated markdown/JSON artifacts quantifying the declarative script footprint and `src/imports/` declarative coupling.
+- Added a generated BML Script API manifest (`scripts/generate_bml_script_manifest.py`) which separates public Script-facing declarative headers from private declarative bridge dependencies and identifies the smallest obvious public-vs-private Script restoration checkpoints.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
@@ -59,13 +60,14 @@
 - A more ambitious restoration-focused popup-stack variant reproducibly hit a Windows access violation when programmatically closing the top popup in a visible staged GUI scenario, identifying popup close/restoration as a remaining runtime hotspot.
 - The current BML substrate is legacy `QtDeclarative` / QML1-shaped and still depends structurally on missing `QtScript` / `QScript*` infrastructure, so BML is currently a branding/bootstrap layer rather than a fully buildable runtime.
 - The generated dependency inventory shows the gap is broad rather than isolated: `src/declarative/` has 44 files with QtScript-related includes, repeated use of private `qscriptdeclarativeclass_p.h`/`QScriptDeclarativeClass` bridge machinery, and all four `src/imports/` plugin directories are declarative-coupled.
+- The generated Script manifest refines that further: only 5 declarative public headers directly expose Script coupling, while 25 private headers depend on Script internals, making a staged public-compatibility checkpoint plausible before full declarative bridge revival.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
 3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
-4. Turn the new QtScript dependency inventory into a concrete manifest of required public/private Script APIs for the first `CsScript` bring-up pass.
+4. Turn the new Script manifest into a concrete file/type checklist for the first `CsScript` bring-up pass, split into public compatibility headers and private declarative bridge support.
 5. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 6. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 7. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.

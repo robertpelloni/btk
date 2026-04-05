@@ -251,24 +251,17 @@ if (WITH_SCRIPT)
       string(APPEND BTK_SCRIPT_DISABLED_REASON "missing WebKit JavaScriptCore API sources; ")
    endif()
 
-   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_compile.cpp")
-      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy pcre-based JavaScriptCore sources expected by historical CsScript baseline; ")
-   endif()
-
-   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WREC.h")
-      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy WREC sources expected by historical CsScript baseline; ")
-   endif()
-
-   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.cpp")
-      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy JavaScriptCore runtime files such as Collector.cpp; ")
-   endif()
-
    if (BTK_SCRIPT_DISABLED_REASON)
       message(WARNING
-         "Disabling Script component for this configure pass because the restored historical CsScript baseline still "
-         "expects JavaScriptCore-era files which are absent from the current WebKit layout: ${BTK_SCRIPT_DISABLED_REASON}"
+         "Disabling Script component for this configure pass because the recovered CsScript Stage A scaffold is incomplete: "
+         "${BTK_SCRIPT_DISABLED_REASON}"
       )
       set(WITH_SCRIPT OFF CACHE BOOL "Build Script component" FORCE)
+   else()
+      message(WARNING
+         "Enabling experimental Script component recovery path. CsScript source/build scaffolding is restored, but build "
+         "success is not yet guaranteed while Stage A adaptation continues."
+      )
    endif()
 endif()
 

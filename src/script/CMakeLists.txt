@@ -60,11 +60,9 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/interpreter
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/parser
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/profiler
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/unicode
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec
+    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders
@@ -83,9 +81,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/bytecode/Instruction.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/bytecode/StructureStubInfo.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/bytecode/EvalCodeCache.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_internal.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucpinternal.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/config.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCorePrefix.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/API/OpaqueJSString.h
@@ -119,7 +114,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/ArrayPrototype.lut.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/RegExpConstructor.lut.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/RegExpObject.lut.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/GeneratedJITStubs_RVCT.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/MathObject.lut.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/JSONObject.lut.h
@@ -127,14 +121,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/NumberConstructor.lut.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/StringPrototype.lut.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/DatePrototype.lut.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECParser.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClassConstructor.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/Escapes.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClass.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/Quantifier.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECFunctors.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECGenerator.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WREC.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/JITInlineMethods.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/JITStubs.h
@@ -188,7 +174,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSZombie.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/WeakRandom.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/FunctionConstructor.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/CollectorHeapIterator.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ScopeChainMark.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalObject.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/BatchedTransitionOptimizer.h
@@ -198,7 +183,7 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Completion.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Structure.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/SymbolTable.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.h
+    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStack.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ErrorPrototype.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSType.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/DatePrototype.h
@@ -207,7 +192,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NumericStrings.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSActivation.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/StringConstructor.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSONObject.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ObjectPrototype.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeErrorPrototype.h
@@ -216,14 +200,12 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSObject.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/DateInstance.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSAPIValueWrapper.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalObjectFunctions.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/StringPrototype.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/RegExpMatchesArray.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSByteArray.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Error.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/InitializeThreading.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ArrayPrototype.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertyMapHashTable.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSTypeInfo.h
@@ -231,7 +213,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NumberPrototype.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/RegExpConstructor.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Tracing.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/GetterSetter.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NumberObject.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Executable.h
@@ -252,7 +233,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/WeakGCMap.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSLock.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertySlot.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Operations.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeErrorConstructor.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ConstructData.h
@@ -262,13 +242,10 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/LiteralParser.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSCell.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ExceptionHelpers.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/WeakGCPtr.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertyNameArray.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSString.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/DateInstanceCache.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/StringBuilder.h
+    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/StringBuilder.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PutPropertySlot.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ErrorConstructor.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSStaticScopeObject.h
@@ -298,7 +275,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/TypeTraits.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/TCPackedCache.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/ASCIICType.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/android/AndroidThreading.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/dtoa.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/RefPtr.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/TCSpinLock.h
@@ -308,7 +284,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/MessageQueue.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Forward.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/TCSystemAlloc.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/StringHashFunctions.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/CurrentTime.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/MainThread.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/FastAllocBase.h
@@ -319,7 +294,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/RandomNumberSeed.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/RandomNumber.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/DateMath.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/PtrAndFlags.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/GetPtr.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/ByteArray.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/OwnPtrCommon.h
@@ -355,11 +329,6 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/HashCountedSet.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/UnusedParam.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/ListHashSet.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexPattern.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexParser.h
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/profiler/Profiler.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/profiler/Profile.h
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/profiler/ProfileGenerator.h
@@ -368,9 +337,7 @@ list(APPEND JSCORE_SCRIPT_INCLUDES
     ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/profiler/CallIdentifier.h
 
     # https://bugreports.qt.io/browse/QTBUG-9958
-    # ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/chartables.c
 
-    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucptable.cpp
 )
 
 target_sources(CsScript
@@ -401,8 +368,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/interpreter/Interpreter.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/interpreter/RegisterFile.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorFixedVMPool.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorPosix.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorWin.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/JITArithmetic.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/jit/JITCall.cpp
@@ -426,7 +391,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/BooleanObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/BooleanPrototype.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/CallData.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/CommonIdentifiers.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Completion.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/ConstructData.cpp
@@ -443,7 +407,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/FunctionConstructor.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/FunctionPrototype.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/GetterSetter.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Identifier.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/InitializeThreading.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/InternalFunction.cpp
@@ -456,10 +419,8 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalData.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalObjectFunctions.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSLock.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNotAnObject.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSONObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSPropertyNameIterator.cpp
@@ -470,9 +431,9 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSWrapperObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/LiteralParser.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Lookup.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackPosix.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackWin.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.cpp
+   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStackPosix.cpp
+   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStackWin.cpp
+   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStack.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/MathObject.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeErrorConstructor.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeErrorPrototype.cpp
@@ -485,7 +446,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertyDescriptor.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertyNameArray.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PropertySlot.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/RegExpConstructor.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/RegExp.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/RegExpObject.cpp
@@ -499,7 +459,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Structure.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/TimeoutChecker.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/UString.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Assertions.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/ByteArray.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/CurrentTime.cpp
@@ -517,15 +476,6 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/TypeTraits.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode/CollatorDefault.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode/UTF8.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_compile.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_exec.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_tables.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_ucp_searchfuncs.cpp
-   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_xclass.cpp
 )
 
 macro_generate_public("${SCRIPT_PUBLIC_INCLUDES}"   QtScript)

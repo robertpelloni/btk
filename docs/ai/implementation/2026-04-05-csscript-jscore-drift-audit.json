@@ -1,22 +1,13 @@
 {
-  "script_reference_count": 464,
+  "script_reference_count": 413,
   "webkit_reference_count": 212,
-  "script_paths_existing": 408,
-  "script_paths_missing": 56,
-  "script_paths_also_in_webkit_cmake": 147,
-  "missing_by_subtree": {
-    "runtime": 20,
-    "pcre": 10,
-    "wrec": 9,
-    "yarr": 8,
-    "generated": 3,
-    "wtf": 3,
-    "jit": 2,
-    "unicode": 1
-  },
+  "script_paths_existing": 413,
+  "script_paths_missing": 0,
+  "script_paths_also_in_webkit_cmake": 150,
+  "missing_by_subtree": {},
   "existing_by_subtree": {
     "runtime": 165,
-    "wtf": 85,
+    "wtf": 86,
     "API": 33,
     "assembler": 19,
     "jit": 15,
@@ -28,405 +19,12 @@
     "interpreter": 10,
     "bytecompiler": 7,
     "debugger": 7,
+    "heap": 5,
     "os-win32": 2,
     "JavaScriptCorePrefix.h": 1,
-    "config.h": 1,
-    "heap": 1
+    "config.h": 1
   },
-  "missing_samples": [
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/chartables.c",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorPosix.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorWin.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_compile.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_exec.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_internal.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_tables.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_ucp_searchfuncs.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_xclass.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucpinternal.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucptable.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/CollectorHeapIterator.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackPosix.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackWin.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/StringBuilder.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/WeakGCPtr.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/unicode",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClass.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClassConstructor.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/Escapes.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/Quantifier.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WREC.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECFunctors.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECGenerator.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECParser.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/PtrAndFlags.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/StringHashFunctions.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/android/AndroidThreading.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.cpp",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexParser.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexPattern.h",
-      "exists": false,
-      "is_file": false,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    }
-  ],
+  "missing_samples": [],
   "existing_samples": [
     {
       "path": "src/3rdparty/webkit/Source/JavaScriptCore/API",
@@ -1171,6 +769,34 @@
       "in_webkit_cmake": true
     },
     {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStack.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStack.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStackPosix.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/heap/MarkStackWin.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
       "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter",
       "exists": true,
       "is_file": false,
@@ -1239,34 +865,6 @@
       "is_file": true,
       "is_dir": false,
       "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit",
-      "exists": true,
-      "is_file": false,
-      "is_dir": true,
-      "in_webkit_cmake": true
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.cpp",
-      "exists": true,
-      "is_file": true,
-      "is_dir": false,
-      "in_webkit_cmake": true
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.h",
-      "exists": true,
-      "is_file": true,
-      "is_dir": false,
-      "in_webkit_cmake": false
-    },
-    {
-      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorFixedVMPool.cpp",
-      "exists": true,
-      "is_file": true,
-      "is_dir": false,
-      "in_webkit_cmake": true
     }
   ]
 }

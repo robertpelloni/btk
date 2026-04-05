@@ -49,7 +49,8 @@ QString btkPanelPresetToString(BtkFocusOverlay::PanelPreset preset)
 QColor btkOverlayAccentForLine(const QString &line)
 {
    if (line.contains("decision=Reject") || (line.contains("blockingOwner=") && ! line.contains("blockingOwner=<none>"))
-      || line.contains("blocker=") || line.contains("blockedRoutes=") || line.contains("sameOwner=false")) {
+      || line.contains("blocker=") || line.contains("blockedRoutes=") || line.contains("sameOwner=false")
+      || line.contains("state=mixed") || line.contains("=split")) {
       return QColor(255, 110, 110);
    }
 
@@ -79,6 +80,20 @@ QString btkNormalizeOverlayRelationship(const QString &label, const QString &lef
       .arg(rightName)
       .arg(normalizedRight)
       .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
+}
+
+int btkDistinctOverlayOwnerCount(const QStringList &owners)
+{
+   QStringList uniqueOwners;
+
+   for (const auto &owner : owners) {
+      if (owner.isEmpty() || owner == QString("<none>") || uniqueOwners.contains(owner)) {
+         continue;
+      }
+      uniqueOwners.append(owner);
+   }
+
+   return uniqueOwners.size();
 }
 
 QString btkExtractOverlayField(const QString &line, const QString &fieldName)
@@ -384,11 +399,14 @@ QSize BtkFocusOverlay::sizeHint() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
-         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || (m_targetWidget && ! targetComparisonClusters().isEmpty())
+         || ! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()) || ! mismatchDigests().isEmpty())) {
       height += fm.height() + 6;
       for (const auto &cluster : m_snapshot.comparisonClusterSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, cluster) + 8;
+      }
+      for (const auto &cluster : targetComparisonClusters()) {
          height += btkWrappedTextHeight(fm, innerWidth, cluster) + 8;
       }
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
@@ -530,8 +548,8 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          mismatchCount() > 0 ? QColor(255, 110, 110, 210) : QColor(90, 220, 160, 210));
 
       btkDrawChip(painter, left + 170, y, QString("clusters"),
-         QString::number(m_snapshot.comparisonClusterCount()),
-         m_snapshot.comparisonClusterCount() > 0 ? QColor(162, 135, 255, 210) : QColor(90, 220, 160, 210));
+         QString::number(comparisonClusterCount()),
+         comparisonClusterCount() > 0 ? QColor(162, 135, 255, 210) : QColor(90, 220, 160, 210));
 
       if (m_blockedRoutesOnly) {
          btkDrawChip(painter, left + 320, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
@@ -580,12 +598,15 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
-         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || (m_targetWidget && ! targetComparisonClusters().isEmpty())
+         || ! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
-      if (! m_snapshot.comparisonClusterSummaries.isEmpty()) {
+      if (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! targetComparisonClusters().isEmpty()) {
          btkDrawSectionHeader(painter, left, y, contentWidth, QString("Comparison Clusters"));
          for (const auto &cluster : m_snapshot.comparisonClusterSummaries) {
+            btkDrawWrappedBlock(painter, left, y, contentWidth, cluster, btkOverlayAccentForLine(cluster));
+         }
+         for (const auto &cluster : targetComparisonClusters()) {
             btkDrawWrappedBlock(painter, left, y, contentWidth, cluster, btkOverlayAccentForLine(cluster));
          }
       }
@@ -690,6 +711,35 @@ QString BtkFocusOverlay::targetRelationshipSummary() const
    return m_targetWidget ? QApplication::btkDescribePopupRelationship(m_targetWidget) : QString();
 }
 
+QStringList BtkFocusOverlay::targetComparisonClusters() const
+{
+   if (! m_targetWidget) {
+      return QStringList();
+   }
+
+   const QString targetOwner = QApplication::btkOwnerId(m_targetWidget).isEmpty()
+      ? QString("<none>")
+      : QApplication::btkOwnerId(m_targetWidget);
+   const QString focusOwner = m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId;
+   const QString popupOwner = m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId;
+   const QString modalOwner = m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId;
+   const int uniqueOwnerCount = btkDistinctOverlayOwnerCount({focusOwner, targetOwner, popupOwner, modalOwner});
+
+   return QStringList({
+      QString("targetOwnerTopology focusOwner=%1 targetOwner=%2 popupOwner=%3 modalOwner=%4 uniqueOwners=%5 state=%6")
+         .arg(focusOwner)
+         .arg(targetOwner)
+         .arg(popupOwner)
+         .arg(modalOwner)
+         .arg(uniqueOwnerCount)
+         .arg(uniqueOwnerCount <= 1 && targetOwner != QString("<none>") ? QString("aligned") : QString("mixed")),
+      QString("targetOwnerTopologyState focusVsTarget=%1 targetVsPopup=%2 targetVsModal=%3")
+         .arg(focusOwner == targetOwner && focusOwner != QString("<none>") ? QString("aligned") : QString("split"))
+         .arg(targetOwner == popupOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
+         .arg(targetOwner == modalOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
+   });
+}
+
 QStringList BtkFocusOverlay::targetRelationshipDigests() const
 {
    if (! m_targetWidget) {
@@ -748,11 +798,34 @@ QStringList BtkFocusOverlay::mismatchDigests() const
       }
    };
 
+   collectMismatch(m_snapshot.comparisonClusterSummaries);
+   collectMismatch(targetComparisonClusters());
    collectMismatch(m_snapshot.relationshipSummaries);
    collectMismatch(targetRelationshipDigests());
    collectMismatch(targetBlockerDigests());
 
+   for (const auto &summary : m_snapshot.comparisonClusterSummaries) {
+      if (summary.contains("uniqueOwners=") && ! summary.contains("uniqueOwners=0") && ! summary.contains("uniqueOwners=1")) {
+         if (! retval.contains(summary)) {
+            retval.append(summary);
+         }
+      }
+   }
+
+   for (const auto &summary : targetComparisonClusters()) {
+      if (summary.contains("state=mixed") || summary.contains("=split")) {
+         if (! retval.contains(summary)) {
+            retval.append(summary);
+         }
+      }
+   }
+
    return retval;
+}
+
+int BtkFocusOverlay::comparisonClusterCount() const
+{
+   return m_snapshot.comparisonClusterCount() + targetComparisonClusters().size();
 }
 
 int BtkFocusOverlay::mismatchCount() const
@@ -784,7 +857,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
       lines.append(QString("blockedReasonCount=%1").arg(m_snapshot.blockedReasonCount()));
       lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
-      lines.append(QString("comparisonClusterCount=%1").arg(m_snapshot.comparisonClusterCount()));
+      lines.append(QString("comparisonClusterCount=%1").arg(comparisonClusterCount()));
       lines.append(QString("mismatchCount=%1").arg(mismatchCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
@@ -817,11 +890,12 @@ QString BtkFocusOverlay::buildDisplayText() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
-         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || (m_targetWidget && ! targetComparisonClusters().isEmpty())
+         || ! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
       lines.append(QString("comparisonClusters:"));
       lines.append(m_snapshot.comparisonClusterSummaries);
+      lines.append(targetComparisonClusters());
       lines.append(QString("relationships:"));
       lines.append(m_snapshot.relationshipSummaries);
       lines.append(targetRelationshipDigests());

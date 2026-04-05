@@ -30,14 +30,14 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - panel-based visibility control (`Summary`, `Focus`, `Owner`, `Popup`, `Relationship`, `Token`, `Target`, `Blocked`, `Raw`)
 - preset-oriented panel modes (`Compact`, `OwnerCentric`, `Analysis`, `Full`)
 - preset cycling support and blocked-only filtering mode
-- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, popup count, blocker count, blocked-route count, blocked-reason count, mismatch count, comparison-cluster count, and preset/mode state
+- summary chips for popup owner, modal owner, refresh cadence, focus owner, focus surface, popup count, blocker count, blocked-route count, blocked-reason count, mismatch count, comparison-cluster count, and preset/mode state (including target-owner topology clusters)
 - focus widget and path sections
 - focus-popup relationship section
 - owner-group summary section with count-prioritized ordering
 - blocker-group summary section with count-prioritized ordering
 - blocker drilldown section grouped by blocker owner and route reason
 - popup-stack section including focus-owner popup-stack context
-- comparison-cluster section for focus/popup/modal owner topology
+- comparison-cluster section for focus/popup/modal owner topology plus target-owner topology
 - relationship digest section for focus-vs-popup, popup-vs-modal, focus-owner popup-stack summaries, and target-vs-focus/popup/modal/blocker comparisons
 - token summary section with color-coded emphasis
 - blocked/exclusive route section with more precise summaries plus blocked-reason grouping
@@ -45,7 +45,7 @@ It is intentionally modest. The goal is not final UX polish; the goal is to esta
 - built directly on `BtkFocusDiagnostics`
 
 ## Current assessment
-The overlay has now moved beyond a plain text dump into a richer HUD pass with owner grouping, blocker grouping, blocker drilldown, comparison clusters, relationship digests, mismatch highlighting, popup-stack inspection, blocked-route visualization, and stronger panel behavior. It is still intentionally lightweight, but it already demonstrates the shape of a future BTK developer experience: runtime state transformed into a readable, always-on-top tool surface.
+The overlay has now moved beyond a plain text dump into a richer HUD pass with owner grouping, blocker grouping, blocker drilldown, comparison clusters, target-owner comparison clusters, relationship digests, mismatch highlighting, popup-stack inspection, blocked-route visualization, and stronger panel behavior. It is still intentionally lightweight, but it already demonstrates the shape of a future BTK developer experience: runtime state transformed into a readable, always-on-top tool surface.
 
 The surrounding runtime also continues to become less globally single-owner:
 - popup-aware wheel-event gating now consults BTK owner-aware popup allowance rather than only comparing the active popup window directly

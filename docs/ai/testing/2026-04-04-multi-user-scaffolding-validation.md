@@ -59,7 +59,7 @@ This validation covers the newly introduced BTK ownership/focus/arbitration scaf
 - `docs/ai/testing/btk-focus-overlay-groundwork-smoke-example.cpp`
 - `docs/ai/testing/btk-focus-overlay-visual-smoke-example.cpp`
 
-The overlay smoke path now exercises the richer HUD scaffold, including popup-stack summaries, focus/target popup-relationship summaries, focus/popup/modal comparison clusters, target-aware relationship and blocker digests, mismatch highlighting, count-prioritized owner/blocker/blocked-reason summaries, preset-oriented panel modes, blocked-only filtering, filtered relationship/popup-panel visibility, and panel-based blocked-route visibility, rather than only a plain text rendering shell.
+The overlay smoke path now exercises the richer HUD scaffold, including popup-stack summaries, focus/target popup-relationship summaries, focus/popup/modal and focus/target/popup/modal comparison clusters, target-aware relationship and blocker digests, mismatch highlighting, count-prioritized owner/blocker/blocked-reason summaries, preset-oriented panel modes, blocked-only filtering, filtered relationship/popup-panel visibility, and panel-based blocked-route visibility, rather than only a plain text rendering shell.
 
 ## Known limitation
 No full compiler validation was possible in this environment because CMake could not complete configuration without a usable C/C++ compiler toolchain.

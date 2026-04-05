@@ -11,6 +11,7 @@
 - Added a concrete staged `CsScript` bring-up checklist splitting the first restoration pass into Stage A public compatibility, Stage B declarative bridge/core compilation, and Stage C tooling/support APIs.
 - Completed a `CsScript` provenance audit showing the repository's own git history already contains recoverable `src/script/` and `src/scripttools/` source/build snapshots, along with the key private declarative bridge files BML needs.
 - Selected concrete recovery baselines: `85fd29b0d114fccb7b8eca371614bbb813ac0a01` as the primary `CsScript` restore anchor and `9845b18dcafa2a4552f394a85e70c43f18a8b797` as the deferred `CsScriptTools` restore anchor, and documented a first restoration map plus Stage A recovery plan.
+- Began actual Stage A `CsScript` recovery: restored the historical `src/script/` subtree (74 files) from `85fd29...`, reintroduced `Script` as a top-level optional component ordered before `Declarative`, remapped the restored Script CMake file toward the current WebKit-based JavaScriptCore root, and added a configure-time Script guard that preserves build health while JavaScriptCore drift is still unresolved.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
@@ -66,13 +67,14 @@
 - The generated Script manifest refines that further: only 5 declarative public headers directly expose Script coupling, while 25 private headers depend on Script internals, making a staged public-compatibility checkpoint plausible before full declarative bridge revival.
 - The provenance audit changes the implementation posture: BTK likely does not need a greenfield Script subsystem, but it will need to recover historical `CsScript` sources and adapt them from the old standalone `src/3rdparty/javascriptcore` layout to the current `src/3rdparty/webkit/Source/JavaScriptCore` layout.
 - The baseline-selection pass refines that further: `85fd29...` is the best `CsScript` anchor because it is the latest complete source+build snapshot, whereas later parents preserve sources but no longer preserve a self-consistent Script build configuration.
+- The first Stage A bootstrap validation now succeeds at configure time in two important modes: default BTK configure still succeeds unchanged, and explicit `-DWITH_SCRIPT=ON` now warns clearly and forces Script back off because the restored historical baseline still expects missing JavaScriptCore-era pieces such as legacy `pcre`, `wrec`, and `Collector.cpp`.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
 3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
-4. Start the actual Stage A `CsScript` recovery from baseline `85fd29...`: restore `src/script/`, adapt JavaScriptCore paths to the current WebKit layout, and aim first for public compatibility/configure viability before broader compilation.
+4. Continue Stage A `CsScript` recovery by adapting the restored historical Script build to the current WebKit JavaScriptCore snapshot, starting with the missing `pcre`, `wrec`, and legacy runtime file expectations surfaced by the new guard.
 5. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 6. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 7. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.

@@ -72,7 +72,7 @@ endif()
 # required libraries
 set(BUILD_COMPONENTS "Core Xml")
 
-set(CS_OPTIONAL_COMPONENTS Gui Declarative Multimedia Network OpenGL Sql Svg Vulkan WebKit XmlPatterns)
+set(CS_OPTIONAL_COMPONENTS Gui Script Declarative Multimedia Network OpenGL Sql Svg Vulkan WebKit XmlPatterns)
 
 set(PACKAGE           "btk")
 set(PACKAGE_NAME      "BTK")
@@ -234,15 +234,50 @@ option(WITH_ODBC_PLUGIN "Build ODBC database plugin (if possible)" ON)
 foreach(component ${CS_OPTIONAL_COMPONENTS})
    string(TOUPPER ${component} uppercomp)
 
-   if (component STREQUAL "Declarative")
+   if (component STREQUAL "Declarative" OR component STREQUAL "Script")
       option(WITH_${uppercomp} "Build ${component} component" OFF)
    else()
       option(WITH_${uppercomp} "Build ${component} component" ON)
    endif()
 endforeach()
 
+set(BTK_SCRIPT_DISABLED_REASON "")
+if (WITH_SCRIPT)
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/CMakeLists.txt")
+      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing restored src/script module; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/API/JSValueRef.cpp")
+      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing WebKit JavaScriptCore API sources; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_compile.cpp")
+      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy pcre-based JavaScriptCore sources expected by historical CsScript baseline; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wrec/WREC.h")
+      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy WREC sources expected by historical CsScript baseline; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.cpp")
+      string(APPEND BTK_SCRIPT_DISABLED_REASON "missing legacy JavaScriptCore runtime files such as Collector.cpp; ")
+   endif()
+
+   if (BTK_SCRIPT_DISABLED_REASON)
+      message(WARNING
+         "Disabling Script component for this configure pass because the restored historical CsScript baseline still "
+         "expects JavaScriptCore-era files which are absent from the current WebKit layout: ${BTK_SCRIPT_DISABLED_REASON}"
+      )
+      set(WITH_SCRIPT OFF CACHE BOOL "Build Script component" FORCE)
+   endif()
+endif()
+
 set(BTK_DECLARATIVE_DISABLED_REASON "")
 if (WITH_DECLARATIVE)
+   if (NOT WITH_SCRIPT)
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "WITH_SCRIPT is OFF; ")
+   endif()
+
    if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/CMakeLists.txt")
       string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing src/script module; ")
    endif()

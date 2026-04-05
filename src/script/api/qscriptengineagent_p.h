@@ -55,14 +55,17 @@ class Q_SCRIPT_EXPORT QScriptEngineAgentPrivate : public JSC::Debugger
    void detach();
 
    //scripts
-   virtual void sourceParsed(JSC::ExecState *, const JSC::SourceCode &, int /*errorLine*/,
+   virtual void sourceParsed(JSC::ExecState *, JSC::SourceProvider *, int /*errorLine*/,
       const JSC::UString & /*errorMsg*/) {}
    virtual void scriptUnload(qint64 id) {
       q_ptr->scriptUnload(id);
    }
    virtual void scriptLoad(qint64 id, const JSC::UString &program,
       const JSC::UString &fileName, int baseLineNumber) {
-      q_ptr->scriptLoad(id, program, fileName, baseLineNumber);
+      q_ptr->scriptLoad(id,
+         QString::fromUtf16(reinterpret_cast<const char16_t *>(program.characters()), program.length()),
+         QString::fromUtf16(reinterpret_cast<const char16_t *>(fileName.characters()), fileName.length()),
+         baseLineNumber);
    }
 
    //exceptions

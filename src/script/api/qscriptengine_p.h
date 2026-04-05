@@ -32,6 +32,10 @@
 #include <qstringfwd.h>
 #include <qstringlist.h>
 
+#include <wtf/WTFThreadData.h>
+#include <wtf/text/WTFString.h>
+
+#include "qscriptengineagent_p.h"
 #include "qscriptvalue_p.h"
 #include "qscriptstring_p.h"
 #include "bridge/qscriptclassobject_p.h"
@@ -108,6 +112,8 @@ qsreal DateTimeToMs(JSC::ExecState *, const QDateTime &);
 inline QScriptEnginePrivate *scriptEngineFromExec(const JSC::ExecState *exec);
 bool isFunction(JSC::JSValue value);
 
+inline JSC::UString toUString(const QString &value);
+inline JSC::Identifier toIdentifier(JSC::ExecState *exec, const QString &value);
 inline QString convertToString(const JSC::UString &str);
 
 class UStringSourceProviderWithFeedback;
@@ -398,10 +404,10 @@ class APIShim
 {
  public:
    APIShim(QScriptEnginePrivate *engine)
-      : m_engine(engine), m_oldTable(JSC::setCurrentIdentifierTable(engine->globalData->identifierTable)) {
+      : m_engine(engine), m_oldTable(wtfThreadData().setCurrentIdentifierTable(engine->globalData->identifierTable)) {
    }
    ~APIShim() {
-      JSC::setCurrentIdentifierTable(m_oldTable);
+      wtfThreadData().setCurrentIdentifierTable(m_oldTable);
    }
 
  private:
@@ -412,7 +418,7 @@ class APIShim
 /*Helper class. Main purpose is to give debugger feedback about unloading and loading scripts.
   It keeps pointer to JSGlobalObject assuming that it is always the same - there is no way to update
   this data. Class is internal and used as an implementation detail in and only in QScriptEngine::evaluate.*/
-class UStringSourceProviderWithFeedback: public JSC::UStringSourceProvider
+class UStringSourceProviderWithFeedback: public JSC::SourceProvider
 {
  public:
    static PassRefPtr<UStringSourceProviderWithFeedback> create(
@@ -421,12 +427,22 @@ class UStringSourceProviderWithFeedback: public JSC::UStringSourceProvider
       return adoptRef(new UStringSourceProviderWithFeedback(source, url, lineNumber, engine));
    }
 
+   JSC::UString getRange(int start, int end) const {
+      return m_source.substringSharingImpl(start, end - start);
+   }
+   const UChar *data() const {
+      return m_source.characters();
+   }
+   int length() const {
+      return m_source.length();
+   }
+
    /* Destruction means that there is no more copies of script so create scriptUnload event
       and unregister script in QScriptEnginePrivate::loadedScripts */
    virtual ~UStringSourceProviderWithFeedback() {
       if (m_ptr) {
-         if (JSC::Debugger *debugger = this->debugger()) {
-            debugger->scriptUnload(asID());
+         if (QScriptEngineAgentPrivate *agent = scriptAgent()) {
+            agent->scriptUnload(asID());
          }
          m_ptr->loadedScripts.remove(asID());
       }
@@ -435,16 +451,29 @@ class UStringSourceProviderWithFeedback: public JSC::UStringSourceProvider
    /* set internal QScriptEnginePrivate pointer to null and create unloadScript event, should be called
       only if QScriptEnginePrivate is about to be  destroyed.*/
    void disconnectFromEngine() {
-      if (JSC::Debugger *debugger = this->debugger()) {
-         debugger->scriptUnload(asID());
+      if (QScriptEngineAgentPrivate *agent = scriptAgent()) {
+         agent->scriptUnload(asID());
       }
       m_ptr = nullptr;
    }
 
    int columnNumberFromOffset(int offset) const {
-      for (const UChar *c = m_source.data() + offset; c >= m_source.data(); --c) {
+      const UChar *begin = data();
+      const int sourceLength = length();
+
+      if (!begin || offset < 0) {
+         return 1;
+      }
+      if (offset >= sourceLength) {
+         offset = sourceLength - 1;
+      }
+      if (offset < 0) {
+         return 1;
+      }
+
+      for (const UChar *c = begin + offset; c >= begin; --c) {
          if (JSC::Lexer::isLineTerminator(*c)) {
-            return offset - static_cast<int>(c - data());
+            return offset - static_cast<int>(c - begin);
          }
       }
       return offset + 1;
@@ -453,25 +482,25 @@ class UStringSourceProviderWithFeedback: public JSC::UStringSourceProvider
  protected:
    UStringSourceProviderWithFeedback(const JSC::UString &source, const JSC::UString &url,
       int lineNumber, QScriptEnginePrivate *engine)
-      : UStringSourceProvider(source, url),
+      : JSC::SourceProvider(url),
+        m_source(source),
         m_ptr(engine) {
-      if (JSC::Debugger *debugger = this->debugger()) {
-         debugger->scriptLoad(asID(), source, url, lineNumber);
+      if (QScriptEngineAgentPrivate *agent = scriptAgent()) {
+         agent->scriptLoad(asID(), source, url, lineNumber);
       }
       if (m_ptr) {
          m_ptr->loadedScripts.insert(asID(), this);
       }
    }
 
-   JSC::Debugger *debugger() {
-      //if m_ptr is null it mean that QScriptEnginePrivate was destroyed and scriptUnload was called
-      //else m_ptr is stable and we can use it as normal pointer without hesitation
-      if (!m_ptr) {
-         return nullptr;   //we are in ~QScriptEnginePrivate
-      } else {
-         return m_ptr->originalGlobalObject()->debugger();   //QScriptEnginePrivate is still alive
+   QScriptEngineAgentPrivate *scriptAgent() const {
+      if (!m_ptr || !m_ptr->activeAgent) {
+         return nullptr;
       }
+      return QScriptEngineAgentPrivate::get(m_ptr->activeAgent);
    }
+
+   JSC::UString m_source;
 
    //trace global object and debugger instance
    QScriptEnginePrivate *m_ptr;
@@ -501,12 +530,12 @@ inline QScriptEnginePrivate *scriptEngineFromExec(const JSC::ExecState *exec)
 
 inline QString ToString(qsreal value)
 {
-   return JSC::UString::from(value);
+   return convertToString(JSC::UString::number(value));
 }
 
 inline qsreal ToNumber(const QString &value)
 {
-   return ((JSC::UString)value).toDouble();
+   return WTF::String(value).toDouble();
 }
 
 inline qint32 ToInt32(const QString &value)
@@ -539,19 +568,23 @@ inline bool ToBool(const QString &value)
    return ! value.isEmpty();
 }
 
+inline JSC::UString toUString(const QString &value)
+{
+   return JSC::UString(WTF::String(value).impl());
+}
+
+inline JSC::Identifier toIdentifier(JSC::ExecState *exec, const QString &value)
+{
+   return JSC::Identifier(exec, toUString(value));
+}
+
 inline QString convertToString(const JSC::UString &str)
 {
-   QString retval;
-
-   const UChar *i = str.data();
-   const UChar *e  = i + str.size();
-
-   while (i != e) {
-      retval.append(char32_t(*i));
-      ++i;
+   if (str.isNull()) {
+      return QString();
    }
 
-   return retval;
+   return QString::fromUtf16(reinterpret_cast<const char16_t *>(str.characters()), str.length());
 }
 
 } // namespace QScript
@@ -650,9 +683,9 @@ inline JSC::JSValue QScriptEnginePrivate::scriptValueToJSCValue(const QScriptVal
       vv->engine = this;
 
       if (vv->type == QScriptValuePrivate::Number) {
-         vv->initFrom(JSC::jsNumber(currentFrame, vv->numberValue));
+         vv->initFrom(JSC::jsNumber(vv->numberValue));
       } else { //QScriptValuePrivate::String
-         vv->initFrom(JSC::jsString(currentFrame, vv->stringValue));
+         vv->initFrom(JSC::jsString(currentFrame, QScript::toUString(vv->stringValue)));
       }
    }
 
@@ -829,7 +862,7 @@ inline void QScriptEnginePrivate::saveException(JSC::ExecState *exec, JSC::JSVal
 inline void QScriptEnginePrivate::restoreException(JSC::ExecState *exec, JSC::JSValue val)
 {
    if (exec && val) {
-      exec->setException(val);
+      exec->globalData().exception = val;
    }
 }
 
@@ -907,9 +940,9 @@ inline JSC::JSValue QScriptEnginePrivate::newArray(JSC::ExecState *exec, uint le
 
 inline JSC::JSValue QScriptEnginePrivate::newDate(JSC::ExecState *exec, qsreal value)
 {
-   JSC::JSValue val = JSC::jsNumber(exec, value);
+   JSC::JSValue val = JSC::jsNumber(value);
    JSC::ArgList args(&val, 1);
-   return JSC::constructDate(exec, args);
+   return JSC::constructDate(exec, exec->lexicalGlobalObject(), args);
 }
 
 inline JSC::JSValue QScriptEnginePrivate::newDate(JSC::ExecState *exec, const QDateTime &value)
@@ -929,22 +962,22 @@ inline bool QScriptEnginePrivate::isObject(JSC::JSValue value)
 
 inline bool QScriptEnginePrivate::isArray(JSC::JSValue value)
 {
-   return isObject(value) && value.inherits(&JSC::JSArray::info);
+   return isObject(value) && value.inherits(&JSC::JSArray::s_info);
 }
 
 inline bool QScriptEnginePrivate::isDate(JSC::JSValue value)
 {
-   return isObject(value) && value.inherits(&JSC::DateInstance::info);
+   return isObject(value) && value.inherits(&JSC::DateInstance::s_info);
 }
 
 inline bool QScriptEnginePrivate::isError(JSC::JSValue value)
 {
-   return isObject(value) && value.inherits(&JSC::ErrorInstance::info);
+   return isObject(value) && value.inherits(&JSC::ErrorInstance::s_info);
 }
 
 inline bool QScriptEnginePrivate::isRegExp(JSC::JSValue value)
 {
-   return isObject(value) && value.inherits(&JSC::RegExpObject::info);
+   return isObject(value) && value.inherits(&JSC::RegExpObject::s_info);
 }
 
 inline bool QScriptEnginePrivate::isVariant(JSC::JSValue value)
@@ -1066,7 +1099,7 @@ inline JSC::UString QScriptEnginePrivate::toString(JSC::ExecState *exec, JSC::JS
    saveException(exec, &savedException);
    JSC::UString str = value.toString(exec);
 
-   if (exec && exec->hadException() && !str.size()) {
+   if (exec && exec->hadException() && !str.length()) {
       JSC::JSValue savedException2;
       saveException(exec, &savedException2);
       str = savedException2.toString(exec);

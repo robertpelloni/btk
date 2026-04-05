@@ -51,12 +51,14 @@ static QScriptDeclarativeClass::Value jscToValue(const JSC::JSValue &val)
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, int value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::frameForContext(ctxt), value);
+   Q_UNUSED(ctxt);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, uint value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::frameForContext(ctxt), value);
+   Q_UNUSED(ctxt);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *, bool value)
@@ -70,17 +72,19 @@ QScriptDeclarativeClass::Value::Value(QScriptContext *, bool value)
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, double value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::frameForContext(ctxt), value);
+   Q_UNUSED(ctxt);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, float value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::frameForContext(ctxt), value);
+   Q_UNUSED(ctxt);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, const QString &value)
 {
-   new (this) JSC::JSValue(JSC::jsString(QScriptEnginePrivate::frameForContext(ctxt), value));
+   new (this) JSC::JSValue(JSC::jsString(QScriptEnginePrivate::frameForContext(ctxt), QScript::toUString(value)));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, const QScriptValue &value)
@@ -90,12 +94,14 @@ QScriptDeclarativeClass::Value::Value(QScriptContext *ctxt, const QScriptValue &
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, int value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::get(eng)->currentFrame, value);
+   Q_UNUSED(eng);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, uint value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::get(eng)->currentFrame, value);
+   Q_UNUSED(eng);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, bool value)
@@ -111,17 +117,19 @@ QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, bool value)
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, double value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::get(eng)->currentFrame, value);
+   Q_UNUSED(eng);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, float value)
 {
-   new (this) JSC::JSValue(QScriptEnginePrivate::get(eng)->currentFrame, value);
+   Q_UNUSED(eng);
+   new (this) JSC::JSValue(JSC::jsNumber(value));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, const QString &value)
 {
-   new (this) JSC::JSValue(JSC::jsString(QScriptEnginePrivate::get(eng)->currentFrame, value));
+   new (this) JSC::JSValue(JSC::jsString(QScriptEnginePrivate::get(eng)->currentFrame, QScript::toUString(value)));
 }
 
 QScriptDeclarativeClass::Value::Value(QScriptEngine *eng, const QScriptValue &value)
@@ -173,7 +181,7 @@ QScriptDeclarativeClass::PersistentIdentifier &QScriptDeclarativeClass::Persiste
 
 QString QScriptDeclarativeClass::PersistentIdentifier::toString() const
 {
-   return ((JSC::Identifier &)d).ustring();
+   return QScript::convertToString(((JSC::Identifier &)d).ustring());
 }
 
 QScriptDeclarativeClass::QScriptDeclarativeClass(QScriptEngine *engine)
@@ -249,7 +257,7 @@ QScriptValue QScriptDeclarativeClass::function(const QScriptValue &v, const Iden
    JSC::PropertySlot slot(const_cast<JSC::JSObject *>(object));
    JSC::JSValue result;
 
-   JSC::Identifier id(exec, (JSC::UString::Rep *)name);
+   JSC::Identifier id(exec, static_cast<WTF::StringImpl *>(name));
 
    if (const_cast<JSC::JSObject *>(object)->getOwnPropertySlot(exec, id, slot)) {
       result = slot.getValue(exec, id);
@@ -275,7 +283,7 @@ QScriptValue QScriptDeclarativeClass::property(const QScriptValue &v, const Iden
    JSC::PropertySlot slot(const_cast<JSC::JSObject *>(object));
    JSC::JSValue result;
 
-   JSC::Identifier id(exec, (JSC::UString::Rep *)name);
+   JSC::Identifier id(exec, static_cast<WTF::StringImpl *>(name));
 
    if (const_cast<JSC::JSObject *>(object)->getOwnPropertySlot(exec, id, slot)) {
       result = slot.getValue(exec, id);
@@ -299,7 +307,7 @@ QScriptDeclarativeClass::Value QScriptDeclarativeClass::functionValue(const QScr
    JSC::PropertySlot slot(const_cast<JSC::JSObject *>(object));
    JSC::JSValue result;
 
-   JSC::Identifier id(exec, (JSC::UString::Rep *)name);
+   JSC::Identifier id(exec, static_cast<WTF::StringImpl *>(name));
 
    if (const_cast<JSC::JSObject *>(object)->getOwnPropertySlot(exec, id, slot)) {
       result = slot.getValue(exec, id);
@@ -325,7 +333,7 @@ QScriptDeclarativeClass::Value QScriptDeclarativeClass::propertyValue(const QScr
    JSC::PropertySlot slot(const_cast<JSC::JSObject *>(object));
    JSC::JSValue result;
 
-   JSC::Identifier id(exec, (JSC::UString::Rep *)name);
+   JSC::Identifier id(exec, static_cast<WTF::StringImpl *>(name));
 
    if (const_cast<JSC::JSObject *>(object)->getOwnPropertySlot(exec, id, slot)) {
       result = slot.getValue(exec, id);
@@ -368,7 +376,7 @@ QScriptValue QScriptDeclarativeClass::scopeChainValue(QScriptContext *context, i
 
       if (index == 0) {
 
-         JSC::JSObject *object = *it;
+         JSC::JSObject *object = (*it).get();
          if (! object) {
             return QScriptValue();
          }
@@ -427,8 +435,8 @@ QScriptDeclarativeClass::createPersistentIdentifier(const QString &str)
    JSC::ExecState *exec = p->currentFrame;
 
    PersistentIdentifier rv(p);
-   new (&rv.d) JSC::Identifier(exec, (UChar *)str.constData(), str.size());
-   rv.identifier = (void *)((JSC::Identifier &)rv.d).ustring().rep();
+   new (&rv.d) JSC::Identifier(exec, QScript::toUString(str));
+   rv.identifier = static_cast<void *>(((JSC::Identifier &)rv.d).impl());
 
    return rv;
 }
@@ -442,33 +450,41 @@ QScriptDeclarativeClass::createPersistentIdentifier(const Identifier &id)
    JSC::ExecState *exec = p->currentFrame;
 
    PersistentIdentifier rv(p);
-   new (&rv.d) JSC::Identifier(exec, (JSC::UString::Rep *)id);
-   rv.identifier = (void *)((JSC::Identifier &)rv.d).ustring().rep();
+   new (&rv.d) JSC::Identifier(exec, static_cast<WTF::StringImpl *>(id));
+   rv.identifier = static_cast<void *>(((JSC::Identifier &)rv.d).impl());
    return rv;
 }
 
 QString QScriptDeclarativeClass::toString(const Identifier &identifier)
 {
-   JSC::UString::Rep *r = (JSC::UString::Rep *)identifier;
-   return QString((QChar *)r->data(), r->size());
+   JSC::UString string(static_cast<WTF::StringImpl *>(identifier));
+   return QScript::convertToString(string);
 }
 
 bool QScriptDeclarativeClass::startsWithUpper(const Identifier &identifier)
 {
-   JSC::UString::Rep *r = (JSC::UString::Rep *)identifier;
+   JSC::UString string(static_cast<WTF::StringImpl *>(identifier));
 
-   if (r->size() < 1) {
+   if (string.length() < 1) {
       return false;
    }
 
-   return QChar(char32_t(r->data()[0])).category() == QChar::Letter_Uppercase;
+   return QChar(char32_t(string.characters()[0])).category() == QChar::Letter_Uppercase;
 }
 
 quint32 QScriptDeclarativeClass::toArrayIndex(const Identifier &identifier, bool *ok)
 {
-   JSC::UString::Rep *r = (JSC::UString::Rep *)identifier;
-   JSC::UString s(r);
-   return s.toArrayIndex(ok);
+   JSC::UString string(static_cast<WTF::StringImpl *>(identifier));
+   bool resultOk = false;
+   quint32 result = JSC::Identifier::toUInt32(string, resultOk);
+
+   if (ok) {
+      *ok = resultOk;
+   }
+   if (! resultOk) {
+      return static_cast<quint32>(-1);
+   }
+   return result;
 }
 
 QScriptClass::QueryFlags QScriptDeclarativeClass::queryProperty(Object *object,
@@ -561,7 +577,7 @@ QScriptValue QScriptDeclarativeClass::newStaticScopeObject(
    for (int i = 0; i < propertyCount; ++i) {
       unsigned attribs = QScriptEnginePrivate::propertyFlagsToJSCAttributes(flags[i]);
       Q_ASSERT_X(attribs & JSC::DontDelete, Q_FUNC_INFO, "All properties must be undeletable");
-      JSC::Identifier id = JSC::Identifier(exec, names[i]);
+      JSC::Identifier id = QScript::toIdentifier(exec, names[i]);
       JSC::JSValue jsval = eng_p->scriptValueToJSCValue(values[i]);
       props[i] = QScriptStaticScopeObject::PropertyInfo(id, jsval, attribs);
    }

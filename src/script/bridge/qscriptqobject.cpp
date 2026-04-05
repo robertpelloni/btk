@@ -1895,7 +1895,7 @@ void QObjectDelegate::getOwnPropertyNames(QScriptObject *object, JSC::ExecState 
 
          if (isEnumerableMetaProperty(prop, meta, i)) {
             QString name = QString(prop.name());
-            propertyNames.add(JSC::Identifier(exec, name));
+            propertyNames.add(QScript::toIdentifier(exec, name));
          }
       }
    }
@@ -1905,7 +1905,7 @@ void QObjectDelegate::getOwnPropertyNames(QScriptObject *object, JSC::ExecState 
 
       for (int i = 0; i < dpNames.size(); ++i) {
          QString name = QString(dpNames.at(i));
-         propertyNames.add(JSC::Identifier(exec, name));
+         propertyNames.add(QScript::toIdentifier(exec, name));
       }
    }
 

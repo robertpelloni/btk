@@ -130,7 +130,7 @@ static JSC::JSValue JSC_HOST_CALL variantProtoFuncToString(JSC::ExecState *exec,
       result = value.toString(exec);
    }
 
-   return JSC::jsString(exec, result);
+   return JSC::jsString(exec, QScript::toUString(result));
 }
 
 bool QVariantDelegate::compareToObject(QScriptObject *, JSC::ExecState *exec, JSC::JSObject *o2)

@@ -40,7 +40,7 @@ QScriptStaticScopeObject::QScriptStaticScopeObject(WTF::NonNullPassRefPtr<JSC::S
    for (int i = 0; i < propertyCount; ++i, --index) {
       const PropertyInfo &prop = props[i];
       JSC::SymbolTableEntry entry(index, prop.attributes);
-      symbolTable().add(prop.identifier.ustring().rep(), entry);
+      symbolTable().add(prop.identifier.impl(), entry);
       registerAt(index) = prop.value;
    }
 }
@@ -112,7 +112,7 @@ void QScriptStaticScopeObject::addSymbolTableProperty(const JSC::Identifier &nam
 {
    int index = growRegisterArray(1);
    JSC::SymbolTableEntry newEntry(index, attributes | JSC::DontDelete);
-   symbolTable().add(name.ustring().rep(), newEntry);
+   symbolTable().add(name.impl(), newEntry);
    registerAt(index) = value;
 }
 

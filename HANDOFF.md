@@ -1,5 +1,31 @@
 # HANDOFF
 
+## Latest Session Additions
+- Performed a fresh process audit with `tasklist` and continued without terminating any background processes.
+- Continued Stage A `CsScript` recovery with a focused compatibility pass across Script engine glue and nearby bridge/api files.
+- Updated `src/script/api/qscriptengine_p.h` to use current `wtfThreadData()` identifier-table handling instead of the removed `JSC::setCurrentIdentifierTable(...)` helpers.
+- Reworked `QScript::UStringSourceProviderWithFeedback` away from inaccessible `JSC::UStringSourceProvider` construction and into a direct `JSC::SourceProvider` wrapper with Script-agent bookkeeping.
+- Replaced obsolete debugger-base `scriptLoad` / `scriptUnload` assumptions with routing through `QScriptEngineAgentPrivate` when an active Script agent exists.
+- Added current `QString`/JSC conversion helpers (`QScript::toUString(...)`, `QScript::toIdentifier(...)`) and used them to contract old `jsString(exec, QString)` / `Identifier(exec, QString)` breakage across multiple Script files.
+- Modernized `qscriptengine.cpp` bootstrap and restore logic to use current identifier-table access, and updated `qscriptengineagent_p.h` to the current `Debugger::sourceParsed(...)` signature.
+- Contracted a large `qscriptdeclarativeclass.cpp` failure cluster by replacing obsolete number/string boxing, old `UString::Rep`/`.rep()` assumptions, scope-chain raw pointer assumptions, and identifier-handle reconstruction.
+- Propagated low-risk `QString`/identifier/string-impl fixes into:
+  - `src/script/api/qscriptstring.cpp`
+  - `src/script/api/qscriptvalue.cpp`
+  - `src/script/bridge/qscriptclassobject.cpp`
+  - `src/script/bridge/qscriptdeclarativeobject.cpp`
+  - `src/script/bridge/qscriptqobject.cpp`
+  - `src/script/bridge/qscriptstaticscopeobject.cpp`
+  - `src/script/bridge/qscriptvariant.cpp`
+- Revalidated the direct Script MSVC probe multiple times and confirmed the build frontier moved away from broad engine-glue failures toward deeper bridge/header drift.
+- Added new detailed docs:
+  - `docs/ai/design/2026-04-05-csscript-bridge-header-frontier.md`
+  - `docs/ai/implementation/2026-04-05-csscript-engine-compatibility-pass.md`
+  - `docs/ai/testing/2026-04-05-csscript-engine-compatibility-pass-validation.md`
+- Bootstrapped project-local version tracking files:
+  - `VERSION`
+  - `CHANGELOG.md`
+
 ## Completed
 - Added `external/juce`, `external/ultimatepp`, and `external/bobui-reference` as git submodules.
 - Rebranded the root CMake project/package metadata to BTK.
@@ -77,16 +103,39 @@
 - A follow-up build attempt for `CsScript` first timed out while rebuilding prerequisites, but a direct project build with project references disabled then reached concrete Script-specific compile diagnostics.
 - The first real compile barrier is now clearly JavaScriptCore private API drift in files like `src/script/api/qscriptengine_p.h`, `src/script/bridge/qscriptactivationobject*`, `src/script/bridge/qscriptstaticscopeobject*`, `src/script/bridge/qscriptobject*`, `src/script/bridge/qscriptqobject*`, and `src/script/bridge/qscriptdeclarativeclass*`.
 - The new adaptation matrix now classifies representative failures into: current equivalent clearly exists (`setCurrentIdentifierTable`, moved `MarkStack`, moved `StringBuilder`), equivalent likely exists with contract drift (`UString`, `jsNumber`, `jsString`, `Structure::create`, symbol-table helpers), likely obsolete historical API (`scriptLoad` / `scriptUnload` style hooks), and deeper declarative bridge study (`qscriptdeclarativeclass*`).
+- The latest compatibility pass confirms the first broad `qscriptengine_p.h` / declarative-class drift cluster is now materially contracted.
+- The dominant remaining `CsScript` blockers are now concentrated in restored bridge/header contracts around:
+  - `qscriptobject_p.h`
+  - `qscriptstaticscopeobject_p.h/.cpp`
+  - `qscriptactivationobject_p.h/.cpp`
+  - `qscriptqobject_p.h`
+- The current error stream shows these bridge headers still depend on removed/changed JavaScriptCore contracts such as:
+  - `JSVariableObjectData`
+  - `JSVariableObject::d`
+  - legacy `Structure::create(...)` argument shapes
+  - old visit/marking flags like `OverridesMarkChildren`
+  - old `isDynamicScope()` signature instead of current `isDynamicScope(bool &)`
+- A second, separate blocker is now visible in the direct Script build: `runtime/JSString.cpp` reports `dllimport` / static metadata linkage mismatches, which looks like target/export plumbing drift rather than bridge-header API drift.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
 3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
-4. Continue Stage A `CsScript` recovery with a focused compatibility patch pass on `src/script/api/qscriptengine_p.h`, starting with the identifier-table and string/value conversion contracts already mapped to likely current equivalents.
-5. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
-6. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
-7. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
+4. Continue Stage A `CsScript` recovery with a focused bridge-header modernization pass in this order:
+   - `src/script/bridge/qscriptobject_p.h`
+   - `src/script/bridge/qscriptstaticscopeobject_p.h/.cpp`
+   - `src/script/bridge/qscriptactivationobject_p.h/.cpp`
+   - `src/script/bridge/qscriptqobject_p.h`
+5. Update each restored `JSVariableObject` subclass to the current JavaScriptCore contracts for:
+   - `isDynamicScope(bool &requiresDynamicChecks) const`
+   - symbol-table/register ownership
+   - structure creation
+   - current visit/marking flags
+6. Investigate the separate `runtime/JSString.cpp` `dllimport`/`s_info` mismatch as a distinct target/export-visibility track after or alongside the bridge-header pass.
+7. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
+8. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
+9. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
 - Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.

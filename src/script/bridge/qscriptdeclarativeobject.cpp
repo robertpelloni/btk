@@ -57,7 +57,7 @@ QScriptObjectDelegate::Type DeclarativeObjectDelegate::type() const
 bool DeclarativeObjectDelegate::getOwnPropertySlot(QScriptObject *object, JSC::ExecState *exec,
             const JSC::Identifier &propertyName, JSC::PropertySlot &slot)
 {
-   QScriptDeclarativeClass::Identifier identifier = (void *)propertyName.ustring().rep();
+   QScriptDeclarativeClass::Identifier identifier = static_cast<void *>(propertyName.impl());
 
    QScriptDeclarativeClassPrivate *p = QScriptDeclarativeClassPrivate::get(m_class);
    p->context = reinterpret_cast<QScriptContext *>(exec);
@@ -81,7 +81,7 @@ void DeclarativeObjectDelegate::put(QScriptObject *object, JSC::ExecState *exec,
 {
    QScriptEnginePrivate *engine = scriptEngineFromExec(exec);
    QScript::SaveFrameHelper saveFrame(engine, exec);
-   QScriptDeclarativeClass::Identifier identifier = (void *)propertyName.ustring().rep();
+   QScriptDeclarativeClass::Identifier identifier = static_cast<void *>(propertyName.impl());
 
    QScriptDeclarativeClassPrivate *p = QScriptDeclarativeClassPrivate::get(m_class);
    p->context = reinterpret_cast<QScriptContext *>(exec);
@@ -110,7 +110,7 @@ void DeclarativeObjectDelegate::getOwnPropertyNames(QScriptObject *object, JSC::
    QStringList properties = m_class->propertyNames(m_object);
    for (int ii = 0; ii < properties.count(); ++ii) {
       const QString &name = properties.at(ii);
-      propertyNames.add(JSC::Identifier(exec, name));
+      propertyNames.add(QScript::toIdentifier(exec, name));
    }
 
    QScriptObjectDelegate::getOwnPropertyNames(object, exec, propertyNames, mode);

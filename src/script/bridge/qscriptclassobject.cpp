@@ -214,7 +214,7 @@ void ClassObjectDelegate::getOwnPropertyNames(QScriptObject *object, JSC::ExecSt
       while (it->hasNext()) {
          it->next();
          QString name = it->name().toString();
-         propertyNames.add(JSC::Identifier(exec, name));
+         propertyNames.add(QScript::toIdentifier(exec, name));
       }
 
       delete it;

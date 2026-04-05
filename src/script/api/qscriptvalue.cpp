@@ -1016,7 +1016,7 @@ QScriptValue::PropertyFlags QScriptValue::propertyFlags(const QString &name, con
    QScript::APIShim shim(d->engine);
    JSC::ExecState *exec = d->engine->currentFrame;
 
-   return d->propertyFlags(JSC::Identifier(exec, name), mode);
+   return d->propertyFlags(QScript::toIdentifier(exec, name), mode);
 }
 
 QScriptValue::PropertyFlags QScriptValue::propertyFlags(const QScriptString &name, const ResolveFlags &mode) const

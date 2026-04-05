@@ -720,7 +720,7 @@ JSC::JSValue JSC_HOST_CALL functionQsTrId(JSC::ExecState *exec, JSC::JSObject *,
    if (args.size() > 1) {
       n = args.at(1).toInt32(exec);
    }
-   return JSC::jsString(exec, qtTrId(id.UTF8String().c_str(), n));
+   return JSC::jsString(exec, QScript::toUString(qtTrId(id.UTF8String().c_str(), n)));
 }
 
 JSC::JSValue JSC_HOST_CALL functionQsTrIdNoOp(JSC::ExecState *, JSC::JSObject *, JSC::JSValue, const JSC::ArgList &args)
@@ -748,7 +748,7 @@ JSC::JSValue JSC_HOST_CALL stringProtoFuncArg(JSC::ExecState *exec, JSC::JSObjec
       result = value.formatArg(arg.toNumber(exec));
    }
 
-   return JSC::jsString(exec, result);
+   return JSC::jsString(exec, QScript::toUString(result));
 }
 
 static QScriptValue __setupPackage__(QScriptContext *ctx, QScriptEngine *eng)
@@ -784,7 +784,7 @@ QScriptEnginePrivate::QScriptEnginePrivate()
    }
 
    JSC::initializeThreading();
-   JSC::IdentifierTable *oldTable = JSC::currentIdentifierTable();
+   JSC::IdentifierTable *oldTable = wtfThreadData().currentIdentifierTable();
    globalData = JSC::JSGlobalData::create().releaseRef();
    globalData->clientData = new QScript::GlobalClientData(this);
    JSC::JSGlobalObject *globalObject = new (globalData)QScript::GlobalObject();
@@ -835,7 +835,7 @@ QScriptEnginePrivate::QScriptEnginePrivate()
 
    cachedTranslationUrl = JSC::UString();
    cachedTranslationContext = JSC::UString();
-   JSC::setCurrentIdentifierTable(oldTable);
+   wtfThreadData().setCurrentIdentifierTable(oldTable);
 }
 
 QScriptEnginePrivate::~QScriptEnginePrivate()
@@ -2500,7 +2500,7 @@ JSC::JSValue QScriptEnginePrivate::create(JSC::ExecState *exec, const QVariant &
             return JSC::jsNumber(exec, data.getData<QChar32>().unicode());
 
          case QVariant::String:
-            return JSC::jsString(exec, data.getData<QString>());
+            return JSC::jsString(exec, QScript::toUString(data.getData<QString>()));
 
          //
          case QVariant::StringList:

@@ -127,7 +127,7 @@ QString QScriptString::toString() const
    if (!d || !d->engine) {
       return QString();
    }
-   return d->identifier.ustring();
+   return QScript::convertToString(d->identifier.ustring());
 }
 
 QScriptString::operator QString() const
@@ -141,5 +141,5 @@ uint qHash(const QScriptString &key)
    if (!d) {
       return 0;
    }
-   return qHash(d->identifier.ustring().rep());
+   return qHash(d->identifier.impl());
 }

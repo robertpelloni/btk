@@ -130,14 +130,58 @@ BTK is now materially more usable on Windows than before this build-enablement p
 
 That said, the entire framework stack is not yet fully validated end-to-end in this session because the heaviest remaining downstream module (`WebKit`) did not finish in the available timeout window.
 
+## Package install and downstream smoke validation
+A local staged install now succeeds to:
+- `build-vs2019/install`
+
+Command used:
+
+```powershell
+cmake --install build-vs2019 --config Release --prefix C:/Users/hyper/workspace/btk/build-vs2019/install
+```
+
+After building `CsWebKit`, the staged install completed successfully and included:
+- BTK/CopperSpice CMake package files under `build-vs2019/install/cmake/BTK`
+- installed headers
+- installed libraries and tools
+
+### Downstream `find_package(BTK)` validation
+The existing package smoke example under:
+- `docs/ai/testing/btk-package-smoke-example/`
+
+was then validated against the staged install.
+
+Configuration command:
+
+```powershell
+cmake -S docs/ai/testing/btk-package-smoke-example \
+      -B build-vs2019/package-smoke \
+      -G "Visual Studio 16 2019" -A x64 \
+      -DBTK_DIR=C:/Users/hyper/workspace/btk/build-vs2019/install/cmake/BTK
+```
+
+Build command:
+
+```powershell
+cmake --build build-vs2019/package-smoke --config Release --parallel 8
+```
+
+Runtime validation:
+- `build-vs2019/package-smoke/Release/btk_package_smoke.exe` executed successfully when `build-vs2019/install/bin` was added to `PATH`.
+
+### Downstream sample adjustments required
+The smoke sample needed two practical fixes:
+- explicitly request `CMAKE_CXX_STANDARD 20`
+- use `BtkString::empty()` instead of Qt-style `isEmpty()`
+
+This is important evidence that BTK package consumption now works, but also that the public compatibility layer still reflects real CopperSpice/BTK behavior rather than full Qt-API equivalence.
+
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
-2. Prioritize the remaining heavyweight modular validation for:
-   - `WebKit`
-   - any deferred plugins / optional runtime pieces
+2. Prioritize any deferred plugins / optional runtime pieces beyond the now-built core module set.
 3. Keep adapting recent BTK additions to actual CopperSpice/BTK APIs rather than Qt-assumed APIs.
-4. Add a small downstream smoke application built against the generated BTK artifacts.
-5. Validate `find_package(BTK)` against the produced Windows build/install path.
+4. Expand the downstream smoke application into a slightly richer GUI/package validation example.
+5. Improve BTK wrapper ergonomics where practical so downstream examples need fewer CopperSpice-specific adjustments.
 
 ## Bottom line
 This session materially improved build readiness:

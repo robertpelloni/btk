@@ -31,7 +31,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
-- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, and `CsMultimedia` `Release` builds under `build-vs2019`.
+- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` `Release` builds under `build-vs2019`, along with a staged install and successful downstream `find_package(BTK)` smoke validation.
 
 ## Strategic assessment
 The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus BobUI improvements) is a long multi-phase program, not a single-session edit. The safest path is:
@@ -40,8 +40,8 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 - subsystem-by-subsystem implementation and validation
 
 ## Immediate technical follow-up
-- Continue the successful Windows/MSVC build path beyond `CsGui`, especially large downstream modules such as `WebKit`, with longer-running modular build passes.
-- Validate `find_package(BTK)` from a downstream sample against the generated Windows build artifacts.
+- Expand downstream BTK package validation beyond the now-working `find_package(BTK)` core smoke path into richer GUI/package consumption examples.
+- Continue the successful Windows/MSVC build path into any deferred optional modules/plugins beyond the current built set.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
 - Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 - Decide whether existing `src/declarative` is salvageable or whether a new BTK declarative runtime is cleaner.

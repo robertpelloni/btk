@@ -36,23 +36,27 @@
 - BobUI is useful for multiplayer ownership ideas and WebView bridge concepts, but much of it remains partial/aspirational.
 - JUCE is the strongest reference for audio/DSP/plugin work.
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
-- Windows/MSVC configuration is now working; `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, and `CsMultimedia` have been built successfully in `Release` under `build-vs2019`.
+- Windows/MSVC configuration is now working; `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` have been built successfully in `Release` under `build-vs2019`.
+- A staged Windows install now succeeds under `build-vs2019/install`, including BTK package config files.
+- The downstream `find_package(BTK)` smoke example now configures, builds, and runs successfully against the staged install.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
-1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
+1. Expand the downstream BTK package smoke path beyond core-only consumption into a richer GUI-aware validation example.
 2. Expand the public alias layer cautiously based on validation feedback.
 3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
 - Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.
-- `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, `uic`, and `rcc` have been built successfully in `Release` under `build-vs2019`.
-- A full solution build advanced deeply into `WebKit` but did not complete within the available command timeout window.
-- Remaining validation is now about build duration / downstream-module completion, not total compiler absence.
+- `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, `CsWebKit`, `uic`, and `rcc` have been built successfully in `Release` under `build-vs2019`.
+- A staged install now succeeds under `build-vs2019/install`.
+- A downstream `find_package(BTK)` smoke example now configures, builds, and runs successfully against that staged install.
+- Remaining validation is now about broader downstream/package coverage and optional/deferred module completion, not total compiler absence.
 
 ## Not Done
 - Full repo-wide `Cs*` symbol migration.
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
 - Full end-to-end `Release` build of all remaining modules in a single pass.
+- Richer downstream GUI/package smoke validation beyond the current core-only sample.

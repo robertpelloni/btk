@@ -1,0 +1,1272 @@
+{
+  "script_reference_count": 464,
+  "webkit_reference_count": 212,
+  "script_paths_existing": 408,
+  "script_paths_missing": 56,
+  "script_paths_also_in_webkit_cmake": 147,
+  "missing_by_subtree": {
+    "runtime": 20,
+    "pcre": 10,
+    "wrec": 9,
+    "yarr": 8,
+    "generated": 3,
+    "wtf": 3,
+    "jit": 2,
+    "unicode": 1
+  },
+  "existing_by_subtree": {
+    "runtime": 165,
+    "wtf": 85,
+    "API": 33,
+    "assembler": 19,
+    "jit": 15,
+    "parser": 14,
+    "ForwardingHeaders": 13,
+    "bytecode": 13,
+    "generated": 11,
+    "profiler": 11,
+    "interpreter": 10,
+    "bytecompiler": 7,
+    "debugger": 7,
+    "os-win32": 2,
+    "JavaScriptCorePrefix.h": 1,
+    "config.h": 1,
+    "heap": 1
+  },
+  "missing_samples": [
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/Grammar.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/chartables.c",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorPosix.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorWin.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_compile.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_exec.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_internal.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_tables.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_ucp_searchfuncs.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/pcre_xclass.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucpinternal.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/pcre/ucptable.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/Collector.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/CollectorHeapIterator.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/GlobalEvalFunction.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSImmediate.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSNumberCell.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStack.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackPosix.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/MarkStackWin.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/StringBuilder.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/UStringImpl.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/runtime/WeakGCPtr.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/unicode",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClass.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/CharacterClassConstructor.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/Escapes.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/Quantifier.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WREC.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECFunctors.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECGenerator.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wrec/WRECParser.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/PtrAndFlags.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/StringHashFunctions.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/wtf/android/AndroidThreading.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexCompiler.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexInterpreter.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.cpp",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexJIT.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexParser.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/yarr/RegexPattern.h",
+      "exists": false,
+      "is_file": false,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    }
+  ],
+  "existing_samples": [
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/APICast.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/APIShims.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSBase.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSBase.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSBasePrivate.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackConstructor.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackConstructor.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackFunction.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackFunction.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackObject.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackObject.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSCallbackObjectFunctions.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSClassRef.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSClassRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSContextRef.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSContextRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSContextRefPrivate.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSObjectRef.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSObjectRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSProfilerPrivate.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSRetainPtr.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSStringRef.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSStringRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSStringRefBSTR.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSStringRefCF.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSValueRef.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JSValueRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JavaScript.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/JavaScriptCore.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/OpaqueJSString.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/OpaqueJSString.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/API/WebKitAvailability.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/APICast.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSBase.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSContextRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSObjectRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSRetainPtr.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSStringRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSStringRefCF.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JSValueRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JavaScript.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/JavaScriptCore.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/OpaqueJSString.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/ForwardingHeaders/JavaScriptCore/WebKitAvailability.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCorePrefix.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/ARMAssembler.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/ARMAssembler.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/ARMv7Assembler.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/AbstractMacroAssembler.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/AssemblerBuffer.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/AssemblerBufferWithConstantPool.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/CodeLocation.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/LinkBuffer.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssembler.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerARM.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerARM.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerARMv7.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerCodeRef.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerX86.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerX86Common.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/MacroAssemblerX86_64.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/RepatchBuffer.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/assembler/X86Assembler.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/CodeBlock.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/CodeBlock.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/EvalCodeCache.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/Instruction.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/JumpTable.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/JumpTable.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/Opcode.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/Opcode.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/SamplingTool.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/SamplingTool.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/StructureStubInfo.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecode/StructureStubInfo.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/BytecodeGenerator.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/BytecodeGenerator.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/Label.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/LabelScope.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/NodesCodegen.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/bytecompiler/RegisterID.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/config.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/Debugger.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/Debugger.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/DebuggerActivation.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/DebuggerActivation.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/DebuggerCallFrame.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/debugger/DebuggerCallFrame.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/ArrayPrototype.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/DatePrototype.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/GeneratedJITStubs_RVCT.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/JSONObject.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/Lexer.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/MathObject.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/NumberConstructor.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/RegExpConstructor.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/RegExpObject.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/generated/StringPrototype.lut.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/heap",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/CachedCall.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/CallFrame.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/CallFrame.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/CallFrameClosure.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/Interpreter.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/Interpreter.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/Register.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/RegisterFile.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/interpreter/RegisterFile.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit",
+      "exists": true,
+      "is_file": false,
+      "is_dir": true,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocator.h",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": false
+    },
+    {
+      "path": "src/3rdparty/webkit/Source/JavaScriptCore/jit/ExecutableAllocatorFixedVMPool.cpp",
+      "exists": true,
+      "is_file": true,
+      "is_dir": false,
+      "in_webkit_cmake": true
+    }
+  ]
+}

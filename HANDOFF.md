@@ -36,7 +36,7 @@
 - BobUI is useful for multiplayer ownership ideas and WebView bridge concepts, but much of it remains partial/aspirational.
 - JUCE is the strongest reference for audio/DSP/plugin work.
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
-- Windows/MSVC configuration is now working; `CsCore`, `CsXml`, and `CsGui` have been built successfully in `Release` under `build-vs2019`.
+- Windows/MSVC configuration is now working; `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, and `CsMultimedia` have been built successfully in `Release` under `build-vs2019`.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
@@ -47,7 +47,7 @@
 
 ## Validation / Blockers
 - Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.
-- `CsCore`, `CsXml`, `CsGui`, `uic`, and `rcc` have been built successfully in `Release` under `build-vs2019`.
+- `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, `uic`, and `rcc` have been built successfully in `Release` under `build-vs2019`.
 - A full solution build advanced deeply into `WebKit` but did not complete within the available command timeout window.
 - Remaining validation is now about build duration / downstream-module completion, not total compiler absence.
 

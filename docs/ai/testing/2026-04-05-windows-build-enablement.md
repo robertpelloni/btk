@@ -67,10 +67,16 @@ After the flag-declaration fixes and further CopperSpice-compatibility adjustmen
 - `build-vs2019/bin/Release/CsCore2.1.dll`
 - `build-vs2019/bin/Release/CsXml2.1.dll`
 - `build-vs2019/bin/Release/CsGui2.1.dll`
+- `build-vs2019/bin/Release/CsNetwork2.1.dll`
+- `build-vs2019/bin/Release/CsOpenGL2.1.dll`
+- `build-vs2019/bin/Release/CsSql2.1.dll`
+- `build-vs2019/bin/Release/CsSvg2.1.dll`
+- `build-vs2019/bin/Release/CsXmlPatterns2.1.dll`
+- `build-vs2019/bin/Release/CsMultimedia2.1.dll`
 - `build-vs2019/bin/Release/uic.exe`
 - `build-vs2019/bin/Release/rcc.exe`
 
-This is a meaningful milestone: BTK is no longer just hypothetically structured for buildability. Core + XML + GUI artifacts were produced successfully on Windows.
+This is a meaningful milestone: BTK is no longer just hypothetically structured for buildability. A substantial Windows runtime slice is now produced successfully, not just isolated core pieces.
 
 ## Additional source compatibility fixes required
 The recent BTK diagnostic/overlay additions were initially written with more Qt-style APIs than this codebase exposes.
@@ -120,26 +126,24 @@ BTK is now materially more usable on Windows than before this build-enablement p
 - the project configures successfully with MSVC
 - foundational runtime artifacts exist
 - GUI-layer BTK additions now compile cleanly within `CsGui`
+- several important downstream modules now build successfully as modular targets (`Network`, `OpenGL`, `Sql`, `Svg`, `XmlPatterns`, `Multimedia`)
 
-That said, the entire framework stack is not yet fully validated end-to-end in this session because the full solution build did not finish before timeout.
+That said, the entire framework stack is not yet fully validated end-to-end in this session because the heaviest remaining downstream module (`WebKit`) did not finish in the available timeout window.
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
-2. Prioritize modular validation for:
-   - `Network`
-   - `OpenGL`
-   - `Sql`
-   - `Svg`
-   - `XmlPatterns`
+2. Prioritize the remaining heavyweight modular validation for:
    - `WebKit`
+   - any deferred plugins / optional runtime pieces
 3. Keep adapting recent BTK additions to actual CopperSpice/BTK APIs rather than Qt-assumed APIs.
-4. Once modular libraries are built, add a small downstream smoke application built against the generated BTK artifacts.
+4. Add a small downstream smoke application built against the generated BTK artifacts.
+5. Validate `find_package(BTK)` against the produced Windows build/install path.
 
 ## Bottom line
 This session materially improved build readiness:
 - BTK now configures with MSVC on Windows
-- `CsCore`, `CsXml`, and `CsGui` build successfully
-- the project reaches deep into the remaining stack before timing out
+- `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, and `CsMultimedia` build successfully
+- the project reaches deep into the remaining stack before timing out on heavier full-solution work
 - the biggest recent source-compatibility regressions introduced by BTK overlay/diagnostic work were corrected
 
 That is a real step from scaffolding toward usable framework output.

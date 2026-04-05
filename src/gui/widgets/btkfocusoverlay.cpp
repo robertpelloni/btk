@@ -350,6 +350,7 @@ QSize BtkFocusOverlay::sizeHint() const
       height += fm.height() + 18;
       height += fm.height() + 18;
       height += fm.height() + 18;
+      height += fm.height() + 18;
    }
 
    if (shouldRenderPanel(FocusPanel)) {
@@ -359,13 +360,17 @@ QSize BtkFocusOverlay::sizeHint() const
       height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusPopupRelationship) + 12;
    }
 
-   if (shouldRenderPanel(OwnerPanel) && (! m_snapshot.ownerSummaries.isEmpty() || ! m_snapshot.blockerSummaries.isEmpty())) {
+   if (shouldRenderPanel(OwnerPanel)
+      && (! m_snapshot.ownerSummaries.isEmpty() || ! m_snapshot.blockerSummaries.isEmpty() || ! m_snapshot.blockerDetailSummaries.isEmpty())) {
       height += fm.height() + 6;
       for (const auto &ownerSummary : m_snapshot.ownerSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, ownerSummary) + 8;
       }
       for (const auto &blockerSummary : m_snapshot.blockerSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, blockerSummary) + 8;
+      }
+      for (const auto &blockerDetail : m_snapshot.blockerDetailSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, blockerDetail) + 8;
       }
       height += 4;
    }
@@ -380,7 +385,7 @@ QSize BtkFocusOverlay::sizeHint() const
 
    if (shouldRenderPanel(RelationshipPanel)
       && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
-         || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
+         || (m_targetWidget && ! targetBlockerDigests().isEmpty()) || ! mismatchDigests().isEmpty())) {
       height += fm.height() + 6;
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
@@ -390,6 +395,9 @@ QSize BtkFocusOverlay::sizeHint() const
       }
       for (const auto &relationship : targetBlockerDigests()) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
+      }
+      for (const auto &mismatch : mismatchDigests()) {
+         height += btkWrappedTextHeight(fm, innerWidth, mismatch) + 8;
       }
       height += 4;
    }
@@ -511,8 +519,14 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          QString::number(m_snapshot.blockedReasonCount()),
          m_snapshot.blockedReasonCount() > 0 ? QColor(255, 196, 92, 210) : QColor(90, 220, 160, 210));
 
+      y += painter.fontMetrics().height() + 18;
+
+      btkDrawChip(painter, left, y, QString("mismatches"),
+         QString::number(mismatchCount()),
+         mismatchCount() > 0 ? QColor(255, 110, 110, 210) : QColor(90, 220, 160, 210));
+
       if (m_blockedRoutesOnly) {
-         btkDrawChip(painter, left + 430, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
+         btkDrawChip(painter, left + 170, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
       }
 
       y += painter.fontMetrics().height() + 18;
@@ -543,6 +557,13 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       }
    }
 
+   if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.blockerDetailSummaries.isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Blocker Drilldown"));
+      for (const auto &blockerDetail : m_snapshot.blockerDetailSummaries) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, blockerDetail, btkOverlayAccentForLine(blockerDetail));
+      }
+   }
+
    if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Popup Stack"));
       for (const auto &popupSummary : m_snapshot.popupStackSummaries) {
@@ -562,6 +583,13 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       }
       for (const auto &relationship : targetBlockerDigests()) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
+      }
+   }
+
+   if (shouldRenderPanel(RelationshipPanel) && ! mismatchDigests().isEmpty()) {
+      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Mismatches"));
+      for (const auto &mismatch : mismatchDigests()) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, mismatch, btkOverlayAccentForLine(mismatch));
       }
    }
 
@@ -688,6 +716,34 @@ QStringList BtkFocusOverlay::targetBlockerDigests() const
    });
 }
 
+QStringList BtkFocusOverlay::mismatchDigests() const
+{
+   QStringList retval;
+
+   const auto collectMismatch = [&](const QStringList &summaries) {
+      for (const auto &summary : summaries) {
+         if (summary.contains("sameOwner=false")
+            || (summary.contains("blockerOwner=") && ! summary.contains("blockerOwner=<none>"))
+            || (summary.contains("reason=") && ! summary.contains("reason=<none>"))) {
+            if (! retval.contains(summary)) {
+               retval.append(summary);
+            }
+         }
+      }
+   };
+
+   collectMismatch(m_snapshot.relationshipSummaries);
+   collectMismatch(targetRelationshipDigests());
+   collectMismatch(targetBlockerDigests());
+
+   return retval;
+}
+
+int BtkFocusOverlay::mismatchCount() const
+{
+   return mismatchDigests().size();
+}
+
 QString BtkFocusOverlay::targetDecisionSummary() const
 {
    if (! m_snapshot.targetDecisionSummary.isEmpty()) {
@@ -712,6 +768,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
       lines.append(QString("blockedReasonCount=%1").arg(m_snapshot.blockedReasonCount()));
       lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
+      lines.append(QString("mismatchCount=%1").arg(mismatchCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
    }
@@ -732,6 +789,11 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(m_snapshot.blockerSummaries);
    }
 
+   if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.blockerDetailSummaries.isEmpty()) {
+      lines.append(QString("blockerDrilldown:"));
+      lines.append(m_snapshot.blockerDetailSummaries);
+   }
+
    if (shouldRenderPanel(PopupPanel) && ! m_snapshot.popupStackSummaries.isEmpty()) {
       lines.append(QString("popupStack:"));
       lines.append(m_snapshot.popupStackSummaries);
@@ -744,6 +806,11 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(m_snapshot.relationshipSummaries);
       lines.append(targetRelationshipDigests());
       lines.append(targetBlockerDigests());
+   }
+
+   if (shouldRenderPanel(RelationshipPanel) && ! mismatchDigests().isEmpty()) {
+      lines.append(QString("mismatches:"));
+      lines.append(mismatchDigests());
    }
 
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {

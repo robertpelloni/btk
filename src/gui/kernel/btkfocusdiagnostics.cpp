@@ -83,7 +83,8 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
       && currentStateText.isEmpty() && popupStackSummaries.isEmpty()
       && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
-      && blockedRouteSummaries.isEmpty() && blockedReasonSummaries.isEmpty() && blockerSummaries.isEmpty()
+      && blockedRouteSummaries.isEmpty() && blockedReasonSummaries.isEmpty()
+      && blockerSummaries.isEmpty() && blockerDetailSummaries.isEmpty()
       && relationshipSummaries.isEmpty()
       && lines.isEmpty();
 }
@@ -111,6 +112,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    QHash<QString, int> ownerCounts;
    QHash<QString, int> blockerCounts;
    QHash<QString, int> blockedReasonCounts;
+   QHash<QString, int> blockerDetailCounts;
 
    for (const QString &line : retval.lines) {
       if (line.startsWith("token=")) {
@@ -145,6 +147,11 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
          if (! reason.isEmpty() && reason != QString("<none>")) {
             blockedReasonCounts[reason] += 1;
          }
+
+         if (! blocker.isEmpty() && blocker != QString("<none>")) {
+            const QString blockerDetailKey = blocker + QString("|") + (reason.isEmpty() ? QString("<none>") : reason);
+            blockerDetailCounts[blockerDetailKey] += 1;
+         }
       }
    }
 
@@ -160,9 +167,20 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       retval.blockedReasonSummaries.append(QString("blockedReason=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
    }
 
+   for (auto iter = blockerDetailCounts.cbegin(); iter != blockerDetailCounts.cend(); ++iter) {
+      const QStringList parts = iter.key().split('|');
+      const QString blocker = parts.value(0);
+      const QString reason = parts.value(1, QString("<none>"));
+      retval.blockerDetailSummaries.append(QString("blocker=%1 reason=%2 blockedRoutes=%3")
+         .arg(blocker)
+         .arg(reason)
+         .arg(iter.value()));
+   }
+
    btkSortSummaryList(retval.ownerSummaries, QString("tokens"));
    btkSortSummaryList(retval.blockerSummaries, QString("blockedRoutes"));
    btkSortSummaryList(retval.blockedReasonSummaries, QString("blockedRoutes"));
+   btkSortSummaryList(retval.blockerDetailSummaries, QString("blockedRoutes"));
 
    retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("focusVsPopup"),
       QString("focusOwner"), retval.focusOwnerId, QString("popupOwner"), retval.activePopupOwnerId));

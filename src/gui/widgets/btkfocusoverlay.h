@@ -72,6 +72,8 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    QString targetRelationshipSummary() const;
    QStringList targetRelationshipDigests() const;
    QStringList targetBlockerDigests() const;
+   QStringList mismatchDigests() const;
+   int mismatchCount() const;
    QString targetDecisionSummary() const;
 
    QSize sizeHint() const override;

@@ -102,7 +102,8 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - token summaries
 - blocked-route summaries
 - blocked-reason group summaries derived from route decisions, count-prioritized for more stable inspection
-- optional target-widget context, popup-relationship, relationship-digest comparison, and decision reporting
+- blocker drilldown summaries grouped by blocker owner and route reason
+- optional target-widget context, popup-relationship, relationship-digest comparison, mismatch highlighting, and decision reporting
 - panel-based visibility control for summary/focus/owner/popup/relationship/token/target/blocked/raw sections
 - preset-oriented modes for compact, owner-centric, analysis, and full views
 - blocked-only filtering and preset cycling support

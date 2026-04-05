@@ -1,6 +1,34 @@
 # HANDOFF
 
 ## Latest Session Additions
+- Performed another fresh process audit and continued without terminating any running processes.
+- Continued Stage A `CsScript` recovery by attacking the next reduced frontier in restored declarative/class delegate call plumbing.
+- Updated the restored declarative/class delegate ABI surface to the current JavaScriptCore host-call contract:
+  - `src/script/bridge/qscriptdeclarativeobject_p.h`
+  - `src/script/bridge/qscriptdeclarativeobject.cpp`
+  - `src/script/bridge/qscriptclassobject_p.h`
+  - `src/script/bridge/qscriptclassobject.cpp`
+- Introduced proxy entry points matching current JSC expectations while preserving the older business logic in `callImpl(...)` / `constructImpl(...)` helpers.
+- Replaced stale enum-style `throwError(exec, JSC::TypeError, ...)` assumptions in this reduced frontier with current `createTypeError(...)` + `throwError(...)` composition.
+- Revalidated the direct MSVC Script probe against:
+  - `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+- Confirmed the previous reduced hard-stop frontier in:
+  - `qscriptdeclarativeobject.cpp`
+  - `qscriptclassobject.cpp`
+  no longer appears first.
+- Observed the probe progress materially deeper into later JavaScriptCore/API compilation before the synchronous validation timeout, indicating the declarative/class call-ABI frontier was successfully contracted.
+- Added probe5 detached persisted-log helper scaffolding:
+  - `build-vs2019-script-probe5/run_csscript_background_wmi.ps1`
+  - launched detached background wrapper PID `63776`
+  - intended logs:
+    - `build-vs2019-script-probe5/csscript-direct-background.out.log`
+    - `build-vs2019-script-probe5/csscript-direct-background.err.log`
+  - note: immediate log creation was not yet observed during the session, so the next agent should verify whether the wrapper is still alive and whether the log files appear after startup latency.
+- Added new detailed docs:
+  - `docs/ai/design/2026-04-05-csscript-declarative-call-abi-pass.md`
+  - `docs/ai/implementation/2026-04-05-csscript-declarative-call-abi-pass.md`
+  - `docs/ai/testing/2026-04-05-csscript-declarative-call-abi-pass-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.4`.
 - Performed another fresh process audit using PowerShell/WMI-style process enumeration and continued without terminating any running processes.
 - Continued Stage A `CsScript` recovery with a host-function compatibility pass focused on the removed historical JavaScriptCore substrate expected by restored QtScript-era code.
 - Added narrow embedded-JSC compatibility adapters:

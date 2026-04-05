@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.1.4 - 2026-04-05
+- adapted restored declarative/class delegate call and construct plumbing to the current JavaScriptCore host-call ABI
+- replaced stale enum-style `JSC::TypeError` throw assumptions in the reduced declarative/class frontier with `createTypeError(...)` + `throwError(...)`
+- revalidated `build-vs2019-script-probe5/src/script/CsScript.vcxproj` and confirmed the prior reduced frontier in `qscriptdeclarativeobject.cpp` / `qscriptclassobject.cpp` no longer appears first
+- observed the direct MSVC probe progress materially deeper into later JavaScriptCore/API compilation before timing out
+- added detached probe5 persisted-log helper scaffolding and documented the new deeper validation state
+
 ## 0.1.3 - 2026-04-05
 - added a narrow JavaScriptCore compatibility bridge for restored QtScript-era host functions:
   - `runtime/NativeFunctionWrapper.h`

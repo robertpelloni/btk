@@ -129,18 +129,24 @@ JSC::CallType DeclarativeObjectDelegate::getCallData(QScriptObject *object, JSC:
    return JSC::CallTypeHost;
 }
 
-JSC::JSValue DeclarativeObjectDelegate::call(JSC::ExecState *exec, JSC::JSObject *callee,
+JSC::EncodedJSValue JSC_HOST_CALL DeclarativeObjectDelegate::call(JSC::ExecState *exec)
+{
+   JSC::ArgList args(exec);
+   return JSC::JSValue::encode(callImpl(exec, exec->callee(), exec->hostThisValue(), args));
+}
+
+JSC::JSValue DeclarativeObjectDelegate::callImpl(JSC::ExecState *exec, JSC::JSObject *callee,
             JSC::JSValue thisValue, const JSC::ArgList &args)
 {
    if (!callee->inherits(&QScriptObject::info)) {
-      return JSC::throwError(exec, JSC::TypeError, "callee is not a DeclarativeObject object");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("callee is not a DeclarativeObject object"))));
    }
 
    QScriptObject *obj = static_cast<QScriptObject *>(callee);
    QScriptObjectDelegate *delegate = obj->delegate();
 
    if (!delegate || (delegate->type() != QScriptObjectDelegate::DeclarativeClassObject)) {
-      return JSC::throwError(exec, JSC::TypeError, "callee is not a DeclarativeObject object");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("callee is not a DeclarativeObject object"))));
    }
 
    QScriptDeclarativeClass *scriptClass = static_cast<DeclarativeObjectDelegate *>(delegate)->m_class;
@@ -150,13 +156,13 @@ JSC::JSValue DeclarativeObjectDelegate::call(JSC::ExecState *exec, JSC::JSObject
    eng_p->pushContext(exec, thisValue, args, callee);
    QScriptContext *ctxt = eng_p->contextForFrame(eng_p->currentFrame);
 
-   QScriptValue scriptObject = eng_p->scriptValueFromJSCValue(obj);
+   Q_UNUSED(eng_p->scriptValueFromJSCValue(obj));
    QScriptDeclarativeClass::Value result =
       scriptClass->call(static_cast<DeclarativeObjectDelegate *>(delegate)->m_object, ctxt);
 
    eng_p->popContext();
 
-   return (JSC::JSValue &)(result);
+   return reinterpret_cast<JSC::JSValue &>(result);
 }
 
 JSC::ConstructType DeclarativeObjectDelegate::getConstructData(QScriptObject *object, JSC::ConstructData &constructData)

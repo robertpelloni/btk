@@ -57,10 +57,12 @@ class ClassObjectDelegate : public QScriptObjectDelegate
       JSC::EnumerationMode mode = JSC::ExcludeDontEnumProperties);
 
    virtual JSC::CallType getCallData(QScriptObject *, JSC::CallData &);
-   static JSC::JSValue JSC_HOST_CALL call(JSC::ExecState *, JSC::JSObject *,
+   static JSC::EncodedJSValue JSC_HOST_CALL call(JSC::ExecState *);
+   static JSC::JSValue callImpl(JSC::ExecState *, JSC::JSObject *,
       JSC::JSValue, const JSC::ArgList &);
    virtual JSC::ConstructType getConstructData(QScriptObject *, JSC::ConstructData &);
-   static JSC::JSObject *construct(JSC::ExecState *, JSC::JSObject *,
+   static JSC::EncodedJSValue JSC_HOST_CALL construct(JSC::ExecState *);
+   static JSC::JSObject *constructImpl(JSC::ExecState *, JSC::JSObject *,
       const JSC::ArgList &);
 
    virtual bool hasInstance(QScriptObject *, JSC::ExecState *,

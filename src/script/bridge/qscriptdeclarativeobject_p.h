@@ -79,7 +79,8 @@ class DeclarativeObjectDelegate : public QScriptObjectDelegate
       JSC::EnumerationMode mode = JSC::ExcludeDontEnumProperties);
 
    virtual JSC::CallType getCallData(QScriptObject *, JSC::CallData &);
-   static JSC::JSValue JSC_HOST_CALL call(JSC::ExecState *, JSC::JSObject *,
+   static JSC::EncodedJSValue JSC_HOST_CALL call(JSC::ExecState *);
+   static JSC::JSValue callImpl(JSC::ExecState *, JSC::JSObject *,
       JSC::JSValue, const JSC::ArgList &);
 
    virtual JSC::ConstructType getConstructData(QScriptObject *, JSC::ConstructData &);

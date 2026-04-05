@@ -232,18 +232,24 @@ JSC::CallType ClassObjectDelegate::getCallData(QScriptObject *, JSC::CallData &c
    return JSC::CallTypeHost;
 }
 
-JSC::JSValue JSC_HOST_CALL ClassObjectDelegate::call(JSC::ExecState *exec, JSC::JSObject *callee,
+JSC::EncodedJSValue JSC_HOST_CALL ClassObjectDelegate::call(JSC::ExecState *exec)
+{
+   JSC::ArgList args(exec);
+   return JSC::JSValue::encode(callImpl(exec, exec->callee(), exec->hostThisValue(), args));
+}
+
+JSC::JSValue ClassObjectDelegate::callImpl(JSC::ExecState *exec, JSC::JSObject *callee,
    JSC::JSValue thisValue, const JSC::ArgList &args)
 {
    if (! callee->inherits(&QScriptObject::info)) {
-      return JSC::throwError(exec, JSC::TypeError, "callee is not a ClassObject object");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("callee is not a ClassObject object"))));
    }
 
    QScriptObject *obj = static_cast<QScriptObject *>(callee);
    QScriptObjectDelegate *delegate = obj->delegate();
 
    if (! delegate || (delegate->type() != QScriptObjectDelegate::ClassObject)) {
-      return JSC::throwError(exec, JSC::TypeError, "callee is not a ClassObject object");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("callee is not a ClassObject object"))));
    }
 
    QScriptClass *scriptClass   = static_cast<ClassObjectDelegate *>(delegate)->scriptClass();
@@ -253,7 +259,7 @@ JSC::JSValue JSC_HOST_CALL ClassObjectDelegate::call(JSC::ExecState *exec, JSC::
    eng_p->pushContext(exec, thisValue, args, callee);
 
    QScriptContext *ctx = eng_p->contextForFrame(eng_p->currentFrame);
-   QScriptValue scriptObject = eng_p->scriptValueFromJSCValue(obj);
+   Q_UNUSED(eng_p->scriptValueFromJSCValue(obj));
    QVariant result = scriptClass->extension(QScriptClass::Callable, QVariant::fromValue(ctx));
 
    eng_p->popContext();
@@ -272,7 +278,13 @@ JSC::ConstructType ClassObjectDelegate::getConstructData(QScriptObject *, JSC::C
    return JSC::ConstructTypeHost;
 }
 
-JSC::JSObject *ClassObjectDelegate::construct(JSC::ExecState *exec, JSC::JSObject *callee, const JSC::ArgList &args)
+JSC::EncodedJSValue JSC_HOST_CALL ClassObjectDelegate::construct(JSC::ExecState *exec)
+{
+   JSC::ArgList args(exec);
+   return JSC::JSValue::encode(constructImpl(exec, exec->callee(), args));
+}
+
+JSC::JSObject *ClassObjectDelegate::constructImpl(JSC::ExecState *exec, JSC::JSObject *callee, const JSC::ArgList &args)
 {
    Q_ASSERT(callee->inherits(&QScriptObject::info));
    QScriptObject *obj = static_cast<QScriptObject *>(callee);

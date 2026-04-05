@@ -31,7 +31,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
-- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` `Release` builds under `build-vs2019`, along with a staged install, root-prefix package discovery via `lib/cmake/BTK`, and successful downstream core/gui `find_package(BTK)` smoke validation.
+- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` `Release` builds under `build-vs2019`, along with a staged install, root-prefix package discovery via `lib/cmake/BTK`, and successful downstream core/gui/network `find_package(BTK)` smoke validation.
 
 ## Strategic assessment
 The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus BobUI improvements) is a long multi-phase program, not a single-session edit. The safest path is:
@@ -40,7 +40,7 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 - subsystem-by-subsystem implementation and validation
 
 ## Immediate technical follow-up
-- Expand downstream BTK package validation beyond the now-working `find_package(BTK)` core smoke path into richer GUI/package consumption examples.
+- Expand downstream BTK package validation beyond the now-working core/gui/network smoke paths into richer GUI/package consumption examples.
 - Continue the successful Windows/MSVC build path into any deferred optional modules/plugins beyond the current built set.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
 - Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.

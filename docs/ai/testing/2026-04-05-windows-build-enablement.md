@@ -192,6 +192,7 @@ This preserves the existing Windows package path while making root-prefix packag
 After the packaging-path improvement:
 - the core smoke example now configures successfully with `CMAKE_PREFIX_PATH=<install-prefix>` instead of requiring only `BTK_DIR`
 - a new GUI-oriented smoke example under `docs/ai/testing/btk-package-gui-smoke-example/` also configures and builds successfully against the staged install
+- a new network-oriented smoke example under `docs/ai/testing/btk-package-network-smoke-example/` also configures successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -199,6 +200,13 @@ The GUI package smoke path now validates downstream access to:
 - `<QtGui/BTKFocusOverlay>`
 - owner-context / focus-token APIs via `QApplication`
 - target-aware overlay diagnostics without relying on an in-repo direct include path
+
+### Network smoke validation scope
+The network package smoke path validates downstream access to:
+- `BTK::Network`
+- `<QtNetwork/QHostAddress>`
+- `<QtNetwork/QSslSocket>`
+- basic runtime-visible network/SSL API availability through a downstream executable
 
 ### Runtime validation
 Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, both downstream samples executed successfully:

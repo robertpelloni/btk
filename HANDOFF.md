@@ -1,6 +1,33 @@
 # HANDOFF
 
 ## Latest Session Additions
+- Performed another fresh process audit with `tasklist` and continued without terminating any running processes.
+- Launched a detached persisted-log direct MSVC `CsScript` build capture to isolate the first fatal diagnostic beyond the bridge/object and linkage-export unblocks.
+- Captured detached wrapper process details for the longer-running direct build:
+  - wrapper PID `120812`
+  - log files:
+    - `build-vs2019-script-probe3/csscript-direct-background.out.log`
+    - `build-vs2019-script-probe3/csscript-direct-background.err.log`
+- Confirmed the first post-unblock fatal frontier is now concentrated in:
+  - `src/script/api/qscriptcontext.cpp`
+  - `src/script/api/qscriptcontextinfo.cpp`
+  - `src/script/bridge/qscriptfunction_p.h`
+- Began the next adaptation pass by contracting several high-confidence `qscriptcontext.cpp` mismatches:
+  - replaced old `ExecState::setException(...)` usage
+  - replaced old enum-style error dispatch with current `create*Error(...)` + `throwError(...)`
+  - softened missing native host-arguments helpers by returning an empty object for now
+  - updated scope-chain push/access paths away from old `.copy()` and raw `WriteBarrier` assumptions
+  - removed the stale return-register write path from `setReturnValue(...)` in favor of an explicit not-yet-implemented warning
+- Began the next adaptation pass in `qscriptcontextinfo.cpp` by contracting several high-confidence metadata mismatches:
+  - updated `lineNumberForBytecodeOffset(...)` calls to the current one-argument form
+  - updated `info` references to current `s_info`
+  - replaced direct per-parameter-name extraction with a current `paramString()`-based fallback split
+- Began surfacing the next function-wrapper gap in `src/script/bridge/qscriptfunction_p.h` by acknowledging the missing historical `PrototypeFunction` substrate as a dedicated next target.
+- Added new detailed docs:
+  - `docs/ai/design/2026-04-05-csscript-context-frontier.md`
+  - `docs/ai/implementation/2026-04-05-csscript-post-unblock-diagnostic-capture.md`
+  - `docs/ai/testing/2026-04-05-csscript-post-unblock-diagnostic-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.2`.
 - Continued the direct Stage A `CsScript` recovery immediately after the prior engine-compatibility pass without terminating any background processes.
 - Modernized the restored Script bridge/object layer around the current JavaScriptCore object model, including:
   - `QScriptObject`
@@ -141,18 +168,24 @@
   - stale wrapper `Structure` ownership conventions in multiple Script bridge classes
 - The earlier direct-build `runtime/JSString.cpp` `dllimport` / static metadata linkage blocker was resolved by enabling `BUILDING_JavaScriptCore` and `BUILDING_WTF` for the recovered `CsScript` target.
 - The current direct build now progresses well beyond the previous Script bridge/header and `JSString.cpp` frontiers and spends substantial time compiling deeper JavaScriptCore runtime/JIT sources before the validation timeout.
-- The next unreduced fatal blocker beyond that deeper compile frontier has not yet been fully captured because the latest validation window timed out while compilation was still progressing.
+- The first unreduced fatal blocker beyond that deeper compile frontier has now been captured from a detached persisted-log build and is concentrated in:
+  - `src/script/api/qscriptcontext.cpp`
+  - `src/script/api/qscriptcontextinfo.cpp`
+  - `src/script/bridge/qscriptfunction_p.h`
+- The newly exposed context-layer failures show the next recovery work is about Script context semantics and wrapper substrate drift rather than the earlier object-model and export-linkage breakage.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
 3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
-4. Continue Stage A `CsScript` recovery by re-running the same direct MSVC Script build with a longer timeout and/or persisted full log capture so the first post-linkage-unblock fatal diagnostic can be isolated.
-5. Once that next fatal diagnostic is known, decide whether the next recovery target is:
-   - another localized restored Script compatibility patch, or
-   - a deeper embedded-JavaScriptCore target/configuration issue.
-6. Keep smoothing restored Script wrapper/object code toward current JavaScriptCore conventions where new reduced diagnostics point.
+4. Continue Stage A `CsScript` recovery by finishing the newly started context-layer adaptation pass in:
+   - `src/script/api/qscriptcontext.cpp`
+   - `src/script/api/qscriptcontextinfo.cpp`
+5. Then address the newly isolated function-wrapper substrate gap in:
+   - `src/script/bridge/qscriptfunction_p.h/.cpp`
+   and determine the best current replacement for the historical `PrototypeFunction` dependency.
+6. After those patches, re-run the detached persisted-log direct MSVC `CsScript` build capture pattern and isolate the next reduced fatal diagnostic if the build again outruns synchronous tool windows.
 7. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 8. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 9. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.

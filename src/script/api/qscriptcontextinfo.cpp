@@ -139,12 +139,12 @@ QScriptContextInfoPrivate::QScriptContextInfoPrivate(const QScriptContext *conte
                unsigned bytecodeOffset = codeBlock->getBytecodeIndex(frame, JSC::ReturnAddressPtr(returnPC));
 
                bytecodeOffset--; //because returnPC is on the next instruction. We want the current one
-               lineNumber = codeBlock->lineNumberForBytecodeOffset(const_cast<JSC::ExecState *>(frame), bytecodeOffset);
+               lineNumber = codeBlock->lineNumberForBytecodeOffset(bytecodeOffset);
             }
 #else
             unsigned bytecodeOffset = returnPC - codeBlock->instructions().begin();
             bytecodeOffset--; //because returnPC is on the next instruction. We want the current one
-            lineNumber = codeBlock->lineNumberForBytecodeOffset(const_cast<JSC::ExecState *>(frame), bytecodeOffset);
+            lineNumber = codeBlock->lineNumberForBytecodeOffset(bytecodeOffset);
 
 #endif
 
@@ -163,20 +163,21 @@ QScriptContextInfoPrivate::QScriptContextInfoPrivate(const QScriptContext *conte
 
    // Get the others information:
    JSC::JSObject *callee = frame->callee();
-   if (callee && callee->inherits(&JSC::InternalFunction::info))
+   if (callee && callee->inherits(&JSC::InternalFunction::s_info))
    {
       functionName = JSC::asInternalFunction(callee)->name(frame);
    }
 
-   if (callee && callee->inherits(&JSC::JSFunction::info) && !JSC::asFunction(callee)->isHostFunction())
+   if (callee && callee->inherits(&JSC::JSFunction::s_info) && !JSC::asFunction(callee)->isHostFunction())
    {
       functionType = QScriptContextInfo::ScriptFunction;
       JSC::FunctionExecutable *body = JSC::asFunction(callee)->jsExecutable();
       functionStartLineNumber = body->lineNo();
       functionEndLineNumber   = body->lastLine();
 
-      for (size_t i = 0; i < body->parameterCount(); ++i) {
-         parameterNames.append(body->parameterName(i));
+      QString parameterSummary = QScript::convertToString(body->paramString());
+      if (! parameterSummary.isEmpty()) {
+         parameterNames = parameterSummary.split(QString(", "), QStringParser::SkipEmptyParts);
       }
 
       // ### get the function name from the AST

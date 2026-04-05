@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.1.2 - 2026-04-05
+- captured the first post-linkage-unblock fatal `CsScript` diagnostics from a detached persisted-log MSVC build
+- identified the next reduced recovery frontier in:
+  - `src/script/api/qscriptcontext.cpp`
+  - `src/script/api/qscriptcontextinfo.cpp`
+  - `src/script/bridge/qscriptfunction_p.h`
+- began the next adaptation pass in `qscriptcontext.cpp` and `qscriptcontextinfo.cpp` by contracting several obvious exception/error/scope-chain and metadata-signature mismatches
+- documented the new context-layer recovery frontier and persisted-log validation strategy
+
 ## 0.1.1 - 2026-04-05
 - advanced the restored `CsScript` bridge/object layer around the current JavaScriptCore object model
 - migrated key restored Script wrapper structure plumbing from stale `PassRefPtr`/`RefPtr` assumptions toward raw `JSC::Structure *` contracts where appropriate

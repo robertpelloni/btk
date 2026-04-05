@@ -198,6 +198,7 @@ After the packaging-path improvement:
 - a richer runtime-oriented GUI smoke example under `docs/ai/testing/btk-package-runtime-smoke-example/` now configures successfully against the staged install
 - an integrated runtime smoke example under `docs/ai/testing/btk-package-integrated-runtime-smoke-example/` now configures successfully against the staged install
 - a broader platform-smoke example under `docs/ai/testing/btk-package-platform-smoke-example/` now configures successfully against the staged install
+- a behavioral runtime smoke example under `docs/ai/testing/btk-package-behavioral-runtime-smoke-example/` now configures successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -266,6 +267,13 @@ The platform smoke path validates downstream access to:
 - `BTK::Multimedia`
 - an integrated set of representative runtime APIs plus BTK-specific owner-aware overlay diagnostics in one downstream executable
 
+### Behavioral runtime smoke validation scope
+The behavioral runtime smoke path validates downstream access to:
+- `BTK::Gui`
+- owner-exclusive arbitration behavior across same-owner and cross-owner targets
+- target decision summaries that distinguish transfer vs reject behavior
+- downstream BTK overlay relationship/blocker/mismatch diagnostics for an actual behavioral ownership scenario
+
 ### Runtime validation
 Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:
 - `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
@@ -278,6 +286,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 - `build-vs2019/package-runtime-smoke/Release/btk_package_runtime_smoke.exe`
 - `build-vs2019/package-integrated-runtime-smoke/Release/btk_package_integrated_runtime_smoke.exe`
 - `build-vs2019/package-platform-smoke/Release/btk_package_platform_smoke.exe`
+- `build-vs2019/package-behavioral-runtime-smoke/Release/btk_package_behavioral_runtime_smoke.exe`
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
@@ -289,6 +298,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 7. Continue evolving richer runtime package smokes that exercise BTK-specific multi-owner diagnostics rather than only passive type/link validation.
 8. Expand integrated downstream runtime validation further so more framework slices are exercised together rather than only component-by-component.
 9. Continue growing platform-oriented smoke coverage toward a realistic BTK consumer application skeleton.
+10. Continue adding downstream behavioral-runtime scenarios that validate BTK-specific ownership semantics, not just component availability.
 
 ## Bottom line
 This session materially improved build readiness:

@@ -48,10 +48,11 @@
 - A downstream integrated runtime `find_package(BTK)` smoke example now configures, builds, and runs successfully against the staged install, exercising Core + Gui + Network + Svg together with BTK-specific multi-owner diagnostics.
 - A broader downstream platform-smoke `find_package(BTK)` example now configures, builds, and runs successfully against the staged install, exercising Core + Gui + Network + OpenGL + Svg + Sql + Multimedia together with BTK-specific multi-owner diagnostics.
 - A downstream behavioral-runtime `find_package(BTK)` example now configures, builds, and runs successfully against the staged install, validating same-owner transfer vs cross-owner rejection behavior through BTK-specific diagnostics.
+- A downstream focus-reason `find_package(BTK)` example now configures, builds, and runs successfully against the staged install, validating popup-reason and active-window-reason routing decisions via BTK-specific APIs.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
-1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral validations into richer runtime-oriented consumption examples.
+1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason validations into richer runtime-oriented consumption examples.
 2. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
@@ -68,4 +69,4 @@
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
 - Full end-to-end `Release` build of all remaining modules in a single pass.
-- Richer downstream GUI/package smoke validation beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral samples.
+- Richer downstream GUI/package smoke validation beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason samples.

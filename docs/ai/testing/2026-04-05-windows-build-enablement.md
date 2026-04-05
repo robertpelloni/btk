@@ -199,6 +199,7 @@ After the packaging-path improvement:
 - an integrated runtime smoke example under `docs/ai/testing/btk-package-integrated-runtime-smoke-example/` now configures successfully against the staged install
 - a broader platform-smoke example under `docs/ai/testing/btk-package-platform-smoke-example/` now configures successfully against the staged install
 - a behavioral runtime smoke example under `docs/ai/testing/btk-package-behavioral-runtime-smoke-example/` now configures successfully against the staged install
+- a focus-reason smoke example under `docs/ai/testing/btk-package-focus-reason-smoke-example/` now configures successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -273,6 +274,13 @@ The behavioral runtime smoke path validates downstream access to:
 - owner-exclusive arbitration behavior across same-owner and cross-owner targets
 - target decision summaries that distinguish transfer vs reject behavior
 - downstream BTK overlay relationship/blocker/mismatch diagnostics for an actual behavioral ownership scenario
+
+### Focus-reason smoke validation scope
+The focus-reason smoke path validates downstream access to:
+- `BTK::Gui`
+- `QApplication::btkDescribeFocusDecision(...)`
+- `QApplication::btkWouldBlockFocusChange(...)`
+- popup-flavored and active-window-flavored focus reasons in owner-exclusive routing decisions
 
 ### Runtime validation
 Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:

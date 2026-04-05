@@ -44,9 +44,9 @@ GlobalObject::~GlobalObject()
 {
 }
 
-void GlobalObject::markChildren(JSC::MarkStack &markStack)
+void GlobalObject::visitChildren(JSC::MarkStack &markStack)
 {
-   JSC::JSGlobalObject::markChildren(markStack);
+   JSC::JSGlobalObject::visitChildren(markStack);
    if (customGlobalObject) {
       markStack.append(customGlobalObject);
    }

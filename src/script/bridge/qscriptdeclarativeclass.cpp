@@ -203,7 +203,7 @@ QScriptValue QScriptDeclarativeClass::newObject(QScriptEngine *engine,
    QScript::APIShim shim(p);
 
    JSC::ExecState *exec = p->currentFrame;
-   QScriptObject *result = new (exec) QScriptObject(p->scriptObjectStructure);
+   QScriptObject *result = new (exec) QScriptObject(&exec->globalData(), p->scriptObjectStructure);
    result->setDelegate(new QScript::DeclarativeObjectDelegate(scriptClass, object));
    return p->scriptValueFromJSCValue(result);
 }
@@ -218,7 +218,7 @@ QScriptDeclarativeClass::Value QScriptDeclarativeClass::newObjectValue(QScriptEn
    QScript::APIShim shim(p);
 
    JSC::ExecState *exec = p->currentFrame;
-   QScriptObject *result = new (exec) QScriptObject(p->scriptObjectStructure);
+   QScriptObject *result = new (exec) QScriptObject(&exec->globalData(), p->scriptObjectStructure);
    result->setDelegate(new QScript::DeclarativeObjectDelegate(scriptClass, object));
    return jscToValue(JSC::JSValue(result));
 }

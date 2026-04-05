@@ -773,8 +773,10 @@ static QScriptValue __setupPackage__(QScriptContext *ctx, QScriptEngine *eng)
 } // namespace QScript
 
 QScriptEnginePrivate::QScriptEnginePrivate()
-   : originalGlobalObjectProxy(nullptr), currentFrame(nullptr), qobjectPrototype(nullptr),
-     qmetaobjectPrototype(nullptr), variantPrototype(nullptr), activeAgent(nullptr), agentLineNumber(-1),
+   : originalGlobalObjectProxy(nullptr), currentFrame(nullptr), scriptObjectStructure(nullptr),
+     staticScopeObjectStructure(nullptr), qobjectPrototype(nullptr), qobjectWrapperObjectStructure(nullptr),
+     qmetaobjectPrototype(nullptr), qmetaobjectWrapperObjectStructure(nullptr), variantPrototype(nullptr),
+     variantWrapperObjectStructure(nullptr), activeAgent(nullptr), agentLineNumber(-1),
      registeredScriptValues(nullptr), freeScriptValues(nullptr), freeScriptValuesCount(0),
      registeredScriptStrings(nullptr), processEventsInterval(-1), inEval(false), uncaughtExceptionLineNumber(-1)
 {
@@ -791,25 +793,25 @@ QScriptEnginePrivate::QScriptEnginePrivate()
 
    JSC::ExecState *exec = globalObject->globalExec();
 
-   scriptObjectStructure = QScriptObject::createStructure(globalObject->objectPrototype());
-   staticScopeObjectStructure = QScriptStaticScopeObject::createStructure(JSC::jsNull());
+   scriptObjectStructure = QScriptObject::createStructure(*globalData, globalObject->objectPrototype());
+   staticScopeObjectStructure = QScriptStaticScopeObject::createStructure(*globalData, JSC::jsNull());
 
    qobjectPrototype = new (exec) QScript::QObjectPrototype(exec,
       QScript::QObjectPrototype::createStructure(globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
 
-   qobjectWrapperObjectStructure = QScriptObject::createStructure(qobjectPrototype);
+   qobjectWrapperObjectStructure = QScriptObject::createStructure(*globalData, qobjectPrototype);
 
    qmetaobjectPrototype = new (exec) QScript::QMetaObjectPrototype(exec,
       QScript::QMetaObjectPrototype::createStructure(globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
 
-   qmetaobjectWrapperObjectStructure = QScript::QMetaObjectWrapperObject::createStructure(qmetaobjectPrototype);
+   qmetaobjectWrapperObjectStructure = QScript::QMetaObjectWrapperObject::createStructure(*globalData, qmetaobjectPrototype);
 
    variantPrototype = new (exec) QScript::QVariantPrototype(exec,
       QScript::QVariantPrototype::createStructure(globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
-   variantWrapperObjectStructure = QScriptObject::createStructure(variantPrototype);
+   variantWrapperObjectStructure = QScriptObject::createStructure(*globalData, variantPrototype);
 
    globalObject->putDirectFunction(exec, new (exec)JSC::NativeFunctionWrapper(exec,
          globalObject->prototypeFunctionStructure(), 1, JSC::Identifier(exec, "print"), QScript::functionPrint));
@@ -1360,7 +1362,7 @@ JSC::JSValue QScriptEnginePrivate::newQObject(QObject *object, QScriptEngine::Va
          return result;
       }
    }
-   result = new (exec) QScriptObject(qobjectWrapperObjectStructure);
+   result = new (exec) QScriptObject(&exec->globalData(), qobjectWrapperObjectStructure);
    if (preferExisting) {
       data->registerWrapper(result, ownership, opt);
    }
@@ -1639,7 +1641,7 @@ JSC::JSValue QScriptEnginePrivate::newRegExp(JSC::ExecState *exec, const QString
 
 JSC::JSValue QScriptEnginePrivate::newVariant(const QVariant &value)
 {
-   QScriptObject *obj = new (currentFrame) QScriptObject(variantWrapperObjectStructure);
+   QScriptObject *obj = new (currentFrame) QScriptObject(&currentFrame->globalData(), variantWrapperObjectStructure);
    obj->setDelegate(new QScript::QVariantDelegate(value));
    JSC::JSValue proto = defaultPrototype(value.userType());
 
@@ -2071,7 +2073,7 @@ QScriptValue QScriptEngine::newObject(QScriptClass *scriptClass, const QScriptVa
    Q_D(QScriptEngine);
    QScript::APIShim shim(d);
    JSC::ExecState *exec = d->currentFrame;
-   QScriptObject *result = new (exec) QScriptObject(d->scriptObjectStructure);
+   QScriptObject *result = new (exec) QScriptObject(&exec->globalData(), d->scriptObjectStructure);
    result->setDelegate(new QScript::ClassObjectDelegate(scriptClass));
    QScriptValue scriptObject = d->scriptValueFromJSCValue(result);
    scriptObject.setData(data);
@@ -2279,7 +2281,7 @@ JSC::CallFrame *QScriptEnginePrivate::pushContext(JSC::CallFrame *exec, JSC::JSV
       JSC::JSValue prototype = callee->get(exec, exec->propertyNames().prototype);
       JSC::Structure *structure = prototype.isObject() ? JSC::asObject(prototype)->inheritorID()
          : originalGlobalObject()->emptyObjectStructure();
-      thisObject = new (exec) QScriptObject(structure);
+      thisObject = new (exec) QScriptObject(&exec->globalData(), structure);
    }
 
    int flags = NativeContext;

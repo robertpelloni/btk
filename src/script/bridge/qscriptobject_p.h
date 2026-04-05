@@ -28,7 +28,7 @@
 
 class QScriptObjectDelegate;
 
-class QScriptObject : public JSC::JSObject
+class QScriptObject : public JSC::JSNonFinalObject
 {
  public:
    // work around CELL_SIZE limitation
@@ -45,7 +45,7 @@ class QScriptObject : public JSC::JSObject
       ~Data();
    };
 
-   explicit QScriptObject(WTF::PassRefPtr<JSC::Structure> sid);
+   explicit QScriptObject(JSC::JSGlobalData *globalData, JSC::Structure *sid);
    virtual ~QScriptObject();
 
    virtual bool getOwnPropertySlot(JSC::ExecState *,
@@ -58,7 +58,7 @@ class QScriptObject : public JSC::JSObject
       const JSC::Identifier &propertyName);
    virtual void getOwnPropertyNames(JSC::ExecState *, JSC::PropertyNameArray &,
       JSC::EnumerationMode mode = JSC::ExcludeDontEnumProperties);
-   virtual void markChildren(JSC::MarkStack &markStack);
+   virtual void visitChildren(JSC::MarkStack &markStack);
    virtual JSC::CallType getCallData(JSC::CallData &);
    virtual JSC::ConstructType getConstructData(JSC::ConstructData &);
    virtual bool hasInstance(JSC::ExecState *, JSC::JSValue value, JSC::JSValue proto);
@@ -69,8 +69,8 @@ class QScriptObject : public JSC::JSObject
    }
    static const JSC::ClassInfo info;
 
-   static WTF::PassRefPtr<JSC::Structure> createStructure(JSC::JSValue prototype) {
-      return JSC::Structure::create(prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags));
+   static JSC::Structure *createStructure(JSC::JSGlobalData &globalData, JSC::JSValue prototype) {
+      return JSC::Structure::create(globalData, prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags), AnonymousSlotCount, &info);
    }
 
    inline JSC::JSValue data() const;
@@ -81,7 +81,7 @@ class QScriptObject : public JSC::JSObject
 
  protected:
    static const unsigned StructureFlags = JSC::ImplementsHasInstance | JSC::OverridesHasInstance |
-      JSC::OverridesGetOwnPropertySlot | JSC::OverridesMarkChildren | JSC::OverridesGetPropertyNames |
+      JSC::OverridesGetOwnPropertySlot | JSC::OverridesVisitChildren | JSC::OverridesGetPropertyNames |
       JSObject::StructureFlags;
 
    Data *d;
@@ -90,7 +90,7 @@ class QScriptObject : public JSC::JSObject
 class QScriptObjectPrototype : public QScriptObject
 {
  public:
-   QScriptObjectPrototype(JSC::ExecState *, WTF::PassRefPtr<JSC::Structure>,
+   QScriptObjectPrototype(JSC::ExecState *, JSC::Structure *,
       JSC::Structure *prototypeFunctionStructure);
 };
 

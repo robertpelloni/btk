@@ -139,9 +139,9 @@ bool QVariantDelegate::compareToObject(QScriptObject *, JSC::ExecState *exec, JS
    return variant1 == QScriptEnginePrivate::toVariant(exec, o2);
 }
 
-QVariantPrototype::QVariantPrototype(JSC::ExecState *exec, WTF::PassRefPtr<JSC::Structure> structure,
+QVariantPrototype::QVariantPrototype(JSC::ExecState *exec, JSC::Structure *structure,
    JSC::Structure *prototypeFunctionStructure)
-   : QScriptObject(structure)
+   : QScriptObject(&exec->globalData(), structure)
 {
    setDelegate(new QVariantDelegate(QVariant()));
 

@@ -36,7 +36,7 @@ class GlobalObject : public JSC::JSGlobalObject
    virtual JSC::UString className() const {
       return "global";
    }
-   virtual void markChildren(JSC::MarkStack &);
+   virtual void visitChildren(JSC::MarkStack &);
    virtual bool getOwnPropertySlot(JSC::ExecState *,
       const JSC::Identifier &propertyName,
       JSC::PropertySlot &);
@@ -62,21 +62,21 @@ class GlobalObject : public JSC::JSGlobalObject
    JSC::JSObject *customGlobalObject;
 };
 
-class OriginalGlobalObjectProxy : public JSC::JSObject
+class OriginalGlobalObjectProxy : public JSC::JSNonFinalObject
 {
  public:
-   explicit OriginalGlobalObjectProxy(WTF::PassRefPtr<JSC::Structure> sid,
+   explicit OriginalGlobalObjectProxy(JSC::Structure *sid,
       JSC::JSGlobalObject *object)
-      : JSC::JSObject(sid), originalGlobalObject(object) {
+      : JSC::JSNonFinalObject(object->globalData(), sid), originalGlobalObject(object) {
    }
    virtual ~OriginalGlobalObjectProxy() {
    }
    virtual JSC::UString className() const {
       return originalGlobalObject->className();
    }
-   virtual void markChildren(JSC::MarkStack &markStack) {
+   virtual void visitChildren(JSC::MarkStack &markStack) {
+      JSC::JSObject::visitChildren(markStack);
       markStack.append(originalGlobalObject);
-      JSC::JSObject::markChildren(markStack);
    }
    virtual bool getOwnPropertySlot(JSC::ExecState *exec,
       const JSC::Identifier &propertyName,

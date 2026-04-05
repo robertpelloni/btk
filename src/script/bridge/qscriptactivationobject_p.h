@@ -33,7 +33,9 @@ class QScriptActivationObject : public JSC::JSVariableObject
  public:
    QScriptActivationObject(JSC::ExecState *callFrame, JSC::JSObject *delegate = nullptr);
    virtual ~QScriptActivationObject();
-   virtual bool isDynamicScope() const {
+   virtual void visitChildren(JSC::MarkStack &markStack);
+   virtual bool isDynamicScope(bool &requiresDynamicChecks) const {
+      requiresDynamicChecks = false;
       return true;
    }
 
@@ -49,8 +51,10 @@ class QScriptActivationObject : public JSC::JSVariableObject
 
    virtual bool deleteProperty(JSC::ExecState *, const JSC::Identifier &propertyName);
 
-   virtual void defineGetter(JSC::ExecState *, const JSC::Identifier &propertyName, JSC::JSObject *getterFunction);
-   virtual void defineSetter(JSC::ExecState *, const JSC::Identifier &propertyName, JSC::JSObject *setterFunction);
+   virtual void defineGetter(JSC::ExecState *, const JSC::Identifier &propertyName, JSC::JSObject *getterFunction,
+      unsigned attributes = 0);
+   virtual void defineSetter(JSC::ExecState *, const JSC::Identifier &propertyName, JSC::JSObject *setterFunction,
+      unsigned attributes = 0);
    virtual JSC::JSValue lookupGetter(JSC::ExecState *, const JSC::Identifier &propertyName);
    virtual JSC::JSValue lookupSetter(JSC::ExecState *, const JSC::Identifier &propertyName);
 
@@ -59,25 +63,14 @@ class QScriptActivationObject : public JSC::JSVariableObject
    }
    static const JSC::ClassInfo info;
 
-   struct QScriptActivationObjectData : public JSVariableObjectData {
-      QScriptActivationObjectData(JSC::Register *registers, JSC::JSObject *dlg)
-         : JSVariableObjectData(&symbolTable, registers),
-           delegate(dlg) {
-      }
-      JSC::SymbolTable symbolTable;
-      JSC::JSObject *delegate;
-   };
-
    JSC::JSObject *delegate() const {
-      return d_ptr()->delegate;
+      return m_delegate.get();
    }
-   void setDelegate(JSC::JSObject *delegate) {
-      d_ptr()->delegate = delegate;
-   }
+   void setDelegate(JSC::JSObject *delegate);
 
-   QScriptActivationObjectData *d_ptr() const {
-      return static_cast<QScriptActivationObjectData *>(d);
-   }
+ private:
+   JSC::SymbolTable m_symbolTable;
+   JSC::WriteBarrier<JSC::JSObject> m_delegate;
 };
 
 } // namespace QScript

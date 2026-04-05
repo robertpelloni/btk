@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.1.1 - 2026-04-05
+- advanced the restored `CsScript` bridge/object layer around the current JavaScriptCore object model
+- migrated key restored Script wrapper structure plumbing from stale `PassRefPtr`/`RefPtr` assumptions toward raw `JSC::Structure *` contracts where appropriate
+- updated restored Script object wrappers to current `visitChildren(...)` / `OverridesVisitChildren` semantics
+- rebuilt restored `JSVariableObject` subclasses (`QScriptActivationObject`, `QScriptStaticScopeObject`) around current symbol-table/register ownership expectations
+- enabled `BUILDING_JavaScriptCore` and `BUILDING_WTF` for the recovered `CsScript` target, removing the earlier `JSString.cpp` import/export linkage blocker
+- reconfigured and revalidated the direct MSVC `CsScript` project build, which now progresses substantially deeper into JavaScriptCore runtime/JIT compilation before the validation timeout
+
 ## 0.1.0 - 2026-04-05
 - bootstrap project-local version/changelog tracking for ongoing BTK recovery work
 - advanced `CsScript` Stage A by adapting current identifier-table handling to `wtfThreadData()`

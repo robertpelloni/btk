@@ -120,7 +120,7 @@ class QObjectPrototypeObject : public QObject
 class QObjectPrototype : public QScriptObject
 {
  public:
-   QObjectPrototype(JSC::ExecState *, WTF::PassRefPtr<JSC::Structure>,
+   QObjectPrototype(JSC::ExecState *, JSC::Structure *,
       JSC::Structure *prototypeFunctionStructure);
 };
 
@@ -201,11 +201,11 @@ class QtFunction: public JSC::InternalFunction
    };
 
    QtFunction(JSC::JSValue object, int initialIndex, bool maybeOverloaded,
-      JSC::JSGlobalData *, WTF::PassRefPtr<JSC::Structure>, const JSC::Identifier &);
+      JSC::JSGlobalData *, JSC::JSGlobalObject *, JSC::Structure *, const JSC::Identifier &);
    virtual ~QtFunction();
 
    virtual JSC::CallType getCallData(JSC::CallData &);
-   virtual void markChildren(JSC::MarkStack &);
+   virtual void visitChildren(JSC::MarkStack &);
 
    virtual const JSC::ClassInfo *classInfo() const {
       return &info;
@@ -245,7 +245,7 @@ class QtPropertyFunction: public JSC::InternalFunction
    };
 
    QtPropertyFunction(const QMetaObject *meta, int index,
-      JSC::JSGlobalData *, WTF::PassRefPtr<JSC::Structure>,
+      JSC::JSGlobalData *, JSC::JSGlobalObject *, JSC::Structure *,
       const JSC::Identifier &);
    virtual ~QtPropertyFunction();
 
@@ -269,7 +269,7 @@ class QtPropertyFunction: public JSC::InternalFunction
    Data *data;
 };
 
-class QMetaObjectWrapperObject : public JSC::JSObject
+class QMetaObjectWrapperObject : public JSC::JSNonFinalObject
 {
  public:
    // work around CELL_SIZE limitation
@@ -284,7 +284,7 @@ class QMetaObjectWrapperObject : public JSC::JSObject
 
    explicit QMetaObjectWrapperObject(
       JSC::ExecState *, const QMetaObject *metaobject, JSC::JSValue ctor,
-      WTF::PassRefPtr<JSC::Structure> sid);
+      JSC::Structure *sid);
 
    ~QMetaObjectWrapperObject();
 
@@ -300,7 +300,7 @@ class QMetaObjectWrapperObject : public JSC::JSObject
       const JSC::Identifier &propertyName);
    virtual void getOwnPropertyNames(JSC::ExecState *, JSC::PropertyNameArray &,
       JSC::EnumerationMode mode = JSC::ExcludeDontEnumProperties);
-   virtual void markChildren(JSC::MarkStack &markStack);
+   virtual void visitChildren(JSC::MarkStack &markStack);
 
    virtual JSC::CallType getCallData(JSC::CallData &);
    virtual JSC::ConstructType getConstructData(JSC::ConstructData &);
@@ -323,12 +323,12 @@ class QMetaObjectWrapperObject : public JSC::JSObject
       data->value = value;
    }
 
-   static WTF::PassRefPtr<JSC::Structure> createStructure(JSC::JSValue prototype) {
-      return JSC::Structure::create(prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags));
+   static JSC::Structure *createStructure(JSC::JSGlobalData &globalData, JSC::JSValue prototype) {
+      return JSC::Structure::create(globalData, prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags), AnonymousSlotCount, &info);
    }
 
  protected:
-   static const unsigned StructureFlags = JSC::OverridesGetOwnPropertySlot | JSC::OverridesMarkChildren |
+   static const unsigned StructureFlags = JSC::OverridesGetOwnPropertySlot | JSC::OverridesVisitChildren |
       JSC::OverridesGetPropertyNames | JSC::ImplementsHasInstance | JSObject::StructureFlags;
 
    Data *data;
@@ -337,7 +337,7 @@ class QMetaObjectWrapperObject : public JSC::JSObject
 class QMetaObjectPrototype : public QMetaObjectWrapperObject
 {
  public:
-   QMetaObjectPrototype(JSC::ExecState *, WTF::PassRefPtr<JSC::Structure>,
+   QMetaObjectPrototype(JSC::ExecState *, JSC::Structure *,
       JSC::Structure *prototypeFunctionStructure);
 };
 

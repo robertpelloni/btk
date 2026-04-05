@@ -49,7 +49,7 @@ class QVariantDelegate : public QScriptObjectDelegate
 class QVariantPrototype : public QScriptObject
 {
  public:
-   QVariantPrototype(JSC::ExecState *, WTF::PassRefPtr<JSC::Structure>,
+   QVariantPrototype(JSC::ExecState *, JSC::Structure *,
       JSC::Structure *prototypeFunctionStructure);
 };
 

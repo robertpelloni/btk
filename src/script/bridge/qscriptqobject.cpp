@@ -228,8 +228,8 @@ static inline QScriptable *scriptableFromQObject(QObject *qobject)
 }
 
 QtFunction::QtFunction(JSC::JSValue object, int initialIndex, bool maybeOverloaded,
-   JSC::JSGlobalData *data, WTF::PassRefPtr<JSC::Structure> sid, const JSC::Identifier &ident)
-   : JSC::InternalFunction(data, sid, ident), data(new Data(object, initialIndex, maybeOverloaded))
+   JSC::JSGlobalData *data, JSC::JSGlobalObject *globalObject, JSC::Structure *sid, const JSC::Identifier &ident)
+   : JSC::InternalFunction(data, globalObject, sid, ident), data(new Data(object, initialIndex, maybeOverloaded))
 {
 }
 
@@ -244,13 +244,13 @@ JSC::CallType QtFunction::getCallData(JSC::CallData &callData)
    return JSC::CallTypeHost;
 }
 
-void QtFunction::markChildren(JSC::MarkStack &markStack)
+void QtFunction::visitChildren(JSC::MarkStack &markStack)
 {
+   JSC::InternalFunction::visitChildren(markStack);
+
    if (data->object) {
       markStack.append(data->object);
    }
-
-   JSC::InternalFunction::markChildren(markStack);
 }
 
 QScriptObject *QtFunction::wrapperObject() const
@@ -1273,9 +1273,10 @@ const JSC::ClassInfo QtPropertyFunction::info = { "QtPropertyFunction", &Interna
 
 QtPropertyFunction::QtPropertyFunction(const QMetaObject *meta, int index,
    JSC::JSGlobalData *data,
-   WTF::PassRefPtr<JSC::Structure> sid,
+   JSC::JSGlobalObject *globalObject,
+   JSC::Structure *sid,
    const JSC::Identifier &ident)
-   : JSC::InternalFunction(data, sid, ident),
+   : JSC::InternalFunction(data, globalObject, sid, ident),
      data(new Data(meta, index))
 {
 }
@@ -1471,7 +1472,7 @@ bool QObjectDelegate::getOwnPropertySlot(QScriptObject *object, JSC::ExecState *
             if (!(opt & QScriptEngine::ExcludeSuperClassMethods) || (index >= meta->methodOffset())) {
 
                QtFunction *fun = new (exec)QtFunction(object, index, false,
-                  &exec->globalData(), eng->originalGlobalObject()->functionStructure(), propertyName);
+                  &exec->globalData(), eng->originalGlobalObject(), eng->originalGlobalObject()->functionStructure(), propertyName);
 
                slot.setValue(fun);
                data->cachedMembers.insert(name, fun);
@@ -1527,7 +1528,7 @@ bool QObjectDelegate::getOwnPropertySlot(QScriptObject *object, JSC::ExecState *
 
       if (hasMethodAccess(method, index, opt) && methodNameEquals(method, name, name.length())) {
          QtFunction *fun = new (exec)QtFunction(object, index, true,
-            &exec->globalData(), eng->originalGlobalObject()->functionStructure(), propertyName);
+            &exec->globalData(), eng->originalGlobalObject(), eng->originalGlobalObject()->functionStructure(), propertyName);
 
          slot.setValue(fun);
          data->cachedMembers.insert(name, fun);
@@ -1613,7 +1614,7 @@ bool QObjectDelegate::getOwnPropertyDescriptor(QScriptObject *object, JSC::ExecS
          if (hasMethodAccess(method, index, opt)) {
             if (!(opt & QScriptEngine::ExcludeSuperClassMethods) || (index >= meta->methodOffset())) {
                QtFunction *fun = new (exec)QtFunction(object, index, false,
-                  &exec->globalData(), eng->originalGlobalObject()->functionStructure(), propertyName);
+                  &exec->globalData(), eng->originalGlobalObject(), eng->originalGlobalObject()->functionStructure(), propertyName);
 
                data->cachedMembers.insert(name, fun);
                unsigned attributes = QObjectMemberAttribute;
@@ -1677,7 +1678,7 @@ bool QObjectDelegate::getOwnPropertyDescriptor(QScriptObject *object, JSC::ExecS
 
       if (hasMethodAccess(method, index, opt) && methodNameEquals(method, name, name.length())) {
          QtFunction *fun = new (exec)QtFunction(object, index, true,
-            &exec->globalData(), eng->originalGlobalObject()->functionStructure(), propertyName);
+            &exec->globalData(), eng->originalGlobalObject(), eng->originalGlobalObject()->functionStructure(), propertyName);
 
          unsigned attributes = QObjectMemberAttribute;
 
@@ -2078,9 +2079,9 @@ static JSC::JSValue JSC_HOST_CALL qobjectProtoFuncToString(JSC::ExecState *exec,
    return JSC::jsString(exec, str);
 }
 
-QObjectPrototype::QObjectPrototype(JSC::ExecState *exec, WTF::PassRefPtr<JSC::Structure> structure,
+QObjectPrototype::QObjectPrototype(JSC::ExecState *exec, JSC::Structure *structure,
    JSC::Structure *prototypeFunctionStructure)
-   : QScriptObject(structure)
+   : QScriptObject(&exec->globalData(), structure)
 {
    setDelegate(new QObjectDelegate(new QObjectPrototypeObject(), QScriptEngine::AutoOwnership,
          QScriptEngine::ExcludeSuperClassMethods
@@ -2100,8 +2101,8 @@ const JSC::ClassInfo QMetaObjectWrapperObject::info = { "QMetaObject", nullptr, 
 
 QMetaObjectWrapperObject::QMetaObjectWrapperObject(
    JSC::ExecState *exec, const QMetaObject *metaObject, JSC::JSValue ctor,
-   WTF::PassRefPtr<JSC::Structure> sid)
-   : JSC::JSObject(sid),
+   JSC::Structure *sid)
+   : JSC::JSNonFinalObject(exec->globalData(), sid),
      data(new Data(metaObject, ctor))
 {
    if (!ctor) {
@@ -2256,15 +2257,16 @@ void QMetaObjectWrapperObject::getOwnPropertyNames(JSC::ExecState *exec,
    JSC::JSObject::getOwnPropertyNames(exec, propertyNames, mode);
 }
 
-void QMetaObjectWrapperObject::markChildren(JSC::MarkStack &markStack)
+void QMetaObjectWrapperObject::visitChildren(JSC::MarkStack &markStack)
 {
+   JSC::JSObject::visitChildren(markStack);
+
    if (data->ctor) {
       markStack.append(data->ctor);
    }
    if (data->prototype) {
       markStack.append(data->prototype);
    }
-   JSC::JSObject::markChildren(markStack);
 }
 
 JSC::CallType QMetaObjectWrapperObject::getCallData(JSC::CallData &callData)
@@ -2374,7 +2376,7 @@ static JSC::JSValue JSC_HOST_CALL qmetaobjectProtoFuncClassName(
    return JSC::jsString(exec, meta->className());
 }
 
-QMetaObjectPrototype::QMetaObjectPrototype(JSC::ExecState *exec, WTF::PassRefPtr<JSC::Structure> structure,
+QMetaObjectPrototype::QMetaObjectPrototype(JSC::ExecState *exec, JSC::Structure *structure,
    JSC::Structure *prototypeFunctionStructure)
    : QMetaObjectWrapperObject(exec, &Qt::staticMetaObject(), /*ctor=*/JSC::JSValue(), structure)
 {

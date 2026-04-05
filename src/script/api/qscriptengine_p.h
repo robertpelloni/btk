@@ -349,17 +349,17 @@ class QScriptEnginePrivate
    JSC::JSObject *originalGlobalObjectProxy;
    JSC::ExecState *currentFrame;
 
-   WTF::RefPtr<JSC::Structure> scriptObjectStructure;
-   WTF::RefPtr<JSC::Structure> staticScopeObjectStructure;
+   JSC::Structure *scriptObjectStructure;
+   JSC::Structure *staticScopeObjectStructure;
 
    QScript::QObjectPrototype *qobjectPrototype;
-   WTF::RefPtr<JSC::Structure> qobjectWrapperObjectStructure;
+   JSC::Structure *qobjectWrapperObjectStructure;
 
    QScript::QMetaObjectPrototype *qmetaobjectPrototype;
-   WTF::RefPtr<JSC::Structure> qmetaobjectWrapperObjectStructure;
+   JSC::Structure *qmetaobjectWrapperObjectStructure;
 
    QScript::QVariantPrototype *variantPrototype;
-   WTF::RefPtr<JSC::Structure> variantWrapperObjectStructure;
+   JSC::Structure *variantWrapperObjectStructure;
 
    QList<QScriptEngineAgent *> ownedAgents;
    QScriptEngineAgent *activeAgent;
@@ -952,7 +952,7 @@ inline JSC::JSValue QScriptEnginePrivate::newDate(JSC::ExecState *exec, const QD
 
 inline JSC::JSValue QScriptEnginePrivate::newObject()
 {
-   return new (currentFrame)QScriptObject(scriptObjectStructure);
+   return new (currentFrame)QScriptObject(&currentFrame->globalData(), scriptObjectStructure);
 }
 
 inline bool QScriptEnginePrivate::isObject(JSC::JSValue value)

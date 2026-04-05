@@ -40,12 +40,13 @@ class QScriptStaticScopeObject : public JSC::JSVariableObject
       unsigned attributes;
    };
 
-   QScriptStaticScopeObject(WTF::NonNullPassRefPtr<JSC::Structure> structure,
+   QScriptStaticScopeObject(JSC::Structure *structure,
       int propertyCount, const PropertyInfo *);
-   QScriptStaticScopeObject(WTF::NonNullPassRefPtr<JSC::Structure> structure);
+   QScriptStaticScopeObject(JSC::Structure *structure);
    virtual ~QScriptStaticScopeObject();
 
-   virtual bool isDynamicScope() const {
+   virtual bool isDynamicScope(bool &requiresDynamicChecks) const {
+      requiresDynamicChecks = false;
       return false;
    }
 
@@ -58,34 +59,24 @@ class QScriptStaticScopeObject : public JSC::JSVariableObject
 
    virtual bool deleteProperty(JSC::ExecState *, const JSC::Identifier &propertyName);
 
-   virtual void markChildren(JSC::MarkStack &);
+   virtual void visitChildren(JSC::MarkStack &);
 
    virtual const JSC::ClassInfo *classInfo() const {
       return &info;
    }
    static const JSC::ClassInfo info;
 
-   static WTF::PassRefPtr<JSC::Structure> createStructure(JSC::JSValue proto) {
-      return JSC::Structure::create(proto, JSC::TypeInfo(JSC::ObjectType, StructureFlags));
+   static JSC::Structure *createStructure(JSC::JSGlobalData &globalData, JSC::JSValue proto) {
+      return JSC::Structure::create(globalData, proto, JSC::TypeInfo(JSC::ObjectType, StructureFlags), AnonymousSlotCount, &info);
    }
 
  protected:
    static const unsigned StructureFlags = JSC::OverridesGetOwnPropertySlot | JSC::NeedsThisConversion |
-      JSC::OverridesMarkChildren | JSC::OverridesGetPropertyNames | JSC::JSVariableObject::StructureFlags;
+      JSC::OverridesVisitChildren | JSC::OverridesGetPropertyNames | JSC::JSVariableObject::StructureFlags;
 
-   struct Data : public JSVariableObjectData {
-      Data(bool canGrow_)
-         : JSVariableObjectData(&symbolTable, nullptr), canGrow(canGrow_), registerArraySize(0) {
-      }
-
-      bool canGrow;
-      int registerArraySize;
-      JSC::SymbolTable symbolTable;
-   };
-
-   Data *d_ptr() const {
-      return static_cast<Data *>(JSVariableObject::d);
-   }
+   JSC::SymbolTable m_symbolTable;
+   bool m_canGrow;
+   int m_registerArraySize;
 
  private:
    void addSymbolTableProperty(const JSC::Identifier &, JSC::JSValue, unsigned attributes);

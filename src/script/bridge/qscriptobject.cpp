@@ -37,8 +37,8 @@ QScriptObject::Data::~Data()
    delete delegate;
 }
 
-QScriptObject::QScriptObject(WTF::PassRefPtr<JSC::Structure> sid)
-   : JSC::JSObject(sid), d(nullptr)
+QScriptObject::QScriptObject(JSC::JSGlobalData *globalData, JSC::Structure *sid)
+   : JSC::JSNonFinalObject(*globalData, sid), d(nullptr)
 {
 }
 
@@ -105,7 +105,7 @@ bool QScriptObject::compareToObject(JSC::ExecState *exec, JSC::JSObject *other)
    return d->delegate->compareToObject(this, exec, other);
 }
 
-void QScriptObject::markChildren(JSC::MarkStack &markStack)
+void QScriptObject::visitChildren(JSC::MarkStack &markStack)
 {
    if (!d) {
       d = new Data();
@@ -118,18 +118,16 @@ void QScriptObject::markChildren(JSC::MarkStack &markStack)
    bool temp = d->isMarking;
    d->isMarking = true;
 
-   if (d && d->data) {
+   JSC::JSObject::visitChildren(markStack);
+
+   if (d->data) {
       markStack.append(d->data);
    }
 
-   if (!d || !d->delegate) {
-      JSC::JSObject::markChildren(markStack);
-
-      d->isMarking = temp;
-      return;
+   if (d->delegate) {
+      d->delegate->markChildren(this, markStack);
    }
 
-   d->delegate->markChildren(this, markStack);
    d->isMarking = temp;
 }
 
@@ -157,9 +155,9 @@ bool QScriptObject::hasInstance(JSC::ExecState *exec, JSC::JSValue value, JSC::J
    return d->delegate->hasInstance(this, exec, value, proto);
 }
 
-QScriptObjectPrototype::QScriptObjectPrototype(JSC::ExecState *, WTF::PassRefPtr<JSC::Structure> structure,
+QScriptObjectPrototype::QScriptObjectPrototype(JSC::ExecState *exec, JSC::Structure *structure,
    JSC::Structure * /*prototypeFunctionStructure*/)
-   : QScriptObject(structure)
+   : QScriptObject(&exec->globalData(), structure)
 {
 }
 
@@ -209,7 +207,7 @@ void QScriptObjectDelegate::getOwnPropertyNames(QScriptObject *object, JSC::Exec
 void QScriptObjectDelegate::markChildren(QScriptObject *object, JSC::MarkStack &markStack)
 {
    // ### should this call the virtual function instead??
-   object->JSC::JSObject::markChildren(markStack);
+   object->JSC::JSObject::visitChildren(markStack);
 }
 
 JSC::CallType QScriptObjectDelegate::getCallData(QScriptObject *object, JSC::CallData &data)

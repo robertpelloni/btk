@@ -46,6 +46,7 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 - Use the generated QtScript dependency inventory and Script manifest to define the minimum viable `CsScript` file/type checklist before attempting declarative bring-up.
 - The first-pass `CsScript` bring-up plan is now staged explicitly into public compatibility, declarative bridge/core compilation, and tooling/support follow-up.
 - A provenance audit now shows the repository's own git history already contains recoverable `src/script/` and `src/scripttools/` snapshots, so the likely path is historical recovery plus JavaScriptCore path adaptation rather than a full greenfield Script rewrite.
+- The concrete recovery anchors are now selected: use `85fd29...` as the primary `CsScript` baseline, defer `CsScriptTools` to `9845b18...`, and start with a Stage A public-compatibility restoration pass.
 - Continue the successful Windows/MSVC build path into any deferred optional modules/plugins beyond the current built set.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
 - Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.

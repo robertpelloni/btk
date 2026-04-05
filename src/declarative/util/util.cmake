@@ -1,11 +1,13 @@
 set(DECLARATIVE_PUBLIC_INCLUDES
     ${DECLARATIVE_PUBLIC_INCLUDES}
+    BMLView
     QDeclarativeView
     QDeclarativePropertyMap
 )
 
 set(DECLARATIVE_INCLUDES
     ${DECLARATIVE_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/util/bmlview.h
     ${CMAKE_CURRENT_SOURCE_DIR}/util/qdeclarativeview.h
     ${CMAKE_CURRENT_SOURCE_DIR}/util/qdeclarativepropertymap.h
 )

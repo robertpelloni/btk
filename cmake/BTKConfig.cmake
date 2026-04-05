@@ -14,6 +14,11 @@ set(BTK_FOUND TRUE)
 get_filename_component(BTK_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" DIRECTORY)
 get_filename_component(BTK_PREFIX ${BTK_CMAKE_DIR}/ ABSOLUTE)
 
+list(FIND CMAKE_MODULE_PATH "${BTK_CMAKE_DIR}" BTK_CMAKE_DIR_INDEX)
+if (BTK_CMAKE_DIR_INDEX EQUAL -1)
+   list(PREPEND CMAKE_MODULE_PATH "${BTK_CMAKE_DIR}")
+endif()
+
 include("${BTK_CMAKE_DIR}/CopperSpiceLibraryTargets.cmake")
 include("${BTK_CMAKE_DIR}/CopperSpiceBinaryTargets.cmake")
 include("${BTK_CMAKE_DIR}/BTKMacros.cmake")
@@ -33,6 +38,12 @@ foreach(component ${BTK_COMPONENTS})
 
       if (NOT TARGET BTK::${component})
          add_library(BTK::${component} ALIAS CopperSpice::Cs${component})
+      endif()
+
+      if (component STREQUAL "Declarative")
+         if (NOT TARGET BTK::Bml)
+            add_library(BTK::Bml ALIAS CopperSpice::Cs${component})
+         endif()
       endif()
    endif()
 

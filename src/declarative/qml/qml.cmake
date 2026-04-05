@@ -1,5 +1,10 @@
 set(DECLARATIVE_PUBLIC_INCLUDES
     ${DECLARATIVE_PUBLIC_INCLUDES}
+    BML
+    BMLComponent
+    BMLContext
+    BMLEngine
+    BMLError
     QDeclarativeError
     QDeclarativeEngine
     QDeclarativeContext
@@ -25,6 +30,11 @@ set(DECLARATIVE_PUBLIC_INCLUDES
 
 set(DECLARATIVE_INCLUDES
     ${DECLARATIVE_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/bml.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/bmlcomponent.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/bmlcontext.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/bmlengine.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/bmlerror.h
     ${CMAKE_CURRENT_SOURCE_DIR}/qml/qdeclarative.h
     ${CMAKE_CURRENT_SOURCE_DIR}/qml/qdeclarativeproperty.h
     ${CMAKE_CURRENT_SOURCE_DIR}/qml/qdeclarativecomponent.h

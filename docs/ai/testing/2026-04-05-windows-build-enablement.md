@@ -202,6 +202,7 @@ After the packaging-path improvement:
 - a focus-reason smoke example under `docs/ai/testing/btk-package-focus-reason-smoke-example/` now configures successfully against the staged install
 - a popup/modal smoke example under `docs/ai/testing/btk-package-popup-modal-smoke-example/` now configures successfully against the staged install and stages a runnable Windows GUI app bundle via `BTKDeploy`
 - a popup-stack runtime smoke example under `docs/ai/testing/btk-package-popup-stack-runtime-smoke-example/` now configures successfully against the staged install and stages a runnable Windows GUI app bundle via `BTKDeploy`
+- downstream staged GUI samples can now use `include(BTKDeploy)` directly after `find_package(BTK)` instead of requiring the explicit `${BTK_CMAKE_DEPLOY_FILE}` path
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -287,7 +288,7 @@ The focus-reason smoke path validates downstream access to:
 ### Popup/modal deploy smoke validation scope
 The popup/modal deploy smoke path validates downstream access to:
 - `BTK::Gui`
-- `BTKDeploy` compatibility wrappers through `include("${BTK_CMAKE_DEPLOY_FILE}")`
+- `BTKDeploy` compatibility wrappers through direct `include(BTKDeploy)` use after `find_package(BTK)`
 - staged Windows GUI deployment using `btk_copy_library(...)` and `btk_copy_plugins(...)`
 - popup-owner and modal-owner diagnostics in a visible runtime scenario
 - popup/modal mixed-owner mismatch reporting through `BTKFocusOverlay`
@@ -324,6 +325,7 @@ A meaningful Windows GUI packaging nuance was uncovered during visible popup/mod
 - the staged BTK install was already sufficient for `find_package(BTK)` and linking
 - but a shown downstream GUI executable still requires a `platforms/` directory containing `CsGuiWin2.1.dll`
 - BTK's deploy compatibility wrapper now works for this scenario because `BTKConfig.cmake` mirrors BTK version/install metadata into the legacy `COPPERSPICE_VERSION_*`, `CS_INSTALL_MODE`, and `Cs*_Deploy` variables expected by `CopperSpiceDeploy.cmake`
+- `BTKConfig.cmake` now also prepends the BTK package CMake directory to `CMAKE_MODULE_PATH`, allowing natural downstream `include(BTKDeploy)` usage once `find_package(BTK)` has succeeded
 
 A second runtime nuance was then uncovered during the popup-stack pass:
 - visible multi-popup stack presence/order diagnostics are working in a staged GUI app

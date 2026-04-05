@@ -72,7 +72,7 @@ endif()
 # required libraries
 set(BUILD_COMPONENTS "Core Xml")
 
-set(CS_OPTIONAL_COMPONENTS Gui Multimedia Network OpenGL Sql Svg Vulkan WebKit XmlPatterns)
+set(CS_OPTIONAL_COMPONENTS Gui Declarative Multimedia Network OpenGL Sql Svg Vulkan WebKit XmlPatterns)
 
 set(PACKAGE           "btk")
 set(PACKAGE_NAME      "BTK")
@@ -233,7 +233,12 @@ option(WITH_ODBC_PLUGIN "Build ODBC database plugin (if possible)" ON)
 
 foreach(component ${CS_OPTIONAL_COMPONENTS})
    string(TOUPPER ${component} uppercomp)
-   option(WITH_${uppercomp} "Build ${component} component" ON)
+
+   if (component STREQUAL "Declarative")
+      option(WITH_${uppercomp} "Build ${component} component" OFF)
+   else()
+      option(WITH_${uppercomp} "Build ${component} component" ON)
+   endif()
 endforeach()
 
 # start output messages
@@ -764,6 +769,11 @@ foreach(component ${BUILD_COMPONENTS})
       add_library(Btk${component} ALIAS Cs${component})
       add_library(BTK::Btk${component} ALIAS Cs${component})
       add_library(BTK::${component} ALIAS Cs${component})
+
+      if (component STREQUAL "Declarative")
+         add_library(BtkBml ALIAS Cs${component})
+         add_library(BTK::Bml ALIAS Cs${component})
+      endif()
    endif()
 endforeach()
 

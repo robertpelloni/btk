@@ -4,6 +4,7 @@
 - Added `external/juce`, `external/ultimatepp`, and `external/bobui-reference` as git submodules.
 - Rebranded the root CMake project/package metadata to BTK.
 - Added `cmake/BTKConfig.cmake`, `cmake/BTKConfigVersion.cmake`, `cmake/BTKMacros.cmake`, and `cmake/BTKDeploy.cmake`.
+- Added a first BML bootstrap layer over the legacy declarative subsystem, including BML alias headers, `BTK::Bml` alias scaffolding, and a default-off `Declarative` build gate.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
@@ -52,15 +53,16 @@
 - A downstream popup/modal `find_package(BTK)` example now configures, builds, stages, and runs successfully against the staged install, validating visible Windows GUI deployment plus BTK popup/modal ownership diagnostics.
 - A downstream popup-stack runtime `find_package(BTK)` example now configures, builds, stages, and runs successfully against the staged install, validating visible multi-popup stack diagnostics plus popup-aware focus rejection for a foreign-owner target.
 - The staged BTK install is sufficient for downstream linking, but visible Windows GUI executables still need an app-local `platforms/CsGuiWin2.1.dll` deployment layout.
-- `cmake/BTKConfig.cmake` now mirrors BTK metadata into legacy deploy variables so `include("${BTK_CMAKE_DEPLOY_FILE}")` plus `btk_copy_library(...)` / `btk_copy_plugins(...)` work in downstream projects.
+- `cmake/BTKConfig.cmake` now mirrors BTK metadata into legacy deploy variables so `include(BTKDeploy)` plus `btk_copy_library(...)` / `btk_copy_plugins(...)` work in downstream projects, and it prepends the BTK package CMake directory to `CMAKE_MODULE_PATH` so `include(BTKDeploy)` resolves naturally after `find_package(BTK)`.
 - A more ambitious restoration-focused popup-stack variant reproducibly hit a Windows access violation when programmatically closing the top popup in a visible staged GUI scenario, identifying popup close/restoration as a remaining runtime hotspot.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
-2. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
-3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
-4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
+2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
+3. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
+4. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
+5. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
 - Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.

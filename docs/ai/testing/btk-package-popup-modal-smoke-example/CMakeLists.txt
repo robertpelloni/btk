@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(BTK REQUIRED COMPONENTS Core Gui)
-include("${BTK_CMAKE_DEPLOY_FILE}")
+include(BTKDeploy)
 
 add_executable(btk_package_popup_modal_smoke main.cpp)
 target_link_libraries(btk_package_popup_modal_smoke PRIVATE BTK::Gui BTK::Core)

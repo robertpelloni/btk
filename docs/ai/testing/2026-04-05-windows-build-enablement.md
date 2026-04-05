@@ -176,11 +176,40 @@ The smoke sample needed two practical fixes:
 
 This is important evidence that BTK package consumption now works, but also that the public compatibility layer still reflects real CopperSpice/BTK behavior rather than full Qt-API equivalence.
 
+## Package-path ergonomics improvement
+Windows packaging originally installed BTK package files only to:
+- `cmake/BTK`
+
+That worked with explicit `BTK_DIR`, but did **not** work when only `CMAKE_PREFIX_PATH=<install-prefix>` was provided.
+
+To improve downstream ergonomics without breaking the existing path, the install rules were expanded so Windows now also installs BTK and CopperSpice package metadata to the more conventional locations:
+- `lib/cmake/BTK`
+- `lib/cmake/CopperSpice`
+
+This preserves the existing Windows package path while making root-prefix package discovery more realistic for downstream users.
+
+## Expanded downstream package validation
+After the packaging-path improvement:
+- the core smoke example now configures successfully with `CMAKE_PREFIX_PATH=<install-prefix>` instead of requiring only `BTK_DIR`
+- a new GUI-oriented smoke example under `docs/ai/testing/btk-package-gui-smoke-example/` also configures and builds successfully against the staged install
+
+### GUI smoke validation scope
+The GUI package smoke path now validates downstream access to:
+- `BTK::Gui`
+- `<QtGui/BTKFocusOverlay>`
+- owner-context / focus-token APIs via `QApplication`
+- target-aware overlay diagnostics without relying on an in-repo direct include path
+
+### Runtime validation
+Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, both downstream samples executed successfully:
+- `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
+- `build-vs2019/package-gui-smoke/Release/btk_package_gui_smoke.exe`
+
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
 2. Prioritize any deferred plugins / optional runtime pieces beyond the now-built core module set.
 3. Keep adapting recent BTK additions to actual CopperSpice/BTK APIs rather than Qt-assumed APIs.
-4. Expand the downstream smoke application into a slightly richer GUI/package validation example.
+4. Expand the downstream smoke applications into richer runtime-oriented GUI/package validations.
 5. Improve BTK wrapper ergonomics where practical so downstream examples need fewer CopperSpice-specific adjustments.
 
 ## Bottom line

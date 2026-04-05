@@ -791,6 +791,9 @@ configure_file(
    @ONLY
 )
 
+set(PKG_PREFIX_ALT "")
+set(BTK_PKG_PREFIX_ALT "")
+
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
    set(PKG_PREFIX "CopperSpice.framework/Resources")
    set(BTK_PKG_PREFIX "BTK.framework/Resources")
@@ -798,6 +801,8 @@ if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
    set(PKG_PREFIX "cmake/CopperSpice")
    set(BTK_PKG_PREFIX "cmake/BTK")
+   set(PKG_PREFIX_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
+   set(BTK_PKG_PREFIX_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
 
 else()
    set(PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
@@ -816,6 +821,19 @@ install(
    DESTINATION ${PKG_PREFIX}
 )
 
+if (PKG_PREFIX_ALT)
+   install(
+      FILES
+         ${CMAKE_BINARY_DIR}/CopperSpiceConfig.cmake
+         ${CMAKE_BINARY_DIR}/CopperSpiceConfigVersion.cmake
+
+         ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake
+      DESTINATION ${PKG_PREFIX_ALT}
+   )
+endif()
+
 install(
    FILES
       ${CMAKE_BINARY_DIR}/BTKConfig.cmake
@@ -829,6 +847,21 @@ install(
    DESTINATION ${BTK_PKG_PREFIX}
 )
 
+if (BTK_PKG_PREFIX_ALT)
+   install(
+      FILES
+         ${CMAKE_BINARY_DIR}/BTKConfig.cmake
+         ${CMAKE_BINARY_DIR}/BTKConfigVersion.cmake
+
+         ${CMAKE_SOURCE_DIR}/cmake/BTKDeploy.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/BTKMacros.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
+         ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake
+      DESTINATION ${BTK_PKG_PREFIX_ALT}
+   )
+endif()
+
 install(
    # generate cmake files containing rules about linking with CS libs
 
@@ -838,12 +871,30 @@ install(
    DESTINATION ${PKG_PREFIX}
 )
 
+if (PKG_PREFIX_ALT)
+   install(
+      EXPORT CopperSpiceLibraryTargets
+      NAMESPACE CopperSpice::
+      FILE CopperSpiceLibraryTargets.cmake
+      DESTINATION ${PKG_PREFIX_ALT}
+   )
+endif()
+
 install(
    EXPORT CopperSpiceLibraryTargets
    NAMESPACE CopperSpice::
    FILE CopperSpiceLibraryTargets.cmake
    DESTINATION ${BTK_PKG_PREFIX}
 )
+
+if (BTK_PKG_PREFIX_ALT)
+   install(
+      EXPORT CopperSpiceLibraryTargets
+      NAMESPACE CopperSpice::
+      FILE CopperSpiceLibraryTargets.cmake
+      DESTINATION ${BTK_PKG_PREFIX_ALT}
+   )
+endif()
 
 # generate cmake files containing rules about running CS binary tools
 install(
@@ -853,12 +904,30 @@ install(
    DESTINATION ${PKG_PREFIX}
 )
 
+if (PKG_PREFIX_ALT)
+   install(
+      EXPORT CopperSpiceBinaryTargets
+      NAMESPACE CopperSpice::
+      FILE CopperSpiceBinaryTargets.cmake
+      DESTINATION ${PKG_PREFIX_ALT}
+   )
+endif()
+
 install(
    EXPORT CopperSpiceBinaryTargets
    NAMESPACE CopperSpice::
    FILE CopperSpiceBinaryTargets.cmake
    DESTINATION ${BTK_PKG_PREFIX}
 )
+
+if (BTK_PKG_PREFIX_ALT)
+   install(
+      EXPORT CopperSpiceBinaryTargets
+      NAMESPACE CopperSpice::
+      FILE CopperSpiceBinaryTargets.cmake
+      DESTINATION ${BTK_PKG_PREFIX_ALT}
+   )
+endif()
 
 message("\n")
 message("-- The following BTK libraries will be built:")

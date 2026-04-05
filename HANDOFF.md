@@ -38,12 +38,14 @@
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
 - Windows/MSVC configuration is now working; `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` have been built successfully in `Release` under `build-vs2019`.
 - A staged Windows install now succeeds under `build-vs2019/install`, including BTK package config files.
-- The downstream `find_package(BTK)` smoke example now configures, builds, and runs successfully against the staged install.
+- Windows package metadata is now duplicated into conventional `lib/cmake/BTK` and `lib/cmake/CopperSpice` locations so root-prefix `CMAKE_PREFIX_PATH` discovery works in addition to explicit `BTK_DIR`.
+- The downstream `find_package(BTK)` core smoke example now configures, builds, and runs successfully against the staged install.
+- A downstream GUI-oriented `find_package(BTK)` smoke example now configures, builds, and runs successfully against the staged install.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
-1. Expand the downstream BTK package smoke path beyond core-only consumption into a richer GUI-aware validation example.
-2. Expand the public alias layer cautiously based on validation feedback.
+1. Expand the downstream BTK package smoke path beyond the current core and minimal GUI validations into richer runtime-oriented consumption examples.
+2. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 

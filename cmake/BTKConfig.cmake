@@ -69,5 +69,19 @@ set(BTK_VERSION_PATCH "@BUILD_MICRO@")
 set(BTK_VERSION       "@BUILD_MAJOR@.@BUILD_MINOR@.@BUILD_MICRO@")
 set(BTK_VERSION_API   "@BUILD_MAJOR@.@BUILD_MINOR@")
 
+# Compatibility bridge for deploy helpers and downstream CopperSpice-shaped
+# tooling which still expects the legacy variable names to exist even when the
+# package is discovered through BTK.
+set(COPPERSPICE_VERSION_MAJOR "${BTK_VERSION_MAJOR}")
+set(COPPERSPICE_VERSION_MINOR "${BTK_VERSION_MINOR}")
+set(COPPERSPICE_VERSION_PATCH "${BTK_VERSION_PATCH}")
+set(COPPERSPICE_VERSION       "${BTK_VERSION}")
+set(COPPERSPICE_VERSION_API   "${BTK_VERSION_API}")
+set(CS_INSTALL_MODE           "${BTK_INSTALL_MODE}")
+set(CsLibGuarded_Deploy       "${BtkLibGuarded_Deploy}")
+set(CsPointer_Deploy          "${BtkPointer_Deploy}")
+set(CsSignal_Deploy           "${BtkSignal_Deploy}")
+set(CsString_Deploy           "${BtkString_Deploy}")
+
 set(BTK_CMAKE_MACROS_FILE "${BTK_CMAKE_DIR}/BTKMacros.cmake")
 set(BTK_CMAKE_DEPLOY_FILE "${BTK_CMAKE_DIR}/BTKDeploy.cmake")

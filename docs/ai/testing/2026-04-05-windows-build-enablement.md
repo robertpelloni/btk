@@ -200,6 +200,7 @@ After the packaging-path improvement:
 - a broader platform-smoke example under `docs/ai/testing/btk-package-platform-smoke-example/` now configures successfully against the staged install
 - a behavioral runtime smoke example under `docs/ai/testing/btk-package-behavioral-runtime-smoke-example/` now configures successfully against the staged install
 - a focus-reason smoke example under `docs/ai/testing/btk-package-focus-reason-smoke-example/` now configures successfully against the staged install
+- a popup/modal smoke example under `docs/ai/testing/btk-package-popup-modal-smoke-example/` now configures successfully against the staged install and stages a runnable Windows GUI app bundle via `BTKDeploy`
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -282,8 +283,16 @@ The focus-reason smoke path validates downstream access to:
 - `QApplication::btkWouldBlockFocusChange(...)`
 - popup-flavored and active-window-flavored focus reasons in owner-exclusive routing decisions
 
+### Popup/modal deploy smoke validation scope
+The popup/modal deploy smoke path validates downstream access to:
+- `BTK::Gui`
+- `BTKDeploy` compatibility wrappers through `include("${BTK_CMAKE_DEPLOY_FILE}")`
+- staged Windows GUI deployment using `btk_copy_library(...)` and `btk_copy_plugins(...)`
+- popup-owner and modal-owner diagnostics in a visible runtime scenario
+- popup/modal mixed-owner mismatch reporting through `BTKFocusOverlay`
+
 ### Runtime validation
-Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:
+Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream console/runtime-oriented samples executed successfully:
 - `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
 - `build-vs2019/package-gui-smoke/Release/btk_package_gui_smoke.exe`
 - `build-vs2019/package-network-smoke/Release/btk_package_network_smoke.exe`
@@ -295,6 +304,20 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 - `build-vs2019/package-integrated-runtime-smoke/Release/btk_package_integrated_runtime_smoke.exe`
 - `build-vs2019/package-platform-smoke/Release/btk_package_platform_smoke.exe`
 - `build-vs2019/package-behavioral-runtime-smoke/Release/btk_package_behavioral_runtime_smoke.exe`
+- `build-vs2019/package-focus-reason-smoke/Release/btk_package_focus_reason_smoke.exe`
+
+Using staged app-local deployment produced by `BTKDeploy`, the downstream visible GUI popup/modal sample also executed successfully:
+- `build-vs2019/package-popup-modal-smoke/stage/btk_package_popup_modal_smoke.exe`
+
+## Additional deploy/runtime finding
+A meaningful Windows GUI packaging nuance was uncovered during visible popup/modal validation:
+- the staged BTK install was already sufficient for `find_package(BTK)` and linking
+- but a shown downstream GUI executable still requires a `platforms/` directory containing `CsGuiWin2.1.dll`
+- BTK's deploy compatibility wrapper now works for this scenario because `BTKConfig.cmake` mirrors BTK version/install metadata into the legacy `COPPERSPICE_VERSION_*`, `CS_INSTALL_MODE`, and `Cs*_Deploy` variables expected by `CopperSpiceDeploy.cmake`
+
+This means BTK is now stronger in two distinct ways:
+- installed-package discovery remains BTK-branded
+- downstream Windows GUI runtime staging can still reuse mature deploy helper logic without forcing an immediate full rewrite of the deploy subsystem
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
@@ -307,6 +330,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 8. Expand integrated downstream runtime validation further so more framework slices are exercised together rather than only component-by-component.
 9. Continue growing platform-oriented smoke coverage toward a realistic BTK consumer application skeleton.
 10. Continue adding downstream behavioral-runtime scenarios that validate BTK-specific ownership semantics, not just component availability.
+11. Continue validating BTKDeploy-based staged GUI app bundles so visible downstream Windows runtime behavior is tested, not only DLL-on-PATH execution.
 
 ## Bottom line
 This session materially improved build readiness:
@@ -314,5 +338,6 @@ This session materially improved build readiness:
 - `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, and `CsMultimedia` build successfully
 - the project reaches deep into the remaining stack before timing out on heavier full-solution work
 - the biggest recent source-compatibility regressions introduced by BTK overlay/diagnostic work were corrected
+- downstream BTK deploy wrappers now stage a runnable Windows GUI app bundle for a visible popup/modal ownership validation scenario
 
 That is a real step from scaffolding toward usable framework output.

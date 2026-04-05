@@ -859,7 +859,7 @@ QString btkOwnerIdForWidget(const QWidget *widget)
    const QWidget *current = widget;
 
    while (current) {
-      const QVariant ownerValue = current->property(QString::fromLatin1(btkOwnerPropertyName));
+      const QVariant ownerValue = current->property(btkOwnerPropertyName);
       if (ownerValue.isValid()) {
          const QString ownerId = ownerValue.toString();
          if (! ownerId.isEmpty()) {
@@ -882,7 +882,7 @@ QString btkSurfaceIdForWidget(const QWidget *widget)
    const QWidget *current = widget;
 
    while (current) {
-      const QVariant surfaceValue = current->property(QString::fromLatin1(btkSurfacePropertyName));
+      const QVariant surfaceValue = current->property(btkSurfacePropertyName);
       if (surfaceValue.isValid()) {
          const QString surfaceId = surfaceValue.toString();
          if (! surfaceId.isEmpty()) {
@@ -1150,8 +1150,8 @@ void QApplication::setBtkOwnerContext(QWidget *widget, const QString &ownerId, c
       return;
    }
 
-   widget->setProperty(QString::fromLatin1(btkOwnerPropertyName), ownerId);
-   widget->setProperty(QString::fromLatin1(btkSurfacePropertyName), surfaceId);
+   widget->setProperty(btkOwnerPropertyName, ownerId);
+   widget->setProperty(btkSurfacePropertyName, surfaceId);
 }
 
 QString QApplication::btkOwnerId(const QWidget *widget)

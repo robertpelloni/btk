@@ -8,6 +8,7 @@
 - Added a BML buildability audit and a configure-time declarative guard which warns and forces `WITH_DECLARATIVE=OFF` if the legacy declarative runtime is requested without its missing QtScript/CsScript-era dependencies.
 - Added a generated QtScript dependency inventory for BML revival (`scripts/generate_bml_qtscript_dependency_audit.py`) plus generated markdown/JSON artifacts quantifying the declarative script footprint and `src/imports/` declarative coupling.
 - Added a generated BML Script API manifest (`scripts/generate_bml_script_manifest.py`) which separates public Script-facing declarative headers from private declarative bridge dependencies and identifies the smallest obvious public-vs-private Script restoration checkpoints.
+- Added a concrete staged `CsScript` bring-up checklist splitting the first restoration pass into Stage A public compatibility, Stage B declarative bridge/core compilation, and Stage C tooling/support APIs.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
@@ -67,7 +68,7 @@
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
 3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
-4. Turn the new Script manifest into a concrete file/type checklist for the first `CsScript` bring-up pass, split into public compatibility headers and private declarative bridge support.
+4. Decide whether to start implementing Stage A `CsScript` public compatibility scaffolding now, or first search repo/upstream history for any recoverable preexisting Script module sources.
 5. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 6. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 7. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.

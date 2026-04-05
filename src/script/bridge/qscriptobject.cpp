@@ -100,7 +100,8 @@ void QScriptObject::getOwnPropertyNames(JSC::ExecState *exec, JSC::PropertyNameA
 bool QScriptObject::compareToObject(JSC::ExecState *exec, JSC::JSObject *other)
 {
    if (!d || !d->delegate) {
-      return JSC::JSObject::compareToObject(exec, other);
+      (void) exec;
+      return this == other;
    }
    return d->delegate->compareToObject(this, exec, other);
 }
@@ -121,7 +122,7 @@ void QScriptObject::visitChildren(JSC::MarkStack &markStack)
    JSC::JSObject::visitChildren(markStack);
 
    if (d->data) {
-      markStack.append(d->data);
+      markStack.append(&d->data);
    }
 
    if (d->delegate) {
@@ -228,5 +229,6 @@ bool QScriptObjectDelegate::hasInstance(QScriptObject *object, JSC::ExecState *e
 
 bool QScriptObjectDelegate::compareToObject(QScriptObject *object, JSC::ExecState *exec, JSC::JSObject *o)
 {
-   return object->JSC::JSObject::compareToObject(exec, o);
+   (void) exec;
+   return object == o;
 }

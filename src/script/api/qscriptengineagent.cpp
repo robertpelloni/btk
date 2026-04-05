@@ -60,7 +60,6 @@ void QScriptEngineAgentPrivate::exceptionThrow(const JSC::DebuggerCallFrame &fra
 {
    JSC::CallFrame *oldFrame = engine->currentFrame;
    int oldAgentLineNumber = engine->agentLineNumber;
-   engine->currentFrame = frame.callFrame();
    QScriptValue value(engine->scriptValueFromJSCValue(frame.exception()));
    engine->agentLineNumber = value.property(QLatin1String("lineNumber")).toInt32();
    q_ptr->exceptionThrow(sourceID, value, hasHandler);
@@ -72,7 +71,6 @@ void QScriptEngineAgentPrivate::exceptionThrow(const JSC::DebuggerCallFrame &fra
 void QScriptEngineAgentPrivate::exceptionCatch(const JSC::DebuggerCallFrame &frame, intptr_t sourceID)
 {
    JSC::CallFrame *oldFrame = engine->currentFrame;
-   engine->currentFrame = frame.callFrame();
    QScriptValue value(engine->scriptValueFromJSCValue(frame.exception()));
    q_ptr->exceptionCatch(sourceID, value);
    engine->currentFrame = oldFrame;
@@ -92,7 +90,6 @@ void QScriptEngineAgentPrivate::atStatement(const JSC::DebuggerCallFrame &frame,
    int column = 1;
    JSC::CallFrame *oldFrame = engine->currentFrame;
    int oldAgentLineNumber = engine->agentLineNumber;
-   engine->currentFrame = frame.callFrame();
    engine->agentLineNumber = lineno;
    q_ptr->positionChange(sourceID, lineno, column);
    engine->currentFrame = oldFrame;
@@ -125,7 +122,6 @@ void QScriptEngineAgentPrivate::didReachBreakpoint(const JSC::DebuggerCallFrame 
       int column = 1;
       JSC::CallFrame *oldFrame = engine->currentFrame;
       int oldAgentLineNumber = engine->agentLineNumber;
-      engine->currentFrame = frame.callFrame();
       engine->agentLineNumber = lineno;
       QList<QVariant> args;
       args << qint64(sourceID) << lineno << column;

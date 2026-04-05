@@ -35,7 +35,6 @@
 #include <qscriptstring_p.h>
 
 #include "JSGlobalObject.h"
-#include "JSImmediate.h"
 #include "JSObject.h"
 #include "JSValue.h"
 #include "JSFunction.h"

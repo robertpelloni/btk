@@ -56,10 +56,8 @@ class FunctionWrapper : public JSC::PrototypeFunction // ### subclass InternalFu
  private:
    virtual JSC::ConstructType getConstructData(JSC::ConstructData &);
 
-   static JSC::JSValue JSC_HOST_CALL proxyCall(JSC::ExecState *, JSC::JSObject *,
-      JSC::JSValue, const JSC::ArgList &);
-   static JSC::JSObject *proxyConstruct(JSC::ExecState *, JSC::JSObject *,
-      const JSC::ArgList &);
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyCall(JSC::ExecState *);
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyConstruct(JSC::ExecState *);
 
  private:
    Data *data;
@@ -94,10 +92,8 @@ class FunctionWithArgWrapper : public JSC::PrototypeFunction
  private:
    virtual JSC::ConstructType getConstructData(JSC::ConstructData &);
 
-   static JSC::JSValue JSC_HOST_CALL proxyCall(JSC::ExecState *, JSC::JSObject *,
-      JSC::JSValue, const JSC::ArgList &);
-   static JSC::JSObject *proxyConstruct(JSC::ExecState *, JSC::JSObject *,
-      const JSC::ArgList &);
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyCall(JSC::ExecState *);
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyConstruct(JSC::ExecState *);
 
  private:
    Data *data;

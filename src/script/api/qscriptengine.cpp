@@ -789,7 +789,7 @@ QScriptEnginePrivate::QScriptEnginePrivate()
    JSC::IdentifierTable *oldTable = wtfThreadData().currentIdentifierTable();
    globalData = JSC::JSGlobalData::create().releaseRef();
    globalData->clientData = new QScript::GlobalClientData(this);
-   JSC::JSGlobalObject *globalObject = new (globalData)QScript::GlobalObject();
+   JSC::JSGlobalObject *globalObject = new (globalData)QScript::GlobalObject(*globalData);
 
    JSC::ExecState *exec = globalObject->globalExec();
 

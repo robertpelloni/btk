@@ -113,9 +113,9 @@ quint32 QScriptString::toArrayIndex(bool *ok) const
       return -1;
    }
    bool tmp;
-   bool *okok = ok ? ok : &tmp;
-   quint32 result = d->identifier.toArrayIndex(okok);
-   if (!*okok) {
+   bool &okref = ok ? *ok : tmp;
+   quint32 result = d->identifier.toArrayIndex(okref);
+   if (!okref) {
       result = -1;
    }
    return result;

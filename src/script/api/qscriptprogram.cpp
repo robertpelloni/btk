@@ -67,10 +67,10 @@ JSC::EvalExecutable *QScriptProgramPrivate::executable(JSC::ExecState *exec,
    }
 
    WTF::PassRefPtr<QScript::UStringSourceProviderWithFeedback> provider
-      = QScript::UStringSourceProviderWithFeedback::create(sourceCode, fileName, firstLineNumber, eng);
+      = QScript::UStringSourceProviderWithFeedback::create(QScript::toUString(sourceCode), QScript::toUString(fileName), firstLineNumber, eng);
    sourceId = provider->asID();
    JSC::SourceCode source(provider, firstLineNumber); //after construction of SourceCode provider variable will be null.
-   _executable = JSC::EvalExecutable::create(exec, source);
+   _executable = JSC::EvalExecutable::create(exec, source, false);
    engine = eng;
    engine->registerScriptProgram(this);
    isCompiled = false;

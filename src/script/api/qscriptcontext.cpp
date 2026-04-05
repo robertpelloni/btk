@@ -535,7 +535,7 @@ void QScriptContext::pushScope(const QScriptValue &object)
          qWarning("QScriptContext::pushScope() failed: initial object in scope chain has to be the Global Object");
          return;
       }
-      scope->object = jscObject;
+      scope->object.set(frame->globalData(), scope, jscObject);
 
    } else {
       frame->setScopeChain(scope->push(jscObject));
@@ -552,11 +552,11 @@ QScriptValue QScriptContext::popScope()
    Q_ASSERT(scope != nullptr);
    QScriptEnginePrivate *engine = QScript::scriptEngineFromExec(frame);
    QScript::APIShim shim(engine);
-   QScriptValue result = engine->scriptValueFromJSCValue(scope->object);
+   QScriptValue result = engine->scriptValueFromJSCValue(scope->object.get());
 
    if (! scope->next) {
       // We cannot have a null scope chain, so just zap the object pointer.
-      scope->object = nullptr;
+      scope->object.clear();
    } else {
       frame->setScopeChain(scope->pop());
    }

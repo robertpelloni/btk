@@ -172,7 +172,7 @@ QString QScriptValueIterator::name() const
    if (!d || !d->initialized || !d->engine()) {
       return QString();
    }
-   return d->current->ustring();
+   return QScript::convertToString(d->current->ustring());
 }
 
 QScriptString QScriptValueIterator::scriptName() const

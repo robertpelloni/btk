@@ -35,8 +35,9 @@ ASSERT_CLASS_FITS_IN_CELL(QScript::OriginalGlobalObjectProxy);
 
 namespace QScript {
 
-GlobalObject::GlobalObject()
-   : JSC::JSGlobalObject(), customGlobalObject(nullptr)
+GlobalObject::GlobalObject(JSC::JSGlobalData &globalData)
+   : JSC::JSGlobalObject(globalData, JSC::JSGlobalObject::createStructure(globalData, JSC::jsNull())),
+     customGlobalObject(globalData, this, nullptr)
 {
 }
 
@@ -48,7 +49,7 @@ void GlobalObject::visitChildren(JSC::MarkStack &markStack)
 {
    JSC::JSGlobalObject::visitChildren(markStack);
    if (customGlobalObject) {
-      markStack.append(customGlobalObject);
+      markStack.append(&customGlobalObject);
    }
 }
 
@@ -63,7 +64,7 @@ bool GlobalObject::getOwnPropertySlot(JSC::ExecState *exec,
       return true;
    }
    if (customGlobalObject) {
-      return customGlobalObject->getOwnPropertySlot(exec, propertyName, slot);
+      return customGlobalObject.get()->getOwnPropertySlot(exec, propertyName, slot);
    }
    return JSC::JSGlobalObject::getOwnPropertySlot(exec, propertyName, slot);
 }
@@ -81,7 +82,7 @@ bool GlobalObject::getOwnPropertyDescriptor(JSC::ExecState *exec,
       return true;
    }
    if (customGlobalObject) {
-      return customGlobalObject->getOwnPropertyDescriptor(exec, propertyName, descriptor);
+      return customGlobalObject.get()->getOwnPropertyDescriptor(exec, propertyName, descriptor);
    }
    return JSC::JSGlobalObject::getOwnPropertyDescriptor(exec, propertyName, descriptor);
 }
@@ -90,7 +91,7 @@ void GlobalObject::put(JSC::ExecState *exec, const JSC::Identifier &propertyName
    JSC::JSValue value, JSC::PutPropertySlot &slot)
 {
    if (customGlobalObject) {
-      customGlobalObject->put(exec, propertyName, value, slot);
+      customGlobalObject.get()->put(exec, propertyName, value, slot);
    } else {
       JSC::JSGlobalObject::put(exec, propertyName, value, slot);
    }
@@ -100,7 +101,7 @@ void GlobalObject::putWithAttributes(JSC::ExecState *exec, const JSC::Identifier
    JSC::JSValue value, unsigned attributes)
 {
    if (customGlobalObject) {
-      customGlobalObject->putWithAttributes(exec, propertyName, value, attributes);
+      customGlobalObject.get()->putWithAttributes(exec, propertyName, value, attributes);
    } else {
       JSC::JSGlobalObject::putWithAttributes(exec, propertyName, value, attributes);
    }
@@ -109,7 +110,7 @@ void GlobalObject::putWithAttributes(JSC::ExecState *exec, const JSC::Identifier
 bool GlobalObject::deleteProperty(JSC::ExecState *exec, const JSC::Identifier &propertyName)
 {
    if (customGlobalObject) {
-      return customGlobalObject->deleteProperty(exec, propertyName);
+      return customGlobalObject.get()->deleteProperty(exec, propertyName);
    }
    return JSC::JSGlobalObject::deleteProperty(exec, propertyName);
 }
@@ -118,7 +119,7 @@ void GlobalObject::getOwnPropertyNames(JSC::ExecState *exec, JSC::PropertyNameAr
    JSC::EnumerationMode mode)
 {
    if (customGlobalObject) {
-      customGlobalObject->getOwnPropertyNames(exec, propertyNames, mode);
+      customGlobalObject.get()->getOwnPropertyNames(exec, propertyNames, mode);
    } else {
       JSC::JSGlobalObject::getOwnPropertyNames(exec, propertyNames, mode);
    }
@@ -128,7 +129,7 @@ void GlobalObject::defineGetter(JSC::ExecState *exec, const JSC::Identifier &pro
    JSC::JSObject *getterFunction, unsigned attributes)
 {
    if (customGlobalObject) {
-      customGlobalObject->defineGetter(exec, propertyName, getterFunction, attributes);
+      customGlobalObject.get()->defineGetter(exec, propertyName, getterFunction, attributes);
    } else {
       JSC::JSGlobalObject::defineGetter(exec, propertyName, getterFunction, attributes);
    }
@@ -138,7 +139,7 @@ void GlobalObject::defineSetter(JSC::ExecState *exec, const JSC::Identifier &pro
    JSC::JSObject *setterFunction, unsigned attributes)
 {
    if (customGlobalObject) {
-      customGlobalObject->defineSetter(exec, propertyName, setterFunction, attributes);
+      customGlobalObject.get()->defineSetter(exec, propertyName, setterFunction, attributes);
    } else {
       JSC::JSGlobalObject::defineSetter(exec, propertyName, setterFunction, attributes);
    }
@@ -147,7 +148,7 @@ void GlobalObject::defineSetter(JSC::ExecState *exec, const JSC::Identifier &pro
 JSC::JSValue GlobalObject::lookupGetter(JSC::ExecState *exec, const JSC::Identifier &propertyName)
 {
    if (customGlobalObject) {
-      return customGlobalObject->lookupGetter(exec, propertyName);
+      return customGlobalObject.get()->lookupGetter(exec, propertyName);
    }
    return JSC::JSGlobalObject::lookupGetter(exec, propertyName);
 }
@@ -155,7 +156,7 @@ JSC::JSValue GlobalObject::lookupGetter(JSC::ExecState *exec, const JSC::Identif
 JSC::JSValue GlobalObject::lookupSetter(JSC::ExecState *exec, const JSC::Identifier &propertyName)
 {
    if (customGlobalObject) {
-      return customGlobalObject->lookupSetter(exec, propertyName);
+      return customGlobalObject.get()->lookupSetter(exec, propertyName);
    }
    return JSC::JSGlobalObject::lookupSetter(exec, propertyName);
 }

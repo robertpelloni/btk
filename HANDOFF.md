@@ -1,6 +1,39 @@
 # HANDOFF
 
 ## Latest Session Additions
+- Performed another fresh process audit using PowerShell/WMI-style process enumeration and continued without terminating any running processes.
+- Continued Stage A `CsScript` recovery with a host-function compatibility pass focused on the removed historical JavaScriptCore substrate expected by restored QtScript-era code.
+- Added narrow embedded-JSC compatibility adapters:
+  - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h`
+  - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.h`
+  - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/JSGlobalObject.h` now exposes a compatibility `prototypeFunctionStructure()` accessor forwarding to `functionStructure()`
+- Updated restored Script wrapper/global-object code to use the new compatibility layer and current host-call expectations:
+  - `src/script/api/qscriptengine.cpp`
+  - `src/script/api/qscriptvalueiterator.cpp`
+  - `src/script/bridge/qscriptactivationobject.cpp`
+  - `src/script/bridge/qscriptfunction.cpp`
+  - `src/script/bridge/qscriptfunction_p.h`
+  - `src/script/bridge/qscriptglobalobject.cpp`
+  - `src/script/bridge/qscriptglobalobject_p.h`
+  - `src/script/bridge/qscriptobject.cpp`
+- Revalidated the direct MSVC Script probe against:
+  - `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+- Confirmed the previous missing-substrate blocker is now contracted away:
+  - missing `PrototypeFunction.h`
+  - missing `NativeFunctionWrapper.h`
+  - missing `prototypeFunctionStructure()` accessor
+  - older `qscriptfunction.cpp` host proxy signatures
+- Captured the new reduced fatal frontier in the legacy declarative bridge, primarily:
+  - `src/script/bridge/qscriptdeclarativeobject.cpp`
+- Representative new reduced errors from the probe:
+  - `error C2440: '=': cannot convert from old-style legacy call helper to 'QTJSC::NativeFunction'`
+  - `error C2039: 'TypeError': is not a member of 'QTJSC'`
+  - `error C2065: 'TypeError': undeclared identifier`
+- Added new detailed docs:
+  - `docs/ai/design/2026-04-05-csscript-host-function-compatibility-pass.md`
+  - `docs/ai/implementation/2026-04-05-csscript-host-function-compatibility-pass.md`
+  - `docs/ai/testing/2026-04-05-csscript-host-function-compatibility-pass-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.3`.
 - Performed another fresh process audit with `tasklist` and continued without terminating any running processes.
 - Launched a detached persisted-log direct MSVC `CsScript` build capture to isolate the first fatal diagnostic beyond the bridge/object and linkage-export unblocks.
 - Captured detached wrapper process details for the longer-running direct build:

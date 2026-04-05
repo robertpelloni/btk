@@ -50,7 +50,7 @@ void QScriptActivationObject::visitChildren(JSC::MarkStack &markStack)
    JSC::JSVariableObject::visitChildren(markStack);
 
    if (m_delegate) {
-      markStack.append(m_delegate.get());
+      markStack.append(&m_delegate);
    }
 }
 

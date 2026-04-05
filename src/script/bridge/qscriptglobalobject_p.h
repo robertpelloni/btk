@@ -31,7 +31,7 @@ namespace QScript {
 class GlobalObject : public JSC::JSGlobalObject
 {
  public:
-   GlobalObject();
+   explicit GlobalObject(JSC::JSGlobalData &globalData);
    virtual ~GlobalObject();
    virtual JSC::UString className() const {
       return "global";
@@ -59,7 +59,7 @@ class GlobalObject : public JSC::JSGlobalObject
    virtual JSC::JSValue lookupSetter(JSC::ExecState *, const JSC::Identifier &propertyName);
 
  public:
-   JSC::JSObject *customGlobalObject;
+   JSC::WriteBarrier<JSC::JSObject> customGlobalObject;
 };
 
 class OriginalGlobalObjectProxy : public JSC::JSNonFinalObject
@@ -67,60 +67,60 @@ class OriginalGlobalObjectProxy : public JSC::JSNonFinalObject
  public:
    explicit OriginalGlobalObjectProxy(JSC::Structure *sid,
       JSC::JSGlobalObject *object)
-      : JSC::JSNonFinalObject(object->globalData(), sid), originalGlobalObject(object) {
+      : JSC::JSNonFinalObject(object->globalData(), sid), originalGlobalObject(object->globalData(), this, object) {
    }
    virtual ~OriginalGlobalObjectProxy() {
    }
    virtual JSC::UString className() const {
-      return originalGlobalObject->className();
+      return originalGlobalObject.get()->className();
    }
    virtual void visitChildren(JSC::MarkStack &markStack) {
       JSC::JSObject::visitChildren(markStack);
-      markStack.append(originalGlobalObject);
+      markStack.append(&originalGlobalObject);
    }
    virtual bool getOwnPropertySlot(JSC::ExecState *exec,
       const JSC::Identifier &propertyName,
       JSC::PropertySlot &slot) {
-      return originalGlobalObject->JSC::JSGlobalObject::getOwnPropertySlot(exec, propertyName, slot);
+      return originalGlobalObject.get()->JSC::JSGlobalObject::getOwnPropertySlot(exec, propertyName, slot);
    }
    virtual bool getOwnPropertyDescriptor(JSC::ExecState *exec,
       const JSC::Identifier &propertyName,
       JSC::PropertyDescriptor &descriptor) {
-      return originalGlobalObject->JSC::JSGlobalObject::getOwnPropertyDescriptor(exec, propertyName, descriptor);
+      return originalGlobalObject.get()->JSC::JSGlobalObject::getOwnPropertyDescriptor(exec, propertyName, descriptor);
    }
    virtual void put(JSC::ExecState *exec, const JSC::Identifier &propertyName,
       JSC::JSValue value, JSC::PutPropertySlot &slot) {
-      originalGlobalObject->JSC::JSGlobalObject::put(exec, propertyName, value, slot);
+      originalGlobalObject.get()->JSC::JSGlobalObject::put(exec, propertyName, value, slot);
    }
    virtual void putWithAttributes(JSC::ExecState *exec, const JSC::Identifier &propertyName, JSC::JSValue value,
       unsigned attributes) {
-      originalGlobalObject->JSC::JSGlobalObject::putWithAttributes(exec, propertyName, value, attributes);
+      originalGlobalObject.get()->JSC::JSGlobalObject::putWithAttributes(exec, propertyName, value, attributes);
    }
    virtual bool deleteProperty(JSC::ExecState *exec,
       const JSC::Identifier &propertyName) {
-      return originalGlobalObject->JSC::JSGlobalObject::deleteProperty(exec, propertyName);
+      return originalGlobalObject.get()->JSC::JSGlobalObject::deleteProperty(exec, propertyName);
    }
    virtual void getOwnPropertyNames(JSC::ExecState *exec, JSC::PropertyNameArray &propertyNames,
       JSC::EnumerationMode mode = JSC::ExcludeDontEnumProperties) {
-      originalGlobalObject->JSC::JSGlobalObject::getOwnPropertyNames(exec, propertyNames, mode);
+      originalGlobalObject.get()->JSC::JSGlobalObject::getOwnPropertyNames(exec, propertyNames, mode);
    }
    virtual void defineGetter(JSC::ExecState *exec, const JSC::Identifier &propertyName, JSC::JSObject *getterFunction,
       unsigned attributes) {
-      originalGlobalObject->JSC::JSGlobalObject::defineGetter(exec, propertyName, getterFunction, attributes);
+      originalGlobalObject.get()->JSC::JSGlobalObject::defineGetter(exec, propertyName, getterFunction, attributes);
    }
    virtual void defineSetter(JSC::ExecState *exec, const JSC::Identifier &propertyName, JSC::JSObject *setterFunction,
       unsigned attributes) {
-      originalGlobalObject->JSC::JSGlobalObject::defineSetter(exec, propertyName, setterFunction, attributes);
+      originalGlobalObject.get()->JSC::JSGlobalObject::defineSetter(exec, propertyName, setterFunction, attributes);
    }
    virtual JSC::JSValue lookupGetter(JSC::ExecState *exec, const JSC::Identifier &propertyName) {
-      return originalGlobalObject->JSC::JSGlobalObject::lookupGetter(exec, propertyName);
+      return originalGlobalObject.get()->JSC::JSGlobalObject::lookupGetter(exec, propertyName);
    }
    virtual JSC::JSValue lookupSetter(JSC::ExecState *exec, const JSC::Identifier &propertyName) {
-      return originalGlobalObject->JSC::JSGlobalObject::lookupSetter(exec, propertyName);
+      return originalGlobalObject.get()->JSC::JSGlobalObject::lookupSetter(exec, propertyName);
    }
 
  private:
-   JSC::JSGlobalObject *originalGlobalObject;
+   JSC::WriteBarrier<JSC::JSGlobalObject> originalGlobalObject;
 };
 
 } // namespace QScript

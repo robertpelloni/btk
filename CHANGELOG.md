@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.1.3 - 2026-04-05
+- added a narrow JavaScriptCore compatibility bridge for restored QtScript-era host functions:
+  - `runtime/NativeFunctionWrapper.h`
+  - `runtime/PrototypeFunction.h`
+  - `JSGlobalObject::prototypeFunctionStructure()` compatibility accessor
+- updated restored Script wrapper/global-object code to target the current host-call ABI and current `WriteBarrier` conventions
+- revalidated direct MSVC Script bring-up with `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+- removed the prior missing `PrototypeFunction` / `NativeFunctionWrapper` frontier and reduced the next fatal cluster to legacy declarative bridge call plumbing, especially `qscriptdeclarativeobject.cpp`
+- documented the host-function compatibility pass and its new reduced frontier
+
 ## 0.1.2 - 2026-04-05
 - captured the first post-linkage-unblock fatal `CsScript` diagnostics from a detached persisted-log MSVC build
 - identified the next reduced recovery frontier in:

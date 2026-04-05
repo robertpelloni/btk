@@ -122,7 +122,11 @@ QScriptContextInfoPrivate::QScriptContextInfoPrivate(const QScriptContext *conte
       if (rewindContext) {
          frame = rewindContext->callerFrame()->removeHostCallFrameFlag(); //for retreiving the global context's "fake" frame
 
+#if ENABLE(JIT)
          JSC::Instruction *returnPC = rewindContext->returnPC();
+#else
+         JSC::Instruction *returnPC = rewindContext->returnVPC();
+#endif
          JSC::CodeBlock *codeBlock = frame->codeBlock();
 
          if (returnPC && codeBlock && QScriptEnginePrivate::hasValidCodeBlockRegister(frame)) {

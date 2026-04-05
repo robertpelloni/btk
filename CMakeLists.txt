@@ -17,7 +17,7 @@ if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.31.0")
    cmake_policy(SET CMP0177 NEW)
 endif()
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 project(btk)
 

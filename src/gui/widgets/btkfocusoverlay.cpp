@@ -81,6 +81,24 @@ QString btkNormalizeOverlayRelationship(const QString &label, const QString &lef
       .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
 }
 
+QString btkExtractOverlayField(const QString &line, const QString &fieldName)
+{
+   const QString marker = fieldName + QString("=");
+   const int pos = line.indexOf(marker);
+
+   if (pos == -1) {
+      return QString();
+   }
+
+   const int valueStart = pos + marker.size();
+   int valueEnd = line.indexOf(' ', valueStart);
+   if (valueEnd == -1) {
+      valueEnd = line.size();
+   }
+
+   return line.mid(valueStart, valueEnd - valueStart).trimmed();
+}
+
 int btkWrappedTextHeight(const QFontMetrics &fm, int width, const QString &text)
 {
    if (text.isEmpty()) {
@@ -361,12 +379,16 @@ QSize BtkFocusOverlay::sizeHint() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+         || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
       height += fm.height() + 6;
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
       }
       for (const auto &relationship : targetRelationshipDigests()) {
+         height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
+      }
+      for (const auto &relationship : targetBlockerDigests()) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
       }
       height += 4;
@@ -393,8 +415,12 @@ QSize BtkFocusOverlay::sizeHint() const
       height += btkWrappedTextHeight(fm, innerWidth, targetDecision) + 8;
    }
 
-   if (shouldRenderPanel(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
+   if (shouldRenderPanel(BlockedPanel)
+      && (! m_snapshot.blockedReasonSummaries.isEmpty() || ! m_snapshot.blockedRouteSummaries.isEmpty())) {
       height += fm.height() + 6;
+      for (const auto &reason : m_snapshot.blockedReasonSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, reason) + 8;
+      }
       for (const auto &blocked : m_snapshot.blockedRouteSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, blocked) + 8;
       }
@@ -481,8 +507,12 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          QString::number(m_snapshot.relationshipCount()),
          m_snapshot.relationshipCount() > 0 ? QColor(162, 135, 255, 210) : QColor(90, 220, 160, 210));
 
+      btkDrawChip(painter, left + 300, y, QString("reasons"),
+         QString::number(m_snapshot.blockedReasonCount()),
+         m_snapshot.blockedReasonCount() > 0 ? QColor(255, 196, 92, 210) : QColor(90, 220, 160, 210));
+
       if (m_blockedRoutesOnly) {
-         btkDrawChip(painter, left + 290, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
+         btkDrawChip(painter, left + 430, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
       }
 
       y += painter.fontMetrics().height() + 18;
@@ -521,12 +551,16 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+         || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Relationships"));
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
       }
       for (const auto &relationship : targetRelationshipDigests()) {
+         btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
+      }
+      for (const auto &relationship : targetBlockerDigests()) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
       }
    }
@@ -554,10 +588,20 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          targetDecision, btkOverlayAccentForLine(targetDecision));
    }
 
-   if (shouldRenderPanel(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
-      btkDrawSectionHeader(painter, left, y, contentWidth, QString("Blocked / Exclusive Routes"));
-      for (const auto &blocked : m_snapshot.blockedRouteSummaries) {
-         btkDrawWrappedBlock(painter, left, y, contentWidth, blocked, btkOverlayAccentForLine(blocked));
+   if (shouldRenderPanel(BlockedPanel)
+      && (! m_snapshot.blockedReasonSummaries.isEmpty() || ! m_snapshot.blockedRouteSummaries.isEmpty())) {
+      if (! m_snapshot.blockedReasonSummaries.isEmpty()) {
+         btkDrawSectionHeader(painter, left, y, contentWidth, QString("Blocked Reason Groups"));
+         for (const auto &reason : m_snapshot.blockedReasonSummaries) {
+            btkDrawWrappedBlock(painter, left, y, contentWidth, reason, btkOverlayAccentForLine(reason));
+         }
+      }
+
+      if (! m_snapshot.blockedRouteSummaries.isEmpty()) {
+         btkDrawSectionHeader(painter, left, y, contentWidth, QString("Blocked / Exclusive Routes"));
+         for (const auto &blocked : m_snapshot.blockedRouteSummaries) {
+            btkDrawWrappedBlock(painter, left, y, contentWidth, blocked, btkOverlayAccentForLine(blocked));
+         }
       }
    }
 
@@ -620,6 +664,30 @@ QStringList BtkFocusOverlay::targetRelationshipDigests() const
    });
 }
 
+QStringList BtkFocusOverlay::targetBlockerDigests() const
+{
+   if (! m_targetWidget) {
+      return QStringList();
+   }
+
+   const QString targetOwner = QApplication::btkOwnerId(m_targetWidget);
+   const QString targetSurface = QApplication::btkSurfaceId(m_targetWidget);
+   const QString blockerOwner = btkExtractOverlayField(targetDecisionSummary(), QString("blockingOwner"));
+   const QString blockerSurface = btkExtractOverlayField(targetDecisionSummary(), QString("blockingSurface"));
+   const QString reason = btkExtractOverlayField(targetDecisionSummary(), QString("reason"));
+
+   return QStringList({
+      btkNormalizeOverlayRelationship(QString("targetVsBlocker"), QString("targetOwner"), targetOwner,
+         QString("blockerOwner"), blockerOwner),
+      btkNormalizeOverlayRelationship(QString("targetSurfaceVsBlocker"), QString("targetSurface"), targetSurface,
+         QString("blockerSurface"), blockerSurface),
+      QString("targetBlockReason reason=%1 blockerOwner=%2 blockerSurface=%3")
+         .arg(reason.isEmpty() ? QString("<none>") : reason)
+         .arg(blockerOwner.isEmpty() ? QString("<none>") : blockerOwner)
+         .arg(blockerSurface.isEmpty() ? QString("<none>") : blockerSurface)
+   });
+}
+
 QString BtkFocusOverlay::targetDecisionSummary() const
 {
    if (! m_snapshot.targetDecisionSummary.isEmpty()) {
@@ -642,6 +710,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("blockedCount=%1").arg(m_snapshot.blockedRouteCount()));
       lines.append(QString("popupCount=%1").arg(m_snapshot.popupCount()));
       lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
+      lines.append(QString("blockedReasonCount=%1").arg(m_snapshot.blockedReasonCount()));
       lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
@@ -669,10 +738,12 @@ QString BtkFocusOverlay::buildDisplayText() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty()))) {
+      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+         || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
       lines.append(QString("relationships:"));
       lines.append(m_snapshot.relationshipSummaries);
       lines.append(targetRelationshipDigests());
+      lines.append(targetBlockerDigests());
    }
 
    if (shouldRenderPanel(TokenPanel) && ! m_snapshot.tokenSummaries.isEmpty()) {
@@ -687,9 +758,16 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("targetDecision=%1").arg(targetDecisionSummary()));
    }
 
-   if (shouldRenderPanel(BlockedPanel) && ! m_snapshot.blockedRouteSummaries.isEmpty()) {
-      lines.append(QString("blockedRoutes:"));
-      lines.append(m_snapshot.blockedRouteSummaries);
+   if (shouldRenderPanel(BlockedPanel)
+      && (! m_snapshot.blockedReasonSummaries.isEmpty() || ! m_snapshot.blockedRouteSummaries.isEmpty())) {
+      if (! m_snapshot.blockedReasonSummaries.isEmpty()) {
+         lines.append(QString("blockedReasons:"));
+         lines.append(m_snapshot.blockedReasonSummaries);
+      }
+      if (! m_snapshot.blockedRouteSummaries.isEmpty()) {
+         lines.append(QString("blockedRoutes:"));
+         lines.append(m_snapshot.blockedRouteSummaries);
+      }
    }
 
    if (shouldRenderPanel(RawPanel)) {

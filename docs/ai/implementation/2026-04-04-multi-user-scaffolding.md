@@ -96,11 +96,12 @@ This widget now goes beyond a raw text dump and provides a richer HUD pass with:
 - focus-popup relationship summaries
 - popup-stack summaries
 - relationship digest summaries (focus-vs-popup, popup-vs-modal, focus-owner popup-stack presence)
-- target-aware relationship digests (focus-vs-target, target-vs-popup, target-vs-modal)
+- target-aware relationship digests (focus-vs-target, target-vs-popup, target-vs-modal, target-vs-blocker, and target-surface-vs-blocker)
 - owner-group summaries derived from active tokens, now count-prioritized for more stable inspection
 - blocker-group summaries derived from blocked routes, now count-prioritized for more stable inspection
 - token summaries
 - blocked-route summaries
+- blocked-reason group summaries derived from route decisions, count-prioritized for more stable inspection
 - optional target-widget context, popup-relationship, relationship-digest comparison, and decision reporting
 - panel-based visibility control for summary/focus/owner/popup/relationship/token/target/blocked/raw sections
 - preset-oriented modes for compact, owner-centric, analysis, and full views

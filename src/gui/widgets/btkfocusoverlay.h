@@ -71,6 +71,7 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
    bool blockedRoutesOnly() const;
    QString targetRelationshipSummary() const;
    QStringList targetRelationshipDigests() const;
+   QStringList targetBlockerDigests() const;
    QString targetDecisionSummary() const;
 
    QSize sizeHint() const override;

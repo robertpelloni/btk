@@ -31,6 +31,7 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
    QStringList ownerSummaries;
    QStringList tokenSummaries;
    QStringList blockedRouteSummaries;
+   QStringList blockedReasonSummaries;
    QStringList blockerSummaries;
    QStringList relationshipSummaries;
    QStringList lines;
@@ -53,6 +54,10 @@ class Q_GUI_EXPORT BtkFocusDiagnosticsSnapshot
 
    int blockerCount() const {
       return blockerSummaries.size();
+   }
+
+   int blockedReasonCount() const {
+      return blockedReasonSummaries.size();
    }
 
    int relationshipCount() const {

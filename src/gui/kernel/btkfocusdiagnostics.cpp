@@ -83,7 +83,7 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && focusOwnerId.isEmpty() && focusSurfaceId.isEmpty()
       && currentStateText.isEmpty() && popupStackSummaries.isEmpty()
       && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
-      && blockedRouteSummaries.isEmpty() && blockerSummaries.isEmpty()
+      && blockedRouteSummaries.isEmpty() && blockedReasonSummaries.isEmpty() && blockerSummaries.isEmpty()
       && relationshipSummaries.isEmpty()
       && lines.isEmpty();
 }
@@ -110,6 +110,7 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
 
    QHash<QString, int> ownerCounts;
    QHash<QString, int> blockerCounts;
+   QHash<QString, int> blockedReasonCounts;
 
    for (const QString &line : retval.lines) {
       if (line.startsWith("token=")) {
@@ -139,6 +140,11 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
          if (! blocker.isEmpty() && blocker != QString("<none>")) {
             blockerCounts[blocker] += 1;
          }
+
+         const QString reason = btkExtractField(normalized, QString("reason"));
+         if (! reason.isEmpty() && reason != QString("<none>")) {
+            blockedReasonCounts[reason] += 1;
+         }
       }
    }
 
@@ -150,8 +156,13 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
    }
 
+   for (auto iter = blockedReasonCounts.cbegin(); iter != blockedReasonCounts.cend(); ++iter) {
+      retval.blockedReasonSummaries.append(QString("blockedReason=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
+   }
+
    btkSortSummaryList(retval.ownerSummaries, QString("tokens"));
    btkSortSummaryList(retval.blockerSummaries, QString("blockedRoutes"));
+   btkSortSummaryList(retval.blockedReasonSummaries, QString("blockedRoutes"));
 
    retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("focusVsPopup"),
       QString("focusOwner"), retval.focusOwnerId, QString("popupOwner"), retval.activePopupOwnerId));

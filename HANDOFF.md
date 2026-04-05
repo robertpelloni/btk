@@ -50,12 +50,14 @@
 - A downstream behavioral-runtime `find_package(BTK)` example now configures, builds, and runs successfully against the staged install, validating same-owner transfer vs cross-owner rejection behavior through BTK-specific diagnostics.
 - A downstream focus-reason `find_package(BTK)` example now configures, builds, and runs successfully against the staged install, validating popup-reason and active-window-reason routing decisions via BTK-specific APIs.
 - A downstream popup/modal `find_package(BTK)` example now configures, builds, stages, and runs successfully against the staged install, validating visible Windows GUI deployment plus BTK popup/modal ownership diagnostics.
+- A downstream popup-stack runtime `find_package(BTK)` example now configures, builds, stages, and runs successfully against the staged install, validating visible multi-popup stack diagnostics plus popup-aware focus rejection for a foreign-owner target.
 - The staged BTK install is sufficient for downstream linking, but visible Windows GUI executables still need an app-local `platforms/CsGuiWin2.1.dll` deployment layout.
 - `cmake/BTKConfig.cmake` now mirrors BTK metadata into legacy deploy variables so `include("${BTK_CMAKE_DEPLOY_FILE}")` plus `btk_copy_library(...)` / `btk_copy_plugins(...)` work in downstream projects.
+- A more ambitious restoration-focused popup-stack variant reproducibly hit a Windows access violation when programmatically closing the top popup in a visible staged GUI scenario, identifying popup close/restoration as a remaining runtime hotspot.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
-1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal validations into richer runtime-oriented consumption examples.
+1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
 3. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
@@ -72,4 +74,4 @@
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
 - Full end-to-end `Release` build of all remaining modules in a single pass.
-- Richer downstream GUI/package smoke validation beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal samples.
+- Richer downstream GUI/package smoke validation beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack samples.

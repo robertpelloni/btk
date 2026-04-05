@@ -157,6 +157,12 @@
 #      define Q_DECLARATIVE_EXPORT   Q_DECL_IMPORT
 #    endif
 
+#    if defined(QT_BUILD_SCRIPT_LIB)
+#      define Q_SCRIPT_EXPORT        Q_DECL_EXPORT
+#    else
+#      define Q_SCRIPT_EXPORT        Q_DECL_IMPORT
+#    endif
+
 #    if defined(QT_BUILD_DBUS_LIB)
 #      define Q_DBUS_EXPORT          Q_DECL_EXPORT
 #    else
@@ -175,6 +181,7 @@
 #    define Q_NETWORK_EXPORT         Q_DECL_EXPORT
 #    define Q_SVG_EXPORT             Q_DECL_EXPORT
 #    define Q_DECLARATIVE_EXPORT     Q_DECL_EXPORT
+#    define Q_SCRIPT_EXPORT          Q_DECL_EXPORT
 #    define Q_OPENGL_EXPORT          Q_DECL_EXPORT
 #    define Q_MULTIMEDIA_EXPORT      Q_DECL_EXPORT
 #    define Q_VULKAN_EXPORT          Q_DECL_EXPORT
@@ -190,6 +197,7 @@
 #    define Q_NETWORK_EXPORT
 #    define Q_SVG_EXPORT
 #    define Q_DECLARATIVE_EXPORT
+#    define Q_SCRIPT_EXPORT
 #    define Q_OPENGL_EXPORT
 #    define Q_MULTIMEDIA_EXPORT
 #    define Q_VULKAN_EXPORT

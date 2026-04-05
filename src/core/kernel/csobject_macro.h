@@ -1097,6 +1097,36 @@ class cs_number<0>
 #endif
 
 // ** 6
+#if defined(QT_BUILD_SCRIPT_LIB) || defined(Q_OS_DARWIN)
+
+#define SCRIPT_CS_OBJECT(className)                               CS_OBJECT(className)
+#define SCRIPT_CS_OBJECT_MULTIPLE(className, parentX)             CS_OBJECT_MULTIPLE(className, parentX)
+#define SCRIPT_CS_GADGET(className)                               CS_GADGET(className)
+
+#define SCRIPT_CS_SLOT_1(access, ...)                             CS_SLOT_1(access, __VA_ARGS__)
+#define SCRIPT_CS_SLOT_2(slotName)                                CS_SLOT_2(slotName)
+#define SCRIPT_CS_SLOT_OVERLOAD(slotName, argTypes)               CS_SLOT_OVERLOAD(slotName, argTypes)
+
+#define SCRIPT_CS_SIGNAL_1(access, ...)                           CS_SIGNAL_1(access, __VA_ARGS__)
+#define SCRIPT_CS_SIGNAL_2(signalName, ...)                       CS_SIGNAL_2(signalName, ## __VA_ARGS__)
+#define SCRIPT_CS_SIGNAL_OVERLOAD(signalName, argTypes, ...)      CS_SIGNAL_OVERLOAD(signalName, argTypes, ## __VA_ARGS__)
+
+#else
+#define SCRIPT_CS_OBJECT(className)                               CS_OBJECT_OUTSIDE(className)
+#define SCRIPT_CS_OBJECT_MULTIPLE(className, parentX)             CS_OBJECT_MULTIPLE_OUTSIDE(className, parentX)
+#define SCRIPT_CS_GADGET(className)                               CS_GADGET_OUTSIDE(className)
+
+#define SCRIPT_CS_SLOT_1(access, ...)                             __VA_ARGS__;
+#define SCRIPT_CS_SLOT_2(slotName)
+#define SCRIPT_CS_SLOT_OVERLOAD(slotName, argTypes)
+
+#define SCRIPT_CS_SIGNAL_1(access, ...)                           __VA_ARGS__;
+#define SCRIPT_CS_SIGNAL_2(signalName, ...)
+#define SCRIPT_CS_SIGNAL_OVERLOAD(signalName, argTypes, ...)
+
+#endif
+
+// ** 7
 #if defined(QT_BUILD_SQL_LIB) || defined(Q_OS_DARWIN)
 
 #define SQL_CS_OBJECT(className)                                  CS_OBJECT(className)

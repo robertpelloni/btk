@@ -24,6 +24,8 @@
 #ifndef QSCRIPTEXTENSIONPLUGIN_H
 #define QSCRIPTEXTENSIONPLUGIN_H
 
+#include <qglobal.h>
+
 #include <qplugin.h>
 #include <qscriptextensioninterface.h>
 

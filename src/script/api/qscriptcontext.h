@@ -24,6 +24,8 @@
 #ifndef QSCRIPTCONTEXT_H
 #define QSCRIPTCONTEXT_H
 
+#include <qglobal.h>
+
 #include <qscriptvalue.h>
 
 class QScriptContextPrivate;

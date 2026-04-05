@@ -24,6 +24,8 @@
 #ifndef QSCRIPTDECLARATIVECLASS_P_H
 #define QSCRIPTDECLARATIVECLASS_P_H
 
+#include <qglobal.h>
+
 #include <qscriptvalue.h>
 #include <qscriptclass.h>
 

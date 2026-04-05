@@ -24,6 +24,8 @@
 #ifndef QSCRIPTCLASSPROPERTYITERATOR_H
 #define QSCRIPTCLASSPROPERTYITERATOR_H
 
+#include <qglobal.h>
+
 #include <qstring.h>
 #include <qscopedpointer.h>
 #include <qscriptvalue.h>

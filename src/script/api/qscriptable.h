@@ -24,6 +24,8 @@
 #ifndef QSCRIPTABLE_H
 #define QSCRIPTABLE_H
 
+#include <qglobal.h>
+
 #include <qscopedpointer.h>
 
 class QScriptEngine;

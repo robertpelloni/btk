@@ -24,6 +24,8 @@
 #ifndef QSCRIPTCONTEXTINFO_H
 #define QSCRIPTCONTEXTINFO_H
 
+#include <qglobal.h>
+
 #include <qlist.h>
 #include <qstringlist.h>
 #include <qsharedpointer.h>

@@ -24,6 +24,8 @@
 #ifndef QSCRIPTEXTENSIONINTERFACE_H
 #define QSCRIPTEXTENSIONINTERFACE_H
 
+#include <qglobal.h>
+
 #include <qfactoryinterface.h>
 #include <qobject.h>
 

@@ -24,6 +24,8 @@
 #ifndef QSCRIPTCLASS_H
 #define QSCRIPTCLASS_H
 
+#include <qglobal.h>
+
 #include <qstring.h>
 #include <qvariant.h>
 #include <qscopedpointer.h>

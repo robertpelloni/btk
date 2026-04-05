@@ -24,6 +24,8 @@
 #ifndef QSCRIPTENGINEAGENT_P_H
 #define QSCRIPTENGINEAGENT_P_H
 
+#include <qglobal.h>
+
 #include "Debugger.h"
 #include "qscriptengineagent.h"
 #include "CallFrame.h"

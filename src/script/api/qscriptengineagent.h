@@ -24,6 +24,8 @@
 #ifndef QSCRIPTENGINEAGENT_H
 #define QSCRIPTENGINEAGENT_H
 
+#include <qglobal.h>
+
 #include <qvariant.h>
 #include <qscopedpointer.h>
 

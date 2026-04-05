@@ -24,6 +24,8 @@
 #ifndef QSCRIPTSTRING_H
 #define QSCRIPTSTRING_H
 
+#include <qglobal.h>
+
 #include <qstring.h>
 #include <qsharedpointer.h>
 

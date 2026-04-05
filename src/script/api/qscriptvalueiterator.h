@@ -24,6 +24,8 @@
 #ifndef QSCRIPTVALUEITERATOR_H
 #define QSCRIPTVALUEITERATOR_H
 
+#include <qglobal.h>
+
 #include <qscriptvalue.h>
 #include <qscopedpointer.h>
 #include <qstringfwd.h>

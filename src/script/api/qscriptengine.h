@@ -24,6 +24,8 @@
 #ifndef QSCRIPTENGINE_H
 #define QSCRIPTENGINE_H
 
+#include <qglobal.h>
+
 #include <qvariant.h>
 #include <qsharedpointer.h>
 #include <qobject.h>

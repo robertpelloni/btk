@@ -193,6 +193,7 @@ After the packaging-path improvement:
 - the core smoke example now configures successfully with `CMAKE_PREFIX_PATH=<install-prefix>` instead of requiring only `BTK_DIR`
 - a new GUI-oriented smoke example under `docs/ai/testing/btk-package-gui-smoke-example/` also configures and builds successfully against the staged install
 - a new network-oriented smoke example under `docs/ai/testing/btk-package-network-smoke-example/` also configures successfully against the staged install
+- new OpenGL- and Svg-oriented smoke examples under `docs/ai/testing/btk-package-opengl-smoke-example/` and `docs/ai/testing/btk-package-svg-smoke-example/` now configure successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -208,10 +209,27 @@ The network package smoke path validates downstream access to:
 - `<QtNetwork/QSslSocket>`
 - basic runtime-visible network/SSL API availability through a downstream executable
 
+### OpenGL smoke validation scope
+The OpenGL package smoke path validates downstream access to:
+- `BTK::OpenGL`
+- `BTK::Gui`
+- `<QtOpenGL/qgl.h>` / `QGLFormat`
+- basic runtime-visible OpenGL format API availability through a downstream executable
+
+### Svg smoke validation scope
+The Svg package smoke path validates downstream access to:
+- `BTK::Svg`
+- `BTK::Gui`
+- `<QtSvg/QSvgRenderer>`
+- basic SVG parsing/default-size behavior through a downstream executable
+
 ### Runtime validation
-Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, both downstream samples executed successfully:
+Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:
 - `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
 - `build-vs2019/package-gui-smoke/Release/btk_package_gui_smoke.exe`
+- `build-vs2019/package-network-smoke/Release/btk_package_network_smoke.exe`
+- `build-vs2019/package-opengl-smoke/Release/btk_package_opengl_smoke.exe`
+- `build-vs2019/package-svg-smoke/Release/btk_package_svg_smoke.exe`
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
@@ -219,6 +237,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, both downstr
 3. Keep adapting recent BTK additions to actual CopperSpice/BTK APIs rather than Qt-assumed APIs.
 4. Expand the downstream smoke applications into richer runtime-oriented GUI/package validations.
 5. Improve BTK wrapper ergonomics where practical so downstream examples need fewer CopperSpice-specific adjustments.
+6. Add further downstream component validation for `Sql`, `Multimedia`, and other optional/runtime-heavy slices.
 
 ## Bottom line
 This session materially improved build readiness:

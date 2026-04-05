@@ -73,6 +73,20 @@ void btkSortSummaryList(QStringList &summaries, const QString &countField)
       return left < right;
    });
 }
+
+int btkDistinctOwnerCount(const QStringList &owners)
+{
+   QStringList uniqueOwners;
+
+   for (const auto &owner : owners) {
+      if (owner.isEmpty() || owner == QString("<none>") || uniqueOwners.contains(owner)) {
+         continue;
+      }
+      uniqueOwners.append(owner);
+   }
+
+   return uniqueOwners.size();
+}
 }
 
 bool BtkFocusDiagnosticsSnapshot::isEmpty() const
@@ -85,7 +99,7 @@ bool BtkFocusDiagnosticsSnapshot::isEmpty() const
       && ownerSummaries.isEmpty() && tokenSummaries.isEmpty()
       && blockedRouteSummaries.isEmpty() && blockedReasonSummaries.isEmpty()
       && blockerSummaries.isEmpty() && blockerDetailSummaries.isEmpty()
-      && relationshipSummaries.isEmpty()
+      && comparisonClusterSummaries.isEmpty() && relationshipSummaries.isEmpty()
       && lines.isEmpty();
 }
 
@@ -181,6 +195,21 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    btkSortSummaryList(retval.blockerSummaries, QString("blockedRoutes"));
    btkSortSummaryList(retval.blockedReasonSummaries, QString("blockedRoutes"));
    btkSortSummaryList(retval.blockerDetailSummaries, QString("blockedRoutes"));
+
+   const QString normalizedFocusOwner = retval.focusOwnerId.isEmpty() ? QString("<none>") : retval.focusOwnerId;
+   const QString normalizedPopupOwner = retval.activePopupOwnerId.isEmpty() ? QString("<none>") : retval.activePopupOwnerId;
+   const QString normalizedModalOwner = retval.activeModalOwnerId.isEmpty() ? QString("<none>") : retval.activeModalOwnerId;
+   const int uniqueOwnerCount = btkDistinctOwnerCount({normalizedFocusOwner, normalizedPopupOwner, normalizedModalOwner});
+
+   retval.comparisonClusterSummaries.append(QString("ownerTopology focusOwner=%1 popupOwner=%2 modalOwner=%3 uniqueOwners=%4")
+      .arg(normalizedFocusOwner)
+      .arg(normalizedPopupOwner)
+      .arg(normalizedModalOwner)
+      .arg(uniqueOwnerCount));
+   retval.comparisonClusterSummaries.append(QString("ownerTopologyState focusVsPopup=%1 popupVsModal=%2 focusVsModal=%3")
+      .arg(normalizedFocusOwner == normalizedPopupOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split"))
+      .arg(normalizedPopupOwner == normalizedModalOwner && normalizedPopupOwner != QString("<none>") ? QString("aligned") : QString("split"))
+      .arg(normalizedFocusOwner == normalizedModalOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split")));
 
    retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("focusVsPopup"),
       QString("focusOwner"), retval.focusOwnerId, QString("popupOwner"), retval.activePopupOwnerId));

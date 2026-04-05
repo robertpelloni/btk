@@ -384,9 +384,13 @@ QSize BtkFocusOverlay::sizeHint() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
+         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()) || ! mismatchDigests().isEmpty())) {
       height += fm.height() + 6;
+      for (const auto &cluster : m_snapshot.comparisonClusterSummaries) {
+         height += btkWrappedTextHeight(fm, innerWidth, cluster) + 8;
+      }
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
          height += btkWrappedTextHeight(fm, innerWidth, relationship) + 8;
       }
@@ -525,8 +529,12 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
          QString::number(mismatchCount()),
          mismatchCount() > 0 ? QColor(255, 110, 110, 210) : QColor(90, 220, 160, 210));
 
+      btkDrawChip(painter, left + 170, y, QString("clusters"),
+         QString::number(m_snapshot.comparisonClusterCount()),
+         m_snapshot.comparisonClusterCount() > 0 ? QColor(162, 135, 255, 210) : QColor(90, 220, 160, 210));
+
       if (m_blockedRoutesOnly) {
-         btkDrawChip(painter, left + 170, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
+         btkDrawChip(painter, left + 320, y, QString("mode"), QString("Blocked"), QColor(255, 110, 110, 210));
       }
 
       y += painter.fontMetrics().height() + 18;
@@ -572,8 +580,16 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
+         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
+      if (! m_snapshot.comparisonClusterSummaries.isEmpty()) {
+         btkDrawSectionHeader(painter, left, y, contentWidth, QString("Comparison Clusters"));
+         for (const auto &cluster : m_snapshot.comparisonClusterSummaries) {
+            btkDrawWrappedBlock(painter, left, y, contentWidth, cluster, btkOverlayAccentForLine(cluster));
+         }
+      }
+
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Relationships"));
       for (const auto &relationship : m_snapshot.relationshipSummaries) {
          btkDrawWrappedBlock(painter, left, y, contentWidth, relationship, btkOverlayAccentForLine(relationship));
@@ -768,6 +784,7 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
       lines.append(QString("blockedReasonCount=%1").arg(m_snapshot.blockedReasonCount()));
       lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
+      lines.append(QString("comparisonClusterCount=%1").arg(m_snapshot.comparisonClusterCount()));
       lines.append(QString("mismatchCount=%1").arg(mismatchCount()));
       lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
       lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
@@ -800,8 +817,11 @@ QString BtkFocusOverlay::buildDisplayText() const
    }
 
    if (shouldRenderPanel(RelationshipPanel)
-      && (! m_snapshot.relationshipSummaries.isEmpty() || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
+      && (! m_snapshot.comparisonClusterSummaries.isEmpty() || ! m_snapshot.relationshipSummaries.isEmpty()
+         || (m_targetWidget && ! targetRelationshipDigests().isEmpty())
          || (m_targetWidget && ! targetBlockerDigests().isEmpty()))) {
+      lines.append(QString("comparisonClusters:"));
+      lines.append(m_snapshot.comparisonClusterSummaries);
       lines.append(QString("relationships:"));
       lines.append(m_snapshot.relationshipSummaries);
       lines.append(targetRelationshipDigests());

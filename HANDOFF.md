@@ -2,6 +2,31 @@
 
 ## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
+- Re-established detached persisted-log `CsScript` probing in `build-vs2019-script-probe5` using a corrected WMI launch script format compatible with the earlier successful probe pattern.
+- Detached probe details:
+  - wrapper PID `119160`
+  - logs:
+    - `build-vs2019-script-probe5/csscript-direct-background.out.log`
+    - `build-vs2019-script-probe5/csscript-direct-background.err.log`
+- Captured the next reduced first-failure frontier beyond the declarative/class delegate ABI pass from the detached persisted log.
+- Confirmed the next first-failure hotspot is now concentrated in:
+  - `src/script/api/qscriptengine.cpp`
+- Representative newly captured errors include:
+  - removed `UString::UTF8String()` assumptions
+  - removed `GeneralError` / `TypeError` enum-style dispatch
+  - `jsString(...)` contract drift
+  - `JSGlobalData::create()` signature drift
+  - prototype/bootstrap constructor signature drift
+  - `WriteBarrier` to raw-pointer conversion failures
+  - removed native-frame helpers such as `thisValue()` / `returnValueRegister()` in the expected historical form
+  - `MarkStack::append(...)` barrier-usage drift
+  - debugger/evaluation helper drift including `evaluateStart(...)` and old `DynamicGlobalObjectScope` construction assumptions
+- Added new detailed docs:
+  - `docs/ai/design/2026-04-05-csscript-qscriptengine-frontier.md`
+  - `docs/ai/implementation/2026-04-05-csscript-qscriptengine-frontier-capture.md`
+  - `docs/ai/testing/2026-04-05-csscript-qscriptengine-frontier-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.5`.
+- Performed another fresh process audit and continued without terminating any running processes.
 - Continued Stage A `CsScript` recovery by attacking the next reduced frontier in restored declarative/class delegate call plumbing.
 - Updated the restored declarative/class delegate ABI surface to the current JavaScriptCore host-call contract:
   - `src/script/bridge/qscriptdeclarativeobject_p.h`

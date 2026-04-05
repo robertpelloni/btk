@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.1.5 - 2026-04-05
+- re-established detached persisted-log `CsScript` probing in `build-vs2019-script-probe5`
+- captured the next reduced first-failure frontier beyond the declarative/class delegate ABI pass in `src/script/api/qscriptengine.cpp`
+- documented the new clustered engine-layer drift around translation helpers, error creation, engine bootstrap signatures, `WriteBarrier` access, native-frame metadata, GC marking, and debugger/evaluation helpers
+- preserved all existing background processes while launching a new detached probe wrapper for deeper diagnostic capture
+
 ## 0.1.4 - 2026-04-05
 - adapted restored declarative/class delegate call and construct plumbing to the current JavaScriptCore host-call ABI
 - replaced stale enum-style `JSC::TypeError` throw assumptions in the reduced declarative/class frontier with `createTypeError(...)` + `throwError(...)`

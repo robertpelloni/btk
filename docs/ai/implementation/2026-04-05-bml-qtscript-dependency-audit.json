@@ -1,0 +1,509 @@
+{
+  "root": "C:\\Users\\hyper\\workspace\\btk",
+  "declarative_root": "C:\\Users\\hyper\\workspace\\btk\\src\\declarative",
+  "imports_root": "C:\\Users\\hyper\\workspace\\btk\\src\\imports",
+  "files_with_qtscript_includes": 44,
+  "unique_qtscript_include_headers": 19,
+  "top_qtscript_includes": [
+    {
+      "header": "QtScript/qscriptvalue.h",
+      "references": 30,
+      "files": 15
+    },
+    {
+      "header": "QtScript/qscriptengine.h",
+      "references": 24,
+      "files": 12
+    },
+    {
+      "header": "QtScript/qscriptvalueiterator.h",
+      "references": 12,
+      "files": 6
+    },
+    {
+      "header": "qscriptdeclarativeclass_p.h",
+      "references": 9,
+      "files": 9
+    },
+    {
+      "header": "QtScript/qscriptcontextinfo.h",
+      "references": 6,
+      "files": 3
+    },
+    {
+      "header": "QtScript/qscriptcontext.h",
+      "references": 6,
+      "files": 3
+    },
+    {
+      "header": "private/qscriptdeclarativeclass_p.h",
+      "references": 4,
+      "files": 4
+    },
+    {
+      "header": "QtScript/qscriptclass.h",
+      "references": 4,
+      "files": 2
+    },
+    {
+      "header": "QtScript/QScriptEngine",
+      "references": 2,
+      "files": 1
+    },
+    {
+      "header": "QtScript/qscriptengineagent.h",
+      "references": 2,
+      "files": 1
+    },
+    {
+      "header": "QtScript/qscriptprogram.h",
+      "references": 2,
+      "files": 1
+    },
+    {
+      "header": "QtScript/qscriptstring.h",
+      "references": 2,
+      "files": 1
+    },
+    {
+      "header": "QtScript/qscriptclasspropertyiterator.h",
+      "references": 2,
+      "files": 1
+    },
+    {
+      "header": "qscriptengine.h",
+      "references": 1,
+      "files": 1
+    },
+    {
+      "header": "QtScript/QScriptClass",
+      "references": 1,
+      "files": 1
+    },
+    {
+      "header": "QtScript/QScriptValue",
+      "references": 1,
+      "files": 1
+    },
+    {
+      "header": "QtScript/QScriptString",
+      "references": 1,
+      "files": 1
+    },
+    {
+      "header": "QtScript/QtScript",
+      "references": 1,
+      "files": 1
+    },
+    {
+      "header": "qscriptvalueiterator.h",
+      "references": 1,
+      "files": 1
+    }
+  ],
+  "qtscript_identifier_counts": {
+    "QScriptValue": {
+      "files": 47,
+      "hits": 822
+    },
+    "QScriptEngine": {
+      "files": 32,
+      "hits": 255
+    },
+    "QScriptContext": {
+      "files": 13,
+      "hits": 177
+    },
+    "QScriptContextInfo": {
+      "files": 3,
+      "hits": 9
+    },
+    "QScriptEngineAgent": {
+      "files": 2,
+      "hits": 6
+    },
+    "QScriptProgram": {
+      "files": 4,
+      "hits": 6
+    },
+    "QScriptString": {
+      "files": 5,
+      "hits": 19
+    },
+    "QScriptClass": {
+      "files": 18,
+      "hits": 73
+    },
+    "QScriptClassPropertyIterator": {
+      "files": 1,
+      "hits": 1
+    },
+    "QScriptValueIterator": {
+      "files": 6,
+      "hits": 10
+    },
+    "QScriptDeclarativeClass": {
+      "files": 24,
+      "hits": 94
+    }
+  },
+  "script_hits_by_declarative_subdir": {
+    "qml": 83,
+    "util": 16,
+    "debugger": 10,
+    "graphicsitems": 2
+  },
+  "files_with_script_includes": [
+    {
+      "file": "debugger/qdeclarativedebughelper.cpp",
+      "includes": [
+        "QtScript/QScriptEngine"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "debugger/qjsdebuggeragent.cpp",
+      "includes": [
+        "QtScript/qscriptcontextinfo.h",
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptvalueiterator.h"
+      ],
+      "include_count": 6
+    },
+    {
+      "file": "debugger/qjsdebuggeragent_p.h",
+      "includes": [
+        "QtScript/qscriptengineagent.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "graphicsitems/qdeclarativeitem.cpp",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecomponent.cpp",
+      "includes": [
+        "QtScript/qscriptvalueiterator.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecomponent.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecontext.cpp",
+      "includes": [
+        "private/qscriptdeclarativeclass_p.h",
+        "qscriptengine.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecontext.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecontext_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativecontextscriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativedata_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeengine.cpp",
+      "includes": [
+        "private/qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativeengine.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeengine_p.h",
+      "includes": [
+        "QtScript/QScriptClass",
+        "QtScript/QScriptString",
+        "QtScript/QScriptValue",
+        "QtScript/qscriptengine.h"
+      ],
+      "include_count": 5
+    },
+    {
+      "file": "qml/qdeclarativeexpression.cpp",
+      "includes": [
+        "QtScript/qscriptprogram.h",
+        "private/qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 3
+    },
+    {
+      "file": "qml/qdeclarativeexpression_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeglobalscriptclass.cpp",
+      "includes": [
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptstring.h",
+        "QtScript/qscriptvalueiterator.h",
+        "private/qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 7
+    },
+    {
+      "file": "qml/qdeclarativeglobalscriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptclass.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeinclude.cpp",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeinclude_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeintegercache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativelistscriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativemetatype.cpp",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeobjectscriptclass.cpp",
+      "includes": [
+        "QtScript/qscriptcontextinfo.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativeobjectscriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h",
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 3
+    },
+    {
+      "file": "qml/qdeclarativepropertycache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativesqldatabase.cpp",
+      "includes": [
+        "QtScript/qscriptclasspropertyiterator.h",
+        "QtScript/qscriptcontext.h",
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptvalue.h",
+        "QtScript/qscriptvalueiterator.h"
+      ],
+      "include_count": 10
+    },
+    {
+      "file": "qml/qdeclarativesqldatabase_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativetypenamecache_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativetypenamescriptclass_p.h",
+      "includes": [
+        "QtScript/qscriptclass.h",
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 3
+    },
+    {
+      "file": "qml/qdeclarativevaluetypescriptclass.cpp",
+      "includes": [
+        "QtScript/qscriptcontextinfo.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativevaluetypescriptclass_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "qml/qdeclarativeworkerscript.cpp",
+      "includes": [
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptvalueiterator.h"
+      ],
+      "include_count": 4
+    },
+    {
+      "file": "qml/qdeclarativeworkerscript_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qdeclarativexmlhttprequest.cpp",
+      "includes": [
+        "QtScript/qscriptcontext.h",
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 6
+    },
+    {
+      "file": "qml/qdeclarativexmlhttprequest_p.h",
+      "includes": [
+        "QtScript/qscriptengine.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "qml/qtdeclarative.h",
+      "includes": [
+        "QtScript/QtScript"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "util/qdeclarativebind.cpp",
+      "includes": [
+        "QtScript/qscriptcontext.h",
+        "QtScript/qscriptengine.h",
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 6
+    },
+    {
+      "file": "util/qdeclarativelistmodel.cpp",
+      "includes": [
+        "QtScript/qscriptvalueiterator.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "util/qdeclarativelistmodel_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "util/qdeclarativelistmodel_p_p.h",
+      "includes": [
+        "qscriptdeclarativeclass_p.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "util/qdeclarativelistmodelworkeragent_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    },
+    {
+      "file": "util/qdeclarativeview.cpp",
+      "includes": [
+        "qscriptvalueiterator.h"
+      ],
+      "include_count": 1
+    },
+    {
+      "file": "util/qdeclarativexmllistmodel_p.h",
+      "includes": [
+        "QtScript/qscriptvalue.h"
+      ],
+      "include_count": 2
+    }
+  ],
+  "imports_declarative_dependency_summary": [
+    {
+      "directory": "folderlistmodel",
+      "files": 3,
+      "hits": 60
+    },
+    {
+      "directory": "gestures",
+      "files": 3,
+      "hits": 80
+    },
+    {
+      "directory": "particles",
+      "files": 3,
+      "hits": 233
+    },
+    {
+      "directory": "shaders",
+      "files": 7,
+      "hits": 29
+    }
+  ]
+}

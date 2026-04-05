@@ -203,6 +203,7 @@ After the packaging-path improvement:
 - a popup/modal smoke example under `docs/ai/testing/btk-package-popup-modal-smoke-example/` now configures successfully against the staged install and stages a runnable Windows GUI app bundle via `BTKDeploy`
 - a popup-stack runtime smoke example under `docs/ai/testing/btk-package-popup-stack-runtime-smoke-example/` now configures successfully against the staged install and stages a runnable Windows GUI app bundle via `BTKDeploy`
 - downstream staged GUI samples can now use `include(BTKDeploy)` directly after `find_package(BTK)` instead of requiring the explicit `${BTK_CMAKE_DEPLOY_FILE}` path
+- a declarative/BML probe configure with `-DWITH_DECLARATIVE=ON` now warns clearly and forces the component back off when the missing QtScript/CsScript-era dependency chain is detected
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -327,6 +328,19 @@ A meaningful Windows GUI packaging nuance was uncovered during visible popup/mod
 - BTK's deploy compatibility wrapper now works for this scenario because `BTKConfig.cmake` mirrors BTK version/install metadata into the legacy `COPPERSPICE_VERSION_*`, `CS_INSTALL_MODE`, and `Cs*_Deploy` variables expected by `CopperSpiceDeploy.cmake`
 - `BTKConfig.cmake` now also prepends the BTK package CMake directory to `CMAKE_MODULE_PATH`, allowing natural downstream `include(BTKDeploy)` usage once `find_package(BTK)` has succeeded
 
+## BML/declarative buildability finding
+A BML/declarative bootstrap pass was also audited during this session.
+
+Key finding:
+- `src/declarative/` is substantial and useful, but it is a legacy `QtDeclarative` / QML1-era subsystem
+- it still depends structurally on missing `QtScript` / `QScript*` APIs and helper infrastructure such as `qscriptdeclarativeclass_p.h`
+- therefore BTK now exposes BML naming/bootstrap scaffolding, but not yet a safely buildable BML runtime
+
+To make this explicit and preserve default buildability, a configure-time guard now:
+- detects the missing script-era dependency chain when `WITH_DECLARATIVE=ON` is requested
+- emits a clear warning
+- forces `WITH_DECLARATIVE=OFF` for that configure pass instead of pretending the declarative component is currently viable
+
 A second runtime nuance was then uncovered during the popup-stack pass:
 - visible multi-popup stack presence/order diagnostics are working in a staged GUI app
 - but an attempted restoration-focused variant which programmatically closed the top popup reproducibly ended in a Windows access violation
@@ -350,6 +364,7 @@ This means BTK is now stronger in two distinct ways:
 10. Continue adding downstream behavioral-runtime scenarios that validate BTK-specific ownership semantics, not just component availability.
 11. Continue validating BTKDeploy-based staged GUI app bundles so visible downstream Windows runtime behavior is tested, not only DLL-on-PATH execution.
 12. Investigate the access violation seen during visible popup-restoration testing and turn it into a focused popup lifecycle stabilization pass.
+13. Turn the BML buildability audit into a concrete declarative revival plan, starting with whether BTK should restore a Script module or pursue a hybrid modernization path.
 
 ## Bottom line
 This session materially improved build readiness:
@@ -359,5 +374,6 @@ This session materially improved build readiness:
 - the biggest recent source-compatibility regressions introduced by BTK overlay/diagnostic work were corrected
 - downstream BTK deploy wrappers now stage runnable Windows GUI app bundles for both visible popup/modal and visible popup-stack ownership validation scenarios
 - visible staged GUI validation is now strong enough to expose a remaining popup close/restoration hotspot that was invisible to lighter-weight smoke tests
+- BML/declarative work is now honest about its current state: branding/bootstrap is in place, while buildability remains gated behind missing QtScript-era infrastructure
 
 That is a real step from scaffolding toward usable framework output.

@@ -31,7 +31,7 @@ This session established the first realistic groundwork for the user's very larg
 - Added a rename-inventory generator plus generated inventory artifacts.
 - Updated root build branding and README.
 - Added structured analysis/planning docs under `docs/ai/`.
-- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` `Release` builds under `build-vs2019`, along with a staged install, root-prefix package discovery via `lib/cmake/BTK`, successful downstream core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack `find_package(BTK)` smoke validation, a BTK deploy-wrapper compatibility bridge for staged Windows GUI app bundles, and a first BML branding/bootstrap pass over the legacy declarative subsystem.
+- Added Windows build-enablement findings documenting successful MSVC configuration plus successful `CsCore`, `CsXml`, `CsGui`, `CsNetwork`, `CsOpenGL`, `CsSql`, `CsSvg`, `CsXmlPatterns`, `CsMultimedia`, and `CsWebKit` `Release` builds under `build-vs2019`, along with a staged install, root-prefix package discovery via `lib/cmake/BTK`, successful downstream core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack `find_package(BTK)` smoke validation, a BTK deploy-wrapper compatibility bridge for staged Windows GUI app bundles, a first BML branding/bootstrap pass over the legacy declarative subsystem, and a declarative buildability audit/guard for missing QtScript-era dependencies.
 
 ## Strategic assessment
 The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus BobUI improvements) is a long multi-phase program, not a single-session edit. The safest path is:
@@ -42,6 +42,7 @@ The requested end-state (full parity with modern Qt/JUCE/GTK/JavaFX/ImGui plus B
 ## Immediate technical follow-up
 - Expand downstream BTK package validation beyond the now-working core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack smoke paths into richer GUI/package consumption examples.
 - Continue the new BML bootstrap from naming compatibility into a buildable declarative/runtime revival plan, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
+- Decide whether BML should revive the legacy declarative engine via a restored Script module or move through a hybrid modernization plan behind the BML name.
 - Continue the successful Windows/MSVC build path into any deferred optional modules/plugins beyond the current built set.
 - Validate the first-wave BTK public C++ aliases and multi-user scaffolding with a real downstream build in a compiler-ready environment.
 - Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.

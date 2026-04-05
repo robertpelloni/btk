@@ -5,6 +5,7 @@
 - Rebranded the root CMake project/package metadata to BTK.
 - Added `cmake/BTKConfig.cmake`, `cmake/BTKConfigVersion.cmake`, `cmake/BTKMacros.cmake`, and `cmake/BTKDeploy.cmake`.
 - Added a first BML bootstrap layer over the legacy declarative subsystem, including BML alias headers, `BTK::Bml` alias scaffolding, and a default-off `Declarative` build gate.
+- Added a BML buildability audit and a configure-time declarative guard which warns and forces `WITH_DECLARATIVE=OFF` if the legacy declarative runtime is requested without its missing QtScript/CsScript-era dependencies.
 - Added BTK package target aliases in both `BTK::Btk<Component>` and `BTK::<Component>` forms.
 - Added a first wave of public C++ BTK compatibility headers: `BTKCore`, `BTKString`, `BTKPointer`, and `BTKSignal`.
 - Added first-wave multi-user ownership/focus scaffolding: `BtkInputOwner`, `BtkFocusToken`, `BtkInputArbitrator`, `BtkInputRouteRequest`, and `BtkInputRouteResult`.
@@ -55,14 +56,16 @@
 - The staged BTK install is sufficient for downstream linking, but visible Windows GUI executables still need an app-local `platforms/CsGuiWin2.1.dll` deployment layout.
 - `cmake/BTKConfig.cmake` now mirrors BTK metadata into legacy deploy variables so `include(BTKDeploy)` plus `btk_copy_library(...)` / `btk_copy_plugins(...)` work in downstream projects, and it prepends the BTK package CMake directory to `CMAKE_MODULE_PATH` so `include(BTKDeploy)` resolves naturally after `find_package(BTK)`.
 - A more ambitious restoration-focused popup-stack variant reproducibly hit a Windows access violation when programmatically closing the top popup in a visible staged GUI scenario, identifying popup close/restoration as a remaining runtime hotspot.
+- The current BML substrate is legacy `QtDeclarative` / QML1-shaped and still depends structurally on missing `QtScript` / `QScript*` infrastructure, so BML is currently a branding/bootstrap layer rather than a fully buildable runtime.
 - Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Expand the downstream BTK package smoke path beyond the current core/gui/network/opengl/svg/sql/multimedia/runtime/integrated/platform/behavioral/focus-reason/popup-modal/popup-stack validations into richer runtime-oriented consumption examples.
 2. Continue the new BML bootstrap from naming compatibility into an actually buildable declarative runtime strategy, especially around the missing `QtScript`/`QScript*` dependency story in `src/declarative`.
-3. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
-4. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
-5. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
+3. Decide whether BML should revive the legacy declarative engine via a restored Script module, or whether BTK should use a hybrid revival plan that modernizes behind the BML name in stages.
+4. Expand the public alias layer cautiously based on validation feedback and reduce remaining CopperSpice-shaped API surprises for downstream users.
+5. Continue evolving `BTKFocusOverlay` from a lightweight HUD toward a richer inspector-like multi-panel developer tool with deeper interaction, stronger owner/blocker grouping, blocked-reason clustering, blocker drilldown, mismatch-focused inspection, popup-stack inspection, popup-relationship inspection, and more precise blocked-route visualization, while refining mixed-owner popup behavior.
+6. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
 - Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.
@@ -73,6 +76,7 @@
 
 ## Not Done
 - Full repo-wide `Cs*` symbol migration.
+- Full BML/QML runtime revival or modernization beyond the current BML bootstrap naming layer.
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
 - Full end-to-end `Release` build of all remaining modules in a single pass.

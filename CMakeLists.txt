@@ -241,6 +241,37 @@ foreach(component ${CS_OPTIONAL_COMPONENTS})
    endif()
 endforeach()
 
+set(BTK_DECLARATIVE_DISABLED_REASON "")
+if (WITH_DECLARATIVE)
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/CMakeLists.txt")
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing src/script module; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/declarative/qml/qdeclarativeengine.h")
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing declarative engine headers; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/declarative/qml/qdeclarativecontextscriptclass_p.h")
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing declarative context script-class headers; ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/api/qscriptengine.h" AND NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/qscriptengine.h")
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing QtScript public headers (for example qscriptengine.h); ")
+   endif()
+
+   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/src/scripttools/debugging/qscriptdeclarativeclass_p.h" AND NOT EXISTS "${CMAKE_SOURCE_DIR}/src/script/qscriptdeclarativeclass_p.h")
+      string(APPEND BTK_DECLARATIVE_DISABLED_REASON "missing qscriptdeclarativeclass_p.h support infrastructure; ")
+   endif()
+
+   if (BTK_DECLARATIVE_DISABLED_REASON)
+      message(WARNING
+         "Disabling Declarative/BML component for this configure pass because the legacy declarative "
+         "runtime still depends on unavailable QtScript/CsScript-era infrastructure: ${BTK_DECLARATIVE_DISABLED_REASON}"
+      )
+      set(WITH_DECLARATIVE OFF CACHE BOOL "Build Declarative component" FORCE)
+   endif()
+endif()
+
 # start output messages
 message("")
 message("Configuring CMake for BTK\n\n")

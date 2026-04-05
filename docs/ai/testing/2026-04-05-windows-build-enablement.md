@@ -196,6 +196,7 @@ After the packaging-path improvement:
 - new OpenGL- and Svg-oriented smoke examples under `docs/ai/testing/btk-package-opengl-smoke-example/` and `docs/ai/testing/btk-package-svg-smoke-example/` now configure successfully against the staged install
 - new Sql- and Multimedia-oriented smoke examples under `docs/ai/testing/btk-package-sql-smoke-example/` and `docs/ai/testing/btk-package-multimedia-smoke-example/` now configure successfully against the staged install
 - a richer runtime-oriented GUI smoke example under `docs/ai/testing/btk-package-runtime-smoke-example/` now configures successfully against the staged install
+- an integrated runtime smoke example under `docs/ai/testing/btk-package-integrated-runtime-smoke-example/` now configures successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -245,6 +246,14 @@ The runtime GUI smoke path validates downstream access to:
 - owner-context and focus-token installation APIs
 - target-aware comparison clusters, blocker digests, mismatch digests, and rejection diagnostics for an owner-exclusive scenario
 
+### Integrated runtime smoke validation scope
+The integrated runtime smoke path validates downstream access to:
+- `BTK::Core`
+- `BTK::Gui`
+- `BTK::Network`
+- `BTK::Svg`
+- `BTK` multi-owner overlay diagnostics plus ordinary network/SVG runtime APIs in one downstream executable
+
 ### Runtime validation
 Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:
 - `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
@@ -255,6 +264,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 - `build-vs2019/package-sql-smoke/Release/btk_package_sql_smoke.exe`
 - `build-vs2019/package-multimedia-smoke/Release/btk_package_multimedia_smoke.exe`
 - `build-vs2019/package-runtime-smoke/Release/btk_package_runtime_smoke.exe`
+- `build-vs2019/package-integrated-runtime-smoke/Release/btk_package_integrated_runtime_smoke.exe`
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
@@ -264,6 +274,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 5. Improve BTK wrapper ergonomics where practical so downstream examples need fewer CopperSpice-specific adjustments.
 6. Add further downstream component validation for additional optional/runtime-heavy slices beyond the now-validated `Sql` and `Multimedia` examples.
 7. Continue evolving richer runtime package smokes that exercise BTK-specific multi-owner diagnostics rather than only passive type/link validation.
+8. Expand integrated downstream runtime validation further so more framework slices are exercised together rather than only component-by-component.
 
 ## Bottom line
 This session materially improved build readiness:

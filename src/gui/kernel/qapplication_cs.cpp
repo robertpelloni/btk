@@ -851,8 +851,8 @@ QWidgetList QApplication::allWidgets()
 }
 
 namespace {
-constexpr const char *btkOwnerPropertyName   = "_btkOwnerId";
-constexpr const char *btkSurfacePropertyName = "_btkSurfaceId";
+const QString btkOwnerPropertyName   = QString("_btkOwnerId");
+const QString btkSurfacePropertyName = QString("_btkSurfaceId");
 
 QString btkOwnerIdForWidget(const QWidget *widget)
 {

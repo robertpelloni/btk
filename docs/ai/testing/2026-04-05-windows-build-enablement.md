@@ -195,6 +195,7 @@ After the packaging-path improvement:
 - a new network-oriented smoke example under `docs/ai/testing/btk-package-network-smoke-example/` also configures successfully against the staged install
 - new OpenGL- and Svg-oriented smoke examples under `docs/ai/testing/btk-package-opengl-smoke-example/` and `docs/ai/testing/btk-package-svg-smoke-example/` now configure successfully against the staged install
 - new Sql- and Multimedia-oriented smoke examples under `docs/ai/testing/btk-package-sql-smoke-example/` and `docs/ai/testing/btk-package-multimedia-smoke-example/` now configure successfully against the staged install
+- a richer runtime-oriented GUI smoke example under `docs/ai/testing/btk-package-runtime-smoke-example/` now configures successfully against the staged install
 
 ### GUI smoke validation scope
 The GUI package smoke path now validates downstream access to:
@@ -237,6 +238,13 @@ The Multimedia package smoke path validates downstream access to:
 - `<QtMultimedia/QMediaTimeRange>`
 - basic multimedia data-structure API availability through a downstream executable
 
+### Runtime-oriented GUI smoke validation scope
+The runtime GUI smoke path validates downstream access to:
+- `BTK::Gui`
+- `<QtGui/BTKFocusOverlay>`
+- owner-context and focus-token installation APIs
+- target-aware comparison clusters, blocker digests, mismatch digests, and rejection diagnostics for an owner-exclusive scenario
+
 ### Runtime validation
 Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstream samples executed successfully:
 - `build-vs2019/package-smoke-prefix/Release/btk_package_smoke.exe`
@@ -246,6 +254,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 - `build-vs2019/package-svg-smoke/Release/btk_package_svg_smoke.exe`
 - `build-vs2019/package-sql-smoke/Release/btk_package_sql_smoke.exe`
 - `build-vs2019/package-multimedia-smoke/Release/btk_package_multimedia_smoke.exe`
+- `build-vs2019/package-runtime-smoke/Release/btk_package_runtime_smoke.exe`
 
 ## Recommended next steps
 1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
@@ -254,6 +263,7 @@ Using `cmd.exe /c` with `build-vs2019/install/bin` added to `PATH`, the downstre
 4. Expand the downstream smoke applications into richer runtime-oriented GUI/package validations.
 5. Improve BTK wrapper ergonomics where practical so downstream examples need fewer CopperSpice-specific adjustments.
 6. Add further downstream component validation for additional optional/runtime-heavy slices beyond the now-validated `Sql` and `Multimedia` examples.
+7. Continue evolving richer runtime package smokes that exercise BTK-specific multi-owner diagnostics rather than only passive type/link validation.
 
 ## Bottom line
 This session materially improved build readiness:

@@ -30,7 +30,7 @@ class Q_CORE_EXPORT BtkInputOwner
       AllCapabilities = 0xFFFF
    };
 
-   Q_DECLARE_FLAGS(Capabilities, Capability)
+   using Capabilities = QFlags<Capability>;
 
    BtkInputOwner();
    explicit BtkInputOwner(QString ownerId);

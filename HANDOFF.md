@@ -29,13 +29,15 @@
 - Added focus/target popup-relationship summaries and popup-aware inspector-style HUD detail.
 - Added `scripts/generate_btk_api_inventory.py` and generated rename inventory artifacts.
 - Rewrote the root `README.md` around BTK.
-- Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, and multi-user scaffolding analysis.
+- Added and expanded `docs/ai/` requirements/design/planning/implementation/testing docs, including deep comparison docs, rename buckets, package smoke examples, multi-user scaffolding analysis, and Windows build-enablement findings.
 
 ## Key Findings
 - Current BTK has a mature C++ runtime base but lacks a verified modern declarative/web runtime story.
 - BobUI is useful for multiplayer ownership ideas and WebView bridge concepts, but much of it remains partial/aspirational.
 - JUCE is the strongest reference for audio/DSP/plugin work.
 - Ultimate++ is the strongest reference for RAD/productivity subsystems.
+- Windows/MSVC configuration is now working; `CsCore`, `CsXml`, and `CsGui` have been built successfully in `Release` under `build-vs2019`.
+- Recent BTK additions needed CopperSpice-compatible cleanup (`formatArg`, `QFlags` aliases, QString-based property keys, older `QFontMetrics` APIs) to compile cleanly.
 
 ## Recommended Next Steps
 1. Validate the new BTK CMake package path, alias headers, and multi-user scaffolding with a real downstream build in an environment with a working compiler.
@@ -44,10 +46,13 @@
 4. Continue the subsystem gap matrix into concrete implementation checklists for Qt6/JUCE/U++/BobUI/JavaFX/ImGui.
 
 ## Validation / Blockers
-- A minimal CMake configure was attempted with most optional components disabled.
-- Configure stopped early because this environment does not currently expose a usable C/C++ compiler to CMake.
+- Windows CMake configure now succeeds with Visual Studio 2019 Build Tools using `-G "Visual Studio 16 2019" -A x64`.
+- `CsCore`, `CsXml`, `CsGui`, `uic`, and `rcc` have been built successfully in `Release` under `build-vs2019`.
+- A full solution build advanced deeply into `WebKit` but did not complete within the available command timeout window.
+- Remaining validation is now about build duration / downstream-module completion, not total compiler absence.
 
 ## Not Done
 - Full repo-wide `Cs*` symbol migration.
 - QML/Quick/QuickControls2/WebEngineQuick implementation.
 - Full assimilation of BobUI/JUCE/U++ feature sets.
+- Full end-to-end `Release` build of all remaining modules in a single pass.

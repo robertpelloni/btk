@@ -1,0 +1,145 @@
+# BTK Windows Build Enablement — 2026-04-05
+
+## Goal
+Move BTK from "compiler unavailable / not locally validated" toward a concretely buildable Windows state.
+
+## Environment findings
+A usable MSVC toolchain is available via:
+- Visual Studio 2019 Build Tools
+- Generator used: `Visual Studio 16 2019`
+- Architecture: `x64`
+
+Initial checks showed `cl`, `g++`, and `clang++` were not directly on `PATH`, but CMake was able to discover MSVC through the Visual Studio generator.
+
+## Configure result
+Command used:
+
+```powershell
+cmake -S . -B build-vs2019 -G "Visual Studio 16 2019" -A x64
+```
+
+### Configure outcome
+Configure succeeded.
+
+Key findings during configure:
+- MSVC C and C++ compilers detected successfully
+- Windows SDK selected automatically
+- OpenSSL found
+- Vulkan SDK not found, so Vulkan support was not configured
+- Planned build set included:
+  - `Core`
+  - `Xml`
+  - `Gui`
+  - `Multimedia`
+  - `Network`
+  - `OpenGL`
+  - `Sql`
+  - `Svg`
+  - `WebKit`
+  - `XmlPatterns`
+
+## First build failure and fixes
+The first concrete build failure occurred in the newly added BTK ownership scaffolding.
+
+### Failure 1: `BtkInputOwner` flags declaration
+`BtkInputOwner` originally used `Q_DECLARE_FLAGS(Capabilities, Capability)`.
+
+This did not compile cleanly under the project/toolchain combination used here.
+
+### Fix
+Changed:
+- `Q_DECLARE_FLAGS(Capabilities, Capability)`
+
+to:
+- `using Capabilities = QFlags<Capability>;`
+
+This matches patterns already used elsewhere in the codebase and brought the BTK ownership type into line with established project conventions.
+
+### Related fix
+Applied the same style correction to `BtkFocusOverlay`:
+- replaced `Q_DECLARE_FLAGS(PanelFlags, Panel)`
+- with `using PanelFlags = QFlags<Panel>;`
+
+## Successful target builds
+After the flag-declaration fixes and further CopperSpice-compatibility adjustments, the following targets were built successfully in `Release`:
+
+### Built libraries / tools
+- `build-vs2019/bin/Release/CsCore2.1.dll`
+- `build-vs2019/bin/Release/CsXml2.1.dll`
+- `build-vs2019/bin/Release/CsGui2.1.dll`
+- `build-vs2019/bin/Release/uic.exe`
+- `build-vs2019/bin/Release/rcc.exe`
+
+This is a meaningful milestone: BTK is no longer just hypothetically structured for buildability. Core + XML + GUI artifacts were produced successfully on Windows.
+
+## Additional source compatibility fixes required
+The recent BTK diagnostic/overlay additions were initially written with more Qt-style APIs than this codebase exposes.
+
+### Adjustments made
+To restore compatibility with the actual project string / API surface, the following kinds of changes were required:
+- replaced `.arg(...)` with `.formatArg(...)`
+- replaced `QFontMetrics::horizontalAdvance(...)` with `QFontMetrics::width(...)`
+- replaced `QStringLiteral(...)` with ordinary `QString(...)`
+- fixed `QObject::property(...)` / `setProperty(...)` calls to pass `QString` keys instead of raw `const char *`
+- corrected `metaObject()->className()` usage to match the actual return type in this project lineage
+- corrected newline joins to use `QString("\n")`
+
+### Why this matters
+This confirms an important architectural truth about the current BTK effort:
+- the project is **not** a drop-in Qt 5/6 source environment
+- it retains CopperSpice-era API differences
+- any modernization work must be validated against the real substrate rather than assumed from Qt muscle memory
+
+## Full build attempt
+A full solution build was attempted with:
+
+```powershell
+cmake --build build-vs2019 --config Release --parallel 8
+```
+
+## Full build status
+The full build advanced substantially:
+- core built
+- xml built
+- gui built
+- the build progressed deep into `WebKit`
+
+However, the full build did not complete within the available command timeout window.
+
+### Important nuance
+This is no longer the old failure mode of "cannot configure because there is no compiler."
+
+The current state is much better:
+- configure works
+- major foundational modules build
+- the build now reaches very large downstream subsystems
+- the remaining issue is build duration / scale, not immediate compiler absence
+
+## Current practical usability status
+BTK is now materially more usable on Windows than before this build-enablement pass because:
+- the project configures successfully with MSVC
+- foundational runtime artifacts exist
+- GUI-layer BTK additions now compile cleanly within `CsGui`
+
+That said, the entire framework stack is not yet fully validated end-to-end in this session because the full solution build did not finish before timeout.
+
+## Recommended next steps
+1. Continue building remaining targets incrementally instead of relying only on a single massive full build pass.
+2. Prioritize modular validation for:
+   - `Network`
+   - `OpenGL`
+   - `Sql`
+   - `Svg`
+   - `XmlPatterns`
+   - `WebKit`
+3. Keep adapting recent BTK additions to actual CopperSpice/BTK APIs rather than Qt-assumed APIs.
+4. Once modular libraries are built, add a small downstream smoke application built against the generated BTK artifacts.
+
+## Bottom line
+This session materially improved build readiness:
+- BTK now configures with MSVC on Windows
+- `CsCore`, `CsXml`, and `CsGui` build successfully
+- the project reaches deep into the remaining stack before timing out
+- the biggest recent source-compatibility regressions introduced by BTK overlay/diagnostic work were corrected
+
+That is a real step from scaffolding toward usable framework output.

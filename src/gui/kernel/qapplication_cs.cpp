@@ -859,7 +859,7 @@ QString btkOwnerIdForWidget(const QWidget *widget)
    const QWidget *current = widget;
 
    while (current) {
-      const QVariant ownerValue = current->property(btkOwnerPropertyName);
+      const QVariant ownerValue = current->property(QString::fromLatin1(btkOwnerPropertyName));
       if (ownerValue.isValid()) {
          const QString ownerId = ownerValue.toString();
          if (! ownerId.isEmpty()) {
@@ -882,7 +882,7 @@ QString btkSurfaceIdForWidget(const QWidget *widget)
    const QWidget *current = widget;
 
    while (current) {
-      const QVariant surfaceValue = current->property(btkSurfacePropertyName);
+      const QVariant surfaceValue = current->property(QString::fromLatin1(btkSurfacePropertyName));
       if (surfaceValue.isValid()) {
          const QString surfaceId = surfaceValue.toString();
          if (! surfaceId.isEmpty()) {
@@ -1035,7 +1035,7 @@ QStringList btkPopupStackDescriptions(const QString &ownerId = QString())
          continue;
       }
 
-      retval.append(QString("popupIndex=%1 %2").arg(i).arg(btkDescribeWidget(popup)));
+      retval.append(QString("popupIndex=%1 %2").formatArg(i).formatArg(btkDescribeWidget(popup)));
    }
 
    return retval;
@@ -1048,22 +1048,22 @@ QString btkDescribeWidget(const QWidget *widget)
    }
 
    return QString("class=%1 object=%2 owner=%3 surface=%4")
-      .arg(QString::fromLatin1(widget->metaObject()->className()))
-      .arg(widget->objectName().isEmpty() ? QString("<unnamed>") : widget->objectName())
-      .arg(btkOwnerIdForWidget(widget).isEmpty() ? QString("<none>") : btkOwnerIdForWidget(widget))
-      .arg(btkSurfaceIdForWidget(widget).isEmpty() ? QString("<none>") : btkSurfaceIdForWidget(widget));
+      .formatArg(widget->metaObject()->className())
+      .formatArg(widget->objectName().isEmpty() ? QString("<unnamed>") : widget->objectName())
+      .formatArg(btkOwnerIdForWidget(widget).isEmpty() ? QString("<none>") : btkOwnerIdForWidget(widget))
+      .formatArg(btkSurfaceIdForWidget(widget).isEmpty() ? QString("<none>") : btkSurfaceIdForWidget(widget));
 }
 
 QString btkDescribeToken(const BtkFocusToken &token)
 {
    return QString("token=%1 owner=%2 surface=%3 scope=%4 policy=%5 priority=%6 active=%7")
-      .arg(token.tokenId())
-      .arg(token.ownerId())
-      .arg(token.surfaceId())
-      .arg(btkScopeToString(token.scope()))
-      .arg(btkModalityPolicyToString(token.modalityPolicy()))
-      .arg(token.priority())
-      .arg(token.isActive() ? QString("true") : QString("false"));
+      .formatArg(token.tokenId())
+      .formatArg(token.ownerId())
+      .formatArg(token.surfaceId())
+      .formatArg(btkScopeToString(token.scope()))
+      .formatArg(btkModalityPolicyToString(token.modalityPolicy()))
+      .formatArg(token.priority())
+      .formatArg(token.isActive() ? QString("true") : QString("false"));
 }
 
 bool btkPopupAllowsWidget(const QWidget *popup, QWidget *widget)
@@ -1150,8 +1150,8 @@ void QApplication::setBtkOwnerContext(QWidget *widget, const QString &ownerId, c
       return;
    }
 
-   widget->setProperty(btkOwnerPropertyName, ownerId);
-   widget->setProperty(btkSurfacePropertyName, surfaceId);
+   widget->setProperty(QString::fromLatin1(btkOwnerPropertyName), ownerId);
+   widget->setProperty(QString::fromLatin1(btkSurfacePropertyName), surfaceId);
 }
 
 QString QApplication::btkOwnerId(const QWidget *widget)
@@ -1187,10 +1187,10 @@ QString QApplication::btkDescribePopupRelationship(const QWidget *widget)
    const bool popupAllowed = popup == nullptr || btkPopupAllowsWidget(popup, const_cast<QWidget *>(widget));
 
    return QString("popupOwner=%1 widgetOwner=%2 popupAllowed=%3 popupContext=%4")
-      .arg(popupOwner.isEmpty() ? QString("<none>") : popupOwner)
-      .arg(widgetOwner.isEmpty() ? QString("<none>") : widgetOwner)
-      .arg(popupAllowed ? QString("true") : QString("false"))
-      .arg(btkDescribeWidget(popup));
+      .formatArg(popupOwner.isEmpty() ? QString("<none>") : popupOwner)
+      .formatArg(widgetOwner.isEmpty() ? QString("<none>") : widgetOwner)
+      .formatArg(popupAllowed ? QString("true") : QString("false"))
+      .formatArg(btkDescribeWidget(popup));
 }
 
 QString QApplication::btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason reason)
@@ -1198,12 +1198,12 @@ QString QApplication::btkDescribeFocusDecision(QWidget *widget, Qt::FocusReason 
    const BtkInputRouteResult route = btkRouteFocusRequest(widget, reason);
 
    return QString("reason=%1 decision=%2 resolvedOwner=%3 blockingOwner=%4 blockingSurface=%5 %6")
-      .arg(btkFocusReasonToString(reason))
-      .arg(btkDecisionToString(route.decision))
-      .arg(route.resolvedOwnerId.isEmpty() ? QString("<none>") : route.resolvedOwnerId)
-      .arg(route.blockingOwnerId.isEmpty() ? QString("<none>") : route.blockingOwnerId)
-      .arg(route.blockingSurfaceId.isEmpty() ? QString("<none>") : route.blockingSurfaceId)
-      .arg(btkDescribeWidget(widget));
+      .formatArg(btkFocusReasonToString(reason))
+      .formatArg(btkDecisionToString(route.decision))
+      .formatArg(route.resolvedOwnerId.isEmpty() ? QString("<none>") : route.resolvedOwnerId)
+      .formatArg(route.blockingOwnerId.isEmpty() ? QString("<none>") : route.blockingOwnerId)
+      .formatArg(route.blockingSurfaceId.isEmpty() ? QString("<none>") : route.blockingSurfaceId)
+      .formatArg(btkDescribeWidget(widget));
 }
 
 QStringList QApplication::btkPopupStackDiagnostics(const QString &ownerId)
@@ -1216,10 +1216,10 @@ QStringList QApplication::btkFocusDiagnostics()
    QStringList retval;
    const QList<BtkFocusToken> tokens = QApplicationPrivate::btk_input_arbitrator.focusTokens();
 
-   retval.append(QString("activePopupOwner=%1").arg(btkActivePopupOwnerId().isEmpty() ? QString("<none>") : btkActivePopupOwnerId()));
-   retval.append(QString("activeModalOwner=%1").arg(btkActiveModalOwnerId().isEmpty() ? QString("<none>") : btkActiveModalOwnerId()));
-   retval.append(QString("focusWidget=%1").arg(btkDescribeWidget(QApplication::focusWidget())));
-   retval.append(QString("focusPopupRelationship=%1").arg(btkDescribePopupRelationship(QApplication::focusWidget())));
+   retval.append(QString("activePopupOwner=%1").formatArg(btkActivePopupOwnerId().isEmpty() ? QString("<none>") : btkActivePopupOwnerId()));
+   retval.append(QString("activeModalOwner=%1").formatArg(btkActiveModalOwnerId().isEmpty() ? QString("<none>") : btkActiveModalOwnerId()));
+   retval.append(QString("focusWidget=%1").formatArg(btkDescribeWidget(QApplication::focusWidget())));
+   retval.append(QString("focusPopupRelationship=%1").formatArg(btkDescribePopupRelationship(QApplication::focusWidget())));
 
    const QStringList popupDescriptions = btkPopupStackDescriptions();
    if (popupDescriptions.isEmpty()) {

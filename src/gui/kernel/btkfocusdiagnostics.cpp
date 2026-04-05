@@ -38,11 +38,11 @@ QString btkNormalizeBlockedRouteSummary(const QString &line)
    }
 
    return QString("reason=%1 decision=%2 targetOwner=%3 blocker=%4 blockerSurface=%5")
-      .arg(reason.isEmpty() ? QString("<none>") : reason)
-      .arg(decision.isEmpty() ? QString("<none>") : decision)
-      .arg(resolvedOwner.isEmpty() ? QString("<none>") : resolvedOwner)
-      .arg(blockingOwner.isEmpty() ? QString("<none>") : blockingOwner)
-      .arg(blockingSurface.isEmpty() ? QString("<none>") : blockingSurface);
+      .formatArg(reason.isEmpty() ? QString("<none>") : reason)
+      .formatArg(decision.isEmpty() ? QString("<none>") : decision)
+      .formatArg(resolvedOwner.isEmpty() ? QString("<none>") : resolvedOwner)
+      .formatArg(blockingOwner.isEmpty() ? QString("<none>") : blockingOwner)
+      .formatArg(blockingSurface.isEmpty() ? QString("<none>") : blockingSurface);
 }
 
 QString btkNormalizeRelationshipSummary(const QString &label, const QString &leftName, const QString &leftValue,
@@ -52,12 +52,12 @@ QString btkNormalizeRelationshipSummary(const QString &label, const QString &lef
    const QString normalizedRight = rightValue.isEmpty() ? QString("<none>") : rightValue;
 
    return QString("%1 %2=%3 %4=%5 sameOwner=%6")
-      .arg(label)
-      .arg(leftName)
-      .arg(normalizedLeft)
-      .arg(rightName)
-      .arg(normalizedRight)
-      .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
+      .formatArg(label)
+      .formatArg(leftName)
+      .formatArg(normalizedLeft)
+      .formatArg(rightName)
+      .formatArg(normalizedRight)
+      .formatArg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
 }
 
 void btkSortSummaryList(QStringList &summaries, const QString &countField)
@@ -170,15 +170,15 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    }
 
    for (auto iter = ownerCounts.cbegin(); iter != ownerCounts.cend(); ++iter) {
-      retval.ownerSummaries.append(QString("owner=%1 tokens=%2").arg(iter.key()).arg(iter.value()));
+      retval.ownerSummaries.append(QString("owner=%1 tokens=%2").formatArg(iter.key()).formatArg(iter.value()));
    }
 
    for (auto iter = blockerCounts.cbegin(); iter != blockerCounts.cend(); ++iter) {
-      retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
+      retval.blockerSummaries.append(QString("blocker=%1 blockedRoutes=%2").formatArg(iter.key()).formatArg(iter.value()));
    }
 
    for (auto iter = blockedReasonCounts.cbegin(); iter != blockedReasonCounts.cend(); ++iter) {
-      retval.blockedReasonSummaries.append(QString("blockedReason=%1 blockedRoutes=%2").arg(iter.key()).arg(iter.value()));
+      retval.blockedReasonSummaries.append(QString("blockedReason=%1 blockedRoutes=%2").formatArg(iter.key()).formatArg(iter.value()));
    }
 
    for (auto iter = blockerDetailCounts.cbegin(); iter != blockerDetailCounts.cend(); ++iter) {
@@ -186,9 +186,9 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
       const QString blocker = parts.value(0);
       const QString reason = parts.value(1, QString("<none>"));
       retval.blockerDetailSummaries.append(QString("blocker=%1 reason=%2 blockedRoutes=%3")
-         .arg(blocker)
-         .arg(reason)
-         .arg(iter.value()));
+         .formatArg(blocker)
+         .formatArg(reason)
+         .formatArg(iter.value()));
    }
 
    btkSortSummaryList(retval.ownerSummaries, QString("tokens"));
@@ -202,14 +202,14 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
    const int uniqueOwnerCount = btkDistinctOwnerCount({normalizedFocusOwner, normalizedPopupOwner, normalizedModalOwner});
 
    retval.comparisonClusterSummaries.append(QString("ownerTopology focusOwner=%1 popupOwner=%2 modalOwner=%3 uniqueOwners=%4")
-      .arg(normalizedFocusOwner)
-      .arg(normalizedPopupOwner)
-      .arg(normalizedModalOwner)
-      .arg(uniqueOwnerCount));
+      .formatArg(normalizedFocusOwner)
+      .formatArg(normalizedPopupOwner)
+      .formatArg(normalizedModalOwner)
+      .formatArg(uniqueOwnerCount));
    retval.comparisonClusterSummaries.append(QString("ownerTopologyState focusVsPopup=%1 popupVsModal=%2 focusVsModal=%3")
-      .arg(normalizedFocusOwner == normalizedPopupOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split"))
-      .arg(normalizedPopupOwner == normalizedModalOwner && normalizedPopupOwner != QString("<none>") ? QString("aligned") : QString("split"))
-      .arg(normalizedFocusOwner == normalizedModalOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split")));
+      .formatArg(normalizedFocusOwner == normalizedPopupOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split"))
+      .formatArg(normalizedPopupOwner == normalizedModalOwner && normalizedPopupOwner != QString("<none>") ? QString("aligned") : QString("split"))
+      .formatArg(normalizedFocusOwner == normalizedModalOwner && normalizedFocusOwner != QString("<none>") ? QString("aligned") : QString("split")));
 
    retval.relationshipSummaries.append(btkNormalizeRelationshipSummary(QString("focusVsPopup"),
       QString("focusOwner"), retval.focusOwnerId, QString("popupOwner"), retval.activePopupOwnerId));
@@ -222,17 +222,17 @@ BtkFocusDiagnosticsSnapshot BtkFocusDiagnostics::snapshot()
          retval.popupStackSummaries.append(QString("focusOwnerPopupStack:"));
          retval.popupStackSummaries.append(focusOwnerPopups);
          retval.relationshipSummaries.append(QString("focusOwnerPopupStack owner=%1 popups=%2")
-            .arg(retval.focusOwnerId)
-            .arg(focusOwnerPopups.size()));
+            .formatArg(retval.focusOwnerId)
+            .formatArg(focusOwnerPopups.size()));
       }
    }
 
    retval.currentStateText = retval.toString();
    if (! retval.focusWidgetPath.isEmpty()) {
-      retval.currentStateText += QString("\nfocusWidgetPath=%1").arg(retval.focusWidgetPath);
+      retval.currentStateText += QString("\nfocusWidgetPath=%1").formatArg(retval.focusWidgetPath);
    }
    if (! retval.focusPopupRelationship.isEmpty()) {
-      retval.currentStateText += QString("\nfocusPopupRelationship=%1").arg(retval.focusPopupRelationship);
+      retval.currentStateText += QString("\nfocusPopupRelationship=%1").formatArg(retval.focusPopupRelationship);
    }
 
    return retval;
@@ -252,7 +252,7 @@ QString BtkFocusDiagnostics::describeWidgetTreePath(const QWidget *widget)
          ? QString("<unnamed>")
          : current->objectName();
 
-      chain.prepend(QString::fromLatin1(current->metaObject()->className()) + QString("(") + objectName + QString(")"));
+      chain.prepend(current->metaObject()->className() + QString("(") + objectName + QString(")"));
 
       if (current == current->window()) {
          break;
@@ -261,7 +261,7 @@ QString BtkFocusDiagnostics::describeWidgetTreePath(const QWidget *widget)
       current = current->parentWidget();
    }
 
-   return chain.join(QStringLiteral(" -> "));
+   return chain.join(QString(" -> "));
 }
 
 QString BtkFocusDiagnostics::describeCurrentState()
@@ -273,7 +273,7 @@ QString BtkFocusDiagnostics::describeCurrentState()
    }
 
    QStringList lines = snap.lines;
-   lines.append(QString("focusWidgetPath=%1").arg(describeWidgetTreePath(QApplication::focusWidget())));
+   lines.append(QString("focusWidgetPath=%1").formatArg(describeWidgetTreePath(QApplication::focusWidget())));
 
    return lines.join("\n");
 }

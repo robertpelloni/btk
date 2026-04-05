@@ -38,7 +38,7 @@ class Q_GUI_EXPORT BtkFocusOverlay : public QWidget
       Full
    };
 
-   Q_DECLARE_FLAGS(PanelFlags, Panel)
+   using PanelFlags = QFlags<Panel>;
 
    explicit BtkFocusOverlay(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::ToolTip);
 

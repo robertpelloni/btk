@@ -74,12 +74,12 @@ QString btkNormalizeOverlayRelationship(const QString &label, const QString &lef
    const QString normalizedRight = rightValue.isEmpty() ? QString("<none>") : rightValue;
 
    return QString("%1 %2=%3 %4=%5 sameOwner=%6")
-      .arg(label)
-      .arg(leftName)
-      .arg(normalizedLeft)
-      .arg(rightName)
-      .arg(normalizedRight)
-      .arg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
+      .formatArg(label)
+      .formatArg(leftName)
+      .formatArg(normalizedLeft)
+      .formatArg(rightName)
+      .formatArg(normalizedRight)
+      .formatArg(normalizedLeft == normalizedRight && normalizedLeft != QString("<none>") ? QString("true") : QString("false"));
 }
 
 int btkDistinctOverlayOwnerCount(const QStringList &owners)
@@ -141,7 +141,7 @@ void btkDrawWrappedBlock(QPainter &painter, int x, int &y, int width, const QStr
 void btkDrawChip(QPainter &painter, int x, int y, const QString &label, const QString &value, const QColor &fillColor)
 {
    const QString text = label + QString(": ") + value;
-   const int textWidth = painter.fontMetrics().horizontalAdvance(text);
+   const int textWidth = painter.fontMetrics().width(text);
    const QRect chipRect(x, y, textWidth + 18, painter.fontMetrics().height() + 10);
 
    painter.setPen(Qt::NoPen);
@@ -225,7 +225,7 @@ void BtkFocusOverlay::refreshDiagnostics()
       m_snapshot.targetDecisionSummary = QApplication::btkDescribeFocusDecision(m_targetWidget, Qt::OtherFocusReason);
       if (m_snapshot.targetDecisionSummary.contains("decision=Reject")
          || (m_snapshot.targetDecisionSummary.contains("blockingOwner=") && ! m_snapshot.targetDecisionSummary.contains("blockingOwner=<none>"))) {
-         const QString targetBlockedSummary = QString("target %1").arg(m_snapshot.targetDecisionSummary);
+         const QString targetBlockedSummary = QString("target %1").formatArg(m_snapshot.targetDecisionSummary);
          if (! m_snapshot.blockedRouteSummaries.contains(targetBlockedSummary)) {
             m_snapshot.blockedRouteSummaries.append(targetBlockedSummary);
          }
@@ -371,7 +371,7 @@ QSize BtkFocusOverlay::sizeHint() const
    if (shouldRenderPanel(FocusPanel)) {
       height += fm.height() + 6;
       height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusWidgetDescription) + 8;
-      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(m_snapshot.focusWidgetPath)) + 8;
+      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").formatArg(m_snapshot.focusWidgetPath)) + 8;
       height += btkWrappedTextHeight(fm, innerWidth, m_snapshot.focusPopupRelationship) + 12;
    }
 
@@ -440,7 +440,7 @@ QSize BtkFocusOverlay::sizeHint() const
 
       height += fm.height() + 6;
       height += btkWrappedTextHeight(fm, innerWidth, targetContext) + 8;
-      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").arg(targetPath)) + 8;
+      height += btkWrappedTextHeight(fm, innerWidth, QString("path=%1").formatArg(targetPath)) + 8;
       height += btkWrappedTextHeight(fm, innerWidth, targetRelationship) + 8;
       height += btkWrappedTextHeight(fm, innerWidth, targetDecision) + 8;
    }
@@ -562,7 +562,7 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Focus Widget"));
       btkDrawWrappedBlock(painter, left, y, contentWidth, m_snapshot.focusWidgetDescription, btkOverlayValueColor());
       btkDrawWrappedBlock(painter, left, y, contentWidth,
-         QString("path=%1").arg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
+         QString("path=%1").formatArg(m_snapshot.focusWidgetPath.isEmpty() ? QString("<null>") : m_snapshot.focusWidgetPath),
          QColor(182, 193, 225));
       btkDrawWrappedBlock(painter, left, y, contentWidth,
          m_snapshot.focusPopupRelationship.isEmpty() ? QString("popupRelationship=<none>") : m_snapshot.focusPopupRelationship,
@@ -646,7 +646,7 @@ void BtkFocusOverlay::paintEvent(QPaintEvent *)
       btkDrawSectionHeader(painter, left, y, contentWidth, QString("Target Widget"));
       btkDrawWrappedBlock(painter, left, y, contentWidth, targetContext, btkOverlayValueColor());
       btkDrawWrappedBlock(painter, left, y, contentWidth,
-         QString("path=%1").arg(targetPath), QColor(182, 193, 225));
+         QString("path=%1").formatArg(targetPath), QColor(182, 193, 225));
       btkDrawWrappedBlock(painter, left, y, contentWidth,
          targetRelationship, btkOverlayAccentForLine(targetRelationship));
       btkDrawWrappedBlock(painter, left, y, contentWidth,
@@ -727,16 +727,16 @@ QStringList BtkFocusOverlay::targetComparisonClusters() const
 
    return QStringList({
       QString("targetOwnerTopology focusOwner=%1 targetOwner=%2 popupOwner=%3 modalOwner=%4 uniqueOwners=%5 state=%6")
-         .arg(focusOwner)
-         .arg(targetOwner)
-         .arg(popupOwner)
-         .arg(modalOwner)
-         .arg(uniqueOwnerCount)
-         .arg(uniqueOwnerCount <= 1 && targetOwner != QString("<none>") ? QString("aligned") : QString("mixed")),
+         .formatArg(focusOwner)
+         .formatArg(targetOwner)
+         .formatArg(popupOwner)
+         .formatArg(modalOwner)
+         .formatArg(uniqueOwnerCount)
+         .formatArg(uniqueOwnerCount <= 1 && targetOwner != QString("<none>") ? QString("aligned") : QString("mixed")),
       QString("targetOwnerTopologyState focusVsTarget=%1 targetVsPopup=%2 targetVsModal=%3")
-         .arg(focusOwner == targetOwner && focusOwner != QString("<none>") ? QString("aligned") : QString("split"))
-         .arg(targetOwner == popupOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
-         .arg(targetOwner == modalOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
+         .formatArg(focusOwner == targetOwner && focusOwner != QString("<none>") ? QString("aligned") : QString("split"))
+         .formatArg(targetOwner == popupOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
+         .formatArg(targetOwner == modalOwner && targetOwner != QString("<none>") ? QString("aligned") : QString("split"))
    });
 }
 
@@ -776,9 +776,9 @@ QStringList BtkFocusOverlay::targetBlockerDigests() const
       btkNormalizeOverlayRelationship(QString("targetSurfaceVsBlocker"), QString("targetSurface"), targetSurface,
          QString("blockerSurface"), blockerSurface),
       QString("targetBlockReason reason=%1 blockerOwner=%2 blockerSurface=%3")
-         .arg(reason.isEmpty() ? QString("<none>") : reason)
-         .arg(blockerOwner.isEmpty() ? QString("<none>") : blockerOwner)
-         .arg(blockerSurface.isEmpty() ? QString("<none>") : blockerSurface)
+         .formatArg(reason.isEmpty() ? QString("<none>") : reason)
+         .formatArg(blockerOwner.isEmpty() ? QString("<none>") : blockerOwner)
+         .formatArg(blockerSurface.isEmpty() ? QString("<none>") : blockerSurface)
    });
 }
 
@@ -848,25 +848,25 @@ QString BtkFocusOverlay::buildDisplayText() const
    lines.append(QString("BTK Focus HUD"));
 
    if (shouldRenderPanel(SummaryPanel)) {
-      lines.append(QString("activePopupOwner=%1").arg(m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId));
-      lines.append(QString("activeModalOwner=%1").arg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
-      lines.append(QString("focusOwner=%1").arg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
-      lines.append(QString("focusSurface=%1").arg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
-      lines.append(QString("blockedCount=%1").arg(m_snapshot.blockedRouteCount()));
-      lines.append(QString("popupCount=%1").arg(m_snapshot.popupCount()));
-      lines.append(QString("blockerCount=%1").arg(m_snapshot.blockerCount()));
-      lines.append(QString("blockedReasonCount=%1").arg(m_snapshot.blockedReasonCount()));
-      lines.append(QString("relationshipCount=%1").arg(m_snapshot.relationshipCount()));
-      lines.append(QString("comparisonClusterCount=%1").arg(comparisonClusterCount()));
-      lines.append(QString("mismatchCount=%1").arg(mismatchCount()));
-      lines.append(QString("preset=%1").arg(btkPanelPresetToString(m_panelPreset)));
-      lines.append(QString("blockedOnly=%1").arg(m_blockedRoutesOnly ? QString("true") : QString("false")));
+      lines.append(QString("activePopupOwner=%1").formatArg(m_snapshot.activePopupOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activePopupOwnerId));
+      lines.append(QString("activeModalOwner=%1").formatArg(m_snapshot.activeModalOwnerId.isEmpty() ? QString("<none>") : m_snapshot.activeModalOwnerId));
+      lines.append(QString("focusOwner=%1").formatArg(m_snapshot.focusOwnerId.isEmpty() ? QString("<none>") : m_snapshot.focusOwnerId));
+      lines.append(QString("focusSurface=%1").formatArg(m_snapshot.focusSurfaceId.isEmpty() ? QString("<none>") : m_snapshot.focusSurfaceId));
+      lines.append(QString("blockedCount=%1").formatArg(m_snapshot.blockedRouteCount()));
+      lines.append(QString("popupCount=%1").formatArg(m_snapshot.popupCount()));
+      lines.append(QString("blockerCount=%1").formatArg(m_snapshot.blockerCount()));
+      lines.append(QString("blockedReasonCount=%1").formatArg(m_snapshot.blockedReasonCount()));
+      lines.append(QString("relationshipCount=%1").formatArg(m_snapshot.relationshipCount()));
+      lines.append(QString("comparisonClusterCount=%1").formatArg(comparisonClusterCount()));
+      lines.append(QString("mismatchCount=%1").formatArg(mismatchCount()));
+      lines.append(QString("preset=%1").formatArg(btkPanelPresetToString(m_panelPreset)));
+      lines.append(QString("blockedOnly=%1").formatArg(m_blockedRoutesOnly ? QString("true") : QString("false")));
    }
 
    if (shouldRenderPanel(FocusPanel)) {
-      lines.append(QString("focusWidget=%1").arg(m_snapshot.focusWidgetDescription));
-      lines.append(QString("focusWidgetPath=%1").arg(m_snapshot.focusWidgetPath));
-      lines.append(QString("focusPopupRelationship=%1").arg(m_snapshot.focusPopupRelationship));
+      lines.append(QString("focusWidget=%1").formatArg(m_snapshot.focusWidgetDescription));
+      lines.append(QString("focusWidgetPath=%1").formatArg(m_snapshot.focusWidgetPath));
+      lines.append(QString("focusPopupRelationship=%1").formatArg(m_snapshot.focusPopupRelationship));
    }
 
    if (shouldRenderPanel(OwnerPanel) && ! m_snapshot.ownerSummaries.isEmpty()) {
@@ -913,10 +913,10 @@ QString BtkFocusOverlay::buildDisplayText() const
    }
 
    if (shouldRenderPanel(TargetPanel) && m_targetWidget) {
-      lines.append(QString("targetWidget=%1").arg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)));
-      lines.append(QString("targetContext=%1").arg(QApplication::btkDescribeWidgetContext(m_targetWidget)));
-      lines.append(QString("targetPopupRelationship=%1").arg(targetRelationshipSummary()));
-      lines.append(QString("targetDecision=%1").arg(targetDecisionSummary()));
+      lines.append(QString("targetWidget=%1").formatArg(BtkFocusDiagnostics::describeWidgetTreePath(m_targetWidget)));
+      lines.append(QString("targetContext=%1").formatArg(QApplication::btkDescribeWidgetContext(m_targetWidget)));
+      lines.append(QString("targetPopupRelationship=%1").formatArg(targetRelationshipSummary()));
+      lines.append(QString("targetDecision=%1").formatArg(targetDecisionSummary()));
    }
 
    if (shouldRenderPanel(BlockedPanel)
@@ -936,5 +936,5 @@ QString BtkFocusOverlay::buildDisplayText() const
       lines.append(m_snapshot.currentStateText);
    }
 
-   return lines.join('\n');
+   return lines.join(QString("\n"));
 }

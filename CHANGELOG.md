@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.1.7 - 2026-04-06
+- contracted the reduced `CsScript` QObject bridge frontier across `qscriptqobject.cpp` / `qscriptqobject_p.h`
+- added current host-call / host-construct proxy entry points for `QtFunction`, `QtPropertyFunction`, and `QMetaObjectWrapperObject`
+- replaced remaining reduced QObject bridge enum-style error dispatch with current error-object creation helpers
+- updated reduced QObject bridge call-discovery, mark-stack rooting, `Heap::isMarked(...)`, identifier creation, and `QString` / `UString` conversion paths
+- contracted the remaining compile blockers in `qscriptcontextinfo.cpp` and `qscriptengine.cpp`
+- validated that `MSBuild /t:ClCompile` for `build-vs2019-script-probe5/src/script/CsScript.vcxproj` now succeeds with `0` errors
+- confirmed the next isolated frontier is now a link-materialization boundary (`CsCore2.1.lib` missing in the isolated probe when project references are disabled)
+- documented the QObject bridge compilation pass and validation evidence
+
 ## 0.1.6 - 2026-04-06
 - widened the embedded `NativeFunctionWrapper` / `PrototypeFunction` compatibility bridge so restored Script call sites can target both legacy wrapper signatures and current JSC native-function signatures
 - contracted the restored `CsScript` engine/value frontier across `qscriptengine.cpp`, `qscriptprogram.cpp/.p.h`, and `qscriptvalue.cpp`

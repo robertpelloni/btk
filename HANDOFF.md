@@ -2,6 +2,40 @@
 
 ## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
+- Continued Stage A `CsScript` recovery by attacking the reduced QObject bridge frontier.
+- Updated:
+  - `src/script/bridge/qscriptqobject.cpp`
+  - `src/script/bridge/qscriptqobject_p.h`
+  - `src/script/api/qscriptcontextinfo.cpp`
+  - `src/script/api/qscriptengine.cpp`
+- Main contractions completed in this session:
+  - added current proxy host-call / host-construct entry points for `QtFunction`, `QtPropertyFunction`, and `QMetaObjectWrapperObject`
+  - replaced reduced QObject bridge enum-style `TypeError` / `GeneralError` / `SyntaxError` throw sites with current error-object helper composition
+  - replaced remaining instance-style call-discovery sites with current `JSC::getCallData(...)`
+  - updated reduced QObject bridge mark/root handling around current `MarkStack` public append forms and `Heap::isMarked(...)`
+  - normalized additional `QString` / `UString` conversions and identifier creation across the reduced bridge surface
+  - fixed current `QtPropertyFunction` construction signatures
+  - contracted the remaining residual compile blockers in:
+    - `src/script/api/qscriptcontextinfo.cpp`
+    - `src/script/api/qscriptengine.cpp`
+- Revalidated the direct MSVC Script probe against:
+  - `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+- Validation outcome:
+  - full direct target build now reaches link stage and stops at:
+    - `LINK : fatal error LNK1181: cannot open input file '..\..\lib\Release\CsCore2.1.lib'`
+  - compile-only validation with `/t:ClCompile` now succeeds with:
+    - `0 Warning(s)`
+    - `0 Error(s)`
+- Confirmed the dominant reduced source frontier is no longer `qscriptqobject.cpp`.
+- The next isolated frontier is now a link/dependency materialization boundary in `build-vs2019-script-probe5`, not another large source-compatibility wall.
+- Added new docs:
+  - `docs/ai/design/2026-04-06-csscript-qobject-bridge-compilation-pass.md`
+  - `docs/ai/implementation/2026-04-06-csscript-qobject-bridge-compilation-pass.md`
+  - `docs/ai/testing/2026-04-06-csscript-qobject-bridge-compilation-pass-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.7`.
+
+## Latest Session Additions
+- Performed another fresh process audit and continued without terminating any running processes.
 - Continued Stage A `CsScript` recovery with a focused engine/value contraction pass rather than another pure capture pass.
 - Updated the embedded host-wrapper compatibility layer so restored Script call sites can target both legacy wrapper signatures and current JSC native-function signatures:
   - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h`

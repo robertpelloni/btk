@@ -212,6 +212,7 @@ class QtFunction: public JSC::InternalFunction
    }
    static const JSC::ClassInfo info;
 
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyCall(JSC::ExecState *);
    static JSC::JSValue JSC_HOST_CALL call(JSC::ExecState *, JSC::JSObject *,
       JSC::JSValue, const JSC::ArgList &);
 
@@ -256,6 +257,7 @@ class QtPropertyFunction: public JSC::InternalFunction
    }
    static const JSC::ClassInfo info;
 
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyCall(JSC::ExecState *);
    static JSC::JSValue JSC_HOST_CALL call(JSC::ExecState *, JSC::JSObject *,
       JSC::JSValue, const JSC::ArgList &);
 
@@ -310,8 +312,10 @@ class QMetaObjectWrapperObject : public JSC::JSNonFinalObject
    }
    static const JSC::ClassInfo info;
 
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyCall(JSC::ExecState *);
    static JSC::JSValue JSC_HOST_CALL call(JSC::ExecState *, JSC::JSObject *,
       JSC::JSValue, const JSC::ArgList &);
+   static JSC::EncodedJSValue JSC_HOST_CALL proxyConstruct(JSC::ExecState *);
    static JSC::JSObject *construct(JSC::ExecState *, JSC::JSObject *, const JSC::ArgList &);
 
    JSC::JSValue execute(JSC::ExecState *exec, const JSC::ArgList &args);

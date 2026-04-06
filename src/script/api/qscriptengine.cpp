@@ -751,7 +751,7 @@ JSC::JSValue JSC_HOST_CALL stringProtoFuncArg(JSC::ExecState *exec, JSC::JSObjec
    QString result;
 
    if (arg.isString()) {
-      result = value.formatArg(arg.toString(exec));
+      result = value.formatArg(QScript::convertToString(arg.toString(exec)));
 
    } else if (arg.isNumber()) {
       result = value.formatArg(arg.toNumber(exec));

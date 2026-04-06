@@ -162,14 +162,14 @@ QScriptContextInfoPrivate::QScriptContextInfoPrivate(const QScriptContext *conte
    {
       JSC::SourceProvider *source = codeBlock->source();
       scriptId = source->asID();
-      fileName = source->url();
+      fileName = QScript::convertToString(source->url());
    }
 
    // Get the others information:
    JSC::JSObject *callee = frame->callee();
    if (callee && callee->inherits(&JSC::InternalFunction::s_info))
    {
-      functionName = JSC::asInternalFunction(callee)->name(frame);
+      functionName = QScript::convertToString(JSC::asInternalFunction(callee)->name(frame));
    }
 
    if (callee && callee->inherits(&JSC::JSFunction::s_info) && !JSC::asFunction(callee)->isHostFunction())

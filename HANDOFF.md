@@ -2,6 +2,36 @@
 
 ## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
+- Confirmed the active detached linked-build investigation remained running:
+  - wrapper PID `149944`
+  - observed worker processes still active during polling included:
+    - `MSBuild` PID `155824`
+    - `cl` PID `98360`
+- Revalidated current probe state:
+  - `csscript-with-refs-background.out.log` and `.err.log` were still zero-length during this session
+  - `CsCore2.1.lib` was still absent from `build-vs2019-script-probe5/lib/Release/` before staging
+- Investigated the validated main build tree and confirmed it already contains the needed BTK core artifacts:
+  - `build-vs2019/lib/Release/CsCore2.1.lib`
+  - `build-vs2019/bin/Release/CsCore2.1.dll`
+- Added reusable staging helper:
+  - `scripts/stage_probe_core_artifacts.ps1`
+- Used the validated main build artifacts to stage the currently missing probe-local files into:
+  - `build-vs2019-script-probe5/lib/Release/CsCore2.1.lib`
+  - `build-vs2019-script-probe5/bin/Release/CsCore2.1.dll`
+- Preserved the active detached linked-build investigation instead of restarting or killing it after staging.
+- Added new docs:
+  - `docs/ai/design/2026-04-06-csscript-probe-artifact-staging.md`
+  - `docs/ai/implementation/2026-04-06-csscript-probe-artifact-staging.md`
+  - `docs/ai/testing/2026-04-06-csscript-probe-artifact-staging-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.9`.
+- Current truthful state:
+  - compile-only `CsScript` remains successful in `probe5`
+  - the active detached linked build is still running
+  - the previously missing `CsCore` probe-local artifacts are now staged in place
+  - the next agent should poll whether the running linked build now progresses beyond the former missing-`CsCore2.1.lib` stop and capture the next linked frontier if it appears
+
+## Latest Session Additions
+- Performed another fresh process audit and continued without terminating any running processes.
 - Investigated the new post-compile `CsScript` link frontier in `build-vs2019-script-probe5` instead of reverting to broad source churn.
 - Revalidated current state:
   - `MSBuild /t:ClCompile` for `build-vs2019-script-probe5/src/script/CsScript.vcxproj` succeeds with `0` errors

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.1.9 - 2026-04-06
+- added a reusable staging helper for probe-local BTK core artifacts: `scripts/stage_probe_core_artifacts.ps1`
+- staged `CsCore2.1.lib` and `CsCore2.1.dll` from the validated `build-vs2019` tree into `build-vs2019-script-probe5` at the exact paths expected by `CsScript.vcxproj`
+- documented the probe artifact-staging rationale, implementation, and validation evidence
+- preserved the active detached linked-build investigation while narrowing the isolated link/materialization frontier
+
 ## 0.1.8 - 2026-04-06
 - investigated the new post-compile `CsScript` link-materialization frontier in `build-vs2019-script-probe5`
 - confirmed `CsScript.vcxproj` explicitly links `..\\..\\lib\\Release\\CsCore2.1.lib` while `CsCore.vcxproj` is configured to emit that import library at the matching probe-local path

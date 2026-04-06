@@ -2,6 +2,40 @@
 
 ## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
+- Investigated the new post-compile `CsScript` link frontier in `build-vs2019-script-probe5` instead of reverting to broad source churn.
+- Revalidated current state:
+  - `MSBuild /t:ClCompile` for `build-vs2019-script-probe5/src/script/CsScript.vcxproj` succeeds with `0` errors
+  - full isolated `CsScript` build with project references disabled still fails at:
+    - `LINK : fatal error LNK1181: cannot open input file '..\\..\\lib\\Release\\CsCore2.1.lib'`
+- Inspected:
+  - `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+  - `build-vs2019-script-probe5/src/core/CsCore.vcxproj`
+- Confirmed the link/materialization relationship is internally consistent:
+  - `CsScript.vcxproj` explicitly links `..\\..\\lib\\Release\\CsCore2.1.lib`
+  - `CsCore.vcxproj` is configured to emit `build-vs2019-script-probe5/lib/Release/CsCore2.1.lib`
+  - `CsScript` retains a `ProjectReference` to `CsCore`, but uses `LinkLibraryDependencies=false`, so the import library must still be materialized at the expected path before Script can link in the isolated probe
+- Added a new detached linked-build helper:
+  - `build-vs2019-script-probe5/run_csscript_with_refs_background_wmi.ps1`
+- Launched the detached linked-build investigation with project references enabled:
+  - wrapper PID `149944`
+  - observed active child work during polling:
+    - `MSBuild` PID `155824`
+    - `cl` PID `98360`
+  - logs:
+    - `build-vs2019-script-probe5/csscript-with-refs-background.out.log`
+    - `build-vs2019-script-probe5/csscript-with-refs-background.err.log`
+- At the time of observation:
+  - the detached linked-build logs were still zero-length
+  - `CsCore2.1.lib` was still not yet materialized in the probe tree
+  - the detached linked build remained active by design
+- Added new docs:
+  - `docs/ai/design/2026-04-06-csscript-link-materialization-frontier.md`
+  - `docs/ai/implementation/2026-04-06-csscript-link-materialization-investigation.md`
+  - `docs/ai/testing/2026-04-06-csscript-link-materialization-investigation-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.8`.
+
+## Latest Session Additions
+- Performed another fresh process audit and continued without terminating any running processes.
 - Continued Stage A `CsScript` recovery by attacking the reduced QObject bridge frontier.
 - Updated:
   - `src/script/bridge/qscriptqobject.cpp`

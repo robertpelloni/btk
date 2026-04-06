@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.1.8 - 2026-04-06
+- investigated the new post-compile `CsScript` link-materialization frontier in `build-vs2019-script-probe5`
+- confirmed `CsScript.vcxproj` explicitly links `..\\..\\lib\\Release\\CsCore2.1.lib` while `CsCore.vcxproj` is configured to emit that import library at the matching probe-local path
+- revalidated that compile-only `CsScript` succeeds while full isolated linked validation still stops at the missing `CsCore2.1.lib` boundary when project references are disabled
+- added a detached persisted-log linked-build helper with project references enabled: `build-vs2019-script-probe5/run_csscript_with_refs_background_wmi.ps1`
+- launched a new detached linked-build investigation without killing existing processes and documented the live wrapper / worker PIDs plus the new logs to monitor
+- documented the link-materialization frontier and investigation evidence in new design / implementation / testing docs
+
 ## 0.1.7 - 2026-04-06
 - contracted the reduced `CsScript` QObject bridge frontier across `qscriptqobject.cpp` / `qscriptqobject_p.h`
 - added current host-call / host-construct proxy entry points for `QtFunction`, `QtPropertyFunction`, and `QMetaObjectWrapperObject`

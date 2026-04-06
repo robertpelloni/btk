@@ -2,6 +2,48 @@
 
 ## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
+- Continued Stage A `CsScript` recovery with a focused engine/value contraction pass rather than another pure capture pass.
+- Updated the embedded host-wrapper compatibility layer so restored Script call sites can target both legacy wrapper signatures and current JSC native-function signatures:
+  - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/NativeFunctionWrapper.h`
+  - `src/3rdparty/webkit/Source/JavaScriptCore/runtime/PrototypeFunction.h`
+- Contracted the previous `qscriptengine.cpp` / `qscriptvalue.cpp`-dominated frontier by updating:
+  - `src/script/api/qscriptengine.cpp`
+  - `src/script/api/qscriptprogram.cpp`
+  - `src/script/api/qscriptprogram_p.h`
+  - `src/script/api/qscriptvalue.cpp`
+  - plus local compatibility cleanups in:
+    - `src/script/bridge/qscriptobject.cpp`
+    - `src/script/bridge/qscriptvariant.cpp`
+- Main contractions completed in this session:
+  - replaced removed eval/debugger helpers with current equivalents (`globalData().exception`, `Debugger::exception(...)`, current `Interpreter::execute(...)` form)
+  - removed stale `RefPtr<EvalExecutable>` assumptions and restored raw `JSC::EvalExecutable *` caching in `QScriptProgramPrivate`
+  - replaced old `jsNumber(exec, ...)`, `JSValue::getCallData(...)`, and `JSValue::getConstructData(...)` assumptions with current JSC helper forms
+  - updated `setPrototype(...)`, `removeDirect(...)`, and `putDirect(...)` call sites to current `JSGlobalData&` signatures
+  - pushed additional `QString` / `UString` conversions through `QScript::toUString(...)`, `QScript::convertToString(...)`, and `QScript::toIdentifier(...)`
+- Revalidated the direct MSVC Script probe against:
+  - `build-vs2019-script-probe5/src/script/CsScript.vcxproj`
+- Validation outcome:
+  - previous visible error count in the same probe style: `162`
+  - current visible error count after this pass: `78`
+- Confirmed the dominant first-failure hotspot is no longer `qscriptengine.cpp` / `qscriptvalue.cpp`.
+- The new reduced first-failure frontier is now centered primarily in:
+  - `src/script/bridge/qscriptqobject.cpp`
+- Representative newly exposed reduced errors now include:
+  - removed `Heap::isCellMarked(...)`
+  - `MarkStack::append(...)` barrier/root handling drift
+  - enum-style `TypeError` / `GeneralError` / `SyntaxError` drift
+  - `info` → `s_info` metadata drift
+  - old native function pointer assignments to current host ABI fields
+  - lingering `QString` / `UString` conversion mismatches in QObject bridge code
+  - remaining `getCallData(...)` / `setPrototype(...)` drift in bridge code
+- Added new docs:
+  - `docs/ai/design/2026-04-06-csscript-engine-value-contraction-pass.md`
+  - `docs/ai/implementation/2026-04-06-csscript-engine-value-contraction-pass.md`
+  - `docs/ai/testing/2026-04-06-csscript-engine-value-contraction-pass-validation.md`
+- Bumped project-local version/changelog tracking to `0.1.6`.
+
+## Latest Session Additions
+- Performed another fresh process audit and continued without terminating any running processes.
 - Re-established detached persisted-log `CsScript` probing in `build-vs2019-script-probe5` using a corrected WMI launch script format compatible with the earlier successful probe pattern.
 - Detached probe details:
   - wrapper PID `119160`

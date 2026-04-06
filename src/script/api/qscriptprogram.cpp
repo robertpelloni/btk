@@ -42,7 +42,7 @@ QScriptProgramPrivate::~QScriptProgramPrivate()
 {
    if (engine) {
       QScript::APIShim shim(engine);
-      _executable.clear();
+      _executable = nullptr;
       engine->unregisterScriptProgram(this);
    }
 }
@@ -57,12 +57,12 @@ JSC::EvalExecutable *QScriptProgramPrivate::executable(JSC::ExecState *exec,
 {
    if (_executable) {
       if (eng == engine) {
-         return _executable.get();
+         return _executable;
       }
 
       // "Migrating" to another engine; clean up old state
       QScript::APIShim shim(engine);
-      _executable.clear();
+      _executable = nullptr;
       engine->unregisterScriptProgram(this);
    }
 
@@ -74,12 +74,12 @@ JSC::EvalExecutable *QScriptProgramPrivate::executable(JSC::ExecState *exec,
    engine = eng;
    engine->registerScriptProgram(this);
    isCompiled = false;
-   return _executable.get();
+   return _executable;
 }
 
 void QScriptProgramPrivate::detachFromEngine()
 {
-   _executable.clear();
+   _executable = nullptr;
    sourceId = -1;
    isCompiled = false;
    engine = nullptr;

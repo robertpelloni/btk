@@ -53,7 +53,7 @@ class QScriptProgramPrivate : public QSharedData
    int firstLineNumber;
 
    QScriptEnginePrivate *engine;
-   WTF::RefPtr<JSC::EvalExecutable> _executable;
+   JSC::EvalExecutable *_executable;
    intptr_t sourceId;
    bool isCompiled;
 };

@@ -122,7 +122,6 @@ void QScriptObject::visitChildren(JSC::MarkStack &markStack)
    JSC::JSObject::visitChildren(markStack);
 
    if (d->data) {
-      markStack.append(&d->data);
    }
 
    if (d->delegate) {

@@ -16,6 +16,11 @@ namespace JSC {
             : NativeFunctionWrapper(exec, exec->lexicalGlobalObject()->prototypeFunctionStructure(), length, name, function)
         {
         }
+
+        PrototypeFunction(ExecState* exec, int length, const Identifier& name, NativeFunction function)
+            : NativeFunctionWrapper(exec, exec->lexicalGlobalObject()->prototypeFunctionStructure(), length, name, function)
+        {
+        }
     };
 
 } // namespace JSC

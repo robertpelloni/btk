@@ -380,11 +380,11 @@ JSC::JSValue JSC_HOST_CALL functionDisconnect(JSC::ExecState *exec, JSC::JSObjec
 {
 
    if (args.size() == 0) {
-      return JSC::throwError(exec, JSC::GeneralError, "Function.prototype.disconnect() No arguments passed");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.disconnect() No arguments passed"))));
    }
 
    if (! JSC::asObject(thisObject)->inherits(&QScript::QtFunction::info)) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.disconnect() Object is not a signal");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.disconnect() Object is not a signal"))));
    }
 
    QScript::QtFunction *qtSignal = static_cast<QScript::QtFunction *>(JSC::asObject(thisObject));
@@ -392,7 +392,7 @@ JSC::JSValue JSC_HOST_CALL functionDisconnect(JSC::ExecState *exec, JSC::JSObjec
    const QMetaObject *meta = qtSignal->metaObject();
 
    if (! meta) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.discconnect() Can not disconnect from deleted QObject");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.discconnect() Can not disconnect from deleted QObject"))));
    }
 
    QMetaMethod sig = meta->method(qtSignal->initialIndex());
@@ -402,7 +402,7 @@ JSC::JSValue JSC_HOST_CALL functionDisconnect(JSC::ExecState *exec, JSC::JSObjec
          .formatArg(qtSignal->metaObject()->className())
          .formatArg(sig.methodSignature());
 
-      return JSC::throwError(exec, JSC::TypeError, message);
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(message)));
    }
 
    QScriptEnginePrivate *engine = scriptEngineFromExec(exec);
@@ -427,7 +427,7 @@ JSC::JSValue JSC_HOST_CALL functionDisconnect(JSC::ExecState *exec, JSC::JSObjec
    }
 
    if (! isFunction(slot)) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.disconnect() Target is not a function");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.disconnect() Target is not a function"))));
    }
 
    bool ok = engine->scriptDisconnect(thisObject, receiver, slot);
@@ -436,7 +436,7 @@ JSC::JSValue JSC_HOST_CALL functionDisconnect(JSC::ExecState *exec, JSC::JSObjec
          .formatArg(qtSignal->metaObject()->className())
          .formatArg(sig.methodSignature());
 
-      return JSC::throwError(exec, JSC::GeneralError, message);
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(message)));
    }
 
    return JSC::jsUndefined();
@@ -446,18 +446,18 @@ JSC::JSValue JSC_HOST_CALL functionConnect(JSC::ExecState *exec, JSC::JSObject *
    const JSC::ArgList &args)
 {
    if (args.size() == 0) {
-      return JSC::throwError(exec, JSC::GeneralError, "Function.prototype.connect() No arguments passed");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.connect() No arguments passed"))));
    }
 
    if (!JSC::asObject(thisObject)->inherits(&QScript::QtFunction::info)) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.connect() Object is not a signal");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.connect() Object is not a signal"))));
    }
 
    QScript::QtFunction *qtSignal = static_cast<QScript::QtFunction *>(JSC::asObject(thisObject));
 
    const QMetaObject *meta = qtSignal->metaObject();
    if (!meta) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.connect() Can not connect to deleted QObject");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.connect() Can not connect to deleted QObject"))));
    }
 
    QMetaMethod sig = meta->method(qtSignal->initialIndex());
@@ -466,7 +466,7 @@ JSC::JSValue JSC_HOST_CALL functionConnect(JSC::ExecState *exec, JSC::JSObject *
          .formatArg(qtSignal->metaObject()->className())
          .formatArg(sig.methodSignature());
 
-      return JSC::throwError(exec, JSC::TypeError, message);
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(message)));
    }
 
    {
@@ -489,7 +489,7 @@ JSC::JSValue JSC_HOST_CALL functionConnect(JSC::ExecState *exec, JSC::JSObject *
          message.append(QString("Use e.g. object['%0'].connect() to connect to a particular overload")
             .formatArg(signature));
 
-         return JSC::throwError(exec, JSC::GeneralError, message);
+         return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(message)));
       }
    }
 
@@ -514,7 +514,7 @@ JSC::JSValue JSC_HOST_CALL functionConnect(JSC::ExecState *exec, JSC::JSObject *
    }
 
    if (!isFunction(slot)) {
-      return JSC::throwError(exec, JSC::TypeError, "Function.prototype.connect() Target is not a function");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Function.prototype.connect() Target is not a function"))));
    }
 
    bool ok = engine->scriptConnect(thisObject, receiver, slot, Qt::AutoConnection);
@@ -523,7 +523,7 @@ JSC::JSValue JSC_HOST_CALL functionConnect(JSC::ExecState *exec, JSC::JSObject *
          .formatArg(qtSignal->metaObject()->className())
          .formatArg(sig.methodSignature());
 
-      return JSC::throwError(exec, JSC::GeneralError, message);
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(message)));
    }
 
    return JSC::jsUndefined();
@@ -541,7 +541,7 @@ JSC::JSValue JSC_HOST_CALL functionPrint(JSC::ExecState *exec, JSC::JSObject *, 
       if (i != 0) {
          result.append(QLatin1Char(' '));
       }
-      QString s(args.at(i).toString(exec));
+      QString s = QScript::convertToString(args.at(i).toString(exec));
       if (exec->hadException()) {
          break;
       }
@@ -563,7 +563,8 @@ JSC::JSValue JSC_HOST_CALL functionGC(JSC::ExecState *exec, JSC::JSObject *, JSC
 
 JSC::JSValue JSC_HOST_CALL functionVersion(JSC::ExecState *exec, JSC::JSObject *, JSC::JSValue, const JSC::ArgList &)
 {
-   return JSC::JSValue(exec, 1);
+   Q_UNUSED(exec);
+   return JSC::jsNumber(1);
 }
 
 static JSC::JSValue JSC_HOST_CALL functionQsTranslate(JSC::ExecState *, JSC::JSObject *, JSC::JSValue,
@@ -581,19 +582,19 @@ JSC::JSValue JSC_HOST_CALL functionQsTranslate(JSC::ExecState *exec, JSC::JSObje
    const JSC::ArgList &args)
 {
    if (args.size() < 2) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTranslate() requires at least two arguments");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate() requires at least two arguments"))));
    }
 
    if (!args.at(0).isString()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTranslate(): first argument (context) must be a string");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate(): first argument (context) must be a string"))));
    }
 
    if (!args.at(1).isString()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTranslate(): second argument (text) must be a string");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate(): second argument (text) must be a string"))));
    }
 
    if ((args.size() > 2) && !args.at(2).isString()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTranslate(): third argument (comment) must be a string");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate(): third argument (comment) must be a string"))));
    }
 
    int n = -1;
@@ -606,7 +607,7 @@ JSC::JSValue JSC_HOST_CALL functionQsTranslate(JSC::ExecState *exec, JSC::JSObje
             if (args.at(4).isNumber()) {
                n = args.at(4).toInt32(exec);
             } else {
-               return JSC::throwError(exec, JSC::GeneralError, "qsTranslate(): fifth argument (n) must be a number");
+               return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate(): fifth argument (n) must be a number"))));
             }
          }
 
@@ -614,7 +615,7 @@ JSC::JSValue JSC_HOST_CALL functionQsTranslate(JSC::ExecState *exec, JSC::JSObje
          n = args.at(3).toInt32(exec);
 
       } else {
-         return JSC::throwError(exec, JSC::GeneralError, "qsTranslate(): fourth argument (n) must be a number");
+         return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTranslate(): fourth argument (n) must be a number"))));
       }
    }
 
@@ -628,9 +629,12 @@ JSC::JSValue JSC_HOST_CALL functionQsTranslate(JSC::ExecState *exec, JSC::JSObje
 
    JSC::UString result;
 
-   // pass the encoding
-   result = QCoreApplication::translate(context.UTF8String().c_str(), text.UTF8String().c_str(),
-            comment.UTF8String().c_str(), n);
+   const QByteArray contextUtf8 = QScript::convertToString(context).toUtf8();
+   const QByteArray textUtf8 = QScript::convertToString(text).toUtf8();
+   const QByteArray commentUtf8 = QScript::convertToString(comment).toUtf8();
+
+   result = QScript::toUString(QCoreApplication::translate(contextUtf8.constData(), textUtf8.constData(),
+            commentUtf8.constData(), n));
 
    return JSC::jsString(exec, result);
 }
@@ -647,16 +651,16 @@ JSC::JSValue JSC_HOST_CALL functionQsTranslateNoOp(JSC::ExecState *, JSC::JSObje
 JSC::JSValue JSC_HOST_CALL functionQsTr(JSC::ExecState *exec, JSC::JSObject *, JSC::JSValue, const JSC::ArgList &args)
 {
    if (args.size() < 1) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTr() requires at least one argument");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTr() requires at least one argument"))));
    }
    if (!args.at(0).isString()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTr(): first argument (text) must be a string");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTr(): first argument (text) must be a string"))));
    }
    if ((args.size() > 1) && !args.at(1).isString()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTr(): second argument (comment) must be a string");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTr(): second argument (comment) must be a string"))));
    }
    if ((args.size() > 2) && !args.at(2).isNumber()) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTr(): third argument (n) must be a number");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTr(): third argument (n) must be a number"))));
    }
 
    QScriptEnginePrivate *engine = scriptEngineFromExec(exec);
@@ -690,8 +694,12 @@ JSC::JSValue JSC_HOST_CALL functionQsTr(JSC::ExecState *exec, JSC::JSObject *, J
 
    JSC::UString result;
 
-   result = QCoreApplication::translate(context.UTF8String().c_str(), text.UTF8String().c_str(),
-            comment.UTF8String().c_str(), n);
+   const QByteArray contextUtf8 = QScript::convertToString(context).toUtf8();
+   const QByteArray textUtf8 = QScript::convertToString(text).toUtf8();
+   const QByteArray commentUtf8 = QScript::convertToString(comment).toUtf8();
+
+   result = QScript::toUString(QCoreApplication::translate(contextUtf8.constData(), textUtf8.constData(),
+            commentUtf8.constData(), n));
 
    return JSC::jsString(exec, result);
 }
@@ -707,20 +715,21 @@ JSC::JSValue JSC_HOST_CALL functionQsTrNoOp(JSC::ExecState *, JSC::JSObject *, J
 JSC::JSValue JSC_HOST_CALL functionQsTrId(JSC::ExecState *exec, JSC::JSObject *, JSC::JSValue, const JSC::ArgList &args)
 {
    if (args.size() < 1) {
-      return JSC::throwError(exec, JSC::GeneralError, "qsTrId() requires at least one argument");
+      return JSC::throwError(exec, JSC::createError(exec, QScript::toUString(QString::fromLatin1("qsTrId() requires at least one argument"))));
    }
    if (!args.at(0).isString()) {
-      return JSC::throwError(exec, JSC::TypeError, "qsTrId(): first argument (id) must be a string");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("qsTrId(): first argument (id) must be a string"))));
    }
    if ((args.size() > 1) && !args.at(1).isNumber()) {
-      return JSC::throwError(exec, JSC::TypeError, "qsTrId(): second argument (n) must be a number");
+      return JSC::throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("qsTrId(): second argument (n) must be a number"))));
    }
    JSC::UString id = args.at(0).toString(exec);
    int n = -1;
    if (args.size() > 1) {
       n = args.at(1).toInt32(exec);
    }
-   return JSC::jsString(exec, QScript::toUString(qtTrId(id.UTF8String().c_str(), n)));
+   const QByteArray idUtf8 = QScript::convertToString(id).toUtf8();
+   return JSC::jsString(exec, QScript::toUString(qtTrId(idUtf8.constData(), n)));
 }
 
 JSC::JSValue JSC_HOST_CALL functionQsTrIdNoOp(JSC::ExecState *, JSC::JSObject *, JSC::JSValue, const JSC::ArgList &args)
@@ -737,7 +746,7 @@ static JSC::JSValue JSC_HOST_CALL stringProtoFuncArg(JSC::ExecState *, JSC::JSOb
 JSC::JSValue JSC_HOST_CALL stringProtoFuncArg(JSC::ExecState *exec, JSC::JSObject *, JSC::JSValue thisObject,
    const JSC::ArgList &args)
 {
-   QString value(thisObject.toString(exec));
+   QString value = QScript::convertToString(thisObject.toString(exec));
    JSC::JSValue arg = (args.size() != 0) ? args.at(0) : JSC::jsUndefined();
    QString result;
 
@@ -787,7 +796,7 @@ QScriptEnginePrivate::QScriptEnginePrivate()
 
    JSC::initializeThreading();
    JSC::IdentifierTable *oldTable = wtfThreadData().currentIdentifierTable();
-   globalData = JSC::JSGlobalData::create().releaseRef();
+   globalData = JSC::JSGlobalData::create(JSC::ThreadStackTypeLarge).releaseRef();
    globalData->clientData = new QScript::GlobalClientData(this);
    JSC::JSGlobalObject *globalObject = new (globalData)QScript::GlobalObject(*globalData);
 
@@ -797,21 +806,21 @@ QScriptEnginePrivate::QScriptEnginePrivate()
    staticScopeObjectStructure = QScriptStaticScopeObject::createStructure(*globalData, JSC::jsNull());
 
    qobjectPrototype = new (exec) QScript::QObjectPrototype(exec,
-      QScript::QObjectPrototype::createStructure(globalObject->objectPrototype()),
+      QScript::QObjectPrototype::createStructure(*globalData, globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
 
-   qobjectWrapperObjectStructure = QScriptObject::createStructure(*globalData, qobjectPrototype);
+   qobjectWrapperObjectStructure = QScriptObject::createStructure(*globalData, JSC::JSValue(qobjectPrototype));
 
    qmetaobjectPrototype = new (exec) QScript::QMetaObjectPrototype(exec,
-      QScript::QMetaObjectPrototype::createStructure(globalObject->objectPrototype()),
+      QScript::QMetaObjectPrototype::createStructure(*globalData, globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
 
-   qmetaobjectWrapperObjectStructure = QScript::QMetaObjectWrapperObject::createStructure(*globalData, qmetaobjectPrototype);
+   qmetaobjectWrapperObjectStructure = QScript::QMetaObjectWrapperObject::createStructure(*globalData, JSC::JSValue(qmetaobjectPrototype));
 
    variantPrototype = new (exec) QScript::QVariantPrototype(exec,
-      QScript::QVariantPrototype::createStructure(globalObject->objectPrototype()),
+      QScript::QVariantPrototype::createStructure(*globalData, globalObject->objectPrototype()),
       globalObject->prototypeFunctionStructure());
-   variantWrapperObjectStructure = QScriptObject::createStructure(*globalData, variantPrototype);
+   variantWrapperObjectStructure = QScriptObject::createStructure(*globalData, JSC::JSValue(variantPrototype));
 
    globalObject->putDirectFunction(exec, new (exec)JSC::NativeFunctionWrapper(exec,
          globalObject->prototypeFunctionStructure(), 1, JSC::Identifier(exec, "print"), QScript::functionPrint));
@@ -828,10 +837,6 @@ QScriptEnginePrivate::QScriptEnginePrivate()
 
    globalObject->functionPrototype()->putDirectFunction(exec, new (exec)JSC::NativeFunctionWrapper(exec,
          globalObject->prototypeFunctionStructure(), 1, JSC::Identifier(exec, "connect"), QScript::functionConnect));
-
-   JSC::TimeoutChecker *originalChecker = globalData->timeoutChecker;
-   globalData->timeoutChecker = new QScript::TimeoutCheckerProxy(*originalChecker);
-   delete originalChecker;
 
    currentFrame = exec;
 
@@ -898,7 +903,7 @@ JSC::JSValue QScriptEnginePrivate::arrayFromStringList(JSC::ExecState *exec, con
 {
    JSC::JSValue arr =  newArray(exec, lst.size());
    for (int i = 0; i < lst.size(); ++i) {
-      setProperty(exec, arr, i, JSC::jsString(exec, lst.at(i)));
+      setProperty(exec, arr, i, JSC::jsString(exec, QScript::toUString(lst.at(i))));
    }
 
    return arr;
@@ -909,7 +914,7 @@ QStringList QScriptEnginePrivate::stringListFromArray(JSC::ExecState *exec, JSC:
    QStringList lst;
    uint len = toUInt32(exec, property(exec, arr, exec->propertyNames().length));
    for (uint i = 0; i < len; ++i) {
-      lst.append(toString(exec, property(exec, arr, i)));
+      lst.append(QScript::convertToString(toString(exec, property(exec, arr, i))));
    }
    return lst;
 }
@@ -946,7 +951,7 @@ JSC::JSValue QScriptEnginePrivate::objectFromVariantMap(JSC::ExecState *exec, co
    JSC::JSValue obj = JSC::constructEmptyObject(exec);
    QVariantMap::const_iterator it;
    for (it = vmap.constBegin(); it != vmap.constEnd(); ++it) {
-      setProperty(exec, obj, it.key(), jscValueFromVariant(exec, it.value()));
+      setProperty(exec, obj, QScript::toUString(it.key()), jscValueFromVariant(exec, it.value()));
    }
    return obj;
 }
@@ -963,7 +968,7 @@ QVariantMap QScriptEnginePrivate::variantMapFromObject(JSC::ExecState *exec, JSC
    QVariantMap vmap;
    JSC::PropertyNameArray::const_iterator it = propertyNames.begin();
    for ( ; it != propertyNames.end(); ++it) {
-      vmap.insert(it->ustring(), toVariant(exec, property(exec, obj, *it)));
+      vmap.insert(QScript::convertToString(it->ustring()), toVariant(exec, property(exec, obj, *it)));
    }
    eng->visitedConversionObjects.remove(obj);
    return vmap;
@@ -990,13 +995,16 @@ void QScriptEnginePrivate::setDefaultPrototype(int metaTypeId, JSC::JSValue prot
 
 JSC::JSGlobalObject *QScriptEnginePrivate::originalGlobalObject() const
 {
-   return globalData->head;
+   if (! currentFrame) {
+      return nullptr;
+   }
+   return currentFrame->lexicalGlobalObject();
 }
 
 JSC::JSObject *QScriptEnginePrivate::customGlobalObject() const
 {
    QScript::GlobalObject *glob = static_cast<QScript::GlobalObject *>(originalGlobalObject());
-   return glob->customGlobalObject;
+   return glob ? glob->customGlobalObject.get() : nullptr;
 }
 
 JSC::JSObject *QScriptEnginePrivate::getOriginalGlobalObjectProxy()
@@ -1012,8 +1020,8 @@ JSC::JSObject *QScriptEnginePrivate::getOriginalGlobalObjectProxy()
 JSC::JSObject *QScriptEnginePrivate::globalObject() const
 {
    QScript::GlobalObject *glob = static_cast<QScript::GlobalObject *>(originalGlobalObject());
-   if (glob->customGlobalObject) {
-      return glob->customGlobalObject;
+   if (glob && glob->customGlobalObject) {
+      return glob->customGlobalObject.get();
    }
    return glob;
 }
@@ -1025,17 +1033,18 @@ void QScriptEnginePrivate::setGlobalObject(JSC::JSObject *object)
    }
 
    QScript::GlobalObject *glob = static_cast<QScript::GlobalObject *>(originalGlobalObject());
+   if (! glob) {
+      return;
+   }
 
    if (object == originalGlobalObjectProxy) {
-      glob->customGlobalObject = nullptr;
-      // Sync the internal prototype, since JSObject::prototype() is not virtual.
-      glob->setPrototype(originalGlobalObjectProxy->prototype());
+      glob->customGlobalObject.clear();
+      glob->setPrototype(glob->globalData(), originalGlobalObjectProxy->prototype());
 
    } else {
       Q_ASSERT(object != originalGlobalObject());
-      glob->customGlobalObject = object;
-      // Sync the internal prototype, since JSObject::prototype() is not virtual.
-      glob->setPrototype(object->prototype());
+      glob->customGlobalObject.set(glob->globalData(), glob, object);
+      glob->setPrototype(glob->globalData(), object->prototype());
    }
 }
 
@@ -1063,7 +1072,7 @@ JSC::JSValue QScriptEnginePrivate::toUsableValue(JSC::JSValue value)
 JSC::JSValue QScriptEnginePrivate::thisForContext(JSC::ExecState *frame)
 {
    if (frame->codeBlock() != nullptr) {
-      return frame->thisValue();
+      return frame->uncheckedR(frame->codeBlock()->thisRegister()).jsValue();
 
    } else if (frame == frame->lexicalGlobalObject()->globalExec()) {
       return frame->globalThisValue();
@@ -1083,76 +1092,19 @@ JSC::Register *QScriptEnginePrivate::thisRegisterForFrame(JSC::ExecState *frame)
 // internal (cs)
 uint QScriptEnginePrivate::contextFlags(JSC::ExecState *exec)
 {
-   if (exec->codeBlock()) {
-      return 0;   //js function doesn't have flags
-   }
-
-   return exec->returnValueRegister();
+   Q_UNUSED(exec);
+   return 0;
 }
 
 void QScriptEnginePrivate::setContextFlags(JSC::ExecState *exec, uint flags)
 {
-   Q_ASSERT(!exec->codeBlock());
-   exec->registers()[JSC::RegisterFile::ReturnValueRegister] = JSC::Register::withInt(flags);
+   Q_UNUSED(exec);
+   Q_UNUSED(flags);
 }
 
 void QScriptEnginePrivate::mark(JSC::MarkStack &markStack)
 {
-   Q_Q(QScriptEngine);
-
-   if (originalGlobalObject()) {
-      markStack.append(originalGlobalObject());
-      markStack.append(globalObject());
-      if (originalGlobalObjectProxy) {
-         markStack.append(originalGlobalObjectProxy);
-      }
-   }
-
-   if (qobjectPrototype) {
-      markStack.append(qobjectPrototype);
-   }
-   if (qmetaobjectPrototype) {
-      markStack.append(qmetaobjectPrototype);
-   }
-   if (variantPrototype) {
-      markStack.append(variantPrototype);
-   }
-
-   {
-      QScriptValuePrivate *it;
-      for (it = registeredScriptValues; it != nullptr; it = it->next) {
-         if (it->isJSC()) {
-            markStack.append(it->jscValue);
-         }
-      }
-   }
-
-   {
-      QHash<int, QScriptTypeInfo *>::const_iterator it;
-      for (it = m_typeInfos.constBegin(); it != m_typeInfos.constEnd(); ++it) {
-         if ((*it)->prototype) {
-            markStack.append((*it)->prototype);
-         }
-      }
-   }
-
-   if (q) {
-      QScriptContext *context = q->currentContext();
-
-      while (context) {
-         JSC::ScopeChainNode *node = frameForContext(context)->scopeChain();
-         JSC::ScopeChainIterator it(node);
-
-         for (it = node->begin(); it != node->end(); ++it) {
-            JSC::JSObject *object = *it;
-            if (object) {
-               markStack.append(object);
-            }
-         }
-
-         context = context->parentContext();
-      }
-   }
+   Q_UNUSED(markStack);
    markQObjectData(markStack);
 }
 
@@ -1176,7 +1128,7 @@ void QScriptEnginePrivate::reportAdditionalMemoryCost(int size)
 
 QScript::TimeoutCheckerProxy *QScriptEnginePrivate::timeoutChecker() const
 {
-   return static_cast<QScript::TimeoutCheckerProxy *>(globalData->timeoutChecker);
+   return nullptr;
 }
 
 void QScriptEnginePrivate::agentDeleted(QScriptEngineAgent *agent)
@@ -1199,22 +1151,18 @@ JSC::JSValue QScriptEnginePrivate::evaluateHelper(JSC::ExecState *exec, intptr_t
    q->currentContext()->activationObject(); //force the creation of a context for native function;
 
    JSC::Debugger *debugger = originalGlobalObject()->debugger();
-   if (debugger) {
-      debugger->evaluateStart(sourceId);
-   }
 
    q->clearExceptions();
-   JSC::DynamicGlobalObjectScope dynamicGlobalObjectScope(exec, exec->scopeChain()->globalObject);
+   JSC::DynamicGlobalObjectScope dynamicGlobalObjectScope(exec->globalData(), exec->scopeChain()->globalObject.get());
 
-   if (compile && !executable->isCompiled()) {
+   if (compile) {
       JSC::JSObject *error = executable->compile(exec, exec->scopeChain());
       if (error) {
          compile = false;
-         exec->setException(error);
+         exec->globalData().exception = error;
 
          if (debugger) {
-            debugger->exceptionThrow(JSC::DebuggerCallFrame(exec, error), sourceId, false);
-            debugger->evaluateStop(error, sourceId);
+            debugger->exception(JSC::DebuggerCallFrame(exec, error), sourceId, -1, false);
          }
 
          inEval = temp;
@@ -1225,41 +1173,34 @@ JSC::JSValue QScriptEnginePrivate::evaluateHelper(JSC::ExecState *exec, intptr_t
    JSC::JSValue thisValue = thisForContext(exec);
    JSC::JSObject *thisObject = (!thisValue || thisValue.isUndefinedOrNull())
       ? exec->dynamicGlobalObject() : thisValue.toObject(exec);
-   JSC::JSValue exceptionValue;
-   timeoutChecker()->setShouldAbort(false);
+   if (timeoutChecker()) {
+      timeoutChecker()->setShouldAbort(false);
 
-   if (processEventsInterval > 0) {
-      timeoutChecker()->reset();
+      if (processEventsInterval > 0) {
+         timeoutChecker()->reset();
+      }
    }
 
-   JSC::JSValue result = exec->interpreter()->execute(executable, exec, thisObject, exec->scopeChain(), &exceptionValue);
+   JSC::JSValue result = exec->interpreter()->execute(executable, exec, thisObject, exec->scopeChain());
 
-   if (timeoutChecker()->shouldAbort()) {
+   if (timeoutChecker() && timeoutChecker()->shouldAbort()) {
       if (abortResult.isError()) {
-         exec->setException(scriptValueToJSCValue(abortResult));
-      }
-
-      if (debugger) {
-         debugger->evaluateStop(scriptValueToJSCValue(abortResult), sourceId);
+         exec->globalData().exception = scriptValueToJSCValue(abortResult);
       }
 
       inEval = temp;
       return scriptValueToJSCValue(abortResult);
    }
 
-   if (exceptionValue) {
-      exec->setException(exceptionValue);
+   if (exec->hadException()) {
+      JSC::JSValue exceptionValue = exec->exception();
 
       if (debugger) {
-         debugger->evaluateStop(exceptionValue, sourceId);
+         debugger->exception(JSC::DebuggerCallFrame(exec, exceptionValue), sourceId, -1, false);
       }
 
       inEval = temp;
       return exceptionValue;
-   }
-
-   if (debugger) {
-      debugger->evaluateStop(result, sourceId);
    }
 
    Q_ASSERT(!exec->hadException());
@@ -1298,7 +1239,7 @@ void QScriptEnginePrivate::uncaughtException(JSC::ExecState *exec, unsigned byte
 
    QScript::SaveFrameHelper saveFrame(this, exec);
 
-   uncaughtExceptionLineNumber = exec->codeBlock()->lineNumberForBytecodeOffset(exec, bytecodeOffset);
+   uncaughtExceptionLineNumber = exec->codeBlock()->lineNumberForBytecodeOffset(bytecodeOffset);
 
    if (isLikelyStackOverflowError(exec, value)) {
       // Don't save the backtrace, it's likely to take forever to create.
@@ -1383,7 +1324,7 @@ JSC::JSValue QScriptEnginePrivate::newQObject(QObject *object, QScriptEngine::Va
             JSC::JSValue proto = defaultPrototype(typeId);
 
             if (proto) {
-               result->setPrototype(proto);
+               result->setPrototype(currentFrame->globalData(), proto);
                break;
             }
          }
@@ -1598,26 +1539,22 @@ JSC::JSValue QScriptEnginePrivate::newRegExp(JSC::ExecState *exec, const QRegula
    JSC::ArgList args(buf, sizeof(buf));
 
    QString pattern = cs_internal_regexp_toCanonical(regexp.pattern(), regexp.patternOptions());
-
-   JSC::UString jscPattern = pattern;
    QString flags;
 
    if (regexp.patternOptions() & QPatternOption::CaseInsensitiveOption) {
-      flags.append('i');
+      flags.append(QLatin1Char('i'));
    }
 
-   JSC::UString jscFlags = flags;
-   buf[0] = JSC::jsString(exec, jscPattern);
-   buf[1] = JSC::jsString(exec, jscFlags);
+   buf[0] = JSC::jsString(exec, QScript::toUString(pattern));
+   buf[1] = JSC::jsString(exec, QScript::toUString(flags));
 
-   return JSC::constructRegExp(exec, args);
+   return JSC::constructRegExp(exec, exec->lexicalGlobalObject(), args);
 }
 
 JSC::JSValue QScriptEnginePrivate::newRegExp(JSC::ExecState *exec, const QString &pattern, const QString &flags)
 {
    JSC::JSValue buf[2];
    JSC::ArgList args(buf, sizeof(buf));
-   JSC::UString jscPattern = pattern;
    QString strippedFlags;
 
    if (flags.contains(QLatin1Char('i'))) {
@@ -1632,11 +1569,10 @@ JSC::JSValue QScriptEnginePrivate::newRegExp(JSC::ExecState *exec, const QString
       strippedFlags += QLatin1Char('g');
    }
 
-   JSC::UString jscFlags = strippedFlags;
-   buf[0] = JSC::jsString(exec, jscPattern);
-   buf[1] = JSC::jsString(exec, jscFlags);
+   buf[0] = JSC::jsString(exec, QScript::toUString(pattern));
+   buf[1] = JSC::jsString(exec, QScript::toUString(strippedFlags));
 
-   return JSC::constructRegExp(exec, args);
+   return JSC::constructRegExp(exec, exec->lexicalGlobalObject(), args);
 }
 
 JSC::JSValue QScriptEnginePrivate::newVariant(const QVariant &value)
@@ -1646,7 +1582,7 @@ JSC::JSValue QScriptEnginePrivate::newVariant(const QVariant &value)
    JSC::JSValue proto = defaultPrototype(value.userType());
 
    if (proto) {
-      obj->setPrototype(proto);
+      obj->setPrototype(currentFrame->globalData(), proto);
    }
    return obj;
 }
@@ -1677,7 +1613,7 @@ QRegularExpression QScriptEnginePrivate::toRegExp(JSC::ExecState *exec, JSC::JSV
       return QRegularExpression();
    }
 
-   QString pattern = toString(exec, property(exec, value, "source", QScriptValue::ResolvePrototype));
+   QString pattern = QScript::convertToString(toString(exec, property(exec, value, "source", QScriptValue::ResolvePrototype)));
    QPatternOptionFlags flags = QPatternOption::NoPatternOption;
 
    if (toBool(exec, property(exec, value, "ignoreCase", QScriptValue::ResolvePrototype))) {
@@ -1724,7 +1660,7 @@ QVariant QScriptEnginePrivate::toVariant(JSC::ExecState *exec, JSC::JSValue valu
    } else if (value.isDouble()) {
       return QVariant(toNumber(exec, value));
    } else if (value.isString()) {
-      return QVariant(toString(exec, value));
+      return QVariant(QScript::convertToString(toString(exec, value)));
    } else if (value.isBoolean()) {
       return QVariant(toBool(exec, value));
    }
@@ -1819,7 +1755,7 @@ void QScriptEnginePrivate::setProperty(JSC::ExecState *exec, JSC::JSValue object
       // setting the value
       if (getter && getter.isObject() && !(setter && setter.isObject())) {
          qWarning("QScriptValue::setProperty() failed: "
-            "property '%s' has a getter but no setter", csPrintable(QString(id.ustring())));
+            "property '%s' has a getter but no setter", csPrintable(QScript::convertToString(id.ustring())));
          return;
       }
 
@@ -2211,15 +2147,15 @@ QScriptValue QScriptEngine::evaluate(const QString &program, const QString &file
    Q_D(QScriptEngine);
    QScript::APIShim shim(d);
    WTF::PassRefPtr<QScript::UStringSourceProviderWithFeedback> provider
-      = QScript::UStringSourceProviderWithFeedback::create(program, fileName, lineNumber, d);
+      = QScript::UStringSourceProviderWithFeedback::create(QScript::toUString(program), QScript::toUString(fileName), lineNumber, d);
    intptr_t sourceId = provider->asID();
    JSC::SourceCode source(provider, lineNumber); //after construction of SourceCode provider variable will be null.
 
    JSC::ExecState *exec = d->currentFrame;
-   WTF::RefPtr<JSC::EvalExecutable> executable = JSC::EvalExecutable::create(exec, source);
+   JSC::EvalExecutable *executable = JSC::EvalExecutable::create(exec, source, false);
    bool compile = true;
 
-   return d->scriptValueFromJSCValue(d->evaluateHelper(exec, sourceId, executable.get(), compile));
+   return d->scriptValueFromJSCValue(d->evaluateHelper(exec, sourceId, executable, compile));
 }
 
 QScriptValue QScriptEngine::evaluate(const QScriptProgram &program)
@@ -2279,7 +2215,7 @@ JSC::CallFrame *QScriptEnginePrivate::pushContext(JSC::CallFrame *exec, JSC::JSV
    if (calledAsConstructor) {
       //JSC doesn't create default created object for native functions. so we do it
       JSC::JSValue prototype = callee->get(exec, exec->propertyNames().prototype);
-      JSC::Structure *structure = prototype.isObject() ? JSC::asObject(prototype)->inheritorID()
+      JSC::Structure *structure = prototype.isObject() ? JSC::asObject(prototype)->inheritorID(exec->globalData())
          : originalGlobalObject()->emptyObjectStructure();
       thisObject = new (exec) QScriptObject(&exec->globalData(), structure);
    }
@@ -2292,7 +2228,7 @@ JSC::CallFrame *QScriptEnginePrivate::pushContext(JSC::CallFrame *exec, JSC::JSV
    //build a frame
    JSC::CallFrame *newCallFrame = exec;
 
-   if (callee == nullptr || exec->returnPC() == nullptr || (contextFlags(exec) & NativeContext)
+   if (callee == nullptr || exec->codeBlock() == nullptr || (contextFlags(exec) & NativeContext)
             || (exec->codeBlock() && exec->callee() != callee)) {
 
       // interpreter did not build a frame for us,  need to check if the Interpreter might have already created
@@ -2317,7 +2253,7 @@ JSC::CallFrame *QScriptEnginePrivate::pushContext(JSC::CallFrame *exec, JSC::JSV
       }
 
       newCallFrame += argc + JSC::RegisterFile::CallFrameHeaderSize;
-      newCallFrame->init(nullptr, nullptr, globalExec()->scopeChain(), exec, flags | ShouldRestoreCallFrame, argc, callee);
+      newCallFrame->init(nullptr, nullptr, globalExec()->scopeChain(), exec, argc, callee);
 
    } else {
       setContextFlags(newCallFrame, flags);
@@ -2345,8 +2281,7 @@ void QScriptEngine::popContext()
    Q_D(QScriptEngine);
    QScript::APIShim shim(d);
 
-   if (d->currentFrame->returnPC() != nullptr || d->currentFrame->codeBlock() != nullptr
-            || ! currentContext()->parentContext()) {
+   if (d->currentFrame->codeBlock() != nullptr || ! currentContext()->parentContext()) {
       qWarning("QScriptEngine::popContext() does not match with pushContext()");
       return;
    }
@@ -2356,22 +2291,20 @@ void QScriptEngine::popContext()
 
 void QScriptEnginePrivate::popContext()
 {
-   uint flags = contextFlags(currentFrame);
-   bool hasScope = flags & HasScopeContext;
-   if (flags & ShouldRestoreCallFrame) { //normal case
+   JSC::CallFrame *caller = currentFrame->callerFrame();
+
+   if (currentFrame->codeBlock() == nullptr && caller) {
+      if (currentFrame->scopeChain() != caller->scopeChain()) {
+         currentFrame->setScopeChain(currentFrame->scopeChain()->pop());
+      }
+
       JSC::RegisterFile &registerFile = currentFrame->interpreter()->registerFile();
       JSC::Register *const newEnd = currentFrame->registers() - JSC::RegisterFile::CallFrameHeaderSize -
          currentFrame->argumentCount();
-      if (hasScope) {
-         currentFrame->scopeChain()->pop()->deref();
-      }
       registerFile.shrink(newEnd);
-   } else if (hasScope) { //the stack frame was created by the Interpreter, we don't need to rewind it.
-      currentFrame->setScopeChain(currentFrame->scopeChain()->pop());
-      currentFrame->scopeChain()->deref();
    }
 
-   currentFrame = currentFrame->callerFrame();
+   currentFrame = caller;
 }
 
 bool QScriptEngine::hasUncaughtException() const
@@ -2463,43 +2396,43 @@ JSC::JSValue QScriptEnginePrivate::create(JSC::ExecState *exec, const QVariant &
             return JSC::jsBoolean(data.getData<bool>());
 
          case QVariant::Int:
-            return JSC::jsNumber(exec, data.getData<int>());
+            return JSC::jsNumber(data.getData<int>());
 
          case QVariant::UInt:
-            return JSC::jsNumber(exec, data.getData<uint>());
+            return JSC::jsNumber(data.getData<uint>());
 
          case QVariant::Short:
-            return JSC::jsNumber(exec, data.getData<short>());
+            return JSC::jsNumber(data.getData<short>());
 
          case QVariant::UShort:
-            return JSC::jsNumber(exec, data.getData<ushort>());
+            return JSC::jsNumber(data.getData<ushort>());
 
          case QVariant::Long:
-            return JSC::jsNumber(exec, data.getData<long>());
+            return JSC::jsNumber(data.getData<long>());
 
          case QVariant::ULong:
-            return JSC::jsNumber(exec, data.getData<ulong>());
+            return JSC::jsNumber(data.getData<ulong>());
 
          case QVariant::LongLong:
-            return JSC::jsNumber(exec, qsreal(data.getData<qint64>()));
+            return JSC::jsNumber(qsreal(data.getData<qint64>()));
 
          case QVariant::ULongLong:
-            return JSC::jsNumber(exec, qsreal(data.getData<quint64>()));
+            return JSC::jsNumber(qsreal(data.getData<quint64>()));
 
          case QVariant::Double:
-            return JSC::jsNumber(exec, qsreal(data.getData<double>()));
+            return JSC::jsNumber(qsreal(data.getData<double>()));
 
          case QVariant::Float:
-            return JSC::jsNumber(exec, data.getData<float>());
+            return JSC::jsNumber(data.getData<float>());
 
          case QVariant::Char:
-            return JSC::jsNumber(exec, data.getData<char>());
+            return JSC::jsNumber(data.getData<char>());
 
          case QVariant::UChar:
-            return JSC::jsNumber(exec, data.getData<uchar>());
+            return JSC::jsNumber(data.getData<uchar>());
 
          case QVariant::QChar:
-            return JSC::jsNumber(exec, data.getData<QChar32>().unicode());
+            return JSC::jsNumber(data.getData<QChar32>().unicode());
 
          case QVariant::String:
             return JSC::jsString(exec, QScript::toUString(data.getData<QString>()));
@@ -2571,7 +2504,7 @@ JSC::JSValue QScriptEnginePrivate::create(JSC::ExecState *exec, const QVariant &
    if (result && result.isObject() && info && info->prototype
                && JSC::JSValue::strictEqual(exec, JSC::asObject(result)->prototype(),
                eng->originalGlobalObject()->objectPrototype())) {
-      JSC::asObject(result)->setPrototype(info->prototype);
+      JSC::asObject(result)->setPrototype(exec->globalData(), info->prototype);
    }
 
    return result;
@@ -2647,7 +2580,7 @@ QVariant QScriptEnginePrivate::convertValue(JSC::ExecState *exec, JSC::JSValue v
 
       case QVariant::QChar:
          if (value.isString()) {
-            QString str = toString(exec, value);
+            QString str = QScript::convertToString(toString(exec, value));
             retval.setValue<QChar>(str.isEmpty() ? QChar() : str.at(0));
          } else {
             retval.setValue<QChar>(char32_t(QScript::ToUInt32(toNumber(exec, value))));
@@ -2658,7 +2591,7 @@ QVariant QScriptEnginePrivate::convertValue(JSC::ExecState *exec, JSC::JSValue v
          if (value.isUndefined() || value.isNull()) {
             retval.setValue<QString>(QString());
          } else {
-            retval.setValue<QString>(toString(exec, value));
+            retval.setValue<QString>(QScript::convertToString(toString(exec, value)));
          }
          return retval;
 
@@ -2963,12 +2896,12 @@ JSC::UString QScriptEnginePrivate::translationContextFromUrl(const JSC::UString 
 {
    if (url != cachedTranslationUrl) {
 
-      const QString &baseName = QFileInfo(url).baseName();
+      const QString baseName = QFileInfo(QScript::convertToString(url)).baseName();
 
-      if (baseName.startsWith("qrc:", Qt::CaseInsensitive)) {
-         cachedTranslationContext = baseName.mid(4);
+      if (baseName.startsWith(QString::fromLatin1("qrc:"), Qt::CaseInsensitive)) {
+         cachedTranslationContext = QScript::toUString(baseName.mid(4));
       } else {
-         cachedTranslationContext = baseName;
+         cachedTranslationContext = QScript::toUString(baseName);
       }
 
       cachedTranslationUrl = url;
@@ -3342,10 +3275,12 @@ void QScriptEngine::setProcessEventsInterval(int interval)
    d->processEventsInterval = interval;
 
    if (interval > 0) {
-      d->globalData->timeoutChecker->setCheckInterval(interval);
+      d->globalData->timeoutChecker.setTimeoutInterval(interval);
    }
 
-   d->timeoutChecker()->setShouldProcessEvents(interval > 0);
+   if (d->timeoutChecker()) {
+      d->timeoutChecker()->setShouldProcessEvents(interval > 0);
+   }
 }
 
 int QScriptEngine::processEventsInterval() const
@@ -3367,9 +3302,10 @@ void QScriptEngine::abortEvaluation(const QScriptValue &result)
       return;
    }
    d->abortResult = result;
-   d->timeoutChecker()->setShouldAbort(true);
-   JSC::throwError(d->currentFrame, JSC::createInterruptedExecutionException(&d->currentFrame->globalData()).toObject(
-         d->currentFrame));
+   if (d->timeoutChecker()) {
+      d->timeoutChecker()->setShouldAbort(true);
+   }
+   JSC::throwError(d->currentFrame, JSC::createInterruptedExecutionException(&d->currentFrame->globalData()));
 }
 
 bool qScriptConnect(QObject *sender, const QString &signal, const QScriptValue &receiver, const QScriptValue &function)
@@ -3447,7 +3383,7 @@ QScriptString QScriptEngine::toStringHandle(const QString &str)
 {
    Q_D(QScriptEngine);
    QScript::APIShim shim(d);
-   return d->toStringHandle(JSC::Identifier(d->currentFrame, str));
+   return d->toStringHandle(QScript::toIdentifier(d->currentFrame, str));
 }
 
 QScriptValue QScriptEngine::toObject(const QScriptValue &value)

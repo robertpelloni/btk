@@ -69,33 +69,33 @@ static JSC::JSValue JSC_HOST_CALL variantProtoFuncValueOf(JSC::ExecState *exec, 
    QScriptEnginePrivate *engine = scriptEngineFromExec(exec);
    thisValue = engine->toUsableValue(thisValue);
    if (!thisValue.inherits(&QScriptObject::info)) {
-      return throwError(exec, JSC::TypeError);
+      return throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("This object is not a QVariant"))));
    }
    QScriptObjectDelegate *delegate = static_cast<QScriptObject *>(JSC::asObject(thisValue))->delegate();
    if (!delegate || (delegate->type() != QScriptObjectDelegate::Variant)) {
-      return throwError(exec, JSC::TypeError);
+      return throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("This object is not a QVariant"))));
    }
    const QVariant &v = static_cast<QVariantDelegate *>(delegate)->value();
    switch (v.type()) {
       case QVariant::Invalid:
          return JSC::jsUndefined();
       case QVariant::String:
-         return JSC::jsString(exec, v.toString());
+         return JSC::jsString(exec, QScript::toUString(v.toString()));
 
       case QVariant::Int:
-         return JSC::jsNumber(exec, v.toInt());
+         return JSC::jsNumber(v.toInt());
 
       case QVariant::Bool:
          return JSC::jsBoolean(v.toBool());
 
       case QVariant::Double:
-         return JSC::jsNumber(exec, v.toDouble());
+         return JSC::jsNumber(v.toDouble());
 
       //    case QVariant::Char:
       //        return JSC::jsNumber(exec, v.toChar().unicode());
 
       case QVariant::UInt:
-         return JSC::jsNumber(exec, v.toUInt());
+         return JSC::jsNumber(v.toUInt());
 
       default:
          ;
@@ -109,14 +109,14 @@ static JSC::JSValue JSC_HOST_CALL variantProtoFuncToString(JSC::ExecState *exec,
    QScriptEnginePrivate *engine = scriptEngineFromExec(exec);
    thisValue = engine->toUsableValue(thisValue);
    if (!thisValue.inherits(&QScriptObject::info)) {
-      return throwError(exec, JSC::TypeError, "This object is not a QVariant");
+      return throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("This object is not a QVariant"))));
    }
    QScriptObjectDelegate *delegate = static_cast<QScriptObject *>(JSC::asObject(thisValue))->delegate();
    if (!delegate || (delegate->type() != QScriptObjectDelegate::Variant)) {
-      return throwError(exec, JSC::TypeError, "This object is not a QVariant");
+      return throwError(exec, JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("This object is not a QVariant"))));
    }
    const QVariant &v = static_cast<QVariantDelegate *>(delegate)->value();
-   JSC::UString result;
+   QString result;
    JSC::JSValue value = variantProtoFuncValueOf(exec, callee, thisValue, args);
 
    if (value.isObject()) {
@@ -127,7 +127,7 @@ static JSC::JSValue JSC_HOST_CALL variantProtoFuncToString(JSC::ExecState *exec,
       }
 
    } else {
-      result = value.toString(exec);
+      result = QScript::convertToString(value.toString(exec));
    }
 
    return JSC::jsString(exec, QScript::toUString(result));

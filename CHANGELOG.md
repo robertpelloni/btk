@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.1.6 - 2026-04-06
+- widened the embedded `NativeFunctionWrapper` / `PrototypeFunction` compatibility bridge so restored Script call sites can target both legacy wrapper signatures and current JSC native-function signatures
+- contracted the restored `CsScript` engine/value frontier across `qscriptengine.cpp`, `qscriptprogram.cpp/.p.h`, and `qscriptvalue.cpp`
+- replaced removed evaluation/debugger/value helpers with current JSC equivalents, including raw `EvalExecutable *` caching, current `getCallData(...)` / `getConstructData(...)`, current `setPrototype(...)`, current `removeDirect(...)` / `putDirect(...)`, and explicit `QString` / `UString` bridges
+- revalidated the direct MSVC `CsScript` probe and reduced the observed failure volume from `162` errors to `78` errors
+- moved the dominant first-failure hotspot away from `qscriptengine.cpp` / `qscriptvalue.cpp` and into the next reduced bridge frontier centered on `qscriptqobject.cpp`
+- documented the new engine/value contraction pass and its validation evidence
+
 ## 0.1.5 - 2026-04-05
 - re-established detached persisted-log `CsScript` probing in `build-vs2019-script-probe5`
 - captured the next reduced first-failure frontier beyond the declarative/class delegate ABI pass in `src/script/api/qscriptengine.cpp`

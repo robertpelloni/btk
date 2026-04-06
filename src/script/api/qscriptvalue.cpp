@@ -98,8 +98,7 @@ QScriptValue::QScriptValue(QScriptEngine *engine, int val)
 {
    if (engine) {
       QScript::APIShim shim(d_ptr->engine);
-      JSC::ExecState *exec = d_ptr->engine->currentFrame;
-      d_ptr->initFrom(JSC::jsNumber(exec, val));
+      d_ptr->initFrom(JSC::jsNumber(val));
    } else {
       d_ptr->initFrom(val);
    }
@@ -110,8 +109,7 @@ QScriptValue::QScriptValue(QScriptEngine *engine, uint val)
 {
    if (engine) {
       QScript::APIShim shim(d_ptr->engine);
-      JSC::ExecState *exec = d_ptr->engine->currentFrame;
-      d_ptr->initFrom(JSC::jsNumber(exec, val));
+      d_ptr->initFrom(JSC::jsNumber(val));
    } else {
       d_ptr->initFrom(val);
    }
@@ -122,8 +120,7 @@ QScriptValue::QScriptValue(QScriptEngine *engine, qsreal val)
 {
    if (engine) {
       QScript::APIShim shim(d_ptr->engine);
-      JSC::ExecState *exec = d_ptr->engine->currentFrame;
-      d_ptr->initFrom(JSC::jsNumber(exec, val));
+      d_ptr->initFrom(JSC::jsNumber(val));
    } else {
       d_ptr->initFrom(val);
    }
@@ -135,7 +132,7 @@ QScriptValue::QScriptValue(QScriptEngine *engine, const QString &val)
    if (engine) {
       QScript::APIShim shim(d_ptr->engine);
       JSC::ExecState *exec = d_ptr->engine->currentFrame;
-      d_ptr->initFrom(JSC::jsString(exec, val));
+      d_ptr->initFrom(JSC::jsString(exec, QScript::toUString(val)));
 
    } else {
       d_ptr->initFrom(val);
@@ -272,12 +269,12 @@ void QScriptValue::setPrototype(const QScriptValue &prototype)
       nextPrototypeValue = nextPrototype->prototype();
    }
 
-   thisObject->setPrototype(other);
+   thisObject->setPrototype(d->engine->currentFrame->globalData(), other);
 
    // Sync the internal Global Object prototype if appropriate.
    if (((thisObject == d->engine->originalGlobalObjectProxy)
          && !d->engine->customGlobalObject()) || (thisObject == d->engine->customGlobalObject())) {
-      d->engine->originalGlobalObject()->setPrototype(other);
+      d->engine->originalGlobalObject()->setPrototype(d->engine->currentFrame->globalData(), other);
    }
 }
 
@@ -314,10 +311,10 @@ void QScriptValue::setScope(const QScriptValue &scope)
    JSC::Identifier id = JSC::Identifier(exec, "__qt_scope__");
 
    if (!scope.isValid()) {
-      JSC::asObject(d->jscValue)->removeDirect(id);
+      JSC::asObject(d->jscValue)->removeDirect(exec->globalData(), id);
    } else {
       // ### make hidden property
-      JSC::asObject(d->jscValue)->putDirect(id, other);
+      JSC::asObject(d->jscValue)->putDirect(exec->globalData(), id, other);
    }
 }
 
@@ -618,10 +615,10 @@ QString QScriptValue::toString() const
       case QScriptValuePrivate::JavaScriptCore: {
          if (d->engine) {
             QScript::APIShim shim(d->engine);
-            return QScriptEnginePrivate::toString(d->engine->currentFrame, d->jscValue);
+            return QScript::convertToString(QScriptEnginePrivate::toString(d->engine->currentFrame, d->jscValue));
 
          } else {
-            return QScriptEnginePrivate::toString(nullptr, d->jscValue);
+            return QScript::convertToString(QScriptEnginePrivate::toString(nullptr, d->jscValue));
          }
       }
 
@@ -928,7 +925,7 @@ void QScriptValue::setProperty(const QString &name, const QScriptValue &value,
    }
 
    JSC::JSValue jsValue = d->engine->scriptValueToJSCValue(value);
-   d->setProperty(name, jsValue, flags);
+   d->setProperty(QScript::toUString(name), jsValue, flags);
 }
 
 QScriptValue QScriptValue::property(const QString &name,
@@ -940,7 +937,7 @@ QScriptValue QScriptValue::property(const QString &name,
    }
 
    QScript::APIShim shim(d->engine);
-   return d->engine->scriptValueFromJSCValue(d->property(name, mode));
+   return d->engine->scriptValueFromJSCValue(d->property(QScript::toUString(name), mode));
 }
 
 QScriptValue QScriptValue::property(quint32 arrayIndex,
@@ -1039,7 +1036,7 @@ QScriptValue QScriptValue::call(const QScriptValue &thisObject, const QList<QScr
    QScript::APIShim shim(d->engine);
    JSC::JSValue callee = d->jscValue;
    JSC::CallData callData;
-   JSC::CallType callType = callee.getCallData(callData);
+   JSC::CallType callType = JSC::getCallData(callee, callData);
 
    if (callType == JSC::CallTypeNone) {
       return QScriptValue();
@@ -1098,7 +1095,7 @@ QScriptValue QScriptValue::call(const QScriptValue &thisObject, const QScriptVal
    QScript::APIShim shim(d->engine);
    JSC::JSValue callee = d->jscValue;
    JSC::CallData callData;
-   JSC::CallType callType = callee.getCallData(callData);
+   JSC::CallType callType = JSC::getCallData(callee, callData);
    if (callType == JSC::CallTypeNone) {
       return QScriptValue();
    }
@@ -1121,19 +1118,21 @@ QScriptValue QScriptValue::call(const QScriptValue &thisObject, const QScriptVal
    JSC::MarkedArgumentBuffer applyArgs;
    if (!array.isUndefinedOrNull()) {
       if (!array.isObject()) {
-         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec, JSC::TypeError, "Arguments must be an array"));
+         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec,
+            JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Arguments must be an array")))));
       }
-      if (JSC::asObject(array)->classInfo() == &JSC::Arguments::info) {
+      if (JSC::asObject(array)->classInfo() == &JSC::Arguments::s_info) {
          JSC::asArguments(array)->fillArgList(exec, applyArgs);
       } else if (JSC::isJSArray(&exec->globalData(), array)) {
          JSC::asArray(array)->fillArgList(exec, applyArgs);
-      } else if (JSC::asObject(array)->inherits(&JSC::JSArray::info)) {
+      } else if (JSC::asObject(array)->inherits(&JSC::JSArray::s_info)) {
          unsigned length = JSC::asArray(array)->get(exec, exec->propertyNames().length).toUInt32(exec);
          for (unsigned i = 0; i < length; ++i) {
             applyArgs.append(JSC::asArray(array)->get(exec, i));
          }
       } else {
-         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec, JSC::TypeError, "Arguments must be an array"));
+         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec,
+            JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Arguments must be an array")))));
       }
    }
 
@@ -1160,7 +1159,7 @@ QScriptValue QScriptValue::construct(const QList<QScriptValue> &args)
    QScript::APIShim shim(d->engine);
    JSC::JSValue callee = d->jscValue;
    JSC::ConstructData constructData;
-   JSC::ConstructType constructType = callee.getConstructData(constructData);
+   JSC::ConstructType constructType = JSC::getConstructData(callee, constructData);
 
    if (constructType == JSC::ConstructTypeNone) {
       return QScriptValue();
@@ -1207,7 +1206,7 @@ QScriptValue QScriptValue::construct(const QScriptValue &arguments)
    QScript::APIShim shim(d->engine);
    JSC::JSValue callee = d->jscValue;
    JSC::ConstructData constructData;
-   JSC::ConstructType constructType = callee.getConstructData(constructData);
+   JSC::ConstructType constructType = JSC::getConstructData(callee, constructData);
    if (constructType == JSC::ConstructTypeNone) {
       return QScriptValue();
    }
@@ -1223,19 +1222,21 @@ QScriptValue QScriptValue::construct(const QScriptValue &arguments)
    JSC::MarkedArgumentBuffer applyArgs;
    if (! array.isUndefinedOrNull()) {
       if (!array.isObject()) {
-         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec, JSC::TypeError, "Arguments must be an array"));
+         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec,
+            JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Arguments must be an array")))));
       }
-      if (JSC::asObject(array)->classInfo() == &JSC::Arguments::info) {
+      if (JSC::asObject(array)->classInfo() == &JSC::Arguments::s_info) {
          JSC::asArguments(array)->fillArgList(exec, applyArgs);
       } else if (JSC::isJSArray(&exec->globalData(), array)) {
          JSC::asArray(array)->fillArgList(exec, applyArgs);
-      } else if (JSC::asObject(array)->inherits(&JSC::JSArray::info)) {
+      } else if (JSC::asObject(array)->inherits(&JSC::JSArray::s_info)) {
          unsigned length = JSC::asArray(array)->get(exec, exec->propertyNames().length).toUInt32(exec);
          for (unsigned i = 0; i < length; ++i) {
             applyArgs.append(JSC::asArray(array)->get(exec, i));
          }
       } else {
-         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec, JSC::TypeError, "Arguments must be an array"));
+         return d->engine->scriptValueFromJSCValue(JSC::throwError(exec,
+            JSC::createTypeError(exec, QScript::toUString(QString::fromLatin1("Arguments must be an array")))));
       }
    }
 
@@ -1400,10 +1401,10 @@ void QScriptValue::setData(const QScriptValue &data)
       JSC::ExecState *exec = d->engine->currentFrame;
       JSC::Identifier id = JSC::Identifier(exec, "__qt_data__");
       if (!data.isValid()) {
-         JSC::asObject(d->jscValue)->removeDirect(id);
+         JSC::asObject(d->jscValue)->removeDirect(exec->globalData(), id);
       } else {
          // ### make hidden property
-         JSC::asObject(d->jscValue)->putDirect(id, other);
+         JSC::asObject(d->jscValue)->putDirect(exec->globalData(), id, other);
       }
    }
 }

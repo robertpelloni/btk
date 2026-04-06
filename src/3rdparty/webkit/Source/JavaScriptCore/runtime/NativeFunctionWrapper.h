@@ -20,6 +20,12 @@ namespace JSC {
         {
         }
 
+        NativeFunctionWrapper(ExecState* exec, Structure* structure, int length, const Identifier& name, NativeFunction function)
+            : JSFunction(exec, exec->lexicalGlobalObject(), structure, length, name, function)
+            , m_function(nullptr)
+        {
+        }
+
     private:
         static EncodedJSValue JSC_HOST_CALL proxyCall(ExecState* exec)
         {

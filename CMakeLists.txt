@@ -414,13 +414,13 @@ set_package_properties(PostgreSQL PROPERTIES
 )
 
 if (CMAKE_DISABLE_FIND_PACKAGE_PostgreSQL)
-   message(STATUS "PostgreSQL disabled, CopperSpice plugin will not be built\n")
+   message(STATUS "PostgreSQL disabled, BTK plugin will not be built\n")
 
 elseif (NOT PostgreSQL_FOUND)
-   message(STATUS "PostgreSQL was not found, CopperSpice plugin will not be built\n")
+   message(STATUS "PostgreSQL was not found, BTK plugin will not be built\n")
 
 else()
-   message(STATUS "PostgreSQL was found, CopperSpice plugin will be built\n")
+   message(STATUS "PostgreSQL was found, BTK plugin will be built\n")
 
 endif()
 
@@ -481,13 +481,13 @@ set_package_properties(MySQL PROPERTIES
 )
 
 if (CMAKE_DISABLE_FIND_PACKAGE_MySQL)
-   message(STATUS "MySQL disabled, CopperSpice plugin will not be built\n")
+   message(STATUS "MySQL disabled, BTK plugin will not be built\n")
 
 elseif (NOT MySQL_FOUND)
-   message(STATUS "MySQL was not found, CopperSpice plugin will not be built\n")
+   message(STATUS "MySQL was not found, BTK plugin will not be built\n")
 
 else()
-   message(STATUS "MySQL was found, CopperSpice plugin will be built\n")
+   message(STATUS "MySQL was found, BTK plugin will be built\n")
 
 endif()
 
@@ -499,13 +499,13 @@ set_package_properties(ODBC PROPERTIES
 )
 
 if (CMAKE_DISABLE_FIND_PACKAGE_ODBC)
-   message(STATUS "ODBC SQL Driver disabled, CopperSpice plugin will not be built\n")
+   message(STATUS "ODBC SQL Driver disabled, BTK plugin will not be built\n")
 
 elseif (NOT ODBC_FOUND)
-   message(STATUS "ODBC SQL Driver was not found, CopperSpice plugin will not be built\n")
+   message(STATUS "ODBC SQL Driver was not found, BTK plugin will not be built\n")
 
 else()
-   message(STATUS "ODBC SQL Driver was found, CopperSpice plugin will be built\n")
+   message(STATUS "ODBC SQL Driver was found, BTK plugin will be built\n")
 
 endif()
 

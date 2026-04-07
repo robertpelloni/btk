@@ -1271,7 +1271,7 @@ class cs_number<0>
 #endif
 
 // ** 10
-#if defined(BUILDING_WEBKIT) || defined(Q_OS_DARWIN)
+#if defined(BUILDING_WEBKIT) || defined(BUILDING_JavaScriptCore) || defined(Q_OS_DARWIN)
 
 #define WEB_CS_OBJECT(className)                                  CS_OBJECT(className)
 #define WEB_CS_OBJECT_MULTIPLE(className, parentX)                CS_OBJECT_MULTIPLE(className, parentX)

@@ -2,7 +2,7 @@
 
 ### Introduction
 
-BTK is a cross-platform C++ application framework descended from the CopperSpice/Qt lineage and being actively reworked into a broader systems foundation for large-scale software and operating-system development.
+BTK is a cross-platform C++ application framework descended from the BTK/Qt lineage and being actively reworked into a broader systems foundation for large-scale software and operating-system development.
 
 The immediate direction of this repository is:
 
@@ -43,7 +43,7 @@ BobUI is included for reference analysis only. JUCE and Ultimate++ are being use
 
 ### Build Notes
 
-BTK continues to use CMake as its primary build system. This session adds BTK-branded package metadata and a `find_package(BTK)` entry point while preserving existing CopperSpice compatibility exports.
+BTK continues to use CMake as its primary build system. This session adds BTK-branded package metadata and a `find_package(BTK)` entry point while preserving existing BTK compatibility exports.
 
 ### Research and Planning
 
@@ -57,4 +57,4 @@ Initial assimilation research, comparison matrices, and migration planning live 
 
 ### Status
 
-This repository is in a transition phase from a CopperSpice-derived framework toward a BTK-branded platform with broader scope. The codebase already contains mature subsystems, but the larger parity goals with Qt 6+, JUCE, Ultimate++, JavaFX, Dear ImGui, and BobUI are a multi-phase effort and are being approached systematically.
+This repository is in a transition phase from a BTK-derived framework toward a BTK-branded platform with broader scope. The codebase already contains mature subsystems, but the larger parity goals with Qt 6+, JUCE, Ultimate++, JavaFX, Dear ImGui, and BobUI are a multi-phase effort and are being approached systematically.

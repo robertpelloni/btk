@@ -1,5 +1,5 @@
 add_library(CsScript SHARED "")
-add_library(CopperSpice::CsScript ALIAS CsScript)
+add_library(BTK::CsScript ALIAS CsScript)
 
 set_target_properties(CsScript PROPERTIES OUTPUT_NAME CsScript${BUILD_ABI})
 
@@ -503,6 +503,7 @@ target_sources(CsScript
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/CString.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/StringBuilder.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/StringImpl.cpp
+   ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/StringStatics.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/text/WTFString.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode/CollatorDefault.cpp
    ${CMAKE_SOURCE_DIR}/src/3rdparty/webkit/Source/JavaScriptCore/wtf/unicode/UTF8.cpp
@@ -577,7 +578,7 @@ macro_generate_package(
 
 install(
    TARGETS CsScript
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -1,5 +1,5 @@
 add_library(CsNetwork SHARED "")
-add_library(CopperSpice::CsNetwork ALIAS CsNetwork)
+add_library(BTK::CsNetwork ALIAS CsNetwork)
 
 set_target_properties(CsNetwork PROPERTIES OUTPUT_NAME CsNetwork${BUILD_ABI})
 
@@ -117,7 +117,7 @@ macro_generate_package(
 
 install(
    TARGETS CsNetwork
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

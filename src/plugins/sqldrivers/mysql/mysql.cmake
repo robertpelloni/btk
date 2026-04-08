@@ -12,7 +12,7 @@ list(APPEND SQL_INCLUDES
 if(WITH_MYSQL_PLUGIN AND MySQL_FOUND)
 
    add_library(CsSqlMySql MODULE "")
-   add_library(CopperSpice::CsSqlMySql ALIAS CsSqlMySql)
+   add_library(BTK::CsSqlMySql ALIAS CsSqlMySql)
 
    set_target_properties(CsSqlMySql PROPERTIES OUTPUT_NAME CsSqlMySql${BUILD_ABI} PREFIX "")
 

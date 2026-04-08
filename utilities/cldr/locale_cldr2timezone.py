@@ -9,13 +9,13 @@
 # Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 # Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 #
-# This file is part of CopperSpice.
+# This file is part of BTK.
 #
-# CopperSpice is free software. You can redistribute it and/or
+# BTK is free software. You can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
 # version 2.1 as published by the Free Software Foundation.
 #
-# CopperSpice is distributed in the hope that it will be useful,
+# BTK is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
@@ -301,13 +301,13 @@ def usage():
 
 def main():
    if len(sys.argv) != 2:
-       print("Missing CopperSpice path parameter")
+       print("Missing BTK path parameter")
        usage()
 
    cs_source  = sys.argv[1]
 
    if not os.path.isdir(cs_source):
-       print("Issue: Path to CopperSpice source does not exist")
+       print("Issue: Path to BTK source does not exist")
        usage()
 
    # configure output for utf-8

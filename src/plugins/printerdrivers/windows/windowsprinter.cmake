@@ -6,7 +6,7 @@ list(APPEND PRINTERDRIVERS_WIN_PRIVATE_INCLUDES
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
    add_library(CsPrinterDriverWin MODULE "")
-   add_library(CopperSpice::CsPrinterDriverWin ALIAS CsPrinterDriverWin)
+   add_library(BTK::CsPrinterDriverWin ALIAS CsPrinterDriverWin)
 
    set_target_properties(CsPrinterDriverWin PROPERTIES OUTPUT_NAME CsPrinterDriverWin${BUILD_ABI} PREFIX "")
 

@@ -19,7 +19,7 @@ include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckTypeSize)
 
-find_package(CopperSpice REQUIRED)
+find_package(BTK REQUIRED)
 
 # location for install or package
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
@@ -107,7 +107,7 @@ list(APPEND GENERATE_TABLES_SOURCES
 add_executable(Generate_Tables ${GENERATE_TABLES_SOURCES} )
 
 target_link_libraries(Generate_Tables
-   CopperSpice::CsCore
+   BTK::CsCore
 )
 
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
@@ -126,5 +126,5 @@ endif()
 
 install(TARGETS Generate_Tables DESTINATION .)
 
-# install the CopperSpice libraries
+# install the BTK libraries
 cs_copy_library(CsCore)

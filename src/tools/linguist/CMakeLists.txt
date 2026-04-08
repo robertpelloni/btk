@@ -1,5 +1,5 @@
 add_executable(linguist${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::linguist ALIAS linguist${TOOLS_SUFFIX})
+add_executable(BTK::linguist ALIAS linguist${TOOLS_SUFFIX})
 
 set(EXTRA_LINGUIST_LIBS
    CsCore
@@ -124,7 +124,7 @@ function_generate_resources(linguist${TOOLS_SUFFIX})
 
 install(
    TARGETS linguist${TOOLS_SUFFIX}
-   EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 

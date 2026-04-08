@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -101,7 +101,7 @@ void cs_require_version(int argc, char *argv[], const char *str)
          new QApplication(argc, argv);
       }
 
-      QString errMsg = QApplication::tr("%1 requires CopperSpice version %2\n\nFound CopperSpice version %3\n")
+      QString errMsg = QApplication::tr("%1 requires BTK version %2\n\nFound BTK version %3\n")
                .formatArg(qAppName()).formatArg(req_version).formatArg(cur_version);
 
       QMessageBox box(QMessageBox::Critical, QApplication::tr("Incompatible Library"),
@@ -1234,7 +1234,7 @@ void QMessageBox::aboutCs(QWidget *parent, const QString &title)
    aboutBox->setAttribute(Qt::WA_DeleteOnClose);
 
    if (title.isEmpty()) {
-      aboutBox->setWindowTitle(tr("About CopperSpice"));
+      aboutBox->setWindowTitle(tr("About BTK"));
 
    } else {
       aboutBox->setWindowTitle(title);
@@ -1244,7 +1244,7 @@ void QMessageBox::aboutCs(QWidget *parent, const QString &title)
    aboutBox->setWindowIcon(icon);
 
    QLabel *msg1 = new QLabel;
-   msg1->setText(tr("CopperSpice Version %1").formatArg(CS_VERSION_STR));
+   msg1->setText(tr("BTK Version %1").formatArg(CS_VERSION_STR));
 
    QFont font = msg1->font();
    font.setWeight(QFont::Bold);
@@ -1252,7 +1252,7 @@ void QMessageBox::aboutCs(QWidget *parent, const QString &title)
    msg1->setFont(font);
 
    QLabel *msg2 = new QLabel;
-   msg2->setText(tr("CopperSpice is a set of C++ libraries for developing cross platform applications <br>"
+   msg2->setText(tr("BTK is a set of C++ libraries for developing cross platform applications <br>"
                      "on Unix/Linux, Windows, and Mac OS X\n"));
 
    font = msg2->font();
@@ -1262,7 +1262,7 @@ void QMessageBox::aboutCs(QWidget *parent, const QString &title)
    QLabel *msg3 = new QLabel;
 
    msg3->setText("Copyright (c) 2012-2026 Ansel Sermersheim & Barbara Geller\n"
-         "CopperSpice is released under the terms of the GNU LGPL version 2.1\n"
+         "BTK is released under the terms of the GNU LGPL version 2.1\n"
          "\n"
          "Copyright (c) 2015 The Qt Company Ltd\n"
          "Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies)\n"

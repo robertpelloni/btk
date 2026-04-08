@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -46,7 +46,7 @@ TEST_CASE("QDirIterator hasNext", "[qdiriterator]")
    QTemporaryFile tmpFile1(fName1);
    tmpFile1.open();
 
-   tmpFile1.write("CopperSpice - test file one");
+   tmpFile1.write("BTK - test file one");
 
    //
    QString fName2 = path + "/file2.txt";
@@ -54,7 +54,7 @@ TEST_CASE("QDirIterator hasNext", "[qdiriterator]")
    QTemporaryFile tmpFile2(fName2);
    tmpFile2.open();
 
-   tmpFile2.write("CopperSpice - test file two");
+   tmpFile2.write("BTK - test file two");
 
    {
       QDirIterator iter(path, QDirIterator::Subdirectories);
@@ -132,7 +132,7 @@ TEST_CASE("QDirIterator name_filter", "[qdiriterator]")
    QTemporaryFile tmpFile1(fName1);
    tmpFile1.open();
 
-   tmpFile1.write("CopperSpice - test file one");
+   tmpFile1.write("BTK - test file one");
 
    //
    QString fName2 = path + "/file2.txt";
@@ -140,7 +140,7 @@ TEST_CASE("QDirIterator name_filter", "[qdiriterator]")
    QTemporaryFile tmpFile2(fName2);
    tmpFile2.open();
 
-   tmpFile2.write("CopperSpice - test file two");
+   tmpFile2.write("BTK - test file two");
 
    //
    QStringList nameFilters;

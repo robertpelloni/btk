@@ -53,7 +53,7 @@ if(BUILD_PLATFORMS_COCOA_PLUGIN)
    )
 
    add_library(CsGuiCocoa MODULE "")
-   add_library(CopperSpice::CsGuiCocoa ALIAS CsGuiCocoa )
+   add_library(BTK::CsGuiCocoa ALIAS CsGuiCocoa )
 
    set_target_properties(CsGuiCocoa PROPERTIES OUTPUT_NAME CsGuiCocoa${BUILD_ABI} PREFIX "")
 

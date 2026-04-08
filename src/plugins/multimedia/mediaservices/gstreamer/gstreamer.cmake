@@ -70,7 +70,7 @@ if(WITH_MULTIMEDIA AND GStreamer_FOUND)
 
    # plugin 1
    add_library(CsMultimedia_gst_audiodecoder MODULE "")
-   add_library(CopperSpice::CsMultimedia_gst_audiodecoder ALIAS CsMultimedia_gst_audiodecoder)
+   add_library(BTK::CsMultimedia_gst_audiodecoder ALIAS CsMultimedia_gst_audiodecoder)
 
    set_target_properties(CsMultimedia_gst_audiodecoder PROPERTIES OUTPUT_NAME CsMultimedia_gst_audiodecoder${BUILD_ABI} PREFIX "")
 
@@ -117,7 +117,7 @@ if(WITH_MULTIMEDIA AND GStreamer_FOUND)
 
    # plugin 2
    add_library(CsMultimedia_gst_camerabin MODULE "")
-   add_library(CopperSpice::CsMultimedia_gst_camerabin ALIAS CsMultimedia_gst_camerabin)
+   add_library(BTK::CsMultimedia_gst_camerabin ALIAS CsMultimedia_gst_camerabin)
 
    set_target_properties(CsMultimedia_gst_camerabin PROPERTIES OUTPUT_NAME CsMultimedia_gst_camerabin${BUILD_ABI} PREFIX "")
 
@@ -178,7 +178,7 @@ if(WITH_MULTIMEDIA AND GStreamer_FOUND)
 
    # plugin 3
    add_library(CsMultimedia_gst_mediaplayer MODULE "")
-   add_library(CopperSpice::CsMultimedia_gst_mediaplayer ALIAS CsMultimedia_gst_mediaplayer)
+   add_library(BTK::CsMultimedia_gst_mediaplayer ALIAS CsMultimedia_gst_mediaplayer)
 
    set_target_properties(CsMultimedia_gst_mediaplayer PROPERTIES OUTPUT_NAME CsMultimedia_gst_mediaplayer${BUILD_ABI} PREFIX "")
 

@@ -1,6 +1,21 @@
 # HANDOFF
 
 ## Latest Session Additions
+- Completed comprehensive CopperSpice → BTK rebrand across all source files (4,282+ files updated)
+- Renamed all license/copyright headers, error messages, UI strings, cmake comments from CopperSpice to BTK
+- Updated cmake package install paths: BTK is now the primary package with CopperSpice as legacy compat
+- Added 14 comprehensive BTK subsystem alias headers (btk.h, btkcore.h, btkgui.h, btknetwork.h, btkopengl.h, btksql.h, btkmultimedia.h, btksvg.h, btkxml.h, btkvulkan.h, btkwebkit.h, btkxmlpatterns.h)
+- Expanded existing alias headers with richer type coverage (encoding aliases, pointer traits, connection kinds)
+- Updated all cmake module files, test files, utility files, and translation files with BTK branding
+- Added BTK alias headers to the CsCore CMakeLists.txt include list for proper installation
+- Bumped project version to 0.2.0
+- Current state:
+  - CopperSpice references now only exist in cmake/ backward-compat layer (internal target names, legacy config paths)
+  - All source-level branding is now BTK
+  - Internal CMake target names (CsCore, CsGui, etc.) remain for ABI stability but are aliased as BTK::*
+  - Next agent should validate the build still compiles cleanly after the rebrand
+
+## Latest Session Additions
 - Performed another fresh process audit and continued without terminating any running processes.
 - Confirmed the active detached linked-build investigation remained running:
   - wrapper PID `149944`

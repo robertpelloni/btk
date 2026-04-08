@@ -3,13 +3,13 @@
 # Copyright (c) 2012-2026 Barbara Geller
 # Copyright (c) 2012-2026 Ansel Sermersheim
 #
-# This file is part of CopperSpice.
+# This file is part of BTK.
 #
-# CopperSpice is free software. You can redistribute it and/or
+# BTK is free software. You can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
 # version 2.1 as published by the Free Software Foundation.
 #
-# CopperSpice is distributed in the hope that it will be useful,
+# BTK is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
@@ -17,7 +17,7 @@
 #
 # ***********************************************************************
 
-#  Configuration file for CopperSpice installation, defines the following variables:
+#  Configuration file for BTK installation (legacy CopperSpice compat), defines the following variables:
 #
 #  COPPERSPICE_INCLUDES               - list of every include directory
 #  COPPERSPICE_LIBRARIES              - list of every library
@@ -81,28 +81,28 @@ set(CsString_Deploy     "@CsString_FOUND@")
 if ("${CS_INSTALL_MODE}" STREQUAL "Package")
 
    if (NOT TARGET CsLibGuarded::CsLibGuarded)
-      message("CMake Issue: CopperSpice was built in Package Mode\n"
+      message("CMake Issue: BTK was built in Package Mode\n"
          "  Target library CsLibGuarded::CsLibGuarded was not found. Perhaps a find_package() call is missing?\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
 
    if (NOT TARGET CsPointer::CsPointer)
-      message("CMake Issue: CopperSpice was built in Package Mode\n"
+      message("CMake Issue: BTK was built in Package Mode\n"
          "  Target library CsPointer::CsPointer was not found. Perhaps a find_package() call is missing?\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
 
    if (NOT TARGET CsSignal::CsSignal)
-      message("CMake Issue: CopperSpice was built in Package Mode\n"
+      message("CMake Issue: BTK was built in Package Mode\n"
          "  Target library CsSignal::CsSignal was not found. Perhaps a find_package() call is missing?\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
 
    if (NOT TARGET CsString::CsString)
-      message("CMake Issue: CopperSpice was built in Package Mode\n"
+      message("CMake Issue: BTK was built in Package Mode\n"
          "  Target library CsString::CsString was not found. Perhaps a find_package() call is missing?\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
@@ -114,8 +114,8 @@ if ("${CS_INSTALL_MODE}" STREQUAL "Deploy")
    if (TARGET CsLibGuarded::CsLibGuarded)
       # CS was built with the system library, downstream project must use the version in CS
 
-      message("CMake Issue: CopperSpice was built in Deploy Mode\n"
-         "  Target library CsLibGuarded::CsLibGuarded was found, system library in CS must be used.\n\n")
+      message("CMake Issue: BTK was built in Deploy Mode\n"
+         "  Target library CsLibGuarded::CsLibGuarded was found, system library in BTK must be used.\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
@@ -123,8 +123,8 @@ if ("${CS_INSTALL_MODE}" STREQUAL "Deploy")
    if (TARGET CsPointer::CsPointer)
       # CS was built with the system library, downstream project must use the version in CS
 
-      message("CMake Issue: CopperSpice was built in Deploy Mode\n"
-         "  Target library CsPointer::CsPointer was found, system library in CS must be used.\n\n")
+      message("CMake Issue: BTK was built in Deploy Mode\n"
+         "  Target library CsPointer::CsPointer was found, system library in BTK must be used.\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
@@ -132,8 +132,8 @@ if ("${CS_INSTALL_MODE}" STREQUAL "Deploy")
    if (TARGET CsSignal::CsSignal)
       # CS was built with the system library, downstream project must use the version in CS
 
-      message("CMake Issue: CopperSpice was built in Deploy Mode\n"
-         "  Target library CsSignal::CsSignal was found, system library in CS must be used.\n\n")
+      message("CMake Issue: BTK was built in Deploy Mode\n"
+         "  Target library CsSignal::CsSignal was found, system library in BTK must be used.\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()
@@ -141,8 +141,8 @@ if ("${CS_INSTALL_MODE}" STREQUAL "Deploy")
    if (TARGET CsString::CsString)
       # CS was built with the system library, downstream project must use the version in CS
 
-      message("CMake Issue: CopperSpice was built in Deploy Mode\n"
-         "  Target library CsString::CsString was found, system library in CS must be used.\n\n")
+      message("CMake Issue: BTK was built in Deploy Mode\n"
+         "  Target library CsString::CsString was found, system library in BTK must be used.\n\n")
 
       message(FATAL_ERROR "Aborting CMake...\n")
    endif()

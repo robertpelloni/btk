@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -61,13 +61,13 @@ TEST_CASE("QStringParser formatArg_str", "[qstringparser]")
    QString str1 = "Hello %1";
 
    SECTION ("formatArg a") {
-      str1 = str1.formatArg("CopperSpice");
-      REQUIRE(str1 == "Hello CopperSpice");
+      str1 = str1.formatArg("BTK");
+      REQUIRE(str1 == "Hello BTK");
    }
 
    SECTION ("formatArg b") {
-      QString str2 = QStringParser::formatArg(str1, "CopperSpice");
-      REQUIRE(str2 == "Hello CopperSpice");
+      QString str2 = QStringParser::formatArg(str1, "BTK");
+      REQUIRE(str2 == "Hello BTK");
    }
 
    SECTION ("formatArg c") {

@@ -1,6 +1,6 @@
 if(BUILD_PLATFORMS_XCB_PLUGIN)
    add_library(CsXcbSupport SHARED "")
-   add_library(CopperSpice::CsXcbSupport ALIAS CsXcbSupport)
+   add_library(BTK::CsXcbSupport ALIAS CsXcbSupport)
 
    set_target_properties(CsXcbSupport PROPERTIES OUTPUT_NAME CsXcbSupport${BUILD_ABI})
 
@@ -144,7 +144,7 @@ if(BUILD_PLATFORMS_XCB_PLUGIN)
 
    install(
       TARGETS CsXcbSupport
-      EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+      EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

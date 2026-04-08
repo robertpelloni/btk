@@ -1,5 +1,5 @@
 add_executable(cs_wayland_scanner${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::cs_wayland_scanner ALIAS cs_wayland_scanner${TOOLS_SUFFIX})
+add_executable(BTK::cs_wayland_scanner ALIAS cs_wayland_scanner${TOOLS_SUFFIX})
 
 set(EXTRA_CS_WAYLAND_SCANNER_LIBS
    CsCore
@@ -50,6 +50,6 @@ set_target_properties(cs_wayland_scanner${TOOLS_SUFFIX}
 
 install(
    TARGETS cs_wayland_scanner${TOOLS_SUFFIX}
-   EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

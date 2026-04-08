@@ -317,9 +317,9 @@
     <name>QApplication</name>
     <message>
         <location filename="../src/gui/dialogs/qmessagebox.cpp" line="93"/>
-        <source>%1 requires CopperSpice version %2
+        <source>%1 requires BTK version %2
 
-Found CopperSpice version %3
+Found BTK version %3
 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2532,12 +2532,12 @@ Vill du ta bort den ändå?</translation>
     </message>
     <message>
         <location filename="../src/core/plugin/qlibrary.cpp" line="466"/>
-        <source>File &apos;%1&apos; is not a valid CopperSpice plugin.</source>
+        <source>File &apos;%1&apos; is not a valid BTK plugin.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/core/plugin/qlibrary.cpp" line="488"/>
-        <source>Plugin &apos;%1&apos; uses an incompatible CopperSpice library. (%2.%3.%4)</source>
+        <source>Plugin &apos;%1&apos; uses an incompatible BTK library. (%2.%3.%4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2987,18 +2987,18 @@ Vill du ta bort den ändå?</translation>
     </message>
     <message>
         <location filename="../src/gui/dialogs/qmessagebox.cpp" line="1233"/>
-        <source>About CopperSpice</source>
+        <source>About BTK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/dialogs/qmessagebox.cpp" line="1243"/>
-        <source>CopperSpice libraries Version %1</source>
+        <source>BTK libraries Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/dialogs/qmessagebox.cpp" line="1251"/>
-        <source>CopperSpice is a set of C++ libraries for cross platform applications on X11, Windows, and Mac OS X
-CopperSpice is licensed under the GNU LGPL version 2.1</source>
+        <source>BTK is a set of C++ libraries for cross platform applications on X11, Windows, and Mac OS X
+BTK is licensed under the GNU LGPL version 2.1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

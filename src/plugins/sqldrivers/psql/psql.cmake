@@ -12,7 +12,7 @@ list(APPEND SQL_INCLUDES
 if(WITH_PSQL_PLUGIN AND PostgreSQL_FOUND)
 
    add_library(CsSqlPsql MODULE "")
-   add_library(CopperSpice::CsSqlPsql ALIAS CsSqlPsql)
+   add_library(BTK::CsSqlPsql ALIAS CsSqlPsql)
 
    set_target_properties(CsSqlPsql PROPERTIES OUTPUT_NAME CsSqlPsql${BUILD_ABI} PREFIX "")
 

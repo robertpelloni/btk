@@ -13,7 +13,7 @@ list(APPEND SQL_INCLUDES
 if (FALSE)
 
    add_library(CsSqlOci MODULE "")
-   add_library(CopperSpice::CsSqlOci ALIAS CsSqlOci)
+   add_library(BTK::CsSqlOci ALIAS CsSqlOci)
 
    set_target_properties(CsSqlOci PROPERTIES OUTPUT_NAME CsSqlOci${BUILD_ABI} PREFIX "")
 

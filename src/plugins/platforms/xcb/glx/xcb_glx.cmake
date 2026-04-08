@@ -9,7 +9,7 @@ list(APPEND PLATFORMS_XCB_GLX_PRIVATE_INCLUDES
 
 if(BUILD_PLATFORMS_XCB_PLUGIN AND XCB_GLX_LIB)
    add_library(CsGuiXcb_Glx MODULE "")
-   add_library(CopperSpice::CsGuiXcb_Glx ALIAS CsGuiXcb_Glx)
+   add_library(BTK::CsGuiXcb_Glx ALIAS CsGuiXcb_Glx)
 
    set_target_properties(CsGuiXcb_Glx PROPERTIES
       OUTPUT_NAME CsGuiXcb_Glx${BUILD_ABI} PREFIX ""

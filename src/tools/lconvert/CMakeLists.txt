@@ -1,5 +1,5 @@
 add_executable(lconvert${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::lconvert ALIAS lconvert${TOOLS_SUFFIX})
+add_executable(BTK::lconvert ALIAS lconvert${TOOLS_SUFFIX})
 
 add_definitions(
    -DPROEVALUATOR_CUMULATIVE
@@ -67,6 +67,6 @@ set_target_properties(lconvert${TOOLS_SUFFIX}
 
 install(
    TARGETS lconvert${TOOLS_SUFFIX}
-   EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

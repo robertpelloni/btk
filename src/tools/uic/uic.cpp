@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -116,7 +116,7 @@ void Uic::writeCopyrightHeader(DomUI *ui)
    out << "/********************************************************************************\n";
    out << "** Form generated from reading the UI file '" << QFileInfo(opt.inputFile).fileName() << "'\n";
    out << "**\n";
-   out << "** Created by: CopperSpice User Interface Compiler, Version " << CS_VERSION_STR << "\n";
+   out << "** Created by: BTK User Interface Compiler, Version " << CS_VERSION_STR << "\n";
    out << "**\n";
    out << "** WARNING! Any changes made to this file will be lost when the UI file is recompiled\n";
    out << "********************************************************************************/\n\n";

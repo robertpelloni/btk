@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -3457,13 +3457,13 @@ int main(int, char **)
       "* Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).\n"
       "* Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).\n"
       "*\n"
-      "* This file is part of CopperSpice.\n"
+      "* This file is part of BTK.\n"
       "*\n"
-      "* CopperSpice is free software. You can redistribute it and/or\n"
+      "* BTK is free software. You can redistribute it and/or\n"
       "* modify it under the terms of the GNU Lesser General Public License\n"
       "* version 2.1 as published by the Free Software Foundation.\n"
       "*\n"
-      "* CopperSpice is distributed in the hope that it will be useful,\n"
+      "* BTK is distributed in the hope that it will be useful,\n"
       "* but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
       "* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
       "*\n"

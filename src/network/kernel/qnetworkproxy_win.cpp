@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -585,7 +585,7 @@ void QWindowsSystemProxy::init()
 
    if (ieProxyConfig.fAutoDetect || !autoConfigUrl.isEmpty())  {
       // open the handle and obtain the options
-      hHttpSession = ptrWinHttpOpen(L"CopperSpice System Proxy access/1.0",
+      hHttpSession = ptrWinHttpOpen(L"BTK System Proxy access/1.0",
                                  WINHTTP_ACCESS_TYPE_NO_PROXY,
                                  WINHTTP_NO_PROXY_NAME,
                                  WINHTTP_NO_PROXY_BYPASS, 0);

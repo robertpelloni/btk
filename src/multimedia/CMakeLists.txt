@@ -1,5 +1,5 @@
 add_library(CsMultimedia SHARED "")
-add_library(CopperSpice::CsMultimedia ALIAS CsMultimedia)
+add_library(BTK::CsMultimedia ALIAS CsMultimedia)
 
 set_target_properties(CsMultimedia PROPERTIES OUTPUT_NAME CsMultimedia${BUILD_ABI})
 
@@ -99,7 +99,7 @@ macro_generate_package(
 
 install(
     TARGETS CsMultimedia
-    EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

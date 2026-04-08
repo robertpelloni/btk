@@ -1,5 +1,5 @@
 add_library(CsSql SHARED "")
-add_library(CopperSpice::CsSql ALIAS CsSql)
+add_library(BTK::CsSql ALIAS CsSql)
 
 set_target_properties(CsSql PROPERTIES OUTPUT_NAME CsSql${BUILD_ABI})
 
@@ -95,7 +95,7 @@ macro_generate_package(
 
 install(
    TARGETS CsSql
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

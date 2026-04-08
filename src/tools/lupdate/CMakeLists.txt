@@ -1,5 +1,5 @@
 add_executable(lupdate${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::lupdate ALIAS lupdate${TOOLS_SUFFIX})
+add_executable(BTK::lupdate ALIAS lupdate${TOOLS_SUFFIX})
 
 set(EXTRA_LUPDATE_LIBS
    CsCore
@@ -75,6 +75,6 @@ function_generate_resources(lupdate${TOOLS_SUFFIX})
 
 install(
     TARGETS lupdate${TOOLS_SUFFIX}
-    EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

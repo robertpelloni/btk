@@ -1,5 +1,5 @@
 add_library(CsVulkan SHARED "")
-add_library(CopperSpice::CsVulkan ALIAS CsVulkan)
+add_library(BTK::CsVulkan ALIAS CsVulkan)
 
 set_target_properties(CsVulkan PROPERTIES OUTPUT_NAME CsVulkan${BUILD_ABI})
 
@@ -110,7 +110,7 @@ macro_generate_package(
 
 install(
    TARGETS CsVulkan
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

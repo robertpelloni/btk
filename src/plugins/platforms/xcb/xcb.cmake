@@ -4,7 +4,7 @@ if(BUILD_PLATFORMS_XCB_PLUGIN)
    )
 
    add_library(CsGuiXcb MODULE "")
-   add_library(CopperSpice::CsGuiXcb ALIAS CsGuiXcb)
+   add_library(BTK::CsGuiXcb ALIAS CsGuiXcb)
 
    set_target_properties(CsGuiXcb PROPERTIES
       OUTPUT_NAME   CsGuiXcb${BUILD_ABI} PREFIX ""

@@ -1,5 +1,5 @@
 add_executable(uic${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::uic ALIAS uic${TOOLS_SUFFIX})
+add_executable(BTK::uic ALIAS uic${TOOLS_SUFFIX})
 
 add_definitions(
    -DQT_UIC
@@ -97,6 +97,6 @@ set_target_properties(uic${TOOLS_SUFFIX}
 
 install(
    TARGETS uic${TOOLS_SUFFIX}
-   EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

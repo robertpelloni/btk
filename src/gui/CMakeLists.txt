@@ -1,5 +1,5 @@
 add_library(CsGui SHARED "")
-add_library(CopperSpice::CsGui ALIAS CsGui)
+add_library(BTK::CsGui ALIAS CsGui)
 
 set_target_properties(CsGui PROPERTIES OUTPUT_NAME CsGui${BUILD_ABI})
 
@@ -218,7 +218,7 @@ macro_generate_package(
 
 install(
    TARGETS CsGui
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -11,7 +11,7 @@ list(APPEND SQL_INCLUDES
 
 if (WITH_ODBC_PLUGIN AND ODBC_FOUND)
    add_library(CsSqlOdbc MODULE "")
-   add_library(CopperSpice::CsSqlOdbc ALIAS CsSqlOdbc)
+   add_library(BTK::CsSqlOdbc ALIAS CsSqlOdbc)
 
    set_target_properties(CsSqlOdbc PROPERTIES OUTPUT_NAME CsSqlOdbc${BUILD_ABI} PREFIX "")
 

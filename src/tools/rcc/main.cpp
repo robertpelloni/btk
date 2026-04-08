@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -35,7 +35,7 @@
 
 void showHelp(const QString &argv0, const QString &error)
 {
-   fprintf(stderr, "CopperSpice resource compiler\n");
+   fprintf(stderr, "BTK resource compiler\n");
 
    if (! error.isEmpty()) {
       fprintf(stderr, "%s: %s\n", csPrintable(argv0), csPrintable(error));
@@ -182,7 +182,7 @@ int runRcc(int argc, char *argv[])
             list = true;
 
          } else if (opt == "-version" || opt == "-v") {
-            fprintf(stderr, "CopperSpice Resource Compiler version %s\n", RCC_VERSION_STR);
+            fprintf(stderr, "BTK Resource Compiler version %s\n", RCC_VERSION_STR);
             return 1;
 
          } else if (opt == "-help" || opt == "-h") {
@@ -221,7 +221,7 @@ int runRcc(int argc, char *argv[])
    errorDevice.open(stderr, QIODevice::WriteOnly | QIODevice::Text);
 
    if (library.verbose()) {
-      errorDevice.write("CopperSpice resource compiler\n");
+      errorDevice.write("BTK resource compiler\n");
    }
 
    library.setInputFiles(filenamesIn);

@@ -6,7 +6,7 @@ list(APPEND PRINTERDRIVERS_CUPS_PRIVATE_INCLUDES
 
 if(Cups_FOUND)
    add_library(CsPrinterDriverCups MODULE "")
-   add_library(CopperSpice::CsPrinterDriverCups ALIAS CsPrinterDriverCups)
+   add_library(BTK::CsPrinterDriverCups ALIAS CsPrinterDriverCups)
 
    set_target_properties(CsPrinterDriverCups PROPERTIES OUTPUT_NAME CsPrinterDriverCups${BUILD_ABI} PREFIX "")
 

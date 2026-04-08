@@ -1,5 +1,5 @@
 add_library(CsMultimedia_m3u MODULE "")
-add_library(CopperSpice::CsMultimedia_m3u ALIAS CsMultimedia_m3u)
+add_library(BTK::CsMultimedia_m3u ALIAS CsMultimedia_m3u)
 
 set_target_properties(CsMultimedia_m3u PROPERTIES OUTPUT_NAME CsMultimedia_m3u${BUILD_ABI} PREFIX "")
 

@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -91,7 +91,7 @@ TEST_CASE("QSaveFile write", "[qsavefile]")
    REQUIRE(tmpDir.isValid() == true);
 
    //
-   QByteArray data_in("CopperSpice");
+   QByteArray data_in("BTK");
    QString fileName = tmpDir.path() + "/test.txt";
 
    QSaveFile file_A(fileName);

@@ -42,7 +42,7 @@ if(BUILD_PLATFORMS_WINDOWS_PLUGIN)
    )
 
    add_library(CsGuiWin MODULE "")
-   add_library(CopperSpice::CsGuiWin ALIAS CsGuiWin)
+   add_library(BTK::CsGuiWin ALIAS CsGuiWin)
 
    set_target_properties(CsGuiWin PROPERTIES OUTPUT_NAME CsGuiWin${BUILD_ABI} PREFIX "")
 

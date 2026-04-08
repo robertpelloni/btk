@@ -1,5 +1,5 @@
 add_library(CsCore SHARED "")
-add_library(CopperSpice::CsCore ALIAS CsCore)
+add_library(BTK::CsCore ALIAS CsCore)
 
 set_target_properties(CsCore PROPERTIES OUTPUT_NAME CsCore${BUILD_ABI})
 
@@ -226,6 +226,31 @@ else()
    include_directories(${CMAKE_SOURCE_DIR}/src/3rdparty)
 endif()
 
+# BTK alias headers - installed alongside core headers for BTK-branded access
+list(APPEND CORE_INCLUDES
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btk.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkcore.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkstring.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkpointer.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btksignal.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkgui.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btknetwork.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkopengl.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btksql.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkmultimedia.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btksvg.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkxml.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkvulkan.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkwebkit.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkxmlpatterns.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkwidgets.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btklayouts.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkcoretypes.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btkpainting.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btknetworktypes.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/global/btksqltypes.h
+)
+
 macro_generate_public("${CORE_PUBLIC_INCLUDES}" QtCore)
 macro_generate_private("${CORE_PRIVATE_INCLUDES}" QtCore)
 macro_generate_misc("${CORE_INCLUDES}" QtCore)
@@ -326,7 +351,7 @@ macro_generate_package(
 
 install(
    TARGETS CsCore
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

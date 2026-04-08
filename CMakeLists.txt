@@ -3,17 +3,17 @@ cmake_minimum_required(VERSION 3.18.0 FATAL_ERROR)
 cmake_policy(VERSION 3.18.0..3.31.10)
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.19.0")
-   # allows spaces in ctest names
+   # Allows spaces in ctest names
    cmake_policy(SET CMP0110 NEW)
 endif()
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20.0")
-   # enable RTTI on MSVC
+   # Enable RTTI on MSVC
    cmake_policy(SET CMP0117 OLD)
 endif()
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.31.0")
-   # normalized path
+   # Normalized path
    cmake_policy(SET CMP0177 NEW)
 endif()
 
@@ -445,7 +445,7 @@ if (PostgreSQL_FOUND AND CMAKE_SYSTEM_NAME MATCHES "Windows" AND NOT MSVC)
          # force to not found
          set(PostgreSQL_FOUND false)
 
-         message(STATUS "PostgreSQL client library was found, CopperSpice plugin will not be built")
+         message(STATUS "PostgreSQL client library was found, BTK plugin will not be built")
          message(STATUS "")
       endif()
 
@@ -459,13 +459,13 @@ if (PostgreSQL_FOUND AND CMAKE_SYSTEM_NAME MATCHES "Windows" AND NOT MSVC)
          " * WARNING *\n \n"
          " The directory '${fname}' contains the file semaphore.h\n \n"
          " A conflict exists between semaphore.h and the standard library.\n"
-         " Rename or remove semaphore.h in order to build the CsSqlPsql plugin\n"
+         " Rename or remove semaphore.h in order to build the BTK Sql Psql plugin\n"
          " -----------------------------------------------------------------\n")
 
          # force to not found
          set(PostgreSQL_FOUND false)
 
-         message(STATUS "PostgreSQL client library was found, CopperSpice plugin will not be built")
+         message(STATUS "PostgreSQL client library was found, BTK plugin will not be built")
          message(STATUS "")
       endif()
 
@@ -864,21 +864,26 @@ set(PKG_PREFIX_ALT "")
 set(BTK_PKG_PREFIX_ALT "")
 
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-   set(PKG_PREFIX "CopperSpice.framework/Resources")
+   set(PKG_PREFIX "BTK.framework/Resources")
    set(BTK_PKG_PREFIX "BTK.framework/Resources")
+   set(PKG_PREFIX_LEGACY "CopperSpice.framework/Resources")
 
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
-   set(PKG_PREFIX "cmake/CopperSpice")
+   set(PKG_PREFIX "cmake/BTK")
    set(BTK_PKG_PREFIX "cmake/BTK")
-   set(PKG_PREFIX_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
+   set(PKG_PREFIX_LEGACY "cmake/CopperSpice")
+   set(PKG_PREFIX_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
    set(BTK_PKG_PREFIX_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
+   set(PKG_PREFIX_LEGACY_ALT "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
 
 else()
-   set(PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
+   set(PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
    set(BTK_PKG_PREFIX "${CMAKE_INSTALL_LIBDIR}/cmake/BTK")
+   set(PKG_PREFIX_LEGACY "${CMAKE_INSTALL_LIBDIR}/cmake/CopperSpice")
 
 endif()
 
+# Install legacy CopperSpice package config for backward compatibility
 install(
    FILES
       ${CMAKE_BINARY_DIR}/CopperSpiceConfig.cmake
@@ -887,10 +892,10 @@ install(
       ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
       ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
       ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake
-   DESTINATION ${PKG_PREFIX}
+   DESTINATION ${PKG_PREFIX_LEGACY}
 )
 
-if (PKG_PREFIX_ALT)
+if (PKG_PREFIX_LEGACY_ALT)
    install(
       FILES
          ${CMAKE_BINARY_DIR}/CopperSpiceConfig.cmake
@@ -899,10 +904,11 @@ if (PKG_PREFIX_ALT)
          ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceDeploy.cmake
          ${CMAKE_SOURCE_DIR}/cmake/CopperSpiceMacros.cmake
          ${CMAKE_SOURCE_DIR}/cmake/InstallMinGW.cmake
-      DESTINATION ${PKG_PREFIX_ALT}
+      DESTINATION ${PKG_PREFIX_LEGACY_ALT}
    )
 endif()
 
+# Install primary BTK package config
 install(
    FILES
       ${CMAKE_BINARY_DIR}/BTKConfig.cmake
@@ -932,20 +938,20 @@ if (BTK_PKG_PREFIX_ALT)
 endif()
 
 install(
-   # generate cmake files containing rules about linking with CS libs
+   # generate cmake files containing rules about linking with BTK libs
 
    EXPORT CopperSpiceLibraryTargets
    NAMESPACE CopperSpice::
    FILE CopperSpiceLibraryTargets.cmake
-   DESTINATION ${PKG_PREFIX}
+   DESTINATION ${PKG_PREFIX_LEGACY}
 )
 
-if (PKG_PREFIX_ALT)
+if (PKG_PREFIX_LEGACY_ALT)
    install(
       EXPORT CopperSpiceLibraryTargets
       NAMESPACE CopperSpice::
       FILE CopperSpiceLibraryTargets.cmake
-      DESTINATION ${PKG_PREFIX_ALT}
+      DESTINATION ${PKG_PREFIX_LEGACY_ALT}
    )
 endif()
 
@@ -965,20 +971,20 @@ if (BTK_PKG_PREFIX_ALT)
    )
 endif()
 
-# generate cmake files containing rules about running CS binary tools
 install(
+   # generate cmake files containing rules about running BTK binary tools
    EXPORT CopperSpiceBinaryTargets
    NAMESPACE CopperSpice::
    FILE CopperSpiceBinaryTargets.cmake
-   DESTINATION ${PKG_PREFIX}
+   DESTINATION ${PKG_PREFIX_LEGACY}
 )
 
-if (PKG_PREFIX_ALT)
+if (PKG_PREFIX_LEGACY_ALT)
    install(
       EXPORT CopperSpiceBinaryTargets
       NAMESPACE CopperSpice::
       FILE CopperSpiceBinaryTargets.cmake
-      DESTINATION ${PKG_PREFIX_ALT}
+      DESTINATION ${PKG_PREFIX_LEGACY_ALT}
    )
 endif()
 

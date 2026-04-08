@@ -1,5 +1,5 @@
 add_library(CsOpenGL SHARED "")
-add_library(CopperSpice::CsOpenGL ALIAS CsOpenGL)
+add_library(BTK::CsOpenGL ALIAS CsOpenGL)
 
 set_target_properties(CsOpenGL PROPERTIES OUTPUT_NAME CsOpenGL${BUILD_ABI})
 
@@ -154,7 +154,7 @@ macro_generate_package(
 
 install(
    TARGETS CsOpenGL
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

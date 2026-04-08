@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -437,7 +437,7 @@ void QLibraryHandle::updatePluginState()
          if (fileName.isEmpty()) {
             errorString = QLibrary::tr("Plugin library was not found.");
          } else {
-            errorString = QLibrary::tr("File '%1' is not a valid CopperSpice plugin.").formatArg(fileName);
+            errorString = QLibrary::tr("File '%1' is not a valid BTK plugin.").formatArg(fileName);
          }
       }
 
@@ -452,7 +452,7 @@ void QLibraryHandle::updatePluginState()
    int version = m_metaObject->classInfo(index).value().toInteger<int>();
 
    if ((version & 0x00ff00) > (CS_VERSION & 0x00ff00) || (version & 0xff0000) != (CS_VERSION & 0xff0000)) {
-      errorString = QLibrary::tr("Plugin '%1' uses an incompatible CopperSpice library (%2.%3.%4)")
+      errorString = QLibrary::tr("Plugin '%1' uses an incompatible BTK library (%2.%3.%4)")
             .formatArg(fileName).formatArg((version & 0xff0000) >> 16).formatArg((version & 0xff00) >> 8)
             .formatArg(version & 0xff);
 

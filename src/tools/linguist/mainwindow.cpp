@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -1477,7 +1477,7 @@ void MainWindow::about()
    QString version = tr("Version %1").formatArg(CS_VERSION_STR);
 
    box.setText(tr("<p>Linguist is a program to add or modify translations in a TS file. The compiled file "
-            "can be used in CopperSpice applications to provide internationalization.</p>"
+            "can be used in BTK applications to provide internationalization.</p>"
             "<p>Copyright (c) 2012-2026 Barbara Geller and Ansel Sermersheim</p>"
             "<p>Copyright (c) 2015 The Qt Company Ltd</p>"
             "<p>Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies)</p>"

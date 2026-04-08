@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -47,7 +47,7 @@ TEST_CASE("QXmlStreamWriter parse_valid_xml", "[qxmlstreamwriter]")
 
     writer.writeStartDocument();
     writer.writeStartElement("greeting");
-    writer.writeTextElement("text", "Hello, CopperSpice!");
+    writer.writeTextElement("text", "Hello, BTK!");
     writer.writeEndElement();
     writer.writeEndDocument();
 
@@ -56,7 +56,7 @@ TEST_CASE("QXmlStreamWriter parse_valid_xml", "[qxmlstreamwriter]")
     QString writtenXml = QString::fromUtf8(output);
 
     REQUIRE(writtenXml.contains("<greeting>") == true);
-    REQUIRE(writtenXml.contains("<text>Hello, CopperSpice!</text>") == true);
+    REQUIRE(writtenXml.contains("<text>Hello, BTK!</text>") == true);
     REQUIRE(writtenXml.contains("</greeting>") == true);
 }
 

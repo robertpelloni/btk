@@ -1,5 +1,5 @@
 add_library(CsDeclarative SHARED "")
-add_library(CopperSpice::CsDeclarative ALIAS CsDeclarative)
+add_library(BTK::CsDeclarative ALIAS CsDeclarative)
 
 set_target_properties(CsDeclarative PROPERTIES OUTPUT_NAME CsDeclarative${BUILD_ABI})
 
@@ -71,7 +71,7 @@ macro_generate_package(
 )
 
 install(TARGETS CsDeclarative
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

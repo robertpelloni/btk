@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -927,7 +927,7 @@ TEST_CASE("QVariant can_convert_t_json_value", "[qvariant]")
    }
 
    {
-      QJsonValue value = QJsonValue(QString("CopperSpice"));
+      QJsonValue value = QJsonValue(QString("BTK"));
       QVariant data = value;
 
       REQUIRE(data.type() == QVariant::JsonValue);
@@ -1952,10 +1952,10 @@ TEST_CASE("QVariant constructor_bytearray", "[qvariant]")
    REQUIRE(data.toReal()              == 0);
 
    REQUIRE(data.toBitArray()          == QBitArray());
-   REQUIRE(data.toByteArray()         == QByteArray("CopperSpice") + '\0');
+   REQUIRE(data.toByteArray()         == QByteArray("BTK") + '\0');
    REQUIRE(data.toChar()              == '\0');
-   REQUIRE(data.toString()            == QString("CopperSpice") + '\0');
-   REQUIRE(data.toString16()          == QString16("CopperSpice") + '\0');
+   REQUIRE(data.toString()            == QString("BTK") + '\0');
+   REQUIRE(data.toString16()          == QString16("BTK") + '\0');
    REQUIRE(data.toStringList()        == QStringList());
    REQUIRE(data.value<QStringView>()  == QStringView());
 
@@ -3118,7 +3118,7 @@ TEST_CASE("QVariant constructor_json_value", "[qvariant]")
    }
 
    {
-      QJsonValue value = QJsonValue(QString("CopperSpice"));
+      QJsonValue value = QJsonValue(QString("BTK"));
       QVariant data = value;
 
       REQUIRE(data.isValid() == true);
@@ -3138,8 +3138,8 @@ TEST_CASE("QVariant constructor_json_value", "[qvariant]")
       REQUIRE(data.toBitArray()          == QBitArray());
       REQUIRE(data.toByteArray()         == QByteArray());
       REQUIRE(data.toChar()              == '\0');
-      REQUIRE(data.toString()            == QString("CopperSpice"));
-      REQUIRE(data.toString16()          == QString16("CopperSpice"));
+      REQUIRE(data.toString()            == QString("BTK"));
+      REQUIRE(data.toString16()          == QString16("BTK"));
       REQUIRE(data.toStringList()        == QStringList());
       REQUIRE(data.value<QStringView>()  == QStringView());
 
@@ -3156,7 +3156,7 @@ TEST_CASE("QVariant constructor_json_value", "[qvariant]")
 
       REQUIRE(data.toJsonArray()         == QJsonArray());
       REQUIRE(data.toJsonDocument()      == QJsonDocument());
-      REQUIRE(data.toJsonValue()         == QJsonValue(QString("CopperSpice")));
+      REQUIRE(data.toJsonValue()         == QJsonValue(QString("BTK")));
       REQUIRE(data.toJsonObject()        == QJsonObject());
 
       REQUIRE(data.toLine()              == QLine());

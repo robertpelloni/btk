@@ -16,7 +16,7 @@ if (CS_INSTALL_MODE STREQUAL "Deploy" AND CMAKE_SYSTEM_NAME MATCHES "Windows")
       "@ECHO OFF           \n"
       "\n"
       "ECHO:               \n"
-      "ECHO CopperSpice was built in Deploy Mode.\n"
+      "ECHO BTK was built in Deploy Mode.\n"
       "ECHO    Running CsCoreTest may require some of the following libraries. \n"
       "ECHO    Either modify your PATH or copy these libraries to the current folder. \n"
       "ECHO:               \n"

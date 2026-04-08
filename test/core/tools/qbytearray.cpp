@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -57,7 +57,7 @@ TEST_CASE("QByteArray append", "[qbytearray]")
 
 TEST_CASE("QByteArray chop", "[qbytearray]")
 {
-   QByteArray str("CopperSpice");
+   QByteArray str("BTK");
 
    SECTION("a")
    {
@@ -246,14 +246,14 @@ TEST_CASE("QByteArray count", "[qbytearray]")
 
 TEST_CASE("QByteArray data", "[qbytearray]")
 {
-   QByteArray str("CopperSpice");
+   QByteArray str("BTK");
 
    SECTION("a")
    {
      char *ptr = str.data();
 
      REQUIRE(ptr != nullptr);
-     REQUIRE(std::string(ptr) == "CopperSpice");
+     REQUIRE(std::string(ptr) == "BTK");
    }
 
    SECTION("b")
@@ -480,7 +480,7 @@ TEST_CASE("QByteArray reserve", "[qbytearray]")
 
 TEST_CASE("QByteArray resize", "[qbytearray]")
 {
-   QByteArray str("CopperSpice");
+   QByteArray str("BTK");
 
    //
    str.resize(15);

@@ -4,7 +4,7 @@ list(APPEND IMAGEFORMATS_SVG_PRIVATE_INCLUDES
 
 if(WITH_SVG)
    add_library(CsImageFormatsSvg MODULE "")
-   add_library(CopperSpice::CsImageFormatsSvg ALIAS CsImageFormatsSvg)
+   add_library(BTK::CsImageFormatsSvg ALIAS CsImageFormatsSvg)
 
    set_target_properties(CsImageFormatsSvg PROPERTIES OUTPUT_NAME CsImageFormatsSvg${BUILD_ABI} PREFIX "")
 

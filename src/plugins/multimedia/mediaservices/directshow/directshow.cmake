@@ -34,7 +34,7 @@ list(APPEND MULTIMEDIA_PRIVATE_INCLUDES
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
    add_library(CsMultimedia_DirectShow MODULE "")
-   add_library(CopperSpice::CsMultimedia_DirectShow ALIAS CsMultimedia_DirectShow)
+   add_library(BTK::CsMultimedia_DirectShow ALIAS CsMultimedia_DirectShow)
 
    set_target_properties(CsMultimedia_DirectShow PROPERTIES OUTPUT_NAME CsMultimedia_DirectShow${BUILD_ABI} PREFIX "")
 

@@ -1,5 +1,5 @@
 add_library(CsSvg SHARED "")
-add_library(CopperSpice::CsSvg ALIAS CsSvg)
+add_library(BTK::CsSvg ALIAS CsSvg)
 
 set_target_properties(CsSvg PROPERTIES OUTPUT_NAME CsSvg${BUILD_ABI})
 
@@ -118,7 +118,7 @@ endif()
 
 install(
    TARGETS CsSvg
-   EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

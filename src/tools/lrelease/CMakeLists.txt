@@ -1,5 +1,5 @@
 add_executable(lrelease${TOOLS_SUFFIX} "")
-add_executable(CopperSpice::lrelease ALIAS lrelease${TOOLS_SUFFIX})
+add_executable(BTK::lrelease ALIAS lrelease${TOOLS_SUFFIX})
 
 set(EXTRA_LRELEASE_LIBS
    CsCore
@@ -60,6 +60,6 @@ set_target_properties(lrelease${TOOLS_SUFFIX}
 
 install(
    TARGETS lrelease${TOOLS_SUFFIX}
-   EXPORT CopperSpiceBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+   EXPORT BTKBinaryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

@@ -40,7 +40,7 @@ if(WITH_MULTIMEDIA AND CMAKE_SYSTEM_NAME MATCHES "Darwin")
 
    # plugin 1
    add_library(CsMultimedia_avf_camera MODULE "")
-   add_library(CopperSpice::CsMultimedia_avf_camera ALIAS CsMultimedia_avf_camera)
+   add_library(BTK::CsMultimedia_avf_camera ALIAS CsMultimedia_avf_camera)
 
    set_target_properties(CsMultimedia_avf_camera PROPERTIES OUTPUT_NAME CsMultimedia_avf_camera${BUILD_ABI} PREFIX "")
 
@@ -92,7 +92,7 @@ if(WITH_MULTIMEDIA AND CMAKE_SYSTEM_NAME MATCHES "Darwin")
 
    # plugin 2
    add_library(CsMultimedia_avf_mediaplayer MODULE "")
-   add_library(CopperSpice::CsMultimedia_avf_mediaplayer ALIAS CsMultimedia_avf_mediaplayer)
+   add_library(BTK::CsMultimedia_avf_mediaplayer ALIAS CsMultimedia_avf_mediaplayer)
 
    set_target_properties(CsMultimedia_avf_mediaplayer PROPERTIES OUTPUT_NAME CsMultimedia_avf_mediaplayer${BUILD_ABI} PREFIX "")
 

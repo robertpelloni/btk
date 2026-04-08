@@ -1,6 +1,6 @@
 if(BUILD_PLATFORMS_WAYLAND_PLUGIN)
    add_library(CsGuiWayland MODULE "")
-   add_library(CopperSpice::CsGuiWayland ALIAS CsGuiWayland)
+   add_library(BTK::CsGuiWayland ALIAS CsGuiWayland)
 
    set_target_properties(CsGuiWayland PROPERTIES
       OUTPUT_NAME CsGuiWayland${BUILD_ABI} PREFIX ""

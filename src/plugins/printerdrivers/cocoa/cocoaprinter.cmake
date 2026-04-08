@@ -1,7 +1,7 @@
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 
    add_library(CsPrinterDriverCocoa MODULE "")
-   add_library(CopperSpice::CsPrinterDriverCocoa ALIAS CsPrinterDriverCocoa)
+   add_library(BTK::CsPrinterDriverCocoa ALIAS CsPrinterDriverCocoa)
 
    set_target_properties(CsPrinterDriverCocoa PROPERTIES OUTPUT_NAME CsPrinterDriverCocoa${BUILD_ABI})
 

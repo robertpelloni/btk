@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## 0.2.0 - 2026-04-08
+- completed comprehensive CopperSpice → BTK rebrand across all source files (4,282+ files)
+- updated all copyright/license comment headers from "This file is part of CopperSpice" to BTK
+- renamed all user-facing error messages, diagnostics, and UI strings from CopperSpice to BTK
+- updated cmake package install paths: BTK is now the primary package, CopperSpice is legacy compat
+- added comprehensive BTK subsystem alias headers:
+  - `<btk.h>` - full framework umbrella
+  - `<btkcore.h>` - core framework with smart pointers, signals, strings
+  - `<btkgui.h>` - GUI subsystem with multi-user ownership
+  - `<btknetwork.h>` - networking
+  - `<btkopengl.h>` - OpenGL rendering
+  - `<btksql.h>` - database access
+  - `<btkmultimedia.h>` - audio/video/camera
+  - `<btksvg.h>` - SVG rendering
+  - `<btkxml.h>` - XML parsing
+  - `<btkvulkan.h>` - Vulkan rendering
+  - `<btkwebkit.h>` - web browser engine
+  - `<btkxmlpatterns.h>` - XQuery/XPath
+- expanded existing alias headers with richer type coverage:
+  - `btkstring.h`: added BtkEncodingUtf8, BtkEncodingUtf16 aliases
+  - `btkpointer.h`: added BtkPointerTraits alias
+  - `btksignal.h`: added connection kind constants
+- all cmake module files updated with BTK branding
+- all test files updated with BTK branding
+- all utility files updated with BTK branding
+- all translation files updated with BTK branding
+- cmake primary install path changed from `cmake/CopperSpice` to `cmake/BTK`
+- legacy CopperSpice package config preserved for backward compatibility
+
 ## 0.1.9 - 2026-04-06
 - added a reusable staging helper for probe-local BTK core artifacts: `scripts/stage_probe_core_artifacts.ps1`
 - staged `CsCore2.1.lib` and `CsCore2.1.dll` from the validated `build-vs2019` tree into `build-vs2019-script-probe5` at the exact paths expected by `CsScript.vcxproj`

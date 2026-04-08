@@ -1,6 +1,6 @@
 if(BUILD_PLATFORMS_WAYLAND_PLUGIN)
    add_library(CsWaylandClient SHARED "")
-   add_library(CopperSpice::CsWaylandClient ALIAS CsWaylandClient)
+   add_library(BTK::CsWaylandClient ALIAS CsWaylandClient)
 
    set_target_properties(CsWaylandClient PROPERTIES
       OUTPUT_NAME CsWaylandClient${BUILD_ABI})
@@ -208,7 +208,7 @@ if(BUILD_PLATFORMS_WAYLAND_PLUGIN)
 
    install(
       TARGETS CsWaylandClient
-      EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+      EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

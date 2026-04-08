@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -114,7 +114,7 @@
 #      define Q_PROCESSOR_ARM_V5
 
 #   else
-#     error Unsupported system architecture, CopperSpice requires V5 or newer
+#     error Unsupported system architecture, BTK requires V5 or newer
 
 #   endif
 
@@ -129,7 +129,7 @@
 #  define Q_PROCESSOR_PPC
 
 #else
-#   error Unable to detect system architecture, contact CopperSpice development
+#   error Unable to detect system architecture, contact BTK development
 
 #endif
 
@@ -153,7 +153,7 @@
 #define Q_BYTE_ORDER Q_BIG_ENDIAN
 
 #else
-#error Unable to detect target endianness, contact CopperSpice development
+#error Unable to detect target endianness, contact BTK development
 
 #endif
 
@@ -198,7 +198,7 @@
 #elif defined(__MAKEDEPEND__)
 
 #else
-#  error "CopperSpice has not been ported to this Operating System"
+#  error "BTK has not been ported to this Operating System"
 
 #endif
 
@@ -304,7 +304,7 @@
 #if defined(__clang__)
 
 #  if ( __clang_major__ < 6)
-#    error "CopperSpice requires Clang 6 or newer"
+#    error "BTK requires Clang 6 or newer"
 #  endif
 
 #  define Q_CC_CLANG
@@ -324,7 +324,7 @@
 //  ****
 
 #  if (__GNUC__ < 7) || (__GNUC__ == 7 && __GNUC_MINOR__ < 3)
-#    error "CopperSpice requires GCC 7.3 or newer"
+#    error "BTK requires GCC 7.3 or newer"
 #  endif
 
 #  define Q_CC_GNU
@@ -355,7 +355,7 @@
 //  ****
 
 #  if _MSC_VER < 1926
-#    error "CopperSpice requires Visual Studio 2019 Version 16.6 or newer"
+#    error "BTK requires Visual Studio 2019 Version 16.6 or newer"
 #  endif
 
 #  define Q_CC_MSVC         (_MSC_VER)
@@ -394,7 +394,7 @@
 #else
 //  **
 
-#  error "CopperSpice has not been tested with this Compiler"
+#  error "BTK has not been tested with this Compiler"
 
 #endif
 

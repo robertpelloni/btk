@@ -7,13 +7,13 @@
 * Copyright (c) 2012-2016 Digia Plc and/or its subsidiary(-ies).
 * Copyright (c) 2008-2012 Nokia Corporation and/or its subsidiary(-ies).
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -403,11 +403,11 @@ class Q_GUI_EXPORT QApplication : public QCoreApplication
    GUI_CS_SIGNAL_2(fontDatabaseChanged)
 
 #ifndef QT_NO_SESSIONMANAGER
-   // CopperSpice - api change to pass a pointer instead of a reference
+   // BTK - api change to pass a pointer instead of a reference
    GUI_CS_SIGNAL_1(Public, void commitDataRequest(QSessionManager *sessionManager))
    GUI_CS_SIGNAL_2(commitDataRequest, sessionManager)
 
-   // CopperSpice - api change to pass a pointer instead of a reference
+   // BTK - api change to pass a pointer instead of a reference
    GUI_CS_SIGNAL_1(Public, void saveStateRequest(QSessionManager *sessionManager))
    GUI_CS_SIGNAL_2(saveStateRequest, sessionManager)
 #endif

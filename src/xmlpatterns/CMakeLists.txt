@@ -1,5 +1,5 @@
 add_library(CsXmlPatterns SHARED "")
-add_library(CopperSpice::CsXmlPatterns ALIAS CsXmlPatterns)
+add_library(BTK::CsXmlPatterns ALIAS CsXmlPatterns)
 
 set_target_properties(CsXmlPatterns PROPERTIES OUTPUT_NAME CsXmlPatterns${BUILD_ABI})
 
@@ -89,7 +89,7 @@ macro_generate_package(
 
 install(
     TARGETS CsXmlPatterns
-    EXPORT CopperSpiceLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT BTKLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

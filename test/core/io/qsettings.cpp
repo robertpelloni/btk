@@ -3,13 +3,13 @@
 * Copyright (c) 2012-2026 Barbara Geller
 * Copyright (c) 2012-2026 Ansel Sermersheim
 *
-* This file is part of CopperSpice.
+* This file is part of BTK.
 *
-* CopperSpice is free software. You can redistribute it and/or
+* BTK is free software. You can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public License
 * version 2.1 as published by the Free Software Foundation.
 *
-* CopperSpice is distributed in the hope that it will be useful,
+* BTK is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 *
@@ -39,9 +39,9 @@ TEST_CASE("QSettings traits", "[qsettings]")
 
 TEST_CASE("QSettings name", "[qsettings]")
 {
-   QSettings data("CopperSpice Test", "CsCoreTest");
+   QSettings data("BTK Test", "CsCoreTest");
 
-   REQUIRE(data.organizationName() == "CopperSpice Test");
+   REQUIRE(data.organizationName() == "BTK Test");
    REQUIRE(data.applicationName()  == "CsCoreTest");
 }
 
@@ -52,7 +52,7 @@ TEST_CASE("QSettings allkeys", "[qsettings]")
    map.insert("10", QString("chicken"));
    map.insert("20", QString("fish"));
 
-   QSettings settings1("CopperSpice Test", "CsCoreTest");
+   QSettings settings1("BTK Test", "CsCoreTest");
 
    // user
    settings1.setValue("room_size",  QSize(10, 16));
@@ -64,7 +64,7 @@ TEST_CASE("QSettings allkeys", "[qsettings]")
    settings1.sync();
 
    // global
-   QSettings settings2("CopperSpice Test");
+   QSettings settings2("BTK Test");
 
    settings2.setValue("catchTest",  true);
    settings2.sync();
@@ -136,7 +136,7 @@ TEST_CASE("QSettings allkeys", "[qsettings]")
 
 TEST_CASE("QSettings fileName", "[qsettings]")
 {
-   QCoreApplication::setOrganizationName("CopperSpice");
+   QCoreApplication::setOrganizationName("BTK");
    QCoreApplication::setApplicationName("CsCoreTest");
 
    REQUIRE(QCoreApplication::applicationName() == "CsCoreTest");
@@ -153,11 +153,11 @@ TEST_CASE("QSettings fileName", "[qsettings]")
    REQUIRE(fileInfo1.path() == targetLocation);
 
    // B
-   QSettings data2(QSettings::IniFormat, QSettings::UserScope, "CopperSpice");
+   QSettings data2(QSettings::IniFormat, QSettings::UserScope, "BTK");
 
    QFileInfo fileInfo2 = data2.fileName();
 
-   REQUIRE(fileInfo2.fileName() == "CopperSpice.ini");
+   REQUIRE(fileInfo2.fileName() == "BTK.ini");
    REQUIRE(fileInfo2.path() == targetLocation);
 
    QCoreApplication::setOrganizationName("");

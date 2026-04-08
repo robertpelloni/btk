@@ -13,7 +13,7 @@ list(APPEND SQL_INCLUDES
 if (FALSE)
 
    add_library(CsSqlIBase MODULE "")
-   add_library(CopperSpice::CsSqlIBase  ALIAS CsSqlIBase )
+   add_library(BTK::CsSqlIBase  ALIAS CsSqlIBase )
 
    set_target_properties(CsSqlIBase  PROPERTIES OUTPUT_NAME CsSqlIBase ${BUILD_ABI} PREFIX "")
 

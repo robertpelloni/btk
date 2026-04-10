@@ -1,0 +1,572 @@
+{
+  "nextId": 50,
+  "tasks": [
+    {
+      "id": "1",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source tree to understand the modules, dependencies, and complexity involved in porting the entire C++ framework to Go. Document the subsystem structure and estimate effort required.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775716361465,
+      "updatedAt": 1775732702834
+    },
+    {
+      "id": "2",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the modules, dependencies, and scope of work required to port the entire framework to Go. Identify core components that would need to be ported first.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775718496482,
+      "updatedAt": 1775721418540
+    },
+    {
+      "id": "3",
+      "subject": "Examine README and project documentation to understand BTK scope",
+      "description": "Read the README.md and key documentation files to understand what BTK is, its goals, and the scope of functionality that would need to be ported to Go",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775718531312,
+      "updatedAt": 1775722101782
+    },
+    {
+      "id": "4",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure, identify all modules and components, and determine the scope of work required to port the entire framework to Go. This includes understanding the dependencies, build system, and key features of each module.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775718675356,
+      "updatedAt": 1775733560236
+    },
+    {
+      "id": "5",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the scope of work required for porting to Go. Identify all modules, subsystems, and their interdependencies. This will help create a systematic porting strategy.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775718746035,
+      "updatedAt": 1775718746035
+    },
+    {
+      "id": "6",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the full scope of what would need to be ported to Go. Identify all modules, subsystems, and their interdependencies.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775718787606,
+      "updatedAt": 1775718787606
+    },
+    {
+      "id": "7",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the modules, dependencies, and scope of work required to port the entire framework to Go. This includes reviewing all subsystems: core, gui, network, xml, sql, svg, opengl, vulkan, multimedia, webkit, xmlpatterns, script, declarative, dbus, tools, and annex.",
+      "status": "pending",
+      "activeForm": "Analyzing BTK project structure",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775719058260,
+      "updatedAt": 1775719058260
+    },
+    {
+      "id": "8",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the modules, dependencies, and scope of functionality that would need to be ported to Go. This includes reviewing the directory structure, key files, and documentation to understand what BTK provides.",
+      "status": "pending",
+      "activeForm": "Analyzing BTK project structure",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775719769612,
+      "updatedAt": 1775719769612
+    },
+    {
+      "id": "9",
+      "subject": "Examine README and project documentation to understand BTK scope",
+      "description": "Read the README.md and key documentation files to understand what BTK is, its goals, and the scope of functionality that would need to be ported to Go",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775720429637,
+      "updatedAt": 1775751438811,
+      "activeForm": "Examining README and project documentation to understand BTK scope"
+    },
+    {
+      "id": "10",
+      "subject": "Analyze BTK project structure and identify all modules for Go porting",
+      "description": "Examine the BTK source code structure to understand all modules, subsystems, and components that need to be ported to Go. This includes core, gui, network, xml, sql, svg, opengl, vulkan, multimedia, script, declarative, webkit, dbus, and any other modules.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775720883266,
+      "updatedAt": 1775731141152
+    },
+    {
+      "id": "11",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK source code structure to understand the full scope of functionality that would need to be ported to Go, including all modules (Core, Gui, Network, Xml, Sql, Svg, OpenGL, Vulkan, Multimedia, WebKit, XmlPatterns, Script, Declarative, etc.) and their dependencies.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775721013357,
+      "updatedAt": 1775721013357
+    },
+    {
+      "id": "12",
+      "subject": "Analyze BTK project structure and identify all modules for Go porting",
+      "description": "Examine the BTK source tree structure to understand the scope of work required to port the entire framework to Go. Identify all major modules, their dependencies, and estimate the effort required for each.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775721796669,
+      "updatedAt": 1775721796669
+    },
+    {
+      "id": "13",
+      "subject": "Analyze BTK project structure and identify all modules for Go porting",
+      "description": "Examine the BTK source code structure to identify all modules, subsystems, and components that would need to be ported to Go. This includes analyzing the core framework, GUI components, networking, multimedia, and all other subsystems.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775721916157,
+      "updatedAt": 1775721916157
+    },
+    {
+      "id": "14",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK project structure to understand all modules, dependencies, and the scope of functionality that would need to be ported to Go. Review README.md and key documentation files.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775721947977,
+      "updatedAt": 1775735262496
+    },
+    {
+      "id": "15",
+      "subject": "Analyze existing Go components in BTK project",
+      "description": "Examine the external/bobui-reference directory and any other Go code in the project to understand what already exists that can be leveraged for porting BTK to Go",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775722209476,
+      "updatedAt": 1775722209476
+    },
+    {
+      "id": "16",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK project structure to understand all modules and components that would need to be ported to Go. Review documentation to understand the project goals and scope.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775722307754,
+      "updatedAt": 1775722307754
+    },
+    {
+      "id": "17",
+      "subject": "Analyze existing Go components in BTK project",
+      "description": "Examine the existing Go code in the external/bobui-reference directory to understand what's already implemented in Go and how it relates to the BTK C++ framework that needs to be ported.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775722343144,
+      "updatedAt": 1775722343144
+    },
+    {
+      "id": "18",
+      "subject": "Analyze BTK core module structure and dependencies",
+      "description": "Examine the core module files to understand foundational types, object model, threading, I/O, timers, properties, signals/slots that need to be ported to Go",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775722426264,
+      "updatedAt": 1775722426264
+    },
+    {
+      "id": "19",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Develop a detailed plan for porting the entire BTK C++ framework to Go, covering all modules, establishing coding standards, and defining the incremental porting approach",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775722714251,
+      "updatedAt": 1775733156050
+    },
+    {
+      "id": "20",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Analyze the BTK project structure and create a detailed plan for porting the entire framework to Go, including identifying core components, dependencies, and implementation approach.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775725127150,
+      "updatedAt": 1775726564976
+    },
+    {
+      "id": "21",
+      "subject": "Analyze BTK core module structure and dependencies",
+      "description": "Examine the BTK core module in detail to understand its structure, dependencies, and what needs to be ported to Go. Focus on foundation types, object model, threading, I/O, timers, properties, and signals/slots.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775725348006,
+      "updatedAt": 1775729327547
+    },
+    {
+      "id": "22",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Create a detailed plan for porting the entire BTK C++ framework to Go, including module prioritization, dependency management, API design considerations, and implementation approach.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775727315718,
+      "updatedAt": 1775741288727
+    },
+    {
+      "id": "23",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Create a detailed, phased plan for porting the entire BTK C++ framework to Go, covering all modules: BtkCore, BtkGui, BtkNetwork, BtkXml, BtkSql, BtkSvg, BtkOpenGL, BtkVulkan, BtkMultimedia, BtkWebKit, BtkXmlPatterns, and BtkBml. The plan should include project setup, dependencies, coding standards, testing strategy, and integration approach.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775727454541,
+      "updatedAt": 1775727454541
+    },
+    {
+      "id": "24",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Create a detailed, phase-by-phase plan for porting the entire BTK C++ framework to Go, including module prioritization, dependency analysis, implementation strategy, testing approach, and documentation requirements.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775727669731,
+      "updatedAt": 1775727669731
+    },
+    {
+      "id": "25",
+      "subject": "Start porting BTK core module to Go",
+      "description": "Begin porting the BTK core module (foundation types, object model, threading, I/O, timers, properties, signals/slots) to Go. This is the foundational layer that other modules depend on.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775732098295,
+      "updatedAt": 1775734624326
+    },
+    {
+      "id": "26",
+      "subject": "Create comprehensive plan for porting BTK to Go",
+      "description": "Create a detailed plan for porting the entire BTK C++ framework to Go, including phases, priorities, dependencies, and estimated effort. The plan should cover all subsystems: Core, Gui, Network, Xml, Sql, Svg, OpenGL, Vulkan, Multimedia, WebKit, XmlPatterns, and Bml.",
+      "status": "pending",
+      "activeForm": "Creating comprehensive plan for porting BTK to Go",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775732409432,
+      "updatedAt": 1775732409432
+    },
+    {
+      "id": "27",
+      "subject": "Review BTK project structure and current state",
+      "description": "Reviewed BTK project structure including README.md, CMakeLists.txt, directory layout, and identified all modules: BtkCore, BtkGui, BtkNetwork, BtkXml, BtkSql, BtkSvg, BtkOpenGL, BtkVulkan, BtkMultimedia, BtkWebKit, BtkXmlPatterns, BtkBml. Also examined external submodules (juice, ultimatepp, bobui-reference) and documentation structure in docs/ai/. The project aims for 1:1 feature parity with Qt 6/7, JavaFX, JUCE, GTK, WinUI, Ultimate++ while establishing BTK as a multi-user capable windowing toolkit.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775734333587,
+      "updatedAt": 1775734471408
+    },
+    {
+      "id": "28",
+      "subject": "Continue porting BTK core module components to Go",
+      "description": "Continue porting the remaining components of the BTK core module to Go, including animation, codecs, concurrent, containers, datetime, io, json, kernel, locale, plugin, pointer, rhi, statemachine, string, thread, tools, and xml submodules.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775735403435,
+      "updatedAt": 1775739024284
+    },
+    {
+      "id": "29",
+      "subject": "Review BTK project structure and current state",
+      "description": "Examine the BTK project structure to understand all modules, their dependencies, and current state. Identify existing Go components that can be leveraged for the port.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775735593195,
+      "updatedAt": 1775735593195
+    },
+    {
+      "id": "30",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK project structure to understand all modules, their dependencies, and determine the scope for porting to Go. This includes reviewing the core module and all optional components.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775736485558,
+      "updatedAt": 1775739373690
+    },
+    {
+      "id": "31",
+      "subject": "Examine BTK project structure and identify all modules",
+      "description": "Analyze the BTK project structure to identify all modules and submodules that need to be ported to Go. This includes core, gui, network, xml, sql, svg, opengl, vulkan, multimedia, webkit, xmlpatterns, declarative, and other components.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775737093398,
+      "updatedAt": 1775737093398
+    },
+    {
+      "id": "32",
+      "subject": "Analyze BTK project structure and identify all modules for Go porting",
+      "description": "Examine the BTK project structure to understand all modules (Core, Gui, Network, Xml, Sql, Svg, OpenGL, Vulkan, Multimedia, WebKit, XmlPatterns, Bml), their dependencies, and determine the scope for porting to Go. This includes reviewing the core module submodules and all optional components.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775737105278,
+      "updatedAt": 1775737105278
+    },
+    {
+      "id": "33",
+      "subject": "Port BTK Core module to Go - Foundation types, object model, threading, I/O, timers, properties, signals/slots",
+      "description": "Port the BTK Core module which includes foundation types, object model, threading, I/O, timers, properties, and signals/slots from C++ to Go. This is the foundational layer that other modules depend on.",
+      "status": "completed",
+      "activeForm": "Porting BTK Core module components to Go",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775738151934,
+      "updatedAt": 1775748076677
+    },
+    {
+      "id": "34",
+      "subject": "Create comprehensive Go porting plan for BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "completed",
+      "activeForm": "Creating comprehensive Go porting plan",
+      "metadata": {
+        "module": "BTK",
+        "phase": "planning"
+      },
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775739338920,
+      "updatedAt": 1775740827074
+    },
+    {
+      "id": "35",
+      "subject": "Create comprehensive Go porting plan for BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "activeForm": "Creating comprehensive Go porting plan",
+      "metadata": {
+        "module": "BTK",
+        "phase": "planning"
+      },
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775739611433,
+      "updatedAt": 1775739611433
+    },
+    {
+      "id": "36",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK project structure to understand all modules, their dependencies, and determine the scope for porting to Go. This includes reviewing the core module and all optional components.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775740094758,
+      "updatedAt": 1775740094758
+    },
+    {
+      "id": "37",
+      "subject": "Create comprehensive Go porting plan for BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "activeForm": "Creating comprehensive Go porting plan",
+      "metadata": {
+        "module": "BTK",
+        "phase": "planning"
+      },
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775740203599,
+      "updatedAt": 1775740203599
+    },
+    {
+      "id": "38",
+      "subject": "Create comprehensive Go porting plan for BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775740246659,
+      "updatedAt": 1775740246659
+    },
+    {
+      "id": "39",
+      "subject": "Analyze BTK project structure and identify all modules for Go porting",
+      "description": "Examine the BTK project structure to understand all modules, their dependencies, and determine the scope for porting to Go. This includes reviewing the core module and all optional components (Gui, Network, Xml, Sql, Svg, OpenGL, Vulkan, Multimedia, WebKit, XmlPatterns, Bml).",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775741500178,
+      "updatedAt": 1775741500178
+    },
+    {
+      "id": "40",
+      "subject": "Create comprehensive Go porting plan for BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775741871759,
+      "updatedAt": 1775741871759
+    },
+    {
+      "id": "41",
+      "subject": "Create comprehensive Go porting plan for entire BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies (Core first, then others)\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones for each module\n6. Approach for handling C++ specific features in Go (pointers, manual memory management, etc.)",
+      "status": "in_progress",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775742584675,
+      "updatedAt": 1775752899155
+    },
+    {
+      "id": "42",
+      "subject": "Analyze BTK project structure and scope for Go port",
+      "description": "Examine the BTK project structure to understand all modules, their dependencies, and determine the scope for porting to Go. This includes reviewing the core module and all optional components.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775744835378,
+      "updatedAt": 1775744835378
+    },
+    {
+      "id": "43",
+      "subject": "Create comprehensive Go porting plan for entire BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies (core first, then GUI, network, etc.)\n2. Coding standards and conventions for Go port (naming, structure, idiomatic Go)\n3. Testing strategy for each module (unit tests, benchmarks, examples)\n4. Integration approach with existing Go components (bobui-reference, etc.)\n5. Timeline and milestones for each module\n6. Handling of platform-specific code and abstractions\n7. Approach for signals/slots mechanism in Go\n8. Memory management considerations (GC vs manual)\n9. CGo interop strategy for remaining C++ dependencies\n10. Documentation and examples strategy",
+      "status": "pending",
+      "activeForm": "Creating comprehensive Go porting plan",
+      "metadata": {
+        "module": "BTK",
+        "phase": "planning",
+        "scope": "entire-framework"
+      },
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775745841874,
+      "updatedAt": 1775745841874
+    },
+    {
+      "id": "44",
+      "subject": "Create comprehensive Go porting plan for entire BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "activeForm": "Creating comprehensive Go porting plan",
+      "metadata": {
+        "module": "BTK",
+        "phase": "planning"
+      },
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775746908184,
+      "updatedAt": 1775746908184
+    },
+    {
+      "id": "45",
+      "subject": "Port BTK Core module global types to Go",
+      "description": "Port the BTK core global types (btkcoretypes.h) to Go, including all type aliases for Qt types like BTKString, BTKObject, BTKThread, etc.",
+      "status": "pending",
+      "activeForm": "Porting BTK Core module global types to Go",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775747533809,
+      "updatedAt": 1775747533809
+    },
+    {
+      "id": "46",
+      "subject": "Port BTK Core module to Go - Foundation types, object model, threading, I/O, timers, properties, signals/slots",
+      "description": "Port the BTK Core module to Go, which includes foundation types, object model, threading, I/O, timers, properties, and signals/slots. This is the foundational layer that other modules depend on.",
+      "status": "pending",
+      "activeForm": "Porting BTK Core module to Go",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775748458313,
+      "updatedAt": 1775748458313
+    },
+    {
+      "id": "47",
+      "subject": "Create comprehensive Go porting plan for entire BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies (Core first, then dependent modules)\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones\n6. Specific porting approach for each module:\n   - BtkCore: Foundation types, object model, threading, I/O, timers, properties, signals/slots\n   - BtkGui: Widgets, painting, input, windowing, focus management, multi-user ownership\n   - BtkNetwork: TCP/UDP sockets, HTTP, SSL/TLS, DNS, network proxies\n   - BtkXml: DOM and SAX XML parsing, stream readers/writers\n   - BtkSql: Database access with driver plugins\n   - BtkSvg: SVG rendering and display\n   - BtkOpenGL: Cross-platform OpenGL rendering\n   - BtkVulkan: Cross-platform Vulkan rendering\n   - BtkMultimedia: Audio, video, camera, and media playback\n   - BtkWebKit: Embedded web browser engine\n   - BtkXmlPatterns: XQuery, XPath, and XML schema validation\n   - BtkBml: Declarative UI runtime (BTK Markup Language)",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775749619400,
+      "updatedAt": 1775749619400
+    },
+    {
+      "id": "48",
+      "subject": "Create comprehensive Go porting plan for entire BTK framework",
+      "description": "Develop a detailed, incremental plan for porting all BTK modules from C++ to Go, including:\n1. Priority ordering based on dependencies (start with Core, then Gui, Network, etc.)\n2. Coding standards and conventions for Go port\n3. Testing strategy for each module\n4. Integration approach with existing Go components\n5. Timeline and milestones",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775749947470,
+      "updatedAt": 1775749947470
+    },
+    {
+      "id": "49",
+      "subject": "Examine complete BTK project structure to understand all modules and dependencies",
+      "description": "Analyze all BTK modules (core, gui, network, xml, sql, svg, opengl, vulkan, multimedia, webkit, xmlpatterns, bml, etc.) and their submodules to understand the full scope of what needs to be ported to Go. Examine dependencies between modules.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775752038955,
+      "updatedAt": 1775753027568
+    }
+  ]
+}

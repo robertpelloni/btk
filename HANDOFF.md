@@ -455,3 +455,9 @@
 * **Action**: Ported advanced `core/global/` headers bridging C++ semantics to memory-safe modern languages.
 * **Pointers**: Implemented `BcsSharedPointer` and `BcsUniquePointer` in Go (Native/GC), Rust (Arc/Box), C# (GC/IDisposable), and Java (GC/AutoCloseable).
 * **Signals**: Transformed `BcsSignal` and the Slot paradigm into language-native event dispatchers (Go Channels/Mutex, Rust Arc/Mutex, C# Action delegates, Java Consumer/CopyOnWriteArrayList).
+
+## Session Summary: Multi-Language Port - Kernel Events (Phase 3)
+* **Action**: Translated the `core/kernel` event subsystem (based on `bcs_event.h`) to Go, Rust, C#, and Java.
+* **Events**: Implemented `EventType` enum mimicking `QEvent::Type` and `BcsEvent` base classes mimicking `QEvent` semantics (spontaneous, accept/ignore). Created specific event types like `BcsTimerEvent` and `BcsChildEvent`.
+* **Event Dispatcher**: Ported `BcsEventDispatcher` mimicking `QEventLoop` behavior, using language-native concurrency primitives for the blocking `exec()` loop (Go `sync.Cond`, Rust `Condvar`, C# `Monitor.Wait`, Java `BlockingQueue`).
+* **OmniUI Dashboard Consolidation**: Also implemented the unified `OmniNexus` app that wires up the backend C++ singletons to a 3x2 QML Grid dashboard with tooltips, system tray support, and CMake integration. (Committed to the `external/bqt-reference` submodule).

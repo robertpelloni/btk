@@ -109,3 +109,9 @@
 - modernized multiple Script string/value conversion sites around current `UString`, `jsNumber`, `jsString`, and `constructDate` contracts
 - contracted major `qscriptdeclarativeclass.cpp` drift and propagated low-risk `QString`/identifier fixes into nearby Script bridge/API files
 - revalidated the direct `CsScript` MSVC build probe and documented the newly exposed bridge-header / linkage blocker frontier
+
+## [41.1.2] - 2026-07-04
+### Porting
+- Translated `core/kernel/bcs_event.h` semantics to Go, Rust, C#, and Java.
+- Created `BcsEvent` base classes with extensive `EventType` enumerations.
+- Implemented core message loop routing with `BcsEventDispatcher` mimicking Qt's `QEventLoop` / `QCoreApplication::exec()`. Used native concurrency primitives per language (Go `sync.Cond`, Rust `Condvar`, C# `Monitor.Wait`, Java `BlockingQueue`).

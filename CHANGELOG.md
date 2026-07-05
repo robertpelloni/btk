@@ -127,3 +127,8 @@
 - Refactored `ports/rust/src/core/kernel/bcs_object.rs` to break `Arc` memory leak cycles by using `Weak` pointers for the parent relationship.
 - Added explicit recursive `destroy()` mechanism to Rust `BcsObject` to manage deterministic subtree teardowns without relying solely on `Drop`.
 - Refactored `BcsEventLoop` in Rust and Go to properly embed/integrate into the `BcsObject` hierarchy rather than just holding an isolated reference.
+
+## [41.1.5] - 2026-07-04
+### Porting
+- Advanced into the `gui/widget` layer by porting `bcswidget.h` to Go, Rust, C#, and Java.
+- Implemented `BcsWidget` (inheriting from `BcsObject`) containing thread-safe positional (`x`,`y`), dimensional (`width`,`height`), and state (`visible`,`enabled`) logic.

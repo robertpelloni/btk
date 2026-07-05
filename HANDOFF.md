@@ -461,3 +461,13 @@
 * **Events**: Implemented `EventType` enum mimicking `QEvent::Type` and `BcsEvent` base classes mimicking `QEvent` semantics (spontaneous, accept/ignore). Created specific event types like `BcsTimerEvent` and `BcsChildEvent`.
 * **Event Dispatcher**: Ported `BcsEventDispatcher` mimicking `QEventLoop` behavior, using language-native concurrency primitives for the blocking `exec()` loop (Go `sync.Cond`, Rust `Condvar`, C# `Monitor.Wait`, Java `BlockingQueue`).
 * **OmniUI Dashboard Consolidation**: Also implemented the unified `OmniNexus` app that wires up the backend C++ singletons to a 3x2 QML Grid dashboard with tooltips, system tray support, and CMake integration. (Committed to the `external/bqt-reference` submodule).
+
+## Session Summary: Multi-Language Port - Kernel Core (Phase 4)
+* **Action**: Translated the `core/kernel` subsystem base classes (`bcs_object.h` and `bcs_eventloop.h`) to Go, Rust, C#, and Java.
+* **Object Lifecycle**: Ported the `BcsObject` hierarchy simulating `QObject` parent-child lifecycle ownership. Leveraged memory-managed GC models (Go, C#, Java) where possible while implementing explicit recursive disposal boundaries like `IDisposable` (C#) and `AutoCloseable` (Java). Used `Arc<BcsObject>` and `Mutex` in Rust to maintain tree integrity without raw pointers.
+* **Event Loop**: Implemented `BcsEventLoop` mimicking `QEventLoop`, coupling the execution loop and termination states (`exec()`, `quit()`, `exit(code)`) to the recently implemented `BcsEventDispatcher` models.
+
+## Session Summary: Multi-Language Port - Kernel Core Revisions (Phase 5)
+* **Action**: Addressed architectural feedback regarding `BcsObject` and `BcsEventLoop` structures across Go and Rust.
+* **Rust Reference Cycles**: Modified the Rust `BcsObject` to utilize `Weak<BcsObject>` for parent pointers, successfully breaking the cyclic memory leak caused by mutual `Arc` ownership. Added explicit `destroy()` method to forcefully clear children vectors recursively, guaranteeing immediate release of resources in a manner similar to `deleteLater()` in C++.
+* **Go Embedding**: Restructured `BcsEventLoop` in Go to anonymously embed `*BcsObject`, ensuring it is natively treated as a node in the object graph identical to C++/Qt behavior rather than merely composing a reference.

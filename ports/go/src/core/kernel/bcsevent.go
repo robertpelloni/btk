@@ -121,3 +121,8 @@ func NewBcsChildEvent(t EventType, child interface{}) *BcsChildEvent {
 		Child: child,
 	}
 }
+
+const (
+	ChildAdded EventType = iota + 1000 // Just offset from user for now
+	ChildRemoved
+)

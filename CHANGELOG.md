@@ -115,3 +115,15 @@
 - Translated `core/kernel/bcs_event.h` semantics to Go, Rust, C#, and Java.
 - Created `BcsEvent` base classes with extensive `EventType` enumerations.
 - Implemented core message loop routing with `BcsEventDispatcher` mimicking Qt's `QEventLoop` / `QCoreApplication::exec()`. Used native concurrency primitives per language (Go `sync.Cond`, Rust `Condvar`, C# `Monitor.Wait`, Java `BlockingQueue`).
+
+## [41.1.3] - 2026-07-04
+### Porting
+- Translated `core/kernel/bcs_object.h` lifecycle semantics to Go, Rust, C#, and Java.
+- Implemented `BcsObject` base classes modeling `QObject` parent-child relationships and recursive disposal structures (e.g. `IDisposable` in C# and `AutoCloseable` in Java).
+- Translated `core/kernel/bcs_eventloop.h` mechanics to Go, Rust, C#, and Java, hooking `BcsEventLoop` to the underlying `BcsEventDispatcher`.
+
+## [41.1.4] - 2026-07-04
+### Porting
+- Refactored `ports/rust/src/core/kernel/bcs_object.rs` to break `Arc` memory leak cycles by using `Weak` pointers for the parent relationship.
+- Added explicit recursive `destroy()` mechanism to Rust `BcsObject` to manage deterministic subtree teardowns without relying solely on `Drop`.
+- Refactored `BcsEventLoop` in Rust and Go to properly embed/integrate into the `BcsObject` hierarchy rather than just holding an isolated reference.

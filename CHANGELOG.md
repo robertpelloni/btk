@@ -165,3 +165,7 @@
 ## [41.1.11] - 2026-07-06
 ### Bug Fixes
 - Removed duplicate `bcswidget.go` from `core/kernel` and properly consolidated it into `gui/kernel` to maintain architectural namespace boundaries.
+
+## [41.1.12] - 2026-07-06
+### Porting
+- Concluded the foundational GUI layer porting across Go, Rust, C#, and Java by finalizing the integration of `BcsWidget` and `BcsInputArbitrator` within the `core/gui` subsystem mappings.

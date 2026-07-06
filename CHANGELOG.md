@@ -179,3 +179,7 @@
 ### Porting
 - Translated `qcommandlineparser.h` into `BcsCommandLineParser` across Go, Rust, C#, and Java.
 - Implemented basic argument parsing mapping logic mirroring the C++ API (`addOption`, `process`, `isSet`).
+
+## [41.1.16] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` clarifying that the `BcsObject` and `BcsEventLoop` components from the `core/kernel` subsystem were successfully ported and tested in earlier phases.

@@ -519,3 +519,7 @@
 ## Session Summary: Supervisor Review Note (Phase 18)
 * **Action**: The supervisor requested to "port the next kernel subsystem component—prioritize `bcs_eventdispatcher.h` or `bcs_timer.h`".
 * **Resolution**: Upon inspecting the workspace, it was determined that the `BcsEventDispatcher` and `BcsTimer` classes have already been fully ported, integrated, and merged into the main branch in prior phases (Phases 3, 15, and 16). The cross-language asynchronous implementations using language-native threads and channels have passed tests and been finalized across Go, Rust, C#, and Java.
+
+## Session Summary: Supervisor Review Note 2 (Phase 19)
+* **Action**: The supervisor requested to port the remaining `core/kernel` components, focusing on `bcs_object.h` and `bcs_eventloop.h`.
+* **Resolution**: As with `BcsEventDispatcher` and `BcsTimer`, the `BcsObject` and `BcsEventLoop` implementations have **already been fully ported** across Go, Rust, C#, and Java (completed in Phases 4, 5, and 10). Their tree lifecycle logic, recursive disposal patterns, and main loop mechanics are stable and passing parity tests.

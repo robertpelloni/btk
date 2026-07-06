@@ -7,16 +7,73 @@ import (
 
 // BcsWidget extends the core BcsWidget mapped in core to include GUI event handlers
 type BcsWidget struct {
-	*kernel.BcsWidget
-	focus bool
-	mu    sync.RWMutex
+	*kernel.BcsObject
+	visible   bool
+	enabled   bool
+	width     int
+	height    int
+	x         int
+	y         int
+	focus     bool
+	mu        sync.RWMutex
 }
 
-func NewBcsWidget(parent *kernel.BcsWidget) *BcsWidget {
-	return &BcsWidget{
-		BcsWidget: kernel.NewBcsWidget(parent),
+func NewBcsWidget(parent *kernel.BcsObject) *BcsWidget {
+	w := &BcsWidget{
+		BcsObject: kernel.NewBcsObject(parent),
+		visible:   false,
+		enabled:   true,
+		width:     0,
+		height:    0,
+		x:         0,
+		y:         0,
 		focus:     false,
 	}
+	return w
+}
+
+func (w *BcsWidget) Show() {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.visible = true
+}
+
+func (w *BcsWidget) Hide() {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.visible = false
+}
+
+func (w *BcsWidget) IsVisible() bool {
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+	return w.visible
+}
+
+func (w *BcsWidget) Resize(width, height int) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.width = width
+	w.height = height
+}
+
+func (w *BcsWidget) Move(x, y int) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.x = x
+	w.y = y
+}
+
+func (w *BcsWidget) SetEnabled(enabled bool) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.enabled = enabled
+}
+
+func (w *BcsWidget) IsEnabled() bool {
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+	return w.enabled
 }
 
 func (w *BcsWidget) HasFocus() bool {
@@ -50,7 +107,7 @@ func (w *BcsWidget) Event(e kernel.BcsEvent) bool {
 		w.PaintEvent(e)
 		return true
 	}
-	return w.BcsWidget.Event(e)
+	return w.BcsObject.Event(e)
 }
 
 func (w *BcsWidget) MousePressEvent(e kernel.BcsEvent) {}

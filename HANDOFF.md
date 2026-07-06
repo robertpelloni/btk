@@ -492,3 +492,14 @@
 ## Session Summary: Multi-Language Port - Bug Fixes (Phase 10)
 * **Action**: Addressed code review blocking failures regarding Rust module compilation and `BcsObject` memory leaks.
 * **Resolution**: Hooked the disconnected `.rs` files into the library root using `mod.rs` hierarchies. Fixed the `destroy()` leak by injecting `_self_weak` into `BcsObject` during instantiation. This allows a dying child to temporarily upgrade its reference long enough to invoke `p.remove_child(&self_arc)` on its parent, fully breaking the link in both directions instead of abandoning an invalid `Arc` inside the parent's collection.
+
+## Session Summary: Multi-Language Port - Network Kernel (Phase 11)
+* **Action**: Translated the `network/kernel` subsystem base classes (`qhostaddress`, `qnetworkproxy`, etc.) to Go, Rust, C#, and Java.
+* **Architecture**: The `BcsNetworkManager` singleton acts as the central router for `BcsNetworkProxy` and `BcsHostAddress` objects. They now explicitly inherit from the foundational `BcsObject` hierarchy implemented previously, proving the extensibility of the memory-managed/Arc-mapped tree structures for cross-platform system modules.
+
+## Session Summary: Multi-Language Port - GUI and Network Subsystem Merge (Phase 12)
+* **Action**: Merged the recent GUI and Network multi-language ports into the primary working branch. The `core/kernel` components (`Event`, `Object`, `EventLoop`) are now fully integrated with `network/kernel` (`BcsHostAddress`, `BcsNetworkProxy`, `BcsNetworkManager`) and `gui/kernel` (`BcsWidget`, `BcsInputArbitrator`) translations across Go, Rust, C#, and Java.
+
+## Session Summary: Multi-Language Port - Bug Fixes (Phase 13)
+* **Action**: Cleaned up the Go port's `BcsWidget` implementation.
+* **Resolution**: The initial attempt to port `bcswidget.h` created a split inheritance chain in the Go implementation with one `BcsWidget` in `core/kernel` and another inheriting it in `gui/kernel`. This has been resolved. The `gui/kernel/bcswidget.go` file now properly embeds `core/kernel.BcsObject` directly, acting as the definitive base GUI widget matching the other languages' structures.

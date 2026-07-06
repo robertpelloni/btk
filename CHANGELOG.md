@@ -152,3 +152,16 @@
 ### Bug Fixes
 - Hooked all new Rust `bcs_event`, `bcs_object`, `bcs_widget` files into the `lib.rs` / `mod.rs` module tree, ensuring they compile.
 - Fixed a memory leak in the Rust port's `BcsObject::destroy()` cascade. The node now correctly utilizes an internal `Weak` self-reference to locate its upgraded `Arc` and explicitly remove itself from its parent's `children` vector before clearing its own `parent` binding.
+
+## [41.1.9] - 2026-07-04
+### Porting
+- Translated `network/kernel` subsystem base classes to Go, Rust, C#, and Java.
+- Implemented `BcsHostAddress`, `BcsNetworkProxy`, and `BcsNetworkManager` leveraging the newly integrated `BcsObject` hierarchy and thread-safe GC/Arc patterns.
+
+## [41.1.10] - 2026-07-06
+### Porting
+- Merged network/kernel subsystem and gui/kernel base classes to master branch.
+
+## [41.1.11] - 2026-07-06
+### Bug Fixes
+- Removed duplicate `bcswidget.go` from `core/kernel` and properly consolidated it into `gui/kernel` to maintain architectural namespace boundaries.

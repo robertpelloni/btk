@@ -132,3 +132,13 @@
 ### Porting
 - Advanced into the `gui/widget` layer by porting `bcswidget.h` to Go, Rust, C#, and Java.
 - Implemented `BcsWidget` (inheriting from `BcsObject`) containing thread-safe positional (`x`,`y`), dimensional (`width`,`height`), and state (`visible`,`enabled`) logic.
+
+## [41.1.6] - 2026-07-04
+### Porting
+- Translated `BcsKernel` class initialization and lifecycle management functions to Go, Rust, C#, and Java.
+- Implemented `BcsModule` interfaces across the four languages to standardize module registration, initialization, and reverse-order shutdown logic.
+- Integrated the `BcsEventLoop` into the `BcsKernel::exec()` loop.
+
+## [41.1.7] - 2026-07-04
+### Bug Fixes
+- Resolved a critical lock-inversion deadlock in the Go port of `BcsObject` where `SetParent` and `AddChild` recursively attempted to acquire overlapping non-reentrant `sync.Mutex` locks. Refactored child registration to use internal, unlocked helpers (`addChild`, `removeChild`).

@@ -475,3 +475,12 @@
 ## Session Summary: Multi-Language Port - GUI Widgets (Phase 6)
 * **Action**: Translated the root UI element `gui/kernel/qwidget.h` (or `bcswidget.h`) to Go, Rust, C#, and Java.
 * **Architecture**: The new `BcsWidget` extends `BcsObject` in all four languages, pulling in the object hierarchy and event dispatching infrastructure previously established. Each port features atomic/mutex-guarded geometry properties (`x`, `y`, `width`, `height`) and core visibility modifiers (`show()`, `hide()`).
+
+## Session Summary: Multi-Language Port - Kernel Controller (Phase 7)
+* **Action**: Translated `BcsKernel` class initialization and lifecycle management across Go, Rust, C#, and Java.
+* **Architecture**: The `BcsKernel` singleton serves as the root `BcsObject` and manager of the main application thread's `BcsEventLoop`. It orchestrates startup sequencing and module registration through the generic `BcsModule` interfaces. Module startup is handled forward (Initialize -> Start) while shutdown safely unwinds modules in reverse registration order before finally triggering the base `destroy()` cascade to clean up the `BcsObject` tree.
+
+## Session Summary: Multi-Language Port - Deadlock Fix (Phase 8)
+* **Action**: Handled code review feedback regarding a functional deadlock in the Go port of `BcsObject`.
+* **Issue**: The original implementation of `SetParent` acquired its own mutex, then called `parent.AddChild(o)`. `AddChild` acquired the parent's mutex, then called `child.SetParent(parent)`, causing immediate cyclic lock inversion because Go's `sync.Mutex` is intentionally not reentrant.
+* **Resolution**: Simplified the public API. `SetParent` now acts as the sole public tree-mutator. It detaches from the old parent via a private `removeChild` call and attaches to the new parent via a private `addChild` call, carefully managing lock acquisition order to prevent deadlocks during object initialization or reparenting operations.

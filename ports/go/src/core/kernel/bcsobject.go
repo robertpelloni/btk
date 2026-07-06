@@ -2,7 +2,6 @@ package kernel
 
 import (
 	"sync"
-	"fmt"
 )
 
 // BcsObject forms the base for all framework components in the Go port, mapping to C++ QObject
@@ -17,13 +16,13 @@ type BcsObject struct {
 
 func NewBcsObject(parent *BcsObject) *BcsObject {
 	obj := &BcsObject{
-		parent:     parent,
+		parent:     nil, // We set this via SetParent to ensure correct initial linking
 		children:   make([]*BcsObject, 0),
-		dispatcher: nil, // Would default to thread-local dispatcher in full implementation
+		dispatcher: nil,
 	}
 
 	if parent != nil {
-		parent.AddChild(obj)
+		obj.SetParent(parent)
 	}
 	return obj
 }
@@ -46,47 +45,46 @@ func (o *BcsObject) Parent() *BcsObject {
 	return o.parent
 }
 
-func (o *BcsObject) AddChild(child *BcsObject) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-
-	// Check if already a child
+// addChild is an internal helper that must be called with the parent's lock already held.
+func (o *BcsObject) addChild(child *BcsObject) {
 	for _, c := range o.children {
 		if c == child {
 			return
 		}
 	}
-
 	o.children = append(o.children, child)
-	child.SetParent(o)
 }
 
-func (o *BcsObject) RemoveChild(child *BcsObject) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-
+// removeChild is an internal helper that must be called with the parent's lock already held.
+func (o *BcsObject) removeChild(child *BcsObject) {
 	for i, c := range o.children {
 		if c == child {
-			// Remove element
 			o.children[i] = o.children[len(o.children)-1]
 			o.children = o.children[:len(o.children)-1]
-			child.SetParent(nil)
 			return
 		}
 	}
 }
 
-func (o *BcsObject) SetParent(parent *BcsObject) {
+func (o *BcsObject) SetParent(newParent *BcsObject) {
+	// First, acquire our own lock to detach from old parent
 	o.mu.Lock()
 	oldParent := o.parent
-	o.parent = parent
+	o.parent = newParent
 	o.mu.Unlock()
 
-	if oldParent != nil && oldParent != parent {
-		oldParent.RemoveChild(o)
+	// Carefully detach from old parent using its internal method
+	if oldParent != nil && oldParent != newParent {
+		oldParent.mu.Lock()
+		oldParent.removeChild(o)
+		oldParent.mu.Unlock()
 	}
-	if parent != nil {
-		parent.AddChild(o)
+
+	// Carefully attach to new parent
+	if newParent != nil {
+		newParent.mu.Lock()
+		newParent.addChild(o)
+		newParent.mu.Unlock()
 	}
 }
 

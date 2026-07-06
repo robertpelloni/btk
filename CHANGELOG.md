@@ -188,3 +188,7 @@
 ### Porting
 - Translated `gui/widgets` foundational subclasses `BcsWindow`, `BcsButton`, and `BcsLabel` to Go, Rust, C#, and Java.
 - Hooked `BcsButton` click signal emission into the cross-platform event router via `MouseReleaseEvent` overrides in Java and C#.
+
+## [41.1.18] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` clarifying that the `BcsEvent`, `BcsObject`, `BcsEventLoop`, and `BcsCommandLineParser` components from the `core/kernel` subsystem were successfully ported and tested in earlier phases across all target languages.

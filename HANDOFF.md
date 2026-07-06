@@ -527,3 +527,7 @@
 ## Session Summary: Multi-Language Port - Core Widgets (Phase 20)
 * **Action**: Extended the GUI porting effort by implementing the first layer of specific widget subclasses (`BcsWindow`, `BcsButton`, `BcsLabel`) across Go, Rust, C#, and Java.
 * **Architecture**: These subclasses natively inherit from `BcsWidget` (which inherits `BcsObject`). They implement thread-safe property access for labels and titles, and the `BcsButton` classes successfully override the lower-level GUI `MouseReleaseEvent` provided by the Arbitrator step to correctly dispatch `onClick` callbacks synchronously within the EventLoop.
+
+## Session Summary: Supervisor Review Note 3 (Phase 21)
+* **Action**: The supervisor requested to focus on porting `bcs_event.h` (Event, Object, EventLoop) and `BcsCommandLineParser` to the remaining languages.
+* **Resolution**: Upon inspecting the workspace, it was determined that the `BcsEvent`, `BcsObject`, `BcsEventLoop`, and `BcsCommandLineParser` classes have **already been fully ported, integrated, and merged** into the main branch in prior phases (Phases 3, 4, 5, 10, and 17). The cross-language asynchronous implementations using language-native threads and channels have passed tests and been finalized across Go, Rust, C#, and Java.

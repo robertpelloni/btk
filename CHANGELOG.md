@@ -183,3 +183,8 @@
 ## [41.1.16] - 2026-07-06
 ### Documentation
 - Updated `HANDOFF.md` clarifying that the `BcsObject` and `BcsEventLoop` components from the `core/kernel` subsystem were successfully ported and tested in earlier phases.
+
+## [41.1.17] - 2026-07-06
+### Porting
+- Translated `gui/widgets` foundational subclasses `BcsWindow`, `BcsButton`, and `BcsLabel` to Go, Rust, C#, and Java.
+- Hooked `BcsButton` click signal emission into the cross-platform event router via `MouseReleaseEvent` overrides in Java and C#.

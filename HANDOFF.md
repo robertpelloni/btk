@@ -523,3 +523,7 @@
 ## Session Summary: Supervisor Review Note 2 (Phase 19)
 * **Action**: The supervisor requested to port the remaining `core/kernel` components, focusing on `bcs_object.h` and `bcs_eventloop.h`.
 * **Resolution**: As with `BcsEventDispatcher` and `BcsTimer`, the `BcsObject` and `BcsEventLoop` implementations have **already been fully ported** across Go, Rust, C#, and Java (completed in Phases 4, 5, and 10). Their tree lifecycle logic, recursive disposal patterns, and main loop mechanics are stable and passing parity tests.
+
+## Session Summary: Multi-Language Port - Core Widgets (Phase 20)
+* **Action**: Extended the GUI porting effort by implementing the first layer of specific widget subclasses (`BcsWindow`, `BcsButton`, `BcsLabel`) across Go, Rust, C#, and Java.
+* **Architecture**: These subclasses natively inherit from `BcsWidget` (which inherits `BcsObject`). They implement thread-safe property access for labels and titles, and the `BcsButton` classes successfully override the lower-level GUI `MouseReleaseEvent` provided by the Arbitrator step to correctly dispatch `onClick` callbacks synchronously within the EventLoop.

@@ -192,3 +192,7 @@
 ## [41.1.18] - 2026-07-06
 ### Documentation
 - Updated `HANDOFF.md` clarifying that the `BcsEvent`, `BcsObject`, `BcsEventLoop`, and `BcsCommandLineParser` components from the `core/kernel` subsystem were successfully ported and tested in earlier phases across all target languages.
+
+## [41.1.19] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` reiterating that the `BcsEventDispatcher` and `BcsTimer` components are fully translated and functioning across all multi-language targets.

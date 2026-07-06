@@ -5,6 +5,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BcsEventLoop extends BcsObject {
     private final BcsEventDispatcher dispatcher;
+
+    public BcsEventDispatcher getDispatcher() {
+        return dispatcher;
+    }
+
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final AtomicInteger quitCode = new AtomicInteger(0);
 

@@ -4,14 +4,14 @@ namespace Bcs.Core.Kernel
 {
     public class BcsEventLoop : BcsObject
     {
-        private readonly BcsEventDispatcher _dispatcher;
+        public BcsEventDispatcher EventDispatcher { get; }
         private readonly object _lock = new object();
         private bool _isRunning = false;
         private int _quitCode = 0;
 
         public BcsEventLoop(BcsEventDispatcher dispatcher, BcsObject parent = null) : base(parent)
         {
-            _dispatcher = dispatcher ?? new BcsEventDispatcher();
+            EventDispatcher = dispatcher ?? new BcsEventDispatcher();
         }
 
         public int Exec()
@@ -22,7 +22,7 @@ namespace Bcs.Core.Kernel
                 _isRunning = true;
             }
 
-            _dispatcher.Exec();
+            EventDispatcher.Exec();
 
             lock (_lock)
             {
@@ -37,7 +37,7 @@ namespace Bcs.Core.Kernel
             {
                 _quitCode = returnCode;
             }
-            _dispatcher.Stop();
+            EventDispatcher.Stop();
         }
 
         public void Quit()

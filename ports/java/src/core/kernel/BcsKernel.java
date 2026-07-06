@@ -18,6 +18,11 @@ public class BcsKernel extends BcsObject {
     private final List<BcsModule> modules = new CopyOnWriteArrayList<>();
     private final BcsEventLoop eventLoop;
 
+    public BcsEventLoop getEventLoop() {
+        return eventLoop;
+    }
+
+
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
 

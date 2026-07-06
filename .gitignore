@@ -13,3 +13,4 @@
 /utilities/unicode/read_me.txt
 
 /build-*/
+/ports/rust/target/

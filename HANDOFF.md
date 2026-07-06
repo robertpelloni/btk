@@ -507,3 +507,7 @@
 ## Session Summary: Multi-Language Port - GUI Widgets Conclusion (Phase 14)
 * **Action**: Verified that the foundational `BcsWidget` class and its corresponding event routing layers have been successfully ported across all four target languages (Go, Rust, C#, Java).
 * **Status**: The `gui/widgets` layer is now established, inheriting from the earlier `BcsObject` hierarchy and hooked into the `BcsInputArbitrator` multi-cursor routing backbone. The repository is ready to expand into specific widget implementations (like buttons and layout engines) moving forward.
+
+## Session Summary: Multi-Language Port - Application Timers (Phase 16)
+* **Action**: Translated adjacent `core/kernel` components `BcsTimer` and `BcsCoreApplication` across Go, Rust, C#, and Java.
+* **Architecture**: The `BcsTimer` model leverages asynchronous worker threads/tasks natively in each language to avoid blocking the main EventLoop. When the interval ticks, it pushes a `BcsTimerEvent` (encapsulating its unique `TimerId`) onto the global `BcsKernel` `BcsEventDispatcher` queue, bringing the entire event architecture full circle and validating the cross-language concurrency maps.

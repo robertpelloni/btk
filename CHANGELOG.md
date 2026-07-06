@@ -174,3 +174,8 @@
 ### Porting
 - Translated `bcstimer.h` and `bcsapplication.h` application lifecycle elements to Go, Rust, C#, and Java.
 - Hooked `BcsTimer` asynchronous execution models natively to each target (Go `goroutines/time.Ticker`, Rust `std::thread/mpsc::channel`, C# `Task.Delay/CancellationToken`, Java `ScheduledExecutorService`). Emitted timer events are actively dispatched back through the centralized `BcsKernel` `BcsEventLoop`.
+
+## [41.1.15] - 2026-07-06
+### Porting
+- Translated `qcommandlineparser.h` into `BcsCommandLineParser` across Go, Rust, C#, and Java.
+- Implemented basic argument parsing mapping logic mirroring the C++ API (`addOption`, `process`, `isSet`).

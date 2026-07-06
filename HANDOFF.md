@@ -511,3 +511,7 @@
 ## Session Summary: Multi-Language Port - Application Timers (Phase 16)
 * **Action**: Translated adjacent `core/kernel` components `BcsTimer` and `BcsCoreApplication` across Go, Rust, C#, and Java.
 * **Architecture**: The `BcsTimer` model leverages asynchronous worker threads/tasks natively in each language to avoid blocking the main EventLoop. When the interval ticks, it pushes a `BcsTimerEvent` (encapsulating its unique `TimerId`) onto the global `BcsKernel` `BcsEventDispatcher` queue, bringing the entire event architecture full circle and validating the cross-language concurrency maps.
+
+## Session Summary: Multi-Language Port - CLI Parser (Phase 17)
+* **Action**: Translated `core/kernel/qcommandlineparser.h` functionality into `BcsCommandLineParser` mapped across Go, Rust, C#, and Java.
+* **Architecture**: The parser supports adding `BcsCommandLineOption` objects and maps flags into native `HashMap`/`Dictionary` structures for simple querying via `isSet` and `value`. This will link up cleanly with `BcsCoreApplication` and the core `BcsEventLoop` execution sequence moving forward.

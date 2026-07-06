@@ -484,3 +484,11 @@
 * **Action**: Handled code review feedback regarding a functional deadlock in the Go port of `BcsObject`.
 * **Issue**: The original implementation of `SetParent` acquired its own mutex, then called `parent.AddChild(o)`. `AddChild` acquired the parent's mutex, then called `child.SetParent(parent)`, causing immediate cyclic lock inversion because Go's `sync.Mutex` is intentionally not reentrant.
 * **Resolution**: Simplified the public API. `SetParent` now acts as the sole public tree-mutator. It detaches from the old parent via a private `removeChild` call and attaches to the new parent via a private `addChild` call, carefully managing lock acquisition order to prevent deadlocks during object initialization or reparenting operations.
+
+## Session Summary: Multi-Language Port - GUI Arbitrator (Phase 9)
+* **Action**: Translated the initial `gui/kernel` layers (specifically `BcsInputArbitrator` and the `BcsWidget` event router overrides) across Go, Rust, C#, and Java.
+* **Architecture**: The `BcsInputArbitrator` singleton acts as the multi-user routing backbone linking the core `BcsEventLoop` to the front-end `BcsWidget` tree. `BcsWidget` was expanded to override the base `event()` loop hook to directly pipe low-level `EventType` integers into explicitly typed function callbacks like `mousePressEvent` and `keyPressEvent`, matching the Qt C++ inheritance model natively in each target language.
+
+## Session Summary: Multi-Language Port - Bug Fixes (Phase 10)
+* **Action**: Addressed code review blocking failures regarding Rust module compilation and `BcsObject` memory leaks.
+* **Resolution**: Hooked the disconnected `.rs` files into the library root using `mod.rs` hierarchies. Fixed the `destroy()` leak by injecting `_self_weak` into `BcsObject` during instantiation. This allows a dying child to temporarily upgrade its reference long enough to invoke `p.remove_child(&self_arc)` on its parent, fully breaking the link in both directions instead of abandoning an invalid `Arc` inside the parent's collection.

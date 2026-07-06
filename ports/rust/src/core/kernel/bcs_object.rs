@@ -1,7 +1,5 @@
-use std::sync::{Arc, Mutex, RwLock, Weak};
-use std::cell::RefCell;
+use std::sync::{Arc, Mutex, Weak};
 use super::bcs_event::{BcsEventT, EventType};
-use super::bcs_event_dispatcher::BcsEventDispatcher;
 
 /// BcsObject provides the object tree hierarchy mapping to QObject
 pub struct BcsObject {
@@ -9,16 +7,21 @@ pub struct BcsObject {
     pub parent: Mutex<Option<Weak<BcsObject>>>,
     pub children: Mutex<Vec<Arc<BcsObject>>>,
     pub is_destroyed: Mutex<bool>,
+    // Store a self weak reference to allow detached parent mutation
+    pub _self_weak: Mutex<Option<Weak<BcsObject>>>,
 }
 
 impl BcsObject {
     pub fn new() -> Arc<Self> {
-        Arc::new(Self {
+        let obj = Arc::new(Self {
             object_name: Mutex::new(String::new()),
             parent: Mutex::new(None),
             children: Mutex::new(Vec::new()),
             is_destroyed: Mutex::new(false),
-        })
+            _self_weak: Mutex::new(None),
+        });
+        *obj._self_weak.lock().unwrap() = Some(Arc::downgrade(&obj));
+        obj
     }
 
     pub fn new_with_parent(parent: Arc<BcsObject>) -> Arc<Self> {
@@ -27,7 +30,9 @@ impl BcsObject {
             parent: Mutex::new(Some(Arc::downgrade(&parent))),
             children: Mutex::new(Vec::new()),
             is_destroyed: Mutex::new(false),
+            _self_weak: Mutex::new(None),
         });
+        *obj._self_weak.lock().unwrap() = Some(Arc::downgrade(&obj));
 
         parent.add_child(obj.clone());
         obj
@@ -101,14 +106,16 @@ impl BcsObject {
             child.destroy();
         }
 
+        // Fix: Properly remove self from parent's children vector using the _self_weak ref
         if let Some(p) = self.parent() {
-            // Can't easily call self.set_parent(None) here because we need an Arc<Self>.
-            // Instead, just remove ourselves from the parent.
+            if let Some(self_arc) = self._self_weak.lock().unwrap().as_ref().and_then(|w| w.upgrade()) {
+                p.remove_child(&self_arc);
+            }
         }
         *self.parent.lock().unwrap() = None;
     }
 
-    pub fn event(&self, event: &dyn BcsEventT) -> bool {
+    pub fn event(&self, _event: &dyn BcsEventT) -> bool {
         // Base implementation does nothing
         false
     }

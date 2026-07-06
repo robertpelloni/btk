@@ -142,3 +142,13 @@
 ## [41.1.7] - 2026-07-04
 ### Bug Fixes
 - Resolved a critical lock-inversion deadlock in the Go port of `BcsObject` where `SetParent` and `AddChild` recursively attempted to acquire overlapping non-reentrant `sync.Mutex` locks. Refactored child registration to use internal, unlocked helpers (`addChild`, `removeChild`).
+
+## [41.1.8] - 2026-07-04
+### Porting
+- Translated `gui/kernel/qinputdevicemanager_p_p.h` logic into `BcsInputArbitrator` across Go, Rust, C#, and Java, managing concurrent input contexts.
+- Updated `BcsWidget` implementations with comprehensive native event routing overrides mapping to `MousePress`, `KeyPress`, `Paint`, etc.
+
+## [41.1.9] - 2026-07-04
+### Bug Fixes
+- Hooked all new Rust `bcs_event`, `bcs_object`, `bcs_widget` files into the `lib.rs` / `mod.rs` module tree, ensuring they compile.
+- Fixed a memory leak in the Rust port's `BcsObject::destroy()` cascade. The node now correctly utilizes an internal `Weak` self-reference to locate its upgraded `Arc` and explicitly remove itself from its parent's `children` vector before clearing its own `parent` binding.

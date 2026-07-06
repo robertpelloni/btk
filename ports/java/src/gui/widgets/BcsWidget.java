@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import core.kernel.BcsEvent;
 import core.kernel.BcsObject;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,6 +11,7 @@ public class BcsWidget extends BcsObject {
     private int height = 0;
     private int x = 0;
     private int y = 0;
+    private boolean hasFocus = false;
     private final ReentrantLock lock = new ReentrantLock();
 
     public BcsWidget() {
@@ -84,4 +86,51 @@ public class BcsWidget extends BcsObject {
             lock.unlock();
         }
     }
+
+    public boolean hasFocus() {
+        lock.lock();
+        try {
+            return hasFocus;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void setFocus(boolean hasFocus) {
+        lock.lock();
+        try {
+            this.hasFocus = hasFocus;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public boolean event(BcsEvent e) {
+        switch (e.getType()) {
+            case MouseButtonPress:
+                mousePressEvent(e);
+                return true;
+            case MouseButtonRelease:
+                mouseReleaseEvent(e);
+                return true;
+            case KeyPress:
+                keyPressEvent(e);
+                return true;
+            case KeyRelease:
+                keyReleaseEvent(e);
+                return true;
+            case Paint:
+                paintEvent(e);
+                return true;
+            default:
+                return super.event(e);
+        }
+    }
+
+    protected void mousePressEvent(BcsEvent e) {}
+    protected void mouseReleaseEvent(BcsEvent e) {}
+    protected void keyPressEvent(BcsEvent e) {}
+    protected void keyReleaseEvent(BcsEvent e) {}
+    protected void paintEvent(BcsEvent e) {}
 }

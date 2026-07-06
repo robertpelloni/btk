@@ -1,5 +1,6 @@
 use std::sync::{Arc, Mutex};
 use crate::core::kernel::bcs_object::BcsObject;
+use crate::core::kernel::bcs_event::{BcsEventT, EventType};
 
 pub struct BcsWidget {
     pub base: Arc<BcsObject>,
@@ -9,6 +10,7 @@ pub struct BcsWidget {
     height: Mutex<i32>,
     x: Mutex<i32>,
     y: Mutex<i32>,
+    has_focus: Mutex<bool>,
 }
 
 impl BcsWidget {
@@ -27,20 +29,13 @@ impl BcsWidget {
             height: Mutex::new(0),
             x: Mutex::new(0),
             y: Mutex::new(0),
+            has_focus: Mutex::new(false),
         })
     }
 
-    pub fn show(&self) {
-        *self.visible.lock().unwrap() = true;
-    }
-
-    pub fn hide(&self) {
-        *self.visible.lock().unwrap() = false;
-    }
-
-    pub fn is_visible(&self) -> bool {
-        *self.visible.lock().unwrap()
-    }
+    pub fn show(&self) { *self.visible.lock().unwrap() = true; }
+    pub fn hide(&self) { *self.visible.lock().unwrap() = false; }
+    pub fn is_visible(&self) -> bool { *self.visible.lock().unwrap() }
 
     pub fn resize(&self, width: i32, height: i32) {
         *self.width.lock().unwrap() = width;
@@ -52,11 +47,41 @@ impl BcsWidget {
         *self.y.lock().unwrap() = y;
     }
 
-    pub fn set_enabled(&self, enabled: bool) {
-        *self.enabled.lock().unwrap() = enabled;
+    pub fn set_enabled(&self, enabled: bool) { *self.enabled.lock().unwrap() = enabled; }
+    pub fn is_enabled(&self) -> bool { *self.enabled.lock().unwrap() }
+
+    pub fn set_focus(&self, focus: bool) { *self.has_focus.lock().unwrap() = focus; }
+    pub fn has_focus(&self) -> bool { *self.has_focus.lock().unwrap() }
+
+    pub fn event(&self, event: &dyn BcsEventT) -> bool {
+        match event.event_type() {
+            EventType::MouseButtonPress => {
+                self.mouse_press_event(event);
+                true
+            },
+            EventType::MouseButtonRelease => {
+                self.mouse_release_event(event);
+                true
+            },
+            EventType::KeyPress => {
+                self.key_press_event(event);
+                true
+            },
+            EventType::KeyRelease => {
+                self.key_release_event(event);
+                true
+            },
+            EventType::Paint => {
+                self.paint_event(event);
+                true
+            },
+            _ => self.base.event(event),
+        }
     }
 
-    pub fn is_enabled(&self) -> bool {
-        *self.enabled.lock().unwrap() = enabled;
-    }
+    fn mouse_press_event(&self, _event: &dyn BcsEventT) {}
+    fn mouse_release_event(&self, _event: &dyn BcsEventT) {}
+    fn key_press_event(&self, _event: &dyn BcsEventT) {}
+    fn key_release_event(&self, _event: &dyn BcsEventT) {}
+    fn paint_event(&self, _event: &dyn BcsEventT) {}
 }

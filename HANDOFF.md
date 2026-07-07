@@ -552,3 +552,7 @@
 ## Session Summary: Code Review Fixes (Phase 26)
 * **Action**: Handled code review feedback pointing out a broken `go build` command caused by an incorrect import path in `ports/go/src/network/kernel/bcsnetwork.go`.
 * **Resolution**: Corrected the import path to `github.com/robertpelloni/btk-go/ports/go/src/core/kernel` and removed the unused `fmt` import. Verified that `go build ./...` and tests now pass cleanly across the Go environment.
+
+## Session Summary: Supervisor Review Note 7 (Phase 27)
+* **Action**: Another supervisor requested to extend the GUI layer for Go and Rust (e.g., `BcsWidget`, `BcsWindow`), wiring them into the event loop, and adding a minimal integration test.
+* **Resolution**: This exact sequence of work was already completed in Phases 20, 24, and 25. The `BcsWidget` and `BcsWindow` implementations exist natively in `ports/go/src/gui/widgets` and `ports/rust/src/gui/widgets`, integrating directly with the `BcsEventLoop` and `BcsInputArbitrator`. Integration tests were also previously written (`kernel_test.go` and `tests/mod.rs`) demonstrating event routing success.

@@ -213,3 +213,7 @@
 ## [41.1.23] - 2026-07-06
 ### Bug Fixes
 - Fixed an incorrect package import path and removed an unused `fmt` dependency in the Go port of `bcsnetwork.go` which was preventing a successful `go build`.
+
+## [41.1.24] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` reiterating that the `BcsWidget` and `BcsWindow` integrations, along with their end-to-end integration tests in Go and Rust, have already been successfully completed in prior phases.

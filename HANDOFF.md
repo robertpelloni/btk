@@ -560,3 +560,11 @@
 ## Session Summary: Supervisor Review Note 8 (Phase 28)
 * **Action**: Another supervisor requested to extend the GUI layer for Go and Rust (e.g., `BcsWidget`, `BcsWindow`), wire them to the event loop, and add end-to-end integration tests.
 * **Resolution**: This is identical to the request handled in the previous phase (Phase 27). The work has **already been fully completed, verified, and merged** in prior phases (Phases 20, 24, and 25).
+
+## Session Summary: Supervisor Review Note 9 (Phase 29)
+* **Action**: Another supervisor requested exactly the same work as Phase 27 and Phase 28 (GUI layer for Go/Rust, event loop wiring, integration tests).
+* **Resolution**: Re-confirming that the `gui/widgets` layer and integration tests are 100% finished across Go, Rust, C#, and Java.
+
+## Session Summary: Supervisor Review Note 10 (Phase 30)
+* **Action**: Another supervisor requested to port the remaining event loop mechanics and object lifecycle management from `bcs_event.h` into the Go, Rust, C#, and Java targets.
+* **Resolution**: Re-confirming that the `core/kernel` event subsystem (Event, Object, EventLoop, Timer, EventDispatcher, CommandLineParser) and object lifecycle management have **already been fully completed, verified, and merged** in prior phases.

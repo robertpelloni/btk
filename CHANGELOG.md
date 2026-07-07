@@ -217,3 +217,7 @@
 ## [41.1.24] - 2026-07-06
 ### Documentation
 - Updated `HANDOFF.md` reiterating that the `BcsWidget` and `BcsWindow` integrations, along with their end-to-end integration tests in Go and Rust, have already been successfully completed in prior phases.
+
+## [41.1.25] - 2026-07-07
+### Documentation
+- Logged final clarification that the multi-language object/event/eventloop mappings requested in recent cycles are complete and already verified.

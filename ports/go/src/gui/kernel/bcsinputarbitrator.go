@@ -3,7 +3,7 @@ package kernel
 import (
 	"sync"
 	"fmt"
-	"github.com/robertpelloni/btk-go/src/core/kernel"
+	"github.com/robertpelloni/btk-go/ports/go/src/core/kernel"
 )
 
 type DeviceType int

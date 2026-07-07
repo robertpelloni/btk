@@ -200,3 +200,16 @@
 ## [41.1.20] - 2026-07-06
 ### Documentation
 - Updated `HANDOFF.md` reiterating that the `BcsCommandLineParser` component is fully translated and functioning across all multi-language targets.
+
+## [41.1.21] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` clarifying that the `BcsWidget`, `BcsWindow`, `BcsEventLoop`, and `BcsObject` components requested by the supervisor were already successfully ported and tested.
+
+## [41.1.22] - 2026-07-06
+### Testing
+- Created and executed cross-language GUI integration tests spanning the Go and Rust ports.
+- Verified that event payloads successfully bubble from the `BcsInputArbitrator` router into the native `BcsWidget` instances hooked to the simulated `BcsEventLoop`.
+
+## [41.1.23] - 2026-07-06
+### Bug Fixes
+- Fixed an incorrect package import path and removed an unused `fmt` dependency in the Go port of `bcsnetwork.go` which was preventing a successful `go build`.

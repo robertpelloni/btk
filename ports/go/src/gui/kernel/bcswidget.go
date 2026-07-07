@@ -2,7 +2,7 @@ package kernel
 
 import (
 	"sync"
-	"github.com/robertpelloni/btk-go/src/core/kernel"
+	"github.com/robertpelloni/btk-go/ports/go/src/core/kernel"
 )
 
 // BcsWidget extends the core BcsWidget mapped in core to include GUI event handlers

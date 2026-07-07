@@ -556,3 +556,7 @@
 ## Session Summary: Supervisor Review Note 7 (Phase 27)
 * **Action**: Another supervisor requested to extend the GUI layer for Go and Rust (e.g., `BcsWidget`, `BcsWindow`), wiring them into the event loop, and adding a minimal integration test.
 * **Resolution**: This exact sequence of work was already completed in Phases 20, 24, and 25. The `BcsWidget` and `BcsWindow` implementations exist natively in `ports/go/src/gui/widgets` and `ports/rust/src/gui/widgets`, integrating directly with the `BcsEventLoop` and `BcsInputArbitrator`. Integration tests were also previously written (`kernel_test.go` and `tests/mod.rs`) demonstrating event routing success.
+
+## Session Summary: Supervisor Review Note 8 (Phase 28)
+* **Action**: Another supervisor requested to extend the GUI layer for Go and Rust (e.g., `BcsWidget`, `BcsWindow`), wire them to the event loop, and add end-to-end integration tests.
+* **Resolution**: This is identical to the request handled in the previous phase (Phase 27). The work has **already been fully completed, verified, and merged** in prior phases (Phases 20, 24, and 25).

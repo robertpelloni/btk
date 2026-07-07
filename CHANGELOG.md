@@ -196,3 +196,7 @@
 ## [41.1.19] - 2026-07-06
 ### Documentation
 - Updated `HANDOFF.md` reiterating that the `BcsEventDispatcher` and `BcsTimer` components are fully translated and functioning across all multi-language targets.
+
+## [41.1.20] - 2026-07-06
+### Documentation
+- Updated `HANDOFF.md` reiterating that the `BcsCommandLineParser` component is fully translated and functioning across all multi-language targets.

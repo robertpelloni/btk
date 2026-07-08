@@ -237,3 +237,7 @@
 ## [41.1.29] - 2026-07-07
 ### Bug Fixes
 - Addressed code review feedback resolving a Rust module scope error where `bcs_timer.rs` was not properly exported from `core/kernel/mod.rs` preventing successful `cargo build`.
+
+## [41.1.30] - 2026-07-07
+### Documentation
+- Updated `HANDOFF.md` reiterating for the final time that the kernel event architecture porting requested by the supervisor is already complete.

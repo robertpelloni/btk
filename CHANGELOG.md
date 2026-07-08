@@ -245,3 +245,7 @@
 ## [41.1.31] - 2026-07-08
 ### Documentation
 - Updated `HANDOFF.md` reiterating for the nth time that the kernel event architecture porting is complete.
+
+## [41.1.32] - 2026-07-08
+### Documentation
+- Updated `HANDOFF.md` reiterating that the kernel event architecture porting is complete.

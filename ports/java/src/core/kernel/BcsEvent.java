@@ -28,6 +28,7 @@ public abstract class BcsEvent {
         Quit,
         ApplicationActivate,
         ApplicationDeactivate,
+        DynamicPropertyChange,
         User
     }
 

@@ -27,6 +27,7 @@ namespace Bcs.Core.Kernel
         Quit,
         ApplicationActivate,
         ApplicationDeactivate,
+        DynamicPropertyChange,
         User = 1000
     }
 
@@ -71,4 +72,25 @@ namespace Bcs.Core.Kernel
             Child = child;
         }
     }
+
+    public class BcsDynamicPropertyChangeEvent : BcsEvent
+    {
+        public byte[] PropertyName { get; }
+
+        public BcsDynamicPropertyChangeEvent(byte[] propertyName) : base(EventType.DynamicPropertyChange)
+        {
+            PropertyName = propertyName;
+        }
+    }
+
+    public class BcsCustomEvent : BcsEvent
+    {
+        public object Data { get; }
+
+        public BcsCustomEvent(EventType type, object data) : base(type)
+        {
+            Data = data;
+        }
+    }
+
 }

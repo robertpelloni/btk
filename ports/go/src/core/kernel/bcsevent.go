@@ -125,4 +125,32 @@ func NewBcsChildEvent(t EventType, child interface{}) *BcsChildEvent {
 const (
 	ChildAdded EventType = iota + 1000 // Just offset from user for now
 	ChildRemoved
+	DynamicPropertyChange
+
 )
+
+// BcsDynamicPropertyChangeEvent maps to QDynamicPropertyChangeEvent
+type BcsDynamicPropertyChangeEvent struct {
+	*Event
+	PropertyName []byte
+}
+
+func NewBcsDynamicPropertyChangeEvent(name []byte) *BcsDynamicPropertyChangeEvent {
+	return &BcsDynamicPropertyChangeEvent{
+		Event:        NewEvent(DynamicPropertyChange),
+		PropertyName: name,
+	}
+}
+
+// BcsCustomEvent maps to QCustomEvent
+type BcsCustomEvent struct {
+	*Event
+	Data interface{}
+}
+
+func NewBcsCustomEvent(t EventType, data interface{}) *BcsCustomEvent {
+	return &BcsCustomEvent{
+		Event: NewEvent(t),
+		Data:  data,
+	}
+}

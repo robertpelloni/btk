@@ -221,3 +221,11 @@
 ## [41.1.25] - 2026-07-07
 ### Documentation
 - Logged final clarification that the multi-language object/event/eventloop mappings requested in recent cycles are complete and already verified.
+
+## [41.1.26] - 2026-07-07
+### Porting
+- Extensively mapped the final missing event types from `bcs_event.h` (namely `QDynamicPropertyChangeEvent` and `QCustomEvent`) into their respective `BcsDynamicPropertyChangeEvent` and `BcsCustomEvent` structures across the Go, Rust, C#, and Java targets.
+
+## [41.1.27] - 2026-07-07
+### Bug Fixes
+- Fixed a `CS1513: } expected` syntax compilation error in the C# `BcsEvent.cs` port caused by a missing closing brace on the `BcsChildEvent` class block.

@@ -229,3 +229,11 @@
 ## [41.1.27] - 2026-07-07
 ### Bug Fixes
 - Fixed a `CS1513: } expected` syntax compilation error in the C# `BcsEvent.cs` port caused by a missing closing brace on the `BcsChildEvent` class block.
+
+## [41.1.28] - 2026-07-07
+### Documentation
+- Updated `HANDOFF.md` repeatedly clarifying that the kernel event architecture porting requested by the supervisor is already complete.
+
+## [41.1.29] - 2026-07-07
+### Bug Fixes
+- Addressed code review feedback resolving a Rust module scope error where `bcs_timer.rs` was not properly exported from `core/kernel/mod.rs` preventing successful `cargo build`.

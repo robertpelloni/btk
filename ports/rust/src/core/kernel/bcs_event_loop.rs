@@ -4,8 +4,8 @@ use super::bcs_object::BcsObject;
 
 /// BcsEventLoop models QEventLoop
 pub struct BcsEventLoop {
-    base: Arc<BcsObject>,
-    dispatcher: Arc<BcsEventDispatcher>,
+    pub base: Arc<BcsObject>,
+    pub dispatcher: Arc<BcsEventDispatcher>,
     is_running: Mutex<bool>,
     quit_code: Mutex<i32>,
 }

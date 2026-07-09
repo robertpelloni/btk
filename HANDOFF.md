@@ -608,3 +608,7 @@
 ## Session Summary: Code Review Fixes (Phase 41)
 * **Action**: Handled code review feedback pointing out a minor concurrency race condition in the Rust event dispatcher.
 * **Resolution**: Added a dummy lock acquisition `let _queue = self.event_queue.lock().unwrap();` to `ports/rust/src/core/kernel/bcs_event_dispatcher.rs`'s `stop()` method. This ensures that `notify_all()` is fired only while synchronizing against `exec()`'s wait state, preventing a lost wakeup event on shutdown.
+
+## Session Summary: Supervisor Review Note 17 (Phase 42)
+* **Action**: Yet another supervisor requested the porting of the event loop and object lifecycle management from `bcs_event.h`.
+* **Resolution**: This is a persistent duplicate request. The full base event loop mechanics, `BcsEvent` taxonomy, `BcsObject` parent-child lifecycle trees, and even auxiliary components like `BcsObjectCleanupHandler` and `BcsCommandLineParser` are **completely translated, passing integration parity tests, and shipped** across the Go, Rust, C#, and Java branches.

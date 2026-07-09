@@ -257,3 +257,7 @@
 ## [41.1.35] - 2026-07-08
 ### Bug Fixes
 - Fixed a potential lost-wakeup race condition in the Rust `BcsEventDispatcher::stop()` method by acquiring the `event_queue` mutex lock before broadcasting the condition variable.
+
+## [41.1.36] - 2026-07-08
+### Documentation
+- Updated `HANDOFF.md` reiterating for the nth time that the kernel event architecture porting is complete.

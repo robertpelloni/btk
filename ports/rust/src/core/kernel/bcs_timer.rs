@@ -65,20 +65,23 @@ impl BcsTimer {
 
         thread::spawn(move || {
             if single_shot {
-                if rx.recv_timeout(interval).is_err() {
-                    // Timeout hit
-                    let event = Box::new(BcsTimerEvent::new(timer_id));
-                    kernel.event_loop.dispatcher.post_event(event);
+                match rx.recv_timeout(interval) {
+                    Ok(_) | Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => return,
+                    Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {
+                        let event = Box::new(BcsTimerEvent::new(timer_id));
+                        kernel.event_loop.dispatcher.post_event(event);
+                    }
                 }
             } else {
                 loop {
-                    if rx.recv_timeout(interval).is_ok() {
-                        // Stopped
-                        break;
+                    match rx.recv_timeout(interval) {
+                        Ok(_) => break, // Stopped explicitly
+                        Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {
+                            let event = Box::new(BcsTimerEvent::new(timer_id));
+                            kernel.event_loop.dispatcher.post_event(event);
+                        },
+                        Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break, // Parent dropped
                     }
-                    // Timeout hit
-                    let event = Box::new(BcsTimerEvent::new(timer_id));
-                    kernel.event_loop.dispatcher.post_event(event);
                 }
             }
         });

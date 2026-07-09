@@ -7,6 +7,7 @@ import (
 // BcsObject forms the base for all framework components in the Go port, mapping to C++ QObject
 type BcsObject struct {
 	mu           sync.Mutex
+	onDestroy    func()
 	parent       *BcsObject
 	children     []*BcsObject
 	objectName   string
@@ -66,6 +67,12 @@ func (o *BcsObject) removeChild(child *BcsObject) {
 	}
 }
 
+func (o *BcsObject) SetOnDestroy(f func()) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.onDestroy = f
+}
+
 func (o *BcsObject) SetParent(newParent *BcsObject) {
 	// First, acquire our own lock to detach from old parent
 	o.mu.Lock()
@@ -96,6 +103,11 @@ func (o *BcsObject) Destroy() {
 		return
 	}
 	o.isDestroyed = true
+
+	// Call the subclass destructor hook if defined
+	if o.onDestroy != nil {
+		o.onDestroy()
+	}
 
 	// Copy children to avoid deadlock during destruction
 	childrenCopy := make([]*BcsObject, len(o.children))

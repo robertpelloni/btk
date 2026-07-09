@@ -31,6 +31,7 @@ pub enum EventType {
 }
 
 pub trait BcsEventT: Send + Sync {
+    fn as_any(&self) -> &dyn std::any::Any;
     fn event_type(&self) -> EventType;
     fn is_spontaneous(&self) -> bool;
     fn is_accepted(&self) -> bool;
@@ -60,6 +61,7 @@ impl BcsEvent {
 }
 
 impl BcsEventT for BcsEvent {
+    fn as_any(&self) -> &dyn std::any::Any { self }
     fn event_type(&self) -> EventType {
         self.event_type
     }
@@ -100,6 +102,7 @@ impl BcsTimerEvent {
 }
 
 impl BcsEventT for BcsTimerEvent {
+    fn as_any(&self) -> &dyn std::any::Any { self }
     fn event_type(&self) -> EventType { self.base.event_type() }
     fn is_spontaneous(&self) -> bool { self.base.is_spontaneous() }
     fn is_accepted(&self) -> bool { self.base.is_accepted() }
@@ -123,6 +126,7 @@ impl BcsDynamicPropertyChangeEvent {
 }
 
 impl BcsEventT for BcsDynamicPropertyChangeEvent {
+    fn as_any(&self) -> &dyn std::any::Any { self }
     fn event_type(&self) -> EventType { self.base.event_type() }
     fn is_spontaneous(&self) -> bool { self.base.is_spontaneous() }
     fn is_accepted(&self) -> bool { self.base.is_accepted() }
@@ -146,6 +150,7 @@ impl BcsCustomEvent {
 }
 
 impl BcsEventT for BcsCustomEvent {
+    fn as_any(&self) -> &dyn std::any::Any { self }
     fn event_type(&self) -> EventType { self.base.event_type() }
     fn is_spontaneous(&self) -> bool { self.base.is_spontaneous() }
     fn is_accepted(&self) -> bool { self.base.is_accepted() }

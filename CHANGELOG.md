@@ -293,3 +293,8 @@
 ## [41.1.44] - 2026-07-09
 ### Documentation
 - Updated `HANDOFF.md` to reiterate that the `BcsWidget` and event loop integrations requested by the supervisor have already been fulfilled.
+
+## [41.1.45] - 2026-07-09
+### Porting
+- Translated `qbrush.h` and `qpen.h` into `BcsBrush` and `BcsPen` rendering primitives across Go, Rust, C#, and Java.
+- Mapped all `BrushStyle`, `PenStyle`, `PenCapStyle`, and `PenJoinStyle` enums into target-native enumerations and implemented thread-safe property access logic aligned with the core `BcsObject` hierarchy.

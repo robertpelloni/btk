@@ -249,3 +249,11 @@
 ## [41.1.32] - 2026-07-08
 ### Documentation
 - Updated `HANDOFF.md` reiterating that the kernel event architecture porting is complete.
+
+## [41.1.34] - 2026-07-08
+### Porting
+- Translated `qobjectcleanuphandler.h` to `BcsObjectCleanupHandler` across Go, Rust, C#, and Java, enabling automated batch tracking and cascade disposal of independent `BcsObject` subtrees.
+
+## [41.1.35] - 2026-07-08
+### Bug Fixes
+- Fixed a potential lost-wakeup race condition in the Rust `BcsEventDispatcher::stop()` method by acquiring the `event_queue` mutex lock before broadcasting the condition variable.

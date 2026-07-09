@@ -600,3 +600,11 @@
 ## Session Summary: Supervisor Review Note 15 (Phase 38)
 * **Action**: Another supervisor requested (again) to port the remaining event loop mechanics and object lifecycle management from `bcs_event.h`.
 * **Resolution**: This exact request has been addressed multiple times. The entire event architecture (`BcsEvent`, `BcsObject`, `BcsEventLoop`, `BcsTimer`, `BcsEventDispatcher`, `BcsDynamicPropertyChangeEvent`, `BcsCustomEvent`) is **100% complete and successfully verified**.
+
+## Session Summary: Kernel Object Cleanup (Phase 40)
+* **Action**: Handled another supervisor request to finalize the `core/kernel` object lifecycle management.
+* **Resolution**: The core structures were already completed, but I located an additional lifecycle management component missing from previous porting scopes: `qobjectcleanuphandler.h`. I translated this into `BcsObjectCleanupHandler` across Go, Rust, C#, and Java, implementing thread-safe insertion, removal, and batch recursive destruction of explicitly registered `BcsObject` sub-graphs.
+
+## Session Summary: Code Review Fixes (Phase 41)
+* **Action**: Handled code review feedback pointing out a minor concurrency race condition in the Rust event dispatcher.
+* **Resolution**: Added a dummy lock acquisition `let _queue = self.event_queue.lock().unwrap();` to `ports/rust/src/core/kernel/bcs_event_dispatcher.rs`'s `stop()` method. This ensures that `notify_all()` is fired only while synchronizing against `exec()`'s wait state, preventing a lost wakeup event on shutdown.

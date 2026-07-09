@@ -5,3 +5,4 @@ pub mod bcs_event_loop;
 pub mod bcs_kernel;
 pub mod bcs_commandline;
 pub mod bcs_timer;
+pub mod bcs_object_cleanup_handler;

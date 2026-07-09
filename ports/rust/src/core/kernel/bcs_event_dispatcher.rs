@@ -54,6 +54,7 @@ impl BcsEventDispatcher {
     }
 
     pub fn stop(&self) {
+        let _queue = self.event_queue.lock().unwrap();
         *self.running.lock().unwrap() = false;
         self.cond.notify_all();
     }

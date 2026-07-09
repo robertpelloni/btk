@@ -273,3 +273,7 @@
 ## [41.1.39] - 2026-07-09
 ### Documentation
 - Updated `HANDOFF.md` reiterating that the `BcsWidget` and `BcsTextStream` porting objectives requested by the supervisor have already been fulfilled.
+
+## [41.1.40] - 2026-07-09
+### Documentation
+- Updated `HANDOFF.md` and `CHANGELOG.md` to reiterate for the final time that the `BcsWidget` and `BcsTextStream` components are already translated and functioning correctly.

@@ -265,3 +265,7 @@
 ## [41.1.37] - 2026-07-09
 ### Documentation
 - Updated `HANDOFF.md` and `CHANGELOG.md` to repeatedly confirm the successful completion of the `bcs_event.h` architectures across all languages.
+
+## [41.1.38] - 2026-07-09
+### Porting
+- Translated `bobuiextstream.h` string IO functionality to `BcsTextStream` across Go, Rust, C#, and Java, offering thread-safe string accumulation and stream interfacing logic.

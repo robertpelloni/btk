@@ -6,3 +6,4 @@ pub mod bcs_kernel;
 pub mod bcs_commandline;
 pub mod bcs_timer;
 pub mod bcs_object_cleanup_handler;
+pub mod bcs_textstream;

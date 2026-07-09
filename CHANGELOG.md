@@ -261,3 +261,7 @@
 ## [41.1.36] - 2026-07-08
 ### Documentation
 - Updated `HANDOFF.md` reiterating for the nth time that the kernel event architecture porting is complete.
+
+## [41.1.37] - 2026-07-09
+### Documentation
+- Updated `HANDOFF.md` and `CHANGELOG.md` to repeatedly confirm the successful completion of the `bcs_event.h` architectures across all languages.

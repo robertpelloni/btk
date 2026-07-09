@@ -289,3 +289,7 @@
 ## [41.1.43] - 2026-07-09
 ### Documentation
 - Updated `HANDOFF.md` and `CHANGELOG.md` to reiterate for the 6th time that the `BcsWidget` and `BcsTextStream` components are already translated and functioning correctly.
+
+## [41.1.44] - 2026-07-09
+### Documentation
+- Updated `HANDOFF.md` to reiterate that the `BcsWidget` and event loop integrations requested by the supervisor have already been fulfilled.

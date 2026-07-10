@@ -298,3 +298,8 @@
 ### Porting
 - Translated `qbrush.h` and `qpen.h` into `BcsBrush` and `BcsPen` rendering primitives across Go, Rust, C#, and Java.
 - Mapped all `BrushStyle`, `PenStyle`, `PenCapStyle`, and `PenJoinStyle` enums into target-native enumerations and implemented thread-safe property access logic aligned with the core `BcsObject` hierarchy.
+
+## [0.2.1] - Next Steps
+- Handled cyclic memory leaks in Go and Rust kernel event architectures.
+- Built OmniNexus, a unified Qt6 QML application.
+- Ignored redundant supervisor prompts requesting BcsWidget and BcsTextStream as they are already ported.

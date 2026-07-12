@@ -5,6 +5,26 @@ import (
 	"github.com/robertpelloni/btk-go/ports/go/src/core/kernel"
 )
 
+type BcsWidgetI interface {
+	kernel.BcsObjectI
+	Event(e kernel.BcsEvent) bool
+	MousePressEvent(e kernel.BcsEvent)
+	MouseReleaseEvent(e kernel.BcsEvent)
+	KeyPressEvent(e kernel.BcsEvent)
+	KeyReleaseEvent(e kernel.BcsEvent)
+	PaintEvent(e kernel.BcsEvent)
+
+	Show()
+	Hide()
+	IsVisible() bool
+	Resize(width, height int)
+	Move(x, y int)
+	SetEnabled(enabled bool)
+	IsEnabled() bool
+	HasFocus() bool
+	SetFocus(f bool)
+}
+
 // BcsWidget extends the core BcsWidget mapped in core to include GUI event handlers
 type BcsWidget struct {
 	*kernel.BcsObject
@@ -16,6 +36,7 @@ type BcsWidget struct {
 	y         int
 	focus     bool
 	mu        sync.RWMutex
+	Impl      BcsWidgetI
 }
 
 func NewBcsWidget(parent *kernel.BcsObject) *BcsWidget {
@@ -29,6 +50,7 @@ func NewBcsWidget(parent *kernel.BcsObject) *BcsWidget {
 		y:         0,
 		focus:     false,
 	}
+	w.Impl = w
 	return w
 }
 
@@ -92,19 +114,19 @@ func (w *BcsWidget) SetFocus(f bool) {
 func (w *BcsWidget) Event(e kernel.BcsEvent) bool {
 	switch e.Type() {
 	case kernel.MouseButtonPress:
-		w.MousePressEvent(e)
+		w.Impl.MousePressEvent(e)
 		return true
 	case kernel.MouseButtonRelease:
-		w.MouseReleaseEvent(e)
+		w.Impl.MouseReleaseEvent(e)
 		return true
 	case kernel.KeyPress:
-		w.KeyPressEvent(e)
+		w.Impl.KeyPressEvent(e)
 		return true
 	case kernel.KeyRelease:
-		w.KeyReleaseEvent(e)
+		w.Impl.KeyReleaseEvent(e)
 		return true
 	case kernel.Paint:
-		w.PaintEvent(e)
+		w.Impl.PaintEvent(e)
 		return true
 	}
 	return w.BcsObject.Event(e)

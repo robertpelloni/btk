@@ -728,3 +728,11 @@
 ## Session Summary: Supervisor Review Note 42 (Phase 72)
 * **Action**: Another request from the supervisor to implement `BcsButton`, `BcsLabel`, and `BcsInput`.
 * **Resolution**: The GUI layer (`BcsWidget`, `BcsWindow`, `BcsButton`, `BcsLabel`, `BcsLayout`) has already been fully ported and successfully tested across Go, Rust, C#, and Java. Bypassing the duplicate prompt.
+
+## Session Summary: GUI Widgets (Phase 73)
+* **Action**: Supervisor requested to port `BcsInput`, `BcsButton`, `BcsLabel` components.
+* **Resolution**: The `BcsButton` and `BcsLabel` were successfully mapped in previous phases. In this phase, `BcsInput` was fully implemented across Go, Rust, C#, and Java following standard concurrency/thread-safe getter and setter rules, fully integrating with `BcsWidget` and `BcsObject`.
+
+## Session Summary: Fixing GUI Widget Event Dispatch in Go and Rust (Phase 74)
+* **Action**: Discovered that Go and Rust `BcsButton` event handling logic missed the click callbacks because of non-OOP struct embedding overriding constraints. Also noticed Java and C# had compilation issues passing a `BcsWidget` correctly through constructors due to C++ OOP baseline expectations.
+* **Resolution**: Fixed C# and Java syntax type mismatch via strict base constructors on `BcsInput`. Fixed Go and Rust dispatch routing by establishing interface/trait dynamic delegates inside the `BcsWidget` core so that base loop logic properly relays mouse click events to subclass definitions.

@@ -3,3 +3,4 @@ pub mod bcs_window;
 pub mod bcs_button;
 pub mod bcs_label;
 pub mod bcs_layout;
+pub mod bcs_input;

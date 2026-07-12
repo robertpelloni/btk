@@ -2,21 +2,23 @@ package widgets
 
 import (
 	"sync"
-	"github.com/robertpelloni/btk-go/ports/go/src/gui/kernel"
+	"github.com/robertpelloni/btk-go/ports/go/src/core/kernel"
+	gui "github.com/robertpelloni/btk-go/ports/go/src/gui/kernel"
 )
 
 // BcsWindow
 type BcsWindow struct {
-	*kernel.BcsWidget
+	*gui.BcsWidget
 	title string
 	mu    sync.RWMutex
 }
 
 func NewBcsWindow() *BcsWindow {
 	w := &BcsWindow{
-		BcsWidget: kernel.NewBcsWidget(nil), // Windows have no parent
+		BcsWidget: gui.NewBcsWidget(nil), // Windows have no parent
 		title:     "",
 	}
+	w.Impl = w
 	return w
 }
 
@@ -34,17 +36,23 @@ func (w *BcsWindow) Title() string {
 
 // BcsButton
 type BcsButton struct {
-	*kernel.BcsWidget
+	*gui.BcsWidget
 	text     string
 	onClick  func()
 	mu       sync.RWMutex
 }
 
-func NewBcsButton(parent *kernel.BcsWidget) *BcsButton {
-	return &BcsButton{
-		BcsWidget: kernel.NewBcsWidget(parent.BcsObject),
+func NewBcsButton(parent *gui.BcsWidget) *BcsButton {
+	var p *kernel.BcsObject
+	if parent != nil {
+		p = parent.BcsObject
+	}
+	b := &BcsButton{
+		BcsWidget: gui.NewBcsWidget(p),
 		text:      "",
 	}
+	b.Impl = b
+	return b
 }
 
 func (b *BcsButton) SetText(t string) {
@@ -65,18 +73,32 @@ func (b *BcsButton) ConnectClicked(f func()) {
 	b.onClick = f
 }
 
+func (b *BcsButton) MouseReleaseEvent(e kernel.BcsEvent) {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	if b.onClick != nil {
+		b.onClick()
+	}
+}
+
 // BcsLabel
 type BcsLabel struct {
-	*kernel.BcsWidget
+	*gui.BcsWidget
 	text string
 	mu   sync.RWMutex
 }
 
-func NewBcsLabel(parent *kernel.BcsWidget) *BcsLabel {
-	return &BcsLabel{
-		BcsWidget: kernel.NewBcsWidget(parent.BcsObject),
+func NewBcsLabel(parent *gui.BcsWidget) *BcsLabel {
+	var p *kernel.BcsObject
+	if parent != nil {
+		p = parent.BcsObject
+	}
+	l := &BcsLabel{
+		BcsWidget: gui.NewBcsWidget(p),
 		text:      "",
 	}
+	l.Impl = l
+	return l
 }
 
 func (l *BcsLabel) SetText(t string) {

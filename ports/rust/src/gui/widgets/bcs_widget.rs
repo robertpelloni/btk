@@ -2,6 +2,17 @@ use std::sync::{Arc, Mutex};
 use crate::core::kernel::bcs_object::BcsObject;
 use crate::core::kernel::bcs_event::{BcsEventT, EventType};
 
+pub trait BcsWidgetImpl: Send + Sync {
+    fn mouse_press_event(&self, _event: &dyn BcsEventT) {}
+    fn mouse_release_event(&self, _event: &dyn BcsEventT) {}
+    fn key_press_event(&self, _event: &dyn BcsEventT) {}
+    fn key_release_event(&self, _event: &dyn BcsEventT) {}
+    fn paint_event(&self, _event: &dyn BcsEventT) {}
+}
+
+pub struct BcsWidgetBaseImpl;
+impl BcsWidgetImpl for BcsWidgetBaseImpl {}
+
 pub struct BcsWidget {
     pub base: Arc<BcsObject>,
     visible: Mutex<bool>,
@@ -11,6 +22,7 @@ pub struct BcsWidget {
     x: Mutex<i32>,
     y: Mutex<i32>,
     has_focus: Mutex<bool>,
+    impl_delegate: Mutex<Box<dyn BcsWidgetImpl>>,
 }
 
 impl BcsWidget {
@@ -30,7 +42,12 @@ impl BcsWidget {
             x: Mutex::new(0),
             y: Mutex::new(0),
             has_focus: Mutex::new(false),
+            impl_delegate: Mutex::new(Box::new(BcsWidgetBaseImpl)),
         })
+    }
+
+    pub fn set_impl(&self, delegate: Box<dyn BcsWidgetImpl>) {
+        *self.impl_delegate.lock().unwrap() = delegate;
     }
 
     pub fn show(&self) { *self.visible.lock().unwrap() = true; }
@@ -54,34 +71,29 @@ impl BcsWidget {
     pub fn has_focus(&self) -> bool { *self.has_focus.lock().unwrap() }
 
     pub fn event(&self, event: &dyn BcsEventT) -> bool {
+        let delegate = self.impl_delegate.lock().unwrap();
         match event.event_type() {
             EventType::MouseButtonPress => {
-                self.mouse_press_event(event);
+                delegate.mouse_press_event(event);
                 true
             },
             EventType::MouseButtonRelease => {
-                self.mouse_release_event(event);
+                delegate.mouse_release_event(event);
                 true
             },
             EventType::KeyPress => {
-                self.key_press_event(event);
+                delegate.key_press_event(event);
                 true
             },
             EventType::KeyRelease => {
-                self.key_release_event(event);
+                delegate.key_release_event(event);
                 true
             },
             EventType::Paint => {
-                self.paint_event(event);
+                delegate.paint_event(event);
                 true
             },
             _ => self.base.event(event),
         }
     }
-
-    fn mouse_press_event(&self, _event: &dyn BcsEventT) {}
-    fn mouse_release_event(&self, _event: &dyn BcsEventT) {}
-    fn key_press_event(&self, _event: &dyn BcsEventT) {}
-    fn key_release_event(&self, _event: &dyn BcsEventT) {}
-    fn paint_event(&self, _event: &dyn BcsEventT) {}
 }

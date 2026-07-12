@@ -712,3 +712,7 @@
 ## Session Summary: Supervisor Review Note 39 (Phase 68)
 * **Action**: Supervisor repeatedly requests to port `bcs_eventloop.h` and its dependencies.
 * **Resolution**: Re-confirmed that all `core/kernel` components (`BcsEvent`, `BcsObject`, `BcsEventLoop`, `BcsEventDispatcher`) have been successfully implemented and ported across Go, Rust, C#, and Java in earlier phases.
+
+## Session Summary: Layout Widgets (Phase 69)
+* **Action**: Supervisor requested to port `BcsWidget` and its associated layouts/helpers. While `BcsWidget` was already ported, `BcsLayout` was missing.
+* **Resolution**: Implemented `BcsLayout` across Go, Rust, C#, and Java. Bound it to the `BcsObject` hierarchy and established thread-safe mechanisms (e.g. `Mutex<Vec<Arc<BcsWidget>>>`) to add/remove/iterate over child widgets.

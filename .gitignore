@@ -35,3 +35,6 @@ ports/csharp/obj/
 *~
 *.swp
 *.swo
+
+# Java compiled files
+**/*.class

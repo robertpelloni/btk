@@ -8,3 +8,4 @@ pub mod bcs_timer;
 pub mod bcs_object_cleanup_handler;
 pub mod bcs_textstream;
 pub mod bcs_process;
+pub mod bcs_threadpool;
